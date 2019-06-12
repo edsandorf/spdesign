@@ -1,0 +1,18 @@
+Package: spdesignR
+Type: Package
+Title: Stated Preference Design in R
+Version: 0.1.0
+Authors@R: c(
+  person("Erlend", "Dancke Sandorf", email = "e.d.sandorf@stir.ac.uk", role = c("aut", "cre")),
+  person("Danny", "Campbell", email = "danny.campbell@stir.ac.uk", role = c("aut")))
+Maintainer: Erlend Dancke Sandorf <e.d.sandorf@stir.ac.uk>
+Description: spdesignR makes it easy to create designs for stated preference experiments. 
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.1.0)
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 6.1.1
