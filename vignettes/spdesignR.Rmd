@@ -17,3 +17,49 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(spdesignR)
 ```
+
+# Introduction
+
+
+# Syntax
+
+## Estimation options
+The package comes with a large number of estimation options. 
+
+```{r}
+estim_opts <- list(
+  silent = FALSE,
+  max_eval = 10000
+)
+```
+
+## Specifying design options
+The package allows for flexible designs. General design options are collected in the list `design_opts'. 
+
+```{r, eval = FALSE}
+design_opts <- list(
+  S = 12,
+  R = NA,
+  model = "mnl",
+  eff_crit = "d",
+  blocks = 1
+)
+```
+
+
+
+
+
+### Specifying the utility functions
+The utility functions are specified as a list, where each list element is a character string defining the functional form of utility. 
+
+For example, if you have two unlabeled alternatives, "alt_1" and "alt_2", you can specify the list of utility functions as follows:
+
+```{r, eval = FALSE}
+utility_funcs <- list(
+  alt_1 = "beta_1[0.1] * x_1[0, 1] + beta_2[-0.1] * x_2[2, 4, 6, 8]",
+  alt_2 = "beta_1 * x_1 + beta_2 * x_2"
+)
+```
+
+### Specifying restrictions
