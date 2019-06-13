@@ -29,5 +29,5 @@
     installed_version, "\n\n",
     "The latest version is: ", remote_version, "\n\n",
     "To access the latest version, please run \n",
-    "devtools::install_github('edsandorf/shinySP') \n\n")
+    "devtools::install_github('edsandorf/spdesignR') \n\n")
 }
