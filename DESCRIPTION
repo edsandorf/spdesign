@@ -10,7 +10,7 @@ Description: spdesignR makes it easy to create designs for stated preference exp
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.1.0)
+Depends: R (>= 3.1.0), stringr
 Suggests: 
     knitr,
     rmarkdown,

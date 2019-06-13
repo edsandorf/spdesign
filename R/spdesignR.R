@@ -2,6 +2,8 @@
 #'
 #' spdesignR makes it easy to create designs for stated preference experiments.
 #'
+#' @import stringr
+#'
 #' @docType package
 #' @name spdesignR
 NULL
