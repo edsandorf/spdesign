@@ -62,4 +62,7 @@ utility_funcs <- list(
 )
 ```
 
+It is important when specifying the utility functions that the parameter preceeds the attribute. The function that parses the utility expressions assumes that the parameter is to the left of the asterisk and the attribute to the right. Different attributes, or interaction terms, are separated by the addition symbol. 
+
+
 ### Specifying restrictions
