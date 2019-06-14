@@ -35,11 +35,13 @@ parse_utility <- function(V) {
   # Extracts the square bracket
   pattern <- "(\\[.*?\\])"
   str_extract(v, pattern)
+  str_split(v, pattern)
 
-  #
-  pattern <- "\\[.*\\]"
-  str_replace(tmp, pattern, ".*")
 
+  # Removes all the brackets
+  pattern <- "\\[|\\]"
+  str_replace_all(tmp, pattern, "")
+  str_split(tmp, pattern)
 
 
 
