@@ -43,7 +43,10 @@ parse_utility <- function(V) {
   str_replace_all(tmp, pattern, "")
   str_split(tmp, pattern)
 
-
+  # Returns the start and end position of the brackets in a matrix!
+  pattern <- "(\\[.*?\\])"
+  str_locate_all(v, pattern)
+#http://uc-r.github.io/regex
 
 }
 
