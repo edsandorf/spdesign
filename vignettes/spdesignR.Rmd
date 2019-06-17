@@ -26,11 +26,13 @@ library(spdesignR)
 ## Estimation options
 The package comes with a large number of estimation options. For more complex designs such as mixed logit designs with many draws, we recommend using multiple cores for faster evaluation of the designs. 
 
+
 ```{r}
 estim_opts <- list(
   cores = 1,
   silent = FALSE,
-  max_eval = 10000
+  max_eval = NA,
+  max_time = NA
 )
 ```
 
@@ -90,10 +92,6 @@ utility_funcs <- list(
 
 ### Specifying the utility functions
 
-
-
-
-It is important when specifying the utility functions that the parameter preceeds the attribute. The function that parses the utility expressions assumes that the parameter is to the left of the asterisk and the attribute to the right. Different attributes, or interaction terms, are separated by the addition symbol. 
 
 
 ### Specifying restrictions
