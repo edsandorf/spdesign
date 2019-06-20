@@ -43,9 +43,10 @@ The package allows for flexible designs. General design options are collected in
 design_opts <- list(
   S = 12,
   R = NA,
+  blocks = 1,
   model = "mnl",
   eff_crit = "d",
-  blocks = 1
+  bayesian = FALSE
 )
 ```
 
