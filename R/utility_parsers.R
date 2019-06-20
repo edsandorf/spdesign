@@ -1,8 +1,8 @@
 #' Split utility
 #'
-#' Takes the utility functions and splits them into workable chunks
+#' Takes the list of utility functions and splits them on + and *.
 #'
-#' @param V A list of utilities
+#' @inheritParams parse_utility
 #'
 #' @return A list of matrices where each list element refers to an alternative.
 #' The matrix has rows equal to the number of parameters for each alternative
@@ -14,6 +14,39 @@ split_utility <- function(v) {
   rows <- nrow(v_mat)
   cols <- ncol(v_mat)
   matrix(str_trim(v_mat, side = "both"), nrow = rows, ncol = cols)
+}
+
+#' Extract the parameters
+#'
+#' Extracts the parameters from the list of matrices created by
+#'
+#' @inheritParams parse_utility
+#' @param bayesian If TRUE use Bayesian priors for the parameters
+#'
+#' @return A named vector of parameters
+
+extract_param <- function(v, bayesian) {
+  p <- v[, 1L]
+  param_names <- str_trim(str_extract(p, pattern = "(?s)([^\\|]+)"), side = "both")
+
+  if (bayesian) {
+
+  } else {
+
+  }
+
+}
+
+#' Extract the attributes
+#'
+#' Extracts the attributes, levels and interation terms
+#'
+#' @inheritParams parse_utility
+#'
+#' @return A list of lists
+
+extract_attrs <- function(v) {
+
 }
 
 #' Parse the utility functions
