@@ -1,5 +1,5 @@
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/edsandorf/spdesignR.svg?branch=master)](https://travis-ci.org/edsandorf/spdesignR)
+[![Travis build status](https://travis-ci.com/edsandorf/spdesignR.svg?branch=master)](https://travis-ci.com/edsandorf/spdesignR)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-last-release/spdesignR)](https://cran.r-project.org/package=spdesignR)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/spdesignR)](http://www.r-pkg.org/pkg/spdesignR)
 <!-- badges: end -->
