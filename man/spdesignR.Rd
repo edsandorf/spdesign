@@ -4,7 +4,10 @@
 \name{spdesignR}
 \alias{spdesignR}
 \alias{spdesignR-package}
-\title{spdesignR: Stated Preference Designs in R}
+\title{spdesignR: Designing Stated Preference Experiments in R}
 \description{
-spdesignR makes it easy to create designs for stated preference experiments.
+Contemporary software commonly used to design stated preference experiments
+are expensive and the code is closed source. spdesignR is a free software
+package with an easy to use interface to make flexible stated preference
+experimental designs using state-of-the-art methods.
 }

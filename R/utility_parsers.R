@@ -8,8 +8,8 @@
 #' The matrix has rows equal to the number of parameters for each alternative
 #' and columns equal to param and attributes/interation terms
 
-split_utility <- function(v) {
-  v <- str_trim(unlist(str_split(v, pattern = "(?s)\\+")))
+split_utility <- function(V) {
+  v <- str_trim(unlist(str_split(V, pattern = "(?s)\\+")))
   v_mat <- str_split(v, pattern = "(?s)\\*", simplify = TRUE)
   rows <- nrow(v_mat)
   cols <- ncol(v_mat)
@@ -25,8 +25,8 @@ split_utility <- function(v) {
 #'
 #' @return A named vector of parameters
 
-extract_param <- function(v, bayesian) {
-  p <- v[, 1L]
+extract_param <- function(V, bayesian) {
+  p <- V[, 1L]
   param_names <- str_trim(str_extract(p, pattern = "(?s)([^\\|]+)"), side = "both")
 
   if (bayesian) {
@@ -45,7 +45,7 @@ extract_param <- function(v, bayesian) {
 #'
 #' @return A list of lists
 
-extract_attrs <- function(v) {
+extract_attrs <- function(V) {
 
 }
 
