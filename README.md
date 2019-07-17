@@ -1,14 +1,16 @@
-# spdesignR: Stated Preference Designs in R
+<!-- badges: start -->
+[![Travis build status](https://travis-ci.com/edsandorf/spdesignR.svg?branch=master)](https://travis-ci.org/edsandorf/spdesignR)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-last-release/spdesignR)](https://cran.r-project.org/package=spdesignR)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/spdesignR)](http://www.r-pkg.org/pkg/spdesignR)
+<!-- badges: end -->
 
-spdesignR makes creating stated preference designs easy. 
+# spdesignR: Designing Stated Preference Experiments in R
 
-The package contains flexible routines for creating experimental designs. It also allows the user to supply their own functional forms, while still making use of the algorithms to select attribute level combinations. 
-
-The package is designed to work with shinySP, a package that makes implementing stated preference designs with Shiny easy. 
+Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. spdesignR is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods. 
 
 # How to contribute?
 1. Go to Github and create an account if you don't have one.
-2. Fork the project and clone it locally on your computer. Make sure that the repositoroy is synced remotely before you move on to the next step.
+2. Fork the project and clone it locally on your computer. Make sure that the repository is synced remotely before you move on to the next step.
 3. Create a new branch for each bug fix or new feature you want to add.
 4. Do the work and write a descriptive commit message. If you have added a new feature, please contribute documentation and tests. 
 5. Push the changes to your remote repository.
@@ -19,3 +21,6 @@ The package is designed to work with shinySP, a package that makes implementing 
 This list is based on a great post on [how to contribute](https://akrabat.com/the-beginners-guide-to-contributing-to-a-github-project/) to a github project. 
 
 In order keep everything readable and maintainable, please adhere to the code style. For details, please see the [R chapter](http://r-pkgs.had.co.nz/r.html) of 'R packages' by Hadley Wickham.
+
+# How to cite spdesignR?
+Sandorf, E. D. & Campbell, D., 2019, spdesignR: Designing Stated Preference Experiments in R, https://github.com/edsandorf/spdesignR
