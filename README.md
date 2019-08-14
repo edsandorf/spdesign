@@ -4,9 +4,14 @@
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/spdesignR)](http://www.r-pkg.org/pkg/spdesignR)
 <!-- badges: end -->
 
-# spdesignR: Designing Stated Preference Experiments in R
+# spdesignR: Designing Stated Preference Experiments
 
 Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. spdesignR is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods. 
+
+# Installing spdesignR
+The package is currently in development and can only be installed from Github
+
+`devtools::install_github("edsandorf/spdesignR")`
 
 # How to contribute?
 1. Go to Github and create an account if you don't have one.
@@ -21,6 +26,3 @@ Contemporary software commonly used to design stated preference experiments are 
 This list is based on a great post on [how to contribute](https://akrabat.com/the-beginners-guide-to-contributing-to-a-github-project/) to a github project. 
 
 In order keep everything readable and maintainable, please adhere to the code style. For details, please see the [R chapter](http://r-pkgs.had.co.nz/r.html) of 'R packages' by Hadley Wickham.
-
-# How to cite spdesignR?
-Sandorf, E. D. & Campbell, D., 2019, spdesignR: Designing Stated Preference Experiments in R, https://github.com/edsandorf/spdesignR

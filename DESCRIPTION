@@ -1,13 +1,13 @@
 Package: spdesignR
 Type: Package
-Title: Designing Stated Preference Experiments in R
+Title: Designing Stated Preference Experiments
 Version: 0.0.0.9000
 Authors@R: c(
-  person("Erlend", "Dancke Sandorf", email = "e.d.sandorf@stir.ac.uk", role = c("aut", "cre")),
+  person("Erlend Dancke", "Sandorf", email = "e.d.sandorf@stir.ac.uk", role = c("aut", "cre")),
   person("Danny", "Campbell", email = "danny.campbell@stir.ac.uk", role = c("aut")))
 Maintainer: Erlend Dancke Sandorf <e.d.sandorf@stir.ac.uk>
 Description: Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. spdesignR is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods.
-License: file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.1.0), stringr
