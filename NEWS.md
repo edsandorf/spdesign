@@ -1,2 +1,2 @@
-## spdesignR v0.0.1
+## spdesignR v0.1.0
 * 
