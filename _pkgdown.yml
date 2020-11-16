@@ -1,0 +1,13 @@
+authors:
+  Erlend Dancke Sandorf:
+    href: https://edsandorf.me
+  Danny Campbell:
+    href: https://dannycampbell.me
+navbar:
+  structure:
+    left:  [home, intro, articles, tutorials, news, reference]
+    right: [github]
+url: https://spdesignr.edsandorf.me
+template:
+  params:
+    bootswatch: cerulean

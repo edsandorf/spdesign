@@ -6,3 +6,5 @@
 ^CRAN-RELEASE$
 ^LICENSE$
 ^docs$
+^_pkgdown\.yml$
+^pkgdown$
