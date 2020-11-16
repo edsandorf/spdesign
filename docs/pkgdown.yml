@@ -1,0 +1,11 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  getting-started: getting-started.html
+  introduction: introduction.html
+last_built: 2020-11-16T09:58Z
+urls:
+  reference: https://spdesignr.edsandorf.me/reference
+  article: https://spdesignr.edsandorf.me/articles
+
