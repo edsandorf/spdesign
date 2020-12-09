@@ -3,7 +3,6 @@
 \docType{package}
 \name{spdesignR}
 \alias{spdesignR}
-\alias{spdesignR-package}
 \title{spdesignR: Designing Stated Preference Experiments in R}
 \description{
 Contemporary software commonly used to design stated preference experiments
