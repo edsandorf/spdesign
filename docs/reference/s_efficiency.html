@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • spdesignR</title>
+<title>S-efficiency — s_efficiency • spdesignR</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="S-efficiency — s_efficiency" />
+<meta property="og:description" content="Calculates a &quot;lower bound&quot; sample size to obtain theoretically significant
+parameter estimates under the assumption that the priors are correct. In the
+case of zero priors the formula is undefined and will return Inf." />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -123,96 +126,60 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>S-efficiency</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesignR/blob/master/R/efficiency-criteria.R'><code>R/efficiency-criteria.R</code></a></small>
+    <div class="hidden name"><code>s_efficiency.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Calculates a "lower bound" sample size to obtain theoretically significant
+parameter estimates under the assumption that the priors are correct. In the
+case of zero priors the formula is undefined and will return Inf.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>s_efficiency</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>x</span>, significance <span class='op'>=</span> <span class='fl'>1.96</span>, all <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="a_efficiency.html">a_efficiency()</a></code> </p>
-        </td>
-        <td><p>A-efficiency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="c_efficiency.html">c_efficiency()</a></code> </p>
-        </td>
-        <td><p>C-efficiency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dot-onAttach.html">.onAttach()</a></code> </p>
-        </td>
-        <td><p>Print package startup message</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="d_efficiency.html">d_efficiency()</a></code> </p>
-        </td>
-        <td><p>D-efficiency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_attrs.html">extract_attrs()</a></code> </p>
-        </td>
-        <td><p>Extract the attributes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_param.html">extract_param()</a></code> </p>
-        </td>
-        <td><p>Extract the parameters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="parse_utility.html">parse_utility()</a></code> </p>
-        </td>
-        <td><p>Parse the utility functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="spdesignR.html">spdesignR</a></code> </p>
-        </td>
-        <td><p>spdesignR: Designing Stated Preference Experiments in R</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="split_utility.html">split_utility()</a></code> </p>
-        </td>
-        <td><p>Split utility</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="s_efficiency.html">s_efficiency()</a></code> </p>
-        </td>
-        <td><p>S-efficiency</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>p</th>
+      <td><p>A vector of parameters</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>A variance-covariance matrix</p></td>
+    </tr>
+    <tr>
+      <th>significance</th>
+      <td><p>A t-value corresponding to the desired level of significance.
+The default is significance at the 5<!-- % level with an associated t-value of -->
+1.96.</p></td>
+    </tr>
+    <tr>
+      <th>all</th>
+      <td><p>If `all = TRUE` return a vector with sample size for each parameter,
+else return a single number with the minimum theoretical sample size. The
+default is FALSE. If used for optimization, then a single number is used, but
+the suggested sample size for each parameter is always printed regardless of
+efficiency criteria used in optimization.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A vector giving the "minimum" sample size for each parameter or a
+single number with the smallest sample size needed for all parameters to be
+theoretically significant. This is equal to the maximum of the vector</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Kessels, R., Goos, P. and Vandebroek, M., 2006, A comparison of criteria to design efficient choice experiments, Journal of Marketing Research, 43(3):409-419
+Bliemer and Rose, 2005a, Efficiency and sample size requirements for stated choice experiments, Report ITLS-WP-05-08, Institute for Transport and Logistics Studies, University of Sydney
+Bliemer and Rose, 2009, Efficiency and sample size requirements for stated choice experiments, Transportation Research Board Annual Meeting, Washington DC</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

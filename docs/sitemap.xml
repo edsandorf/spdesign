@@ -4,7 +4,16 @@
     <loc>https://spdesignr.edsandorf.me/index.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/a_efficiency.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/c_efficiency.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/dot-onAttach.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/d_efficiency.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/extract_attrs.html</loc>
@@ -20,6 +29,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/split_utility.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/s_efficiency.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/articles/getting-started.html</loc>
