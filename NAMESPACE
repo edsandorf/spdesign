@@ -3,5 +3,6 @@
 export(a_efficiency)
 export(c_efficiency)
 export(d_efficiency)
+export(design)
 export(s_efficiency)
 import(stringr)
