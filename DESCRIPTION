@@ -12,9 +12,18 @@ Encoding: UTF-8
 LazyData: true
 URL: https://spdesignr.edsandorf.me, https://github.com/edsandorf/spdesignR
 Depends: R (>= 3.1.0), stringr
+Imports:
+  crayon,
+  cli,
+  progress,
+  parallel,
+  doParallel,
+  randtoolbox
 Suggests: 
-    knitr,
-    rmarkdown,
-    testthat
+  knitr,
+  rmarkdown,
+  testthat,
+  shiny,
+  shinyjs
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1

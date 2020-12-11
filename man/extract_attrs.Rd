@@ -2,16 +2,13 @@
 % Please edit documentation in R/parse-utility.R
 \name{extract_attrs}
 \alias{extract_attrs}
-\title{Extract the attributes}
+\title{Extracts the attributes and levels of the utility functions}
 \usage{
-extract_attrs(V)
+extract_attrs(x)
 }
 \arguments{
-\item{V}{A list of utility functions}
-}
-\value{
-A list of lists
+\item{x}{A character string}
 }
 \description{
-Extracts the attributes, levels and interation terms
+Extracts the attributes and levels of the utility functions
 }

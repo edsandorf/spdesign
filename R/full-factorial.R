@@ -4,7 +4,7 @@
 #' full factorial will include unrealistic and completely dominated/dominating
 #' alternatives.
 #'
-#' @examples
-#'
-#'
+#' @export
+full_factorial <- function() {
 
+}

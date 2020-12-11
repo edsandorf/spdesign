@@ -5,8 +5,10 @@
 #' package with an easy to use interface to make flexible stated preference
 #' experimental designs using state-of-the-art methods.
 #'
-#' @import stringr
-#'
 #' @docType package
 #' @name spdesignR
+#'
+#' @import crayon
+#' @import cli
+#' @import stringr
 NULL

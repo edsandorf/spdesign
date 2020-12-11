@@ -1,4 +1,4 @@
-context("Test that the efficiency criteria are calculated to an arbitrary precision level")
+context("Calculation of efficiency criteria")
 
 x <- matrix(c(0.0216545064932912, 0.0124575011460145, 0.0124575011460146,
               0.0195733876561729), nrow = 2)
