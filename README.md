@@ -1,7 +1,7 @@
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/edsandorf/spdesignR.svg?branch=master)](https://travis-ci.com/edsandorf/spdesignR)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-last-release/spdesignR)](https://cran.r-project.org/package=spdesignR)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/spdesignR)](http://www.r-pkg.org/pkg/spdesignR)
+[![R build status](https://github.com/edsandorf/spdesignR/workflows/R-CMD-check/badge.svg)](https://github.com/edsandorf/spdesignR/actions)
 <!-- badges: end -->
 
 # spdesignR: Designing Stated Preference Experiments
