@@ -4,19 +4,14 @@
 \alias{remove_whitespace}
 \title{Remove all white spaces}
 \usage{
-remove_whitespace(x)
+remove_whitespace(string)
 }
 \arguments{
-\item{x}{A character string}
+\item{string}{A character string}
 }
 \value{
 A character vector with no white spaces
 }
 \description{
 Takes a string as an input and removes all whitespaces in the string
-}
-\examples{
-x <- "  test | this    "
-remove_whitespace(x)
-
 }

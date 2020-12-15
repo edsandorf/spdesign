@@ -4,10 +4,14 @@
 \alias{extract_params}
 \title{Extracts the parameters}
 \usage{
-extract_params(x)
+extract_params(string)
+
+extract_params(string)
 }
 \arguments{
-\item{x}{A character vector of the form name | parameter(s)}
+\item{string}{A character string}
+
+\item{x}{A character string}
 }
 \value{
 A named vector of parameters with associated attributes for random

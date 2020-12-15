@@ -18,11 +18,3 @@ be of length equal to the number of terms.
 Extracts the name of a parameter or attribute by removing everything after
 and including |.
 }
-\examples{
-x <- "x_1|c(0,1)"
-extract_names(x)
-
-x <- c("x_2|c(2,4,6,8)", "x_3|c(2,5)")
-extract_names(x)
-
-}

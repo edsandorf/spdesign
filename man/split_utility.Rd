@@ -4,16 +4,19 @@
 \alias{split_utility}
 \title{Split utility}
 \usage{
-split_utility(V)
+split_utility(x)
 }
 \arguments{
-\item{V}{A list of utility functions}
+\item{x}{A character string containing a single utility expression}
 }
 \value{
-A list of matrices where each list element refers to an alternative.
-The matrix has rows equal to the number of parameters for each alternative
-and columns equal to param and attributes/interation terms
+A list of character vectors where each list element contains the
+parameter/value or attribute/value combinations. The first element of each
+vector is always the parameter and subsequent elements are attributes or
+interaction terms.
 }
 \description{
-Takes the list of utility functions and splits them on + and *.
+Takes a single utility function and splits it into pieces that can be used by
+the utility parser to create the named vector of priors and the named list
+of attributes and levels
 }

@@ -4,18 +4,23 @@
 \alias{parse_utility}
 \title{Parse the utility functions}
 \usage{
-parse_utility(V)
+parse_utility(U)
 }
 \arguments{
-\item{V}{A list of utility functions}
+\item{U}{A named list of utility expressions}
+}
+\value{
+An object containing the outputs from the parsed utility functions, such
+as the named vector of priors, the named list of attributes and their levels,
+restrictions implied by the utility specifications
 }
 \description{
-This function parses the utility expressions and extracts the correct number
-of attributes and levels as well as coefficients and priors.
+The function parses the list of utilities to extract the relevant parameters
+used to create the design.
 }
 \examples{
-utility_funcs <- list(
-  alt_1 = "beta_1 | c(0.1) * x_1 | c(0, 1) + beta_2 | 0.1 * x_2 | c(2, 4, 6, 8) * x_3 | c(2, 5)",
+U <- list(
+  alt_1 = "beta_1 | c(0.1, 0.5) * x_1 | c(0, 1, 2) + beta_2 | 0.1 * x_2 | c(2, 4, 6, 8)",
   alt_2 = "beta_1 * x_1 + beta_2 * x_2"
 )
 
