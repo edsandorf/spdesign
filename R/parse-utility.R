@@ -213,7 +213,7 @@ extract_params <- function(x) {
 #' The function parses the list of utilities to extract the relevant parameters
 #' used to create the design.
 #'
-#' @param U A named list of utility expressions
+#' @param string A utility function as a string
 #'
 #' @return An object containing the outputs from the parsed utility functions, such
 #' as the named vector of priors, the named list of attributes and their levels,
@@ -227,21 +227,44 @@ extract_params <- function(x) {
 #'
 #'
 #' @export
+parse_utility <- function(string) {
+  # Define a buffer
+  buffer <- NULL
 
-parse_utility <- function(U) {
-  # Run a set of checks
-  if (!is.list(U)) stop("'U' has to be a named list of utility functions. Please see the manual.")
-  if (length(U) < 2) stop("'U' has to contain at least 2 utility functions. Please see the manual.")
+  # I need to be able to look both forwards and backwards in the string
+  elements <- unlist(str_split(string, ""))
 
-  J <- length(U)
-
-  # Split the utility for further processing
-
+  # Create a loop over the length of the string
+  for (i in seq_along(elements)) {
+    # Add the next element to the buffer
+    buffer <- c(buffer, elements[i])
 
 
+    # Check whether there is a problem with string names
+    if (str_detect(str_c(buffer, collapse = TRUE), "\\b\\s+\\b")) { # Cannot have more than one leading or trailing space. Annoying.
+      stop(paste0("You cannot have white spaces in parameter or variable names, nor in numbers. The error occured at: ", str_c(elements[seq_len(i)], collapse = "")))
+    }
 
-
+  }
 }
+
+
+
+
+# parse_utility <- function(U) {
+#   # Run a set of checks
+#   if (!is.list(U)) stop("'U' has to be a named list of utility functions. Please see the manual.")
+#   if (length(U) < 2) stop("'U' has to contain at least 2 utility functions. Please see the manual.")
+#
+#   J <- length(U)
+#
+#   # Split the utility for further processing
+#
+#
+#
+#
+#
+# }
 
 
 #' Extracts the utility components
