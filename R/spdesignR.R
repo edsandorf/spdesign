@@ -11,4 +11,6 @@
 #' @import crayon
 #' @import cli
 #' @import stringr
+#' @importFrom stats runif
+#' @importFrom stats qnorm
 NULL

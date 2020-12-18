@@ -20,7 +20,11 @@ design <- function(U, design_opt, candidate_set = NULL) {
   # - If no design matrix is supplied, use the full factorial
   # - If paralell, set up doParallel()
 
-  message(red$bold(symbol$cross), " Failed")
+  cli_h1("Parsing the utilit expression and running tests")
+  cli_h2("Checking the utility expressions")
+  cli_h2("Checking the design options")
+  cli_h2("Checking the candidate set")
+  cli_h3("Checking something")
 
   # Check the candidate set. If no candidate set is supplied (default), then use
   # the full factorial subject to the specified constraints if any
