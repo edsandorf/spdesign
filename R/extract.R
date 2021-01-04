@@ -7,6 +7,7 @@
 #'
 #' @return A list
 #'
+#' @noRd
 extract_name_args <- function(string, simplify = FALSE) {
   # (?<=(^|\\+|\\*)) - A positive look behind for the start of the string, '+' or '*'
   # .*? - Non-greedy capture between the start and end of the match
@@ -30,6 +31,8 @@ extract_name_args <- function(string, simplify = FALSE) {
 #' @param simplify If TRUE return as a vector. Default is FALSE.
 #'
 #' @return A list
+#'
+#' @noRd
 extract_value_args <- function(string, simplify = FALSE) {
   # (?<=(\\|)) - A positive look behind for '|'
   # .*? - Non-greedy capture between the start and end of the match
@@ -55,6 +58,7 @@ extract_value_args <- function(string, simplify = FALSE) {
 #' @return Returns a list containing all the numerical values in the supplied
 #' vector. Returns a single vector if simplify = TRUE
 #'
+#' @noRd
 extract_numeric <- function(string, simplify = FALSE) {
   expr <-"[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
   s <- lapply(str_extract_all(string, expr), function(s) {as.numeric(s)})
@@ -77,6 +81,8 @@ extract_numeric <- function(string, simplify = FALSE) {
 #' @return A list of length equal to the number of distributions in the order
 #' that they appear in the utility functions going from top left to bottom right
 #' across the list.
+#'
+#' @noRd
 extract_distribution <- function(string) {
   # Extract the distributions and return as a vector.
   unlist(str_extract_all(string, "(N|LN|TR|U)(?=\\()"))

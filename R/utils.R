@@ -5,6 +5,8 @@
 #' @param string A character string
 #'
 #' @return A character vector with no white spaces
+#'
+#' @noRd
 remove_whitespace <- function(string) {
   if (!is.character(string)) stop("Input must be a character vector")
   str_replace_all(string, "\\s", "")

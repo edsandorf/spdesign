@@ -28,7 +28,7 @@
 #' eval(parse(text = "U(0, 1)"))
 #' }
 #'
-#' @export
+#' @noRd
 N <- function(mu, sigma) {
   list(
     mu = mu,
@@ -38,6 +38,7 @@ N <- function(mu, sigma) {
 
 
 #' @describeIn N The log normal distribution
+#' @noRd
 LN <- function(mu, sigma) {
   list(
     mu = mu,
@@ -46,6 +47,7 @@ LN <- function(mu, sigma) {
 }
 
 #' @describeIn N The triangular distribution
+#' @noRd
 TR <- function(mu, sigma) {
   list(
     mu = mu,
@@ -54,6 +56,7 @@ TR <- function(mu, sigma) {
 }
 
 #' @describeIn N The uniform distribution
+#' @noRd
 U <- function(mu, sigma) {
   list(
     mu = mu,
@@ -64,6 +67,8 @@ U <- function(mu, sigma) {
 #' Transform to the normal distribution
 #'
 #' @param x A numeric standard uniform vector
+#'
+#' @noRd
 transform_n <- function(x) {
   qnorm(x)
 }
