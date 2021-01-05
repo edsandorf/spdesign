@@ -34,7 +34,11 @@ jobs:
 
       - name: Install dependencies
         run: |
+<<<<<<< HEAD
           remotes::install_deps(dependencies = TRUE, repos = 'https://cloud.r-project.org')
+=======
+          remotes::install_deps(dependencies = TRUE)
+>>>>>>> f38923d71845ead286800c891bd2bc75305cee5f
           install.packages("pkgdown")
         shell: Rscript {0}
 
