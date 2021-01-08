@@ -1,0 +1,101 @@
+---
+title: "Syntax"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+bibliography: references.bib
+link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{Syntax}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Syntax
+The syntax of `spdesignR` is made to be intuitive and easy, while at the same time very flexible. To achieve this, we use a combination of regular expressions and R's powerful expression parser "under the hood" to translate the user-specified utility functions into objects that can be manipulated by the package. 
+
+## Specifying a parameter with a prior
+### A fixed prior
+In `spdesignR`, all parameters *must* have a prior. This is a deliberate design choice to make it clear that using a 0 prior is also an assumption in our design. The name of the parameter is followed by a square bracket, which contains the prior. If no prior is specified for a given parameter, an error is returned. If the parameter is generic, i.e. it enters multiple utility expressions, then you only need to specify the prior once. If you specify more than one prior, only the first will be used and a warning is issued. It is strongly recommended that priors for generic parameters are specified the first time they are used (this is a good tip for attributes as well!). 
+
+For example, to specify a parameter `beta` with a prior of `0`, we would write: 
+
+```
+beta[0]
+```
+
+Because we are leveraging R's built-in parser, we can use basic mathematical operators to manipulate the values of our priors. For example, using the basic functions `+`, `-`, `*`, `/` and `^`:
+
+```
+beta[2 * 0.4]
+```
+
+It is even possible to specify parameter priors as functions of earlier parameters. The only requirement is that the earlier parameter has been specified with a prior. In the example below, the prior value of `alpha` is specified as half of `beta`.
+
+```
+beta[0.5] * x_1 + alpha[beta / 2]
+```
+
+### A Bayesian prior
+
+We can specify a Bayesian prior by specifying the distribution of the prior. For example, `U(-1, 1)` means that we allow the prior to follow a uniform distribution between -1 and 1. 
+
+```
+beta[U(-1, 1)]
+```
+
+We can use the following distributions:
+
+* Normal - `N()`
+* Log-normal - `LN()`
+* Triangular - `TR()`
+* Uniform - `U()`
+
+All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs. 
+
+## Specifying a parameter with levels
+### Linear attributes
+The syntax for specifying attributes and levels is similar to how we specify parameters and priors. The attribute name is specified to the left and levels are specified inside `[]`. Below, the attribute `x_1` can take on the levels 1, 2, 3, 4 and 5. 
+
+```
+x_1[1:5]
+```
+
+When we specify the levels, we can make use of R's built in functions for generating sequences and vectors. For example, the following three specifications are identical:
+
+```
+# Specification 1
+x_1[1:5]
+
+# Specification 2
+x_1[seq(1, 5, 1)]
+
+# Specification 3
+x_1[c(1, 2, 3, 4, 5)]
+```
+
+### Dummy-coded attributes
+We can specify an attribute to be dummy coded using the `_dummy` syntax.
+
+### Effects-coded attributes
+We can specify an attribute to be effects coded using the `_effect` syntax.
+
+
+It is important to note that effects and dummy coding are theoretically equivalent [@daly_dummy_2016]. 
+
+## Combining parameters, priors, attributes and levels to form a utility function
+
+We combine the parameter and attribute as in the example below to start building our utility expression. It is important to note that the parameter always comes first followed by one or more attributes (in the case of interaction terms). The functions that parses and evaluates the utility expressions assumes that parameters and attributes enter in that order. 
+
+ ```
+beta_0[0] * x_1[1:5]
+```
+
+# MNL
+
+## MNL with fixed priors
+
+## MNL with Bayesian priors
+
+
+# References

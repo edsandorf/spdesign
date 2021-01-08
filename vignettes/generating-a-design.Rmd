@@ -1,0 +1,35 @@
+---
+title: "Generating a design"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+bibliography: references.bib
+link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{Generating a design}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Generating a design
+
+There are two key steps in generating a design. 
+
+# The list of design options
+
+The first step in generating a design is to specify the design options 
+
+```{r, eval = FALSE}
+design_opts <- list(
+  optimization_algorithm = "random", # "random", "federov", "rsc"
+  efficiency_criteria = "d-efficiency",
+  model = "mnl",
+  blocks = 1,
+  tasks = 6,
+  cores = 1
+)
+```
+
+# The candidate set 
+
+# The list of utility functions 
