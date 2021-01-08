@@ -34,10 +34,10 @@ extract_name_args <- function(string, simplify = FALSE) {
 #'
 #' @noRd
 extract_value_args <- function(string, simplify = FALSE) {
-  # (?<=(\\|)) - A positive look behind for '|'
+  # (?<=(\\|)) - A positive look behind for '['
   # .*? - Non-greedy capture between the start and end of the match
-  # (?=(\\*|\\+|$)) - A positive look ahead for '*', '+', or the end of the string
-  expr <- "(?<=(\\|)).*?(?=(\\*|\\+|$))"
+  # (?=(\\*|\\+|$)) - A positive look ahead for ']'
+  expr <- "(?<=\\[).*?(?=\\])"
   s <- str_extract_all(string, expr)
   if (simplify) {
     unlist(s)
