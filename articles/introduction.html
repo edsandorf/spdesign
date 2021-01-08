@@ -51,10 +51,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/getting-started.html">Getting Started</a>
+      <a href="../articles/generating-a-design.html">Generating a design</a>
     </li>
     <li>
       <a href="../articles/introduction.html">Introduction</a>
+    </li>
+    <li>
+      <a href="../articles/syntax.html">Syntax</a>
     </li>
   </ul>
 </li>
@@ -95,23 +98,47 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://spdesignr.edsandorf.me">spdesignR</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: stringr</span>
-<span class="co">#&gt; Thank you for using spdesignR! </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; You are currently using version: 0.0.0.9001</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; The latest version is: NA</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; To access the latest version, please run </span>
-<span class="co">#&gt; devtools::install_github('edsandorf/spdesignR') </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; To cite this package: </span>
-<span class="co">#&gt; utils::citation('spdesignR')</span></code></pre></div>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
+<p>Efficient experimental designs have become very popular in stated preference research since their introduction in the mid 00s <span class="citation">(Scarpa and Rose <a href="#ref-scarpa_design_2008" role="doc-biblioref">2008</a>)</span>.</p>
+<div id="existing-software" class="section level2">
+<h2 class="hasAnchor">
+<a href="#existing-software" class="anchor"></a>Existing software</h2>
+<p>Several software packages exist, for example, SAS <span class="citation">(Kuhfeld <a href="#ref-kuhfeld_marketing_2007" role="doc-biblioref">2007</a>)</span> or NGENE <span class="citation">(Rose et al. <a href="#ref-rose_ngene_2018" role="doc-biblioref">2018</a>)</span>, that can create a wide range of experimental designs ranging from full factorial to orthogonal to efficient designs. However, many of them are expensive and the code base is closed source and proprietary. In our view, this creates an unnecessary barrier for researchers that may not have access to institutional licenses or the funding necessary to buy an individual license, and it makes it more difficult for other researchers to use and build on existing research code.</p>
+</div>
+<div id="existing-r-packages" class="section level2">
+<h2 class="hasAnchor">
+<a href="#existing-r-packages" class="anchor"></a>Existing R packages</h2>
+<p>A plethora of R packages already exist to create a wide range of different experimental designs (see the <a href="https://cran.r-project.org/web/views/ExperimentalDesign.html">CRAN Task View</a>), however, none of them are directly aimed at creating efficient stated preference experimental designs. For example, the <a href="https://cran.r-project.org/web/packages/AlgDesign/index.html"><code>AlgDesign</code></a> package can create full factorial and a type of D-optimal design and the <a href="https://cran.r-project.org/web/packages/OptimalDesign/index.html"><code>OptimalDesign</code></a> package calculates unblocked D-, A- and I- optimal designs.</p>
+</div>
+<div id="why-another-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#why-another-package" class="anchor"></a>Why another package?</h2>
+<p><code>spdesignR</code> has an easy-to-use interface that people familiar with R will find intuitive to use. Users who have previously used NGENE will find the syntax somewhat familiar.</p>
+<p>The package interfaces nicely with the <a href="#"><code>shinySP</code></a> package (under development), which allow users to easily self-host stated preference experiments using Shiny, and shares some functions with the <a href="https://github.com/edsandorf/cmdlR"><code>cmdlR</code></a> package.</p>
+<p>The package leverages the power of R’s powerful expression parsers to enable users familiar with R to use basic mathematical operators when defining utility functions and specifying attribute levels and parameter priors. The code is fully open source and freely available to anyone under a permissive MIT license. We have done our best to document the code, its functions and workflow to allow anyone to extend and contribute to the project. If you wish to do so, please read the guidelines for <a href="#">how to contribute</a> and the <a href="#">detailed package documentation</a>. All contributions are acknowledged and tracked using the functionalities available through <a href="https://github.com/">GitHub</a>.</p>
+</div>
+<div id="acknowledgements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#acknowledgements" class="anchor"></a>Acknowledgements</h2>
+<p>The authors are grateful to members of the <a href="https://acrg.site">Applied Choice Research Group (ACRG)</a> at the University of Stirling for extensively testing the package and providing feedback on the UI prior to the release of v0.1.0.</p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
+<div id="refs" class="references">
+<div id="ref-kuhfeld_marketing_2007">
+<p>Kuhfeld, Warren F. 2007. “Marketing Research Methods in SAS: Experimental Design, Choice, Conjoint, and Graphical Techniques.” In <em>SAS Document TS-694</em>. <a href="http://support.sas.com/techsup/technote/ts694.pdf">http://support.sas.com/techsup/technote/ts694.pdf</a>.</p>
+</div>
+<div id="ref-rose_ngene_2018">
+<p>Rose, John M., Andrew T. Collins, Michiel Bliemer, and David A. Hensher. 2018. <em>NGENE</em> (version 1.2.1). Choice Metrics. <a href="http://choice-metrics.com/">http://choice-metrics.com/</a>.</p>
+</div>
+<div id="ref-scarpa_design_2008">
+<p>Scarpa, Riccardo, and John M. Rose. 2008. “Design Efficiency for Non-Market Valuation with Choice Modelling: How to Measure It, What to Report and Why*.” <em>Australian Journal of Agricultural and Resource Economics</em> 52 (3): 253–82. <a href="https://doi.org/10.1111/j.1467-8489.2007.00436.x">https://doi.org/10.1111/j.1467-8489.2007.00436.x</a>.</p>
+</div>
+</div>
+</div>
 </div>
   </div>
 
