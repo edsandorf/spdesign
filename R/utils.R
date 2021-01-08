@@ -11,3 +11,16 @@ remove_whitespace <- function(string) {
   if (!is.character(string)) stop("Input must be a character vector")
   str_replace_all(string, "\\s", "")
 }
+
+#' Sanitize utility functions
+#'
+#' Takes a utility function (string) as an input and removes all prior and level
+#' specifications. Effectively everything between [] including [].
+#'
+#' @return A string
+#'
+#' @noRd
+sanitize_utility <- function(string) {
+  if (!is.character(string)) stop("Input must be a character vector")
+  str_replace_all(string, "\\[.*?\\]", "")
+}
