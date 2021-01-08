@@ -1,6 +1,8 @@
 #' Extract the name argument(s)
 #'
-#' Extract the name argument(s) of the supplied string.
+#' Extract the name argument(s) of the supplied string. The function calls
+#' \code{\link{sanitize_utility}} to avoid accidentally pulling names based on
+#' functional forms inside [].
 #'
 #' @param string A character string
 #' @param simplify If TRUE return as a character vector
@@ -9,11 +11,11 @@
 #'
 #' @noRd
 extract_name_args <- function(string, simplify = FALSE) {
-  # (?<=(^|\\+|\\*)) - A positive look behind for the start of the string, '+' or '*'
+  # (?<=(^|\\+|\\-|\\*|\\/|\\^)) - A positive look behind for the start of the string, '+', '-', '*', '/' or '^'
   # .*? - Non-greedy capture between the start and end of the match
-  # (?=(\\||\\*\\+|$)) - A positive look ahead for |, '*', '+', or the end of the string
-  expr <- "(?<=(^|\\+|\\*)).*?(?=(\\||\\*\\+|$))"
-  s <- str_extract_all(string, expr)
+  # (?=(\\[|\\+|\\-|\\*|\\/|\\^|$)) - A positive look ahead for '[', '+', '-', '*', '/' or '^' or the end of the string
+  expr <- "(?<=(^|\\+|\\-|\\*|\\/|\\^|\\])).*?(?=(\\[|\\+|\\-|\\*|\\/|\\^|$))"
+  s <- str_extract_all(sanitize_utility(string), expr)
   if (simplify) {
     unlist(s)
   } else {

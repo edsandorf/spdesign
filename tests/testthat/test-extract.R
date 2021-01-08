@@ -1,7 +1,11 @@
 context("Correctly extracts elements from the utility functions")
 
 test_that("Name arguments are extracted correctly", {
-
+  expect_equal(extract_name_args("beta[2]", TRUE), "beta")
+  expect_equal(extract_name_args("beta[N(0, 1)]", TRUE), "beta")
+  expect_true(all(extract_name_args("beta[N(0, 1)] * x[1:5]", TRUE) == c("beta ", " x")))
+  expect_equal(extract_name_args("beta[2*d]", TRUE), "beta")
+  expect_true(all(extract_name_args("beta[2*d] / x_1[N(0, 1)] ^ beta_2", TRUE) == c("beta ", " x_1 ", " beta_2")))
 })
 
 test_that("Value arguments are extracted correctly", {
@@ -15,14 +19,6 @@ test_that("Value arguments are extracted correctly", {
 
 test_that("Distributions are extracted correctly", {
 
-})
-
-
-
-test_that("Extract name arguments is robust to a variety of functional forms", {
-  expect_equal(extract_name_args(c("x_1|n"), simplify = TRUE), "x_1")
-  expect_true(all(extract_name_args(c("x_1|n", "x_2"), simplify = TRUE) ==  c("x_1", "x_2")))
-  # expect_error(extract_names("|test")) # No name specified
 })
 
 
