@@ -38,20 +38,20 @@ beta[0.5] * x_1 + alpha[beta / 2]
 
 ### A Bayesian prior
 
-We can specify a Bayesian prior by specifying the distribution of the prior. For example, `U(-1, 1)` means that we allow the prior to follow a uniform distribution between -1 and 1. 
+We can specify a Bayesian prior by specifying the distribution of the prior. For example, `Up(-1, 1)` means that we allow the prior to follow a uniform distribution between -1 and 1. 
 
 ```
-beta[U(-1, 1)]
+beta[Up(-1, 1)]
 ```
 
 We can use the following distributions:
 
-* Normal - `N()`
-* Log-normal - `LN()`
-* Triangular - `TR()`
-* Uniform - `U()`
+* Normal - `Np(mean, sd)`
+* Log-normal - `LNp(mean, sd)`
+* Triangular - `TRp(location, spread)`
+* Uniform - `Up(location, spread)`
 
-All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs. 
+All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Notice that the name of the distribution is in capital letters followed by a lower case `p` indicating that it is a prior. This is to distinguish it from a random parameter in an RPL model. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs. 
 
 ## Specifying a parameter with levels
 ### Linear attributes

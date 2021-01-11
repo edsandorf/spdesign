@@ -36,6 +36,10 @@ N <- function(mu, sigma) {
   )
 }
 
+#' A normally distributed prior
+#' @describeIn N The normal distribution when applied to a prior
+#' @noRd
+Np <- N
 
 #' @describeIn N The log normal distribution
 #' @noRd
@@ -46,6 +50,11 @@ LN <- function(mu, sigma) {
   )
 }
 
+#' A log-normally distributed prior
+#' @describeIn N The log-normal distribution when applied to a prior
+#' @noRd
+LNp <- LN
+
 #' @describeIn N The triangular distribution
 #' @noRd
 TR <- function(mu, sigma) {
@@ -55,6 +64,11 @@ TR <- function(mu, sigma) {
   )
 }
 
+#' A triangular distributed prior
+#' @describeIn N The triangular distribution when applied to a prior
+#' @noRd
+TRp <- TR
+
 #' @describeIn N The uniform distribution
 #' @noRd
 U <- function(mu, sigma) {
@@ -63,6 +77,11 @@ U <- function(mu, sigma) {
     sigma = sigma
   )
 }
+
+#' A uniform distributed prior
+#' @describeIn N The uniform distribution when applied to a prior
+#' @noRd
+Up <- U
 
 #' Transform to the normal distribution
 #'
