@@ -237,3 +237,12 @@ strs <- c("LN(0, 1)", "N(N(0.1, 1), 1)", "N(U(0, 1), 1)", "N(0, T(0, 1))", "N(LN
 
 
 str_split(strs, "(?:\\G(?!^)\\s*,\\s*$)")
+
+
+
+
+
+#' Checks whether
+is_balanced_square <- function(string) {
+
+}

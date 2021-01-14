@@ -1,7 +1,7 @@
 #' Extract the name argument(s)
 #'
 #' Extract the name argument(s) of the supplied string. The function calls
-#' \code{\link{sanitize_utility}} to avoid accidentally pulling names based on
+#' \code{\link{remove_square_bracket}} to avoid accidentally pulling names based on
 #' functional forms inside [].
 #'
 #' @param string A character string
@@ -15,7 +15,7 @@ extract_name_args <- function(string, simplify = FALSE) {
   # .*? - Non-greedy capture between the start and end of the match
   # (?=(\\[|\\+|\\-|\\*|\\/|\\^|$)) - A positive look ahead for '[', '+', '-', '*', '/' or '^' or the end of the string
   expr <- "(?<=(^|\\+|\\-|\\*|\\/|\\^|\\])).*?(?=(\\[|\\+|\\-|\\*|\\/|\\^|$))"
-  s <- str_extract_all(sanitize_utility(string), expr)
+  s <- str_extract_all(remove_square_bracket(string), expr)
   if (simplify) {
     unlist(s)
   } else {
