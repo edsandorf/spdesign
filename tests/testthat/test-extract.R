@@ -17,6 +17,13 @@ test_that("Value arguments are extracted correctly", {
   expect_true(all(extract_value_args("beta[N(0, 1)] * x[0.1] + alpha[0.2*45/2]", TRUE) == c("N(0, 1)", "0.1", "0.2*45/2")))
 })
 
+test_that("Extract specified only extracts parameters and attributes with specified priors and levels", {
+  expect_true(all(extract_specified("beta0[0.1] * x + beta2[N(0, 1)] * x_3[seq(0, 1, 0.1)] / delta[1+2]", TRUE) == c("beta0[0.1]", "beta2[N(0, 1)]", "x_3[seq(0, 1, 0.1)]", "delta[1+2]")))
+  expect_true(all(extract_specified("beta0[0.1] * x+ beta2[N(0, 1)] * x_3[seq(0, 1, 0.1)] / delta[1+2]", TRUE) == c("beta0[0.1]", "beta2[N(0, 1)]", "x_3[seq(0, 1, 0.1)]", "delta[1+2]")))
+  expect_true(all(extract_specified("beta0[0.1]*x+ beta2[N(0, 1)] *x_3[seq(0, 1, 0.1)] /delta[1+2]", TRUE) == c("beta0[0.1]", "beta2[N(0, 1)]", "x_3[seq(0, 1, 0.1)]", "delta[1+2]")))
+})
+
+
 test_that("Distributions are extracted correctly", {
   expect_equal(extract_distribution(c("x_1[c(N(0, 1))]")), "N")
   expect_true(all(extract_distribution(c("x_1[c(N(0, LN(1, 1)))]")) == c("N", "LN")))

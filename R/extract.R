@@ -71,6 +71,27 @@ extract_numeric <- function(string, simplify = FALSE) {
   }
 }
 
+#' Extract specified
+#'
+#' Only extract parameters and attributes with specified priors and levels. This
+#' is very useful to test whether parameters or attributes are specified multiple
+#' times
+#'
+#' @param string A character string
+#' @param simplify If TRUE return as a vector. Default is FALSE
+#'
+#' @noRd
+extract_specified <- function(string, simplify = FALSE) {
+  # [^\\s\\+\\-\\*\\/] - Negative group not match one in the group.
+  expr <- "[^\\s\\+\\-\\*\\/]*?\\[.*?\\]"
+  s <- str_extract_all(string, expr)
+  if (simplify) {
+    unlist(s)
+  } else {
+    s
+  }
+}
+
 #' Extract distributions
 #'
 #' This function will locate and extract the the distributions for Bayesian

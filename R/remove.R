@@ -8,7 +8,6 @@
 #'
 #' @noRd
 remove_whitespace <- function(string) {
-  if (!is.character(string)) stop("Input must be a character vector")
   str_replace_all(string, "\\s", "")
 }
 
@@ -21,6 +20,5 @@ remove_whitespace <- function(string) {
 #'
 #' @noRd
 remove_square_bracket <- function(string) {
-  if (!is.character(string)) stop("Input must be a character vector")
   str_replace_all(string, "\\[.*?\\]", "")
 }
