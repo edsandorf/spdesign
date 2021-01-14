@@ -23,6 +23,33 @@ test_that("Extract specified only extracts parameters and attributes with specif
   expect_true(all(extract_specified("beta0[0.1]*x+ beta2[N(0, 1)] *x_3[seq(0, 1, 0.1)] /delta[1+2]", TRUE) == c("beta0[0.1]", "beta2[N(0, 1)]", "x_3[seq(0, 1, 0.1)]", "delta[1+2]")))
 })
 
+test_that("Extract named values does that correctly", {
+  expect_identical(
+    extract_named_values("b_x1[0.1] * x_1 + b_x2 * x_2[1:3] + b_x3[N(0, 1)] * x_3[seq(0, 1, 0.25)]"),
+    list(
+      b_x1 = 0.1,
+      x_2 = 1:3,
+      b_x3 = list(
+        mu = 0,
+        sigma = 1
+      ),
+      x_3 = seq(0, 1, 0.25)
+    )
+  )
+  expect_identical(
+    extract_named_values("b_x1[0.1] * x_1 + b_x2 * x_2[1:3] + b_x3[N(0, 1)] * x_2[seq(0, 1, 0.25)]"),
+    list(
+      b_x1 = 0.1,
+      x_2 = 1:3,
+      b_x3 = list(
+        mu = 0,
+        sigma = 1
+      ),
+      x_2 = seq(0, 1, 0.25)
+    )
+  )
+  extract_named_values("b_x1[0.1] * x_1 ++ b_x2 */* x_2[1:3] + b_x3[N(0, 1)] * x_2[seq(0, 1, 0.25)]")
+})
 
 test_that("Distributions are extracted correctly", {
   expect_equal(extract_distribution(c("x_1[c(N(0, 1))]")), "N")

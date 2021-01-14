@@ -48,6 +48,26 @@ extract_value_args <- function(string, simplify = FALSE) {
   }
 }
 
+#' Extracts the named values of the utility function
+#'
+#' The function extracts the named values of the supplied utility function. This
+#' function is called from within \code{\link{parse_utility}}
+#'
+#' @param string A string
+#'
+#' @return A named list of parameter and attribute values. Each list element is
+#' named and can contain a single prior, a list with a mean and sd, or a vector
+#' with attribute levels
+#'
+#' @noRd
+extract_named_values <- function(string) {
+  # Extracting the specified parameters and attributes
+  string_elements <- extract_specified(string, TRUE)
+  values <- lapply(extract_value_args(string_elements), function(x) eval(parse(text = x)))
+  names(values) <- remove_square_bracket(string_elements)
+  values
+}
+
 #' Extract numeric
 #'
 #' Extracts the numerical values from a string. The function is a wrapper around
