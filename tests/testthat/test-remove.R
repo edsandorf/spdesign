@@ -8,8 +8,8 @@ test_that("Remove white spaces does exactly that", {
 })
 
 test_that("Remove square brakcets returns a string without the expressions inside square brackets", {
-  expect_equal(remove_square_bracket("beta[0.1]"), "beta")
-  expect_equal(remove_square_bracket("beta[0.1] / x_1[2^5]"), "beta / x_1")
-  expect_equal(remove_square_bracket("beta[N(N(0, 1), 1)]"), "beta")
-  expect_equal(remove_square_bracket("beta     [0.1]"), "beta     ")
+  expect_equal(remove_square_bracket("b_x[0.1]"), "b_x")
+  expect_equal(remove_square_bracket("b_x[0.1] / x_1[2^5]"), "b_x / x_1")
+  expect_equal(remove_square_bracket("b_x[N(N(0, 1), 1)]"), "b_x")
+  expect_equal(remove_square_bracket("b_x     [0.1]"), "b_x     ")
 })
