@@ -5,10 +5,18 @@
 #'
 #' @param V A list of utility functions
 #'
-#' @return An object containing the outputs from the parsed utility functions, such
-#' as the named vector of priors, the named list of attributes and their levels,
-#' restrictions implied by the utility specifications
+#' @return
+#' A list with three elements:
+#' 1) The returned cleaned expression of the utility function is ready to be evaluated
+#' in the design context
+#' 2) A list of parameters
+#' 3) A list of attributes entering each alternative. For example, for two
+#' alternatives, it will return a list of length, with each list element
+#' containing the list of attributes entering that alternative's utility function.
+#' The purpose is to correctly handle alternative specific variables and return
+#' a list that can be directly passed to create_full_factorial.
 #'
+#'@noRd
 parse_utility <- function(V) {
   # Run a set of checks
   if (!is.list(V)) stop("'V' has to be a named list of utility functions. Please see the manual.")
@@ -46,11 +54,15 @@ parse_utility <- function(V) {
   # Prepare attributes so that they can be directly used to create the full factorial
   param_idx <- value_names %in% grep("b_", value_names, value = TRUE)
   cleaned_V <- lapply(V, clean_utility)
+  attrs <- parsed_V[!param_idx]
+  attrs <- lapply(cleaned_V, function(v) {
+    attrs[extract_attribute_names(v, TRUE)]
+  })
 
   # Return a list with cleaned V, parameters and attributes
   list(
     V = cleaned_V,
     param = parsed_V[param_idx],
-    attrs = parsed_V[!param_idx]
+    attrs = attrs
   )
 }

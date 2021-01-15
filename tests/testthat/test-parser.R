@@ -44,9 +44,93 @@ test_that("The utility parser correctly splits and returns attributes and parame
         b_x2 = 0.4
       ),
       attrs = list(
-        x_2 = 1:3,
-        x_3 = seq(0, 1, 0.25),
-        x_1 = 2:5
+        alt1 = list(
+          x_1 = 2:5,
+          x_2 = 1:3,
+          x_3 = seq(0, 1, 0.25)
+        ),
+        alt2 = list(
+          x_1 = 2:5,
+          x_2 = 1:3,
+          x_3 = seq(0, 1, 0.25)
+        )
+      )
+    )
+  )
+
+  # With alternative specific attributes
+  expect_identical(
+    parse_utility(
+      V <- list(
+        alt1 = "b_x1[0.1] * x_1      + b_x2      * x_2[1:3] + b_x3[N(0, 1)] * x_3[seq(0, 1, 0.25)]",
+        alt2 = "b_x1      * x_1[2:5] + b_x2[0.4] * x_2      + b_x3          * x_3 + b_x4[0.001] * x_4[c(2, 4, 6)]"
+      )
+    ),
+    list(
+      V = list(
+        alt1 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3",
+        alt2 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3 + b_x4 * x_4"
+      ),
+      param = list(
+        b_x1 = 0.1,
+        b_x3 = list(
+          mu = 0,
+          sigma = 1
+        ),
+        b_x2 = 0.4,
+        b_x4 = 0.001
+      ),
+      attrs = list(
+        alt1 = list(
+          x_1 = 2:5,
+          x_2 = 1:3,
+          x_3 = seq(0, 1, 0.25)
+        ),
+        alt2 = list(
+          x_1 = 2:5,
+          x_2 = 1:3,
+          x_3 = seq(0, 1, 0.25),
+          x_4 = c(2, 4, 6)
+        )
+      )
+    )
+  )
+
+
+  # With alternative specific attributes and one utility function re-ordered
+  expect_identical(
+    parse_utility(
+      V <- list(
+        alt1 = "b_x2      * x_2[1:3] +  b_x1[0.1] * x_1      + b_x3[N(0, 1)] * x_3[seq(0, 1, 0.25)]",
+        alt2 = "b_x1      * x_1[2:5] + b_x2[0.4] * x_2      + b_x3          * x_3 + b_x4[0.001] * x_4[c(2, 4, 6)]"
+      )
+    ),
+    list(
+      V = list(
+        alt1 = "b_x2 * x_2 + b_x1 * x_1 + b_x3 * x_3",
+        alt2 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3 + b_x4 * x_4"
+      ),
+      param = list(
+        b_x1 = 0.1,
+        b_x3 = list(
+          mu = 0,
+          sigma = 1
+        ),
+        b_x2 = 0.4,
+        b_x4 = 0.001
+      ),
+      attrs = list(
+        alt1 = list(
+          x_2 = 1:3,
+          x_1 = 2:5,
+          x_3 = seq(0, 1, 0.25)
+        ),
+        alt2 = list(
+          x_1 = 2:5,
+          x_2 = 1:3,
+          x_3 = seq(0, 1, 0.25),
+          x_4 = c(2, 4, 6)
+        )
       )
     )
   )
@@ -78,9 +162,16 @@ test_that("The utility parser correctly splits and returns attributes and parame
         )
       ),
       attrs = list(
-        x_2 = 1:3,
-        x_3 = seq(0, 1, 0.25),
-        x_1 = 2:5
+        alt1 = list(
+          x_1 = 2:5,
+          x_2 = 1:3,
+          x_3 = seq(0, 1, 0.25)
+        ),
+        alt2 = list(
+          x_1 = 2:5,
+          x_2 = 1:3,
+          x_3 = seq(0, 1, 0.25)
+        )
       )
     )
   )
@@ -112,9 +203,16 @@ test_that("The utility parser correctly splits and returns attributes and parame
         )
       ),
       attrs = list(
-        x_2 = 1:3,
-        x_3 = seq(0, 1, 0.25),
-        x_1 = 2:5
+        alt1 = list(
+          x_1 = 2:5,
+          x_2 = 1:3,
+          x_3 = seq(0, 1, 0.25)
+        ),
+        alt2 = list(
+          x_1 = 2:5,
+          x_2 = 1:3,
+          x_3 = seq(0, 1, 0.25)
+        )
       )
     )
   )
