@@ -9,3 +9,4 @@
 ^pkgdown$
 ^examples$
 ^\.github$
+^test.R$
