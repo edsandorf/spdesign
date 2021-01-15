@@ -11,8 +11,14 @@
 #'
 parse_utility <- function(V) {
   # Run a set of checks
-  if (!is.list(V)) stop("'U' has to be a named list of utility functions. Please see the manual.")
-  if (length(V) < 2) stop("'U' has to contain at least 2 utility functions. Please see the manual.")
+  if (!is.list(V)) stop("'V' has to be a named list of utility functions. Please see the manual.")
+  if (length(V) < 2) stop("'V' has to contain at least 2 utility functions. Please see the manual.")
+  if (!all(do.call(c, lapply(V, function(v) is_balanced(v, "[", "]"))))) {
+    stop("There is an uneven number of opening and closing brackets in the utility functions. Make sure that all opening brackets only have one closing bracket.")
+  }
+  if (!all(do.call(c, lapply(V, function(v) is_balanced(v, "(", ")"))))) {
+    stop("There is an uneven number of opening and closing parentheses in the utility functions. Make sure that all opening parenthesis only have one closing parenthesis.")
+  }
 
   J <- length(V)
 
