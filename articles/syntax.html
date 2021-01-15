@@ -108,31 +108,31 @@
 <div id="a-fixed-prior" class="section level3">
 <h3 class="hasAnchor">
 <a href="#a-fixed-prior" class="anchor"></a>A fixed prior</h3>
-<p>In <code>spdesignR</code>, all parameters <em>must</em> have a prior. This is a deliberate design choice to make it clear that using a 0 prior is also an assumption in our design. The name of the parameter is followed by a square bracket, which contains the prior. If no prior is specified for a given parameter, an error is returned. If the parameter is generic, i.e. it enters multiple utility expressions, then you only need to specify the prior once. If you specify more than one prior, only the first will be used and a warning is issued. It is strongly recommended that priors for generic parameters are specified the first time they are used (this is a good tip for attributes as well!).</p>
-<p>For example, to specify a parameter <code>beta</code> with a prior of <code>0</code>, we would write:</p>
-<pre><code>beta[0]</code></pre>
+<p>In <code>spdesignR</code>, all parameters <em>must</em> have a prior. This is a deliberate design choice to make it clear that using a 0 prior is also an assumption in our design. The name of the parameter is followed by a square bracket, which contains the prior. All parameters have to start with <code>b_</code>. This is to separate them from attributes and to easily allow for non-linear utility functions. If no prior is specified for a given parameter, an error is returned. If the parameter is generic, i.e. it enters multiple utility expressions, then you only need to specify the prior once. If you specify more than one prior, only the first will be used and a warning is issued. It is strongly recommended that priors for generic parameters are specified the first time they are used (this is a good tip for attributes as well!).</p>
+<p>For example, to specify a parameter <code>b_x1</code> with a prior of <code>0</code>, we would write:</p>
+<pre><code>b_x1[0]</code></pre>
 <p>Because we are leveraging R’s built-in parser, we can use basic mathematical operators to manipulate the values of our priors. For example, using the basic functions <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>, <code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code>, <code><a href="https://rdrr.io/r/base/Arithmetic.html">*</a></code>, <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code> and <code><a href="https://rdrr.io/r/base/Arithmetic.html">^</a></code>:</p>
-<pre><code>beta[2 * 0.4]</code></pre>
-<p>It is even possible to specify parameter priors as functions of earlier parameters. The only requirement is that the earlier parameter has been specified with a prior. In the example below, the prior value of <code>alpha</code> is specified as half of <code>beta</code>.</p>
-<pre><code>beta[0.5] * x_1 + alpha[beta / 2]</code></pre>
+<pre><code>b_x1[2 * 0.4]</code></pre>
+<p>It is even possible to specify parameter priors as functions of earlier parameters. The only requirement is that the earlier parameter has been specified with a prior. In the example below, the prior value of <code>b_x2</code> is specified as half of <code>b_x1</code>.</p>
+<pre><code>b_x1[0.5] * x_1 + b_x2[b_x1 / 2] * x_2</code></pre>
 </div>
 <div id="a-bayesian-prior" class="section level3">
 <h3 class="hasAnchor">
 <a href="#a-bayesian-prior" class="anchor"></a>A Bayesian prior</h3>
-<p>We can specify a Bayesian prior by specifying the distribution of the prior. For example, <code>U(-1, 1)</code> means that we allow the prior to follow a uniform distribution between -1 and 1.</p>
-<pre><code>beta[U(-1, 1)]</code></pre>
+<p>We can specify a Bayesian prior by specifying the distribution of the prior. For example, <code>Up(-1, 1)</code> means that we allow the prior to follow a uniform distribution between -1 and 1.</p>
+<pre><code>b_x1[Up(-1, 1)]</code></pre>
 <p>We can use the following distributions:</p>
 <ul>
-<li>Normal - <code>N()</code>
+<li>Normal - <code>Np(mean, sd)</code>
 </li>
-<li>Log-normal - <code>LN()</code>
+<li>Log-normal - <code>LNp(mean, sd)</code>
 </li>
-<li>Triangular - <code>TR()</code>
+<li>Triangular - <code>TRp(location, spread)</code>
 </li>
-<li>Uniform - <code>U()</code>
+<li>Uniform - <code>Up(location, spread)</code>
 </li>
 </ul>
-<p>All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs.</p>
+<p>All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Notice that the name of the distribution is in capital letters followed by a lower case <code>p</code> indicating that it is a prior. This is to distinguish it from a random parameter in an RPL model. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs.</p>
 </div>
 </div>
 <div id="specifying-a-parameter-with-levels" class="section level2">
@@ -168,8 +168,8 @@ x_1[c(1, 2, 3, 4, 5)]</code></pre>
 <div id="combining-parameters-priors-attributes-and-levels-to-form-a-utility-function" class="section level2">
 <h2 class="hasAnchor">
 <a href="#combining-parameters-priors-attributes-and-levels-to-form-a-utility-function" class="anchor"></a>Combining parameters, priors, attributes and levels to form a utility function</h2>
-<p>We combine the parameter and attribute as in the example below to start building our utility expression. It is important to note that the parameter always comes first followed by one or more attributes (in the case of interaction terms). The functions that parses and evaluates the utility expressions assumes that parameters and attributes enter in that order.</p>
-<pre><code>beta_0[0] * x_1[1:5]</code></pre>
+<p>We combine the parameter and attribute as in the example below to start building our utility expression. We recommend that people use the naming convention <code>b_x1</code> being the parameter for the attribute <code>x1</code>. It has no practical implication for how the code works or interprets the utility function, but it makes it much easier for the user to see which parameter goes with which attribute.</p>
+<pre><code>b_x1[0] * x_1[1:5]</code></pre>
 </div>
 </div>
 <div id="mnl" class="section level1">
