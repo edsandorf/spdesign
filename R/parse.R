@@ -20,7 +20,7 @@ parse_utility <- function(V) {
   parsed_V <- extract_named_values(V)
 
   # Check that all parameters and attributes are specified with values at least once!
-  all_names <- unique(remove_whitespace(extract_name_args(V, TRUE)))
+  all_names <- unique(remove_whitespace(extract_all_names(V, TRUE)))
   value_names <- names(parsed_V)
   if (!all(all_names %in% value_names)) {
     missing_idx <- which((all_names %in% value_names) == FALSE)

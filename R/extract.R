@@ -1,21 +1,23 @@
-#' Extract the name argument(s)
+#' Extract all names
 #'
-#' Extract the name argument(s) of the supplied string. The function calls
-#' \code{\link{remove_square_bracket}} to avoid accidentally pulling names based on
-#' functional forms inside [].
+#' Extracts all parameter and attribute names from the utility function.
+#' This is a wrapper around \code{\link{str_extract_all}} with a sepcified boundary.
+#' The function also calls \code{\link{remove_square_bracket}} to ensure that if
+#' a word is used inside a square bracket, e.g. seq, it is not extracted.
 #'
 #' @param string A character string
-#' @param simplify If TRUE return as a character vector
+#' @param simplify If TRUE return as a vector. Default is FALSE.
 #'
-#' @return A list
+#' @return A list or vector with all names
 #'
 #' @noRd
-extract_name_args <- function(string, simplify = FALSE) {
-  # (?<=(^|\\+|\\-|\\*|\\/|\\^)) - A positive look behind for the start of the string, '+', '-', '*', '/' or '^'
-  # .*? - Non-greedy capture between the start and end of the match
-  # (?=(\\[|\\+|\\-|\\*|\\/|\\^|$)) - A positive look ahead for '[', '+', '-', '*', '/' or '^' or the end of the string
-  expr <- "(?<=(^|\\+|\\-|\\*|\\/|\\^|\\])).*?(?=(\\[|\\+|\\-|\\*|\\/|\\^|$))"
-  s <- str_extract_all(remove_square_bracket(string), expr)
+extract_all_names <- function(string, simplify = FALSE) {
+  s <- str_extract_all(
+    remove_square_bracket(
+      string
+    ),
+    boundary("word")
+  )
   if (simplify) {
     unlist(s)
   } else {
@@ -23,19 +25,57 @@ extract_name_args <- function(string, simplify = FALSE) {
   }
 }
 
-#' Extract the value argument(s)
+#' Extract parameter names
 #'
-#' Extracts the value argument(s) of the supplied string. The value argument
-#' is defined as the characters between | and '*', '+' and $ in the supplied
-#' string.
+#' Extracts all words starting with "b_". Leverages the fact that all parameters
+#' has to start with "b_".
 #'
 #' @param string A character string
 #' @param simplify If TRUE return as a vector. Default is FALSE.
 #'
-#' @return A list
+#' @return A list or vector with the parameter names.
 #'
 #' @noRd
-extract_value_args <- function(string, simplify = FALSE) {
+extract_param_names <- function(string, simplify = FALSE) {
+  expr <- "b_.*?\\b"
+  s <- str_extract_all(string, expr)
+  if (simplify) {
+    unlist(s)
+  } else {
+    s
+  }
+}
+
+#' Extract attribute names
+#'
+#' Extracts attribute names. It is a wrapper around \code{\link{extract_all_names}}
+#' and \code{\link{extract_param_names}}.
+#'
+#' @param string A character string
+#' @param simplify If TRUE return as a vector. Default is FALSE
+#'
+#' @return A Vector or string wtih attribute names
+#'
+#' @noRd
+extract_attribute_names <- function(string, simplify = FALSE) {
+  all_names <- extract_all_names(string, TRUE)
+  param_names <- extract_param_names(string, TRUE)
+  idx <- all_names %in% param_names
+  all_names[!idx]
+}
+
+#' Extract the value argument(s)
+#'
+#' Extracts the value argument(s) of the supplied string. The value argument
+#' is defined as the characters between [] string.
+#'
+#' @param string A character string
+#' @param simplify If TRUE return as a vector. Default is FALSE.
+#'
+#' @return A vector or list with the extracted value arguments
+#'
+#' @noRd
+extract_values <- function(string, simplify = FALSE) {
   # (?<=(\\|)) - A positive look behind for '['
   # .*? - Non-greedy capture between the start and end of the match
   # (?=(\\*|\\+|$)) - A positive look ahead for ']'
@@ -63,32 +103,9 @@ extract_value_args <- function(string, simplify = FALSE) {
 extract_named_values <- function(string) {
   # Extracting the specified parameters and attributes
   string_elements <- extract_specified(string, TRUE)
-  values <- lapply(extract_value_args(string_elements), function(x) eval(parse(text = x)))
+  values <- lapply(extract_values(string_elements), function(x) eval(parse(text = x)))
   names(values) <- remove_square_bracket(string_elements)
   values
-}
-
-#' Extract numeric
-#'
-#' Extracts the numerical values from a string. The function is a wrapper around
-#' \code{\link{str_extract_all}}.The function is only intended for internal use
-#' to avoid code-duplication.
-#'
-#' @param string A character string
-#' @param simplify If TRUE return as a vector. Default is FALSE
-#'
-#' @return Returns a list containing all the numerical values in the supplied
-#' vector. Returns a single vector if simplify = TRUE
-#'
-#' @noRd
-extract_numeric <- function(string, simplify = FALSE) {
-  expr <-"[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
-  s <- lapply(str_extract_all(string, expr), function(s) {as.numeric(s)})
-  if (simplify) {
-    unlist(s)
-  } else {
-    s
-  }
 }
 
 #' Extract specified

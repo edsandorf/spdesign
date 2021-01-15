@@ -1,20 +1,32 @@
 context("Correctly extracts elements from the utility functions")
 
-test_that("Name arguments are extracted correctly", {
-  expect_equal(extract_name_args("b_x[2]", TRUE), "b_x")
-  expect_equal(extract_name_args("b_x[N(0, 1)]", TRUE), "b_x")
-  expect_true(all(extract_name_args("b_x[N(0, 1)] * x[1:5]", TRUE) == c("b_x ", " x")))
-  expect_equal(extract_name_args("b_x[2*d]", TRUE), "b_x")
-  expect_true(all(extract_name_args("b_x[2*d] / x_1[N(0, 1)] ^ b_x_2", TRUE) == c("b_x ", " x_1 ", " b_x_2")))
+test_that("All names are extracted correctly", {
+  expect_equal(extract_all_names("b_x[2]", TRUE), "b_x")
+  expect_equal(extract_all_names("b_x[N(0, 1)]", TRUE), "b_x")
+  expect_true(all(extract_all_names("b_x[N(0, 1)] * x[1:5]", TRUE) == c("b_x", "x")))
+  expect_equal(extract_all_names("b_x[2*d]", TRUE), "b_x")
+  expect_true(all(extract_all_names("b_x[2*d] / x_1[N(0, 1)] ^ b_x_2", TRUE) == c("b_x", "x_1", "b_x_2")))
+})
+
+test_that("Parameter names are extracted correctly", {
+  expect_true(length(extract_param_names("x1", TRUE)) == 0)
+  expect_equal(extract_param_names("b_x1", TRUE), "b_x1")
+  expect_true(all(extract_param_names("b_x1[0.1] * x_1 + b_x2[seq(0, 1, 0.1)] * x_2[1]", TRUE) == c("b_x1", "b_x2")))
+})
+
+test_that("Attribute names are extracted correctly", {
+  expect_true(length(extract_attribute_names("b_x1", TRUE)) == 0)
+  expect_equal(extract_attribute_names("x1", TRUE), "x1")
+  expect_true(all(extract_attribute_names("b_x1[0.1] * x_1 + b_x2[seq(0, 1, 0.1)] * x_2[1]", TRUE) == c("x_1", "x_2")))
 })
 
 test_that("Value arguments are extracted correctly", {
-  expect_equal(extract_value_args("b_x[1]", TRUE), "1")
-  expect_equal(extract_value_args("b_x[1*0.2]", TRUE), "1*0.2")
-  expect_equal(extract_value_args("b_x[1*b_x_3]", TRUE), "1*b_x_3")
-  expect_equal(extract_value_args("b_x[N(0, 1)]", TRUE), "N(0, 1)")
-  expect_true(all(extract_value_args("b_x[N(0, 1)] * x[0.1]", TRUE) == c("N(0, 1)", "0.1")))
-  expect_true(all(extract_value_args("b_x[N(0, 1)] * x[0.1] + alpha[0.2*45/2]", TRUE) == c("N(0, 1)", "0.1", "0.2*45/2")))
+  expect_equal(extract_values("b_x[1]", TRUE), "1")
+  expect_equal(extract_values("b_x[1*0.2]", TRUE), "1*0.2")
+  expect_equal(extract_values("b_x[1*b_x_3]", TRUE), "1*b_x_3")
+  expect_equal(extract_values("b_x[N(0, 1)]", TRUE), "N(0, 1)")
+  expect_true(all(extract_values("b_x[N(0, 1)] * x[0.1]", TRUE) == c("N(0, 1)", "0.1")))
+  expect_true(all(extract_values("b_x[N(0, 1)] * x[0.1] + alpha[0.2*45/2]", TRUE) == c("N(0, 1)", "0.1", "0.2*45/2")))
 })
 
 test_that("Extract specified only extracts parameters and attributes with specified priors and levels", {
