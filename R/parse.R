@@ -43,9 +43,13 @@ parse_utility <- function(V) {
     value_names <- value_names[!duplicate_idx]
   }
 
-  # Split into parameters and attributes and return as a list
+  # Prepare attributes so that they can be directly used to create the full factorial
   param_idx <- value_names %in% grep("b_", value_names, value = TRUE)
+  cleaned_V <- lapply(V, clean_utility)
+
+  # Return a list with cleaned V, parameters and attributes
   list(
+    V = cleaned_V,
     param = parsed_V[param_idx],
     attrs = parsed_V[!param_idx]
   )

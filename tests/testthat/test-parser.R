@@ -31,6 +31,10 @@ test_that("The utility parser correctly splits and returns attributes and parame
       )
     ),
     list(
+      V = list(
+        alt1 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3",
+        alt2 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3"
+      ),
       param = list(
         b_x1 = 0.1,
         b_x3 = list(
@@ -58,6 +62,10 @@ test_that("The utility parser correctly splits and returns attributes and parame
       )
     ),
     list(
+      V = list(
+        alt1 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3",
+        alt2 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3"
+      ),
       param = list(
         b_x1 = 0.1,
         b_x2 = list(
@@ -88,6 +96,10 @@ test_that("The utility parser correctly splits and returns attributes and parame
       )
     ),
     list(
+      V = list(
+        alt1 = "b_x1 * x_1 + b_x2 * x_2 + x_3 * b_x3",
+        alt2 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3"
+      ),
       param = list(
         b_x1 = 0.1,
         b_x2 = list(
