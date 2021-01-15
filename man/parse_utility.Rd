@@ -18,11 +18,3 @@ restrictions implied by the utility specifications
 The function parses the list of utilities to extract the relevant parameters
 used to create the design.
 }
-\examples{
-U <- list(
-  alt_1 = "beta_1 | c(0.1, 0.5) * x_1 | c(0, 1, 2) + beta_2 | 0.1 * x_2 | c(2, 4, 6, 8)",
-  alt_2 = "beta_1 * x_1 + beta_2 * x_2"
-)
-
-
-}

@@ -1,69 +1,9 @@
-string <- "beta_1 | c(0.1)"
-extract_name_args(string)
+string <- "beta_1[0.1] * x"
+remove_whitespace(extract_name_args(string, simplify = TRUE))
 eval(parse(text = unlist(extract_value_args(string))))
 
-parse_utility(string)
 
 
-is_letter
-eq
-str_detect(" adfa", "\\s*")
-
-
-parse_utility("beta_1")
-
-str_detect("        ss d  f _1        ", "(\\w+)\\s+(\\w+|\\d+)")
-
-
-
-# Make this recursive
-N <- function(mu, sigma) {
-  list(mu=mu, sigma=sigma)
-}
-
-x <- eval(parse(text = unlist(extract_value_args("beta | N(N(0.1, 0.6), TR(0, 1))"))))
-
-
-
-# Multiplication and plus is part of extract_value_args
-eval(parse(text = unlist(extract_value_args("beta | 2 / seq(0, 1, 0.1)"))))
-
-
-
-# This test string contains the most common cases we need to accommodate.
-string <- "beta_1 | c(0.1) * x_1 | c(0, 1) + beta_2.dummy | c(0, 1) * x_2 | c(1, 2, 3) + beta_3 | N(0, 1) * x_3 | c(2, 4, 6, 8) + beta_4 | LN[0.4, 1] * x_4 | c(2, 5) + beta_5 | N[N(-0.5, 0.5), 1] * x_5 | c(1, 2, 4, 5)"
-
-# Split so that we have one parameter - attribute pair
-x <- unlist(str_split(string, "\\+"))
-
-# Use this to check!
-str_detect(x, "(N|LN)\\[")
-
-str_locate_all(string, "(N|LN)\\(")
-
-# This is the worst case sub-string
-string <- "beta_1.dummy | c(N[LN(0, 1), T(-1, 1)], U[N(0, 1), LN(1, 0.5)]) * x_1 | c(1, 2, 3)"
-
-
-
-string <- "c(N[LN(0, 1), T(-1, 1)], U[N(0, 1), LN(1, 0.5)])"
-
-# Split on the outermost comma
-str_extract(string, "c\\(\\w+(\\(|\\[).*?(\\)|\\])\\s*,")
-
-# Strips away the c()
-str_extract(string, "(?<=c\\().*(?=\\))")
-
-
-
-# Write a loop parser to identifiy opening and closing brackets!
-
-string_split <- str_trim(unlist(str_split(string, "\\+")), side = "both")
-
-string <- "c(N[LN(0,1),T(-1,1)],U[N(0,1),LN(1,0.5)])"
-
-
-round_bracket <- 0
 
 str_locate_all(string, "(\\(|\\[)(\\)\\])")
 
@@ -127,122 +67,42 @@ find_matching_parenthesis <- function(string) {
   )
 }
 
-# Worst case : beta_1.dummy | c(N[LN(0, 1), T(-1, 1)], U[N(0, 1), LN(1, 0.5)]) * x_1 | c(1, 2, 3)
-
-# Dummy coded interaction terms?
-tmp_1 <- extract_value_arg(tmp, simplify = TRUE)
-as.numeric(str_extract_all(tmp_1, "[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"))
-
-lapply(str_extract_all(tmp_1, expr), function(s) {as.numeric(s)})
-
-# Number of random parameters - Need to run checks on the complete utility functions at some point.
-sum(str_count(string, "(N|LN|T|U)(\\(|\\[)"))
-
-# Add a global distribution grouping .
-
-str_split(string, "(\\]|\\)),")
-
-#(\[(?:\[??[^\[]*?\]))
-
-# Important that the parameter names correspond exactly to the names in the priors!
-
-
-x <- "beta_1 | c(0.1) * x_1 | c(0, 1) + beta_2 | 0.1 * x_2 | c(2, 4, 6, 8) * x_3 | c(2, 5)"
-
-x <- "beta_1 | N[N(0, 1), 1] * x_1 + beta_2 | c(0.1) * x_2"
-
-# Remove all white spaces
-x <- remove_whitespace(x)
-
-x <- split_string(x, "(?s)\\+", simplify = TRUE)
-x <- split_string(x, "(?s)\\*", simplify = FALSE)
-
-
-str_extract(x, "\\|(.*?)\\+")
-
-
-# (?<=\\+) positive look behind + and *
-# (?=\\|) positive look ahead for |
-# The following extracts everything between, but not including * and |
-# so basically all of the attribute names
-# https://stackoverflow.com/questions/2403122/regular-expression-to-extract-text-between-square-brackets
-str_extract_all(x, "(?<=\\*).*?(?=\\|)")
-
-
-# Can add groupings to it
-str_extract_all(x, "(?<=(\\+|\\*)).*?(?=\\|)")
-
-
-# Extract the utility functions. This appears to work brilliantly !!!!
-# (\\*|\\+|^) - Start match at * + or beginning of string
-# .*? Non-greedy capture between start match and end match
-# (?=(\\||\\Z)) - Positive look ahead for | or end of string \Z escaped with \
-str_c(unlist(stringr::str_extract_all(x, "(^|\\*|\\+).*?(?=(\\||\\Z))")), collapse = "")
-
-
-for (i in c("beta_1", "beta_2")) {
-
-}
-# Might work for nested
-#(\[(?:\[??[^\[]*?\]))
-
-str_extract(string, "(?<=(beta_1))\\d*?(?=(\\*|\\+\\Z))")
-
-str_extract_all(string, "[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?")
-str_extract_all(string, "(?<=(\\))[-+]?[0-9]*\\.?[0-9]+?")
-
-
-string
-
-str_extract(str_extract(string, "(?<=(\\|))(.*?)(?=(\\*|\\+|$))"), "[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?")
-
-str_extract(string, "\\d+?")
-
-
-# Split into components based on "+" - length equal to number of utility elements
-x <- unlist(strsplit(x, "\\+", perl = TRUE))
-
-# Each list element contains the parameters and values in the first position and
-# attributes in subsequent positions
-x <- strsplit(x, "\\*", perl = TRUE)
-
-param <- lapply(x, function(x) x[1])
-attrs <- lapply(x, function(x) x[2:length(x)])
-
-
-
-x <- param[[1]]
-
-extract_name(x)
-
-
-str_tmp <- "c(N(-0.3, 1))"
-gregexpr("(N|LN|U|T)", str_tmp, perl = TRUE)
-
-unlist(regmatches(str_tmp, gregexpr("(N|LN|U|T)", str_tmp, perl = TRUE)))
-
-
-str_tmp <- "c(N(N(-0.3, 0.1), 1))"
-
-str_tmp <- list("c(LN(TR(-0.3, 0.1), 1))", "c(N(N(-0.3, 0.1), 1))")
-
-
-
-
-
-# Now it works.
-strs <- c("LN(0, 1)", "N(N(0.1, 1), 1)", "N(U(0, 1), 1)", "N(0, T(0, 1))", "N(LN(0, 1), N(0, 1))")
-
-
-
-
-str_split(strs, "(?:\\G(?!^)\\s*,\\s*$)")
-
-
 
 
 
 #' Checks whether
 is_balanced_square <- function(string) {
+
+}
+
+
+
+string <- "beta0[0.1] * x + beta2[N(0, 1)] * x_3[seq(0, 1, 0.1)] / delta[1+2]"
+
+
+
+
+
+
+V <- list(
+  alt1 = "b_x1[0.1] * x_1      + b_x2      * x_2[1:3] + b_x3[Np(0, 1)] * x_3[seq(0, 1, 0.25)]",
+  alt2 = "b_x1      * x_1[2:5] + b_x2[0.4] * x_2      + b_x3          * x_3 + x_2[1:6]"
+)
+
+
+tmp <- parse_utility(V)
+
+
+# When testing attributes, check whether levels are multiples of each other to determine whether
+# a balanced design is possible.
+
+#'
+#'
+#'
+#'
+#'
+#'
+#'
+create_design_env <- function() {
 
 }

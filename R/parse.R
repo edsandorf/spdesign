@@ -9,14 +9,6 @@
 #' as the named vector of priors, the named list of attributes and their levels,
 #' restrictions implied by the utility specifications
 #'
-#' @examples
-#' U <- list(
-#'   alt_1 = "beta_1 | c(0.1, 0.5) * x_1 | c(0, 1, 2) + beta_2 | 0.1 * x_2 | c(2, 4, 6, 8)",
-#'   alt_2 = "beta_1 * x_1 + beta_2 * x_2"
-#' )
-#'
-#'
-#' @export
 parse_utility <- function(V) {
   # Run a set of checks
   if (!is.list(V)) stop("'U' has to be a named list of utility functions. Please see the manual.")
@@ -24,12 +16,31 @@ parse_utility <- function(V) {
 
   J <- length(V)
 
-  # Split the utility for further processing
+  # Extract all the named values from the utility expressions
+  parsed_V <- extract_named_values(V)
 
+  # Check that all parameters and attributes are specified with values at least once!
+  all_names <- unique(remove_whitespace(extract_name_args(V, TRUE)))
+  value_names <- names(parsed_V)
+  if (!all(all_names %in% value_names)) {
+    missing_idx <- which((all_names %in% value_names) == FALSE)
+    missing_values <- paste0("'", all_names[missing_idx], "'", collapse = " ")
+    stop(paste0(missing_values, " does not have a specified prior or levels. Please make sure that all elements of the utility functions have been specified with a prior or level once."))
+  }
 
+  # Check whether a parameter or attribute is specified more than once
+  if (any(duplicated(value_names))) {
+    duplicate_idx <- duplicated(value_names)
+    duplicate_values <- paste0("'", value_names[duplicate_idx], "'", collapse = " ")
+    warning(paste0(duplicate_values, " are specified with priors or levels more than once. Only the first occurance of the value is used. If you intended to use different levels for different attributes in each utility function, please specify alternative specific attributes.\n "))
+    parsed_V <- parsed_V[!duplicate_idx]
+    value_names <- value_names[!duplicate_idx]
+  }
 
-
-
+  # Split into parameters and attributes and return as a list
+  param_idx <- value_names %in% grep("b_", value_names, value = TRUE)
+  list(
+    param = parsed_V[param_idx],
+    attrs = parsed_V[!param_idx]
+  )
 }
-
-
