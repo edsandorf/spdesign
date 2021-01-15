@@ -48,7 +48,25 @@ test_that("Extract named values does that correctly", {
       x_2 = seq(0, 1, 0.25)
     )
   )
-  extract_named_values("b_x1[0.1] * x_1 ++ b_x2 */* x_2[1:3] + b_x3[N(0, 1)] * x_2[seq(0, 1, 0.25)]")
+  expect_identical(
+    extract_named_values(
+      V <- list(
+        alt1 = "b_x1[0.1] * x_1      + b_x2      * x_2[1:3] + b_x3[N(0, 1)] * x_3[seq(0, 1, 0.25)]",
+        alt2 = "b_x1      * x_1[2:5] + b_x2[0.4] * x_2      + b_x3          * x_3"
+      )
+    ),
+    list(
+      b_x1 = 0.1,
+      x_2 = 1:3,
+      b_x3 = list(
+        mu = 0,
+        sigma = 1
+      ),
+      x_3 = seq(0, 1, 0.25),
+      x_1 = 2:5,
+      b_x2 = 0.4
+    )
+  )
 })
 
 test_that("Distributions are extracted correctly", {
