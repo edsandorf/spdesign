@@ -8,7 +8,6 @@
 #' @docType package
 #' @name spdesignR
 #'
-#' @import crayon
 #' @import cli
 #' @import stringr
 #' @importFrom stats runif
