@@ -23,15 +23,6 @@ parse_utility <- function(V) {
   values <- extract_named_values(V)
   value_names <- names(values)
 
-  # Run checks on the utility functions ----
-  if (!is.list(V)) stop("'V' has to be a named list of utility functions. Please see the manual.")
-  if (length(V) < 2) stop("'V' has to contain at least 2 utility functions. Please see the manual.")
-  if (!all(do.call(c, lapply(V, is_balanced, "[", "]")))) {
-    stop("There is an uneven number of opening and closing brackets in the utility functions. Make sure that all opening brackets only have one closing bracket.")
-  }
-  if (!all(do.call(c, lapply(V, is_balanced, "(", ")")))) {
-    stop("There is an uneven number of opening and closing parentheses in the utility functions. Make sure that all opening parenthesis only have one closing parenthesis.")
-  }
 
   # Dummy coding ----
   if (any(str_detect(V, "_dummy"))) {
