@@ -44,16 +44,9 @@ test_that("The utility parser correctly splits and returns attributes and parame
         b_x2 = 0.4
       ),
       attrs = list(
-        alt1 = list(
-          x_1 = 2:5,
-          x_2 = 1:3,
-          x_3 = seq(0, 1, 0.25)
-        ),
-        alt2 = list(
-          x_1 = 2:5,
-          x_2 = 1:3,
-          x_3 = seq(0, 1, 0.25)
-        )
+        x_2 = 1:3,
+        x_3 = seq(0, 1, 0.25),
+        x_1 = 2:5
       )
     )
   )
@@ -81,17 +74,10 @@ test_that("The utility parser correctly splits and returns attributes and parame
         b_x4 = 0.001
       ),
       attrs = list(
-        alt1 = list(
-          x_1 = 2:5,
-          x_2 = 1:3,
-          x_3 = seq(0, 1, 0.25)
-        ),
-        alt2 = list(
-          x_1 = 2:5,
-          x_2 = 1:3,
-          x_3 = seq(0, 1, 0.25),
-          x_4 = c(2, 4, 6)
-        )
+        x_2 = 1:3,
+        x_3 = seq(0, 1, 0.25),
+        x_1 = 2:5,
+        x_4 = c(2, 4, 6)
       )
     )
   )
@@ -120,17 +106,10 @@ test_that("The utility parser correctly splits and returns attributes and parame
         b_x4 = 0.001
       ),
       attrs = list(
-        alt1 = list(
-          x_2 = 1:3,
-          x_1 = 2:5,
-          x_3 = seq(0, 1, 0.25)
-        ),
-        alt2 = list(
-          x_1 = 2:5,
-          x_2 = 1:3,
-          x_3 = seq(0, 1, 0.25),
-          x_4 = c(2, 4, 6)
-        )
+        x_2 = 1:3,
+        x_3 = seq(0, 1, 0.25),
+        x_1 = 2:5,
+        x_4 = c(2, 4, 6)
       )
     )
   )
@@ -162,16 +141,9 @@ test_that("The utility parser correctly splits and returns attributes and parame
         )
       ),
       attrs = list(
-        alt1 = list(
-          x_1 = 2:5,
-          x_2 = 1:3,
-          x_3 = seq(0, 1, 0.25)
-        ),
-        alt2 = list(
-          x_1 = 2:5,
-          x_2 = 1:3,
-          x_3 = seq(0, 1, 0.25)
-        )
+        x_2 = 1:3,
+        x_3 = seq(0, 1, 0.25),
+        x_1 = 2:5
       )
     )
   )
@@ -203,16 +175,9 @@ test_that("The utility parser correctly splits and returns attributes and parame
         )
       ),
       attrs = list(
-        alt1 = list(
-          x_1 = 2:5,
-          x_2 = 1:3,
-          x_3 = seq(0, 1, 0.25)
-        ),
-        alt2 = list(
-          x_1 = 2:5,
-          x_2 = 1:3,
-          x_3 = seq(0, 1, 0.25)
-        )
+        x_2 = 1:3,
+        x_3 = seq(0, 1, 0.25),
+        x_1 = 2:5
       )
     )
   )
