@@ -1,20 +1,41 @@
-#' Generate the full factorial
+#' Make the full factorial
 #'
-#' \code{full_factorial} is a wrapper around \code{\link{expand.grid}} to generate
-#' the full factorial design implied by the specified utility functions and options
-#' in \code{design_opt}. The full factorial is often used as a starting point to
-#' generate a candidate set and will include unrealistic, identical and completely
-#' dominated alternatives. When used as a starting point, it is up to the user
-#' to ensure that all combinations of attributes and levels are permitted.
+#' \code{make_full_factorial} is a wrapper around \code{\link{expand.grid}} and
+#' generates the full factorial given the supplied attributes. The attributes
+#' can either be specified directly by the user or extracted from the list
+#' of utility functions using \code{\link{parse_utility}}.
 #'
-#' The main use of the function is within \code{\link{design}} and appropriate
-#' restrictions are then put in place. In addition, any restrictions specified by
-#' the user are also applied.
+#' The full factorial is often used as the starting point to generate a candidate
+#' set. Note that the full factorial will include unrealistic and completely
+#' dominated alternatives. It is therefore advised to use a subset of the full
+#' factorial as a candidate set. The user can call \code{make_full_factorial}
+#' and create a subset that is passed to \code{\link{design}} using the `candidate_set`
+#' parameter, or supply a set of restrictions through the list of design options
+#' `design_opt`.
 #'
-#' @param U A parsed utility object
-#' @param design_opt The list of design options
+#' The function is mainly used inside \code{\link{design}} and appropriate
+#' restrictions are then put in place.
 #'
+#' @param attrs A named list of attributes and their levels
+#'
+#' @return A matrix containing the full factorial
+#'
+#' @examples
+#' attrs <- list(
+#'   a1 = 1:5,
+#'   a2 = c(0, 1)
+#' )
+#'
+#' make_full_factorial(attrs)
+#'
+#' V <- list(
+#'   alt1 = "b_a1[0.1] * a1[1:5] + b_a2[-2] * a2[c(0, 1)]",
+#'   alt2 = "b_a1      * a1      + b_a2     * a2"
+#' )
+#'
+#' attrs <- parse_utility(V)$attrs
+#' make_full_factorial(attrs)
 #' @export
-full_factorial <- function(U, design_opt) {
-  # Check that U is a parsed utility object
+make_full_factorial <- function(attrs) {
+  expand.grid(attrs)
 }
