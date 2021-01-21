@@ -46,6 +46,10 @@ check_opts <- function(opts) {
   }
   spinner$spin()
 
+  optimization_algorithms <- c("random", "federov", "rsc")
+  if (!(tolower(opts$optimization_algorithm) %in% optimization_algorithms)) {
+    stop(paste0("The optimization algorithm has to be on of: ", paste(optimization_algorithms, collapse = ", ")))
+  }
   if (opts$cores >= parallel::detectCores()) {
     stop("The number of specified cores in 'opts$cores' (", opts$cores, ") is greather than or equal to the number of available cores (", parallel::detectCores(), "). We recommend to use **at most** one less than the number of available logical cores.")
   }
