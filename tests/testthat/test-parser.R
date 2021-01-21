@@ -32,8 +32,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
     ),
     list(
       V = list(
-        alt1 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3",
-        alt2 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3"
+        alt1 = "b_x1 * x_1_1 + b_x2 * x_2_1 + b_x3 * x_3_1",
+        alt2 = "b_x1 * x_1_2 + b_x2 * x_2_2 + b_x3 * x_3_2"
       ),
       param = list(
         b_x1 = 0.1,
@@ -61,8 +61,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
     ),
     list(
       V = list(
-        alt1 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3",
-        alt2 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3 + b_x4 * x_4"
+        alt1 = "b_x1 * x_1_1 + b_x2 * x_2_1 + b_x3 * x_3_1",
+        alt2 = "b_x1 * x_1_2 + b_x2 * x_2_2 + b_x3 * x_3_2 + b_x4 * x_4_2"
       ),
       param = list(
         b_x1 = 0.1,
@@ -93,8 +93,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
     ),
     list(
       V = list(
-        alt1 = "b_x2 * x_2 + b_x1 * x_1 + b_x3 * x_3",
-        alt2 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3 + b_x4 * x_4"
+        alt1 = "b_x2 * x_2_1 + b_x1 * x_1_1 + b_x3 * x_3_1",
+        alt2 = "b_x1 * x_1_2 + b_x2 * x_2_2 + b_x3 * x_3_2 + b_x4 * x_4_2"
       ),
       param = list(
         b_x1 = 0.1,
@@ -126,8 +126,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
     ),
     list(
       V = list(
-        alt1 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3",
-        alt2 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3"
+        alt1 = "b_x1 * x_1_1 + b_x2 * x_2_1 + b_x3 * x_3_1",
+        alt2 = "b_x1 * x_1_2 + b_x2 * x_2_2 + b_x3 * x_3_2"
       ),
       param = list(
         b_x1 = 0.1,
@@ -160,8 +160,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
     ),
     list(
       V = list(
-        alt1 = "b_x1 * x_1 + b_x2 * x_2 + x_3 * b_x3",
-        alt2 = "b_x1 * x_1 + b_x2 * x_2 + b_x3 * x_3"
+        alt1 = "b_x1 * x_1_1 + b_x2 * x_2_1 + x_3_1 * b_x3",
+        alt2 = "b_x1 * x_1_2 + b_x2 * x_2_2 + b_x3 * x_3_2"
       ),
       param = list(
         b_x1 = 0.1,

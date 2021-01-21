@@ -50,7 +50,17 @@ parse_utility <- function(V) {
 
   # Prepare attributes so that they can be directly used to create the full factorial
   param_idx <- value_names %in% grep("b_", value_names, value = TRUE)
-  cleaned_V <- lapply(V, clean_utility)
+  cleaned_V <- lapply(seq_along(V), function(j) {
+    v <- str_replace_all(remove_square_bracket(V[[j]]), "\\s+", " ")
+    attribute_names <- extract_attribute_names(v)
+    for (i in seq_along(attribute_names)) {
+      v <- str_replace_all(v, attribute_names[i], paste(attribute_names[i], j, sep = "_"))
+    }
+    # Return v
+    v
+  })
+  # Restore names that were dropped when cleaning utility
+  names(cleaned_V) <- names(V)
   attrs <- values[!param_idx]
   # This next step may not be necessary, but depends on how the Modified Federov or RSC algorithm works
   # attrs <- lapply(cleaned_V, function(v) {

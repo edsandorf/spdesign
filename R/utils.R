@@ -32,15 +32,3 @@ is_balanced <- function(string, open, close) {
     TRUE
   }
 }
-
-#' Clean utility
-#'
-#' @param string A character string
-#'
-#' @return A string where all excessive white spaces and brackets indicating priors
-#' or attribute levels have been removed.
-#'
-#' @noRd
-clean_utility <- function(string) {
-  str_replace_all(remove_square_bracket(string), "\\s+", " ")
-}
