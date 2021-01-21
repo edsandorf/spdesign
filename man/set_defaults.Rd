@@ -16,5 +16,5 @@ A list of design options populated by sensible default values
 The function takes the list of design options and adds default values where
 none are specified. This function is exported, but is not intended to be
 called by the user of the package. The function is called from within
-\code{\link{design}} to populate the list with sensible defaults
+\code{\link{generate_design}} to populate the list with sensible defaults
 }

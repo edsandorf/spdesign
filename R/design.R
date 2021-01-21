@@ -1,9 +1,9 @@
-#' Create the experimental design
+#' Generate the experimental design
 #'
-#' Design takes the utility functions and design optsions as inputs and generates
-#' candidate designs. Design cannot be run without first validating the utility
-#' functions and design optsions. Running LINK TO VALIDATE will create a validated
-#' environment, which is the context for evaluating the designs.
+#' Generates the experimental design is the main function of the package. It
+#' wraps around all other functions and calls them in the correct order to
+#' generate a design based on the specified utility functions, options and
+#' candidate set.
 #'
 #' @param V A list of utility functions
 #' @param opts A list of design optsions
@@ -12,10 +12,10 @@
 #' set is provided, then the full factorial subject to specified restrictions
 #' will be used.
 #'
-#' @return A design object of class designer.design
+#' @return A design list of valid designs
 #'
 #' @export
-design <- function(V, opts, candidate_set = NULL) {
+generate_design <- function(V, opts, candidate_set = NULL) {
   cli_h1("Setting up the design environment")
 
   # Initial checks ----
@@ -26,6 +26,9 @@ design <- function(V, opts, candidate_set = NULL) {
 
   # Checks on opts
   ansi_with_hidden_cursor(check_opts(opts))
+
+  # Set default options
+  opts <- set_defaults(opts)
 
   # Checks on the candidate set
   ansi_with_hidden_cursor(check_candidate_set(candidate_set))
@@ -38,7 +41,7 @@ design <- function(V, opts, candidate_set = NULL) {
   # Apply restrictions to the candidate set (create one if not supplied) ----
   cli_h2("Applying restrictions to the candidate set")
   if (is.null(candidate_set)) {
-    candidate_set <- make_full_factorial(parsed_v$attrs)
+    candidate_set <- generate_full_factorial(parsed_v$attrs)
     cli_alert_success("Full factorial created")
   }
 
