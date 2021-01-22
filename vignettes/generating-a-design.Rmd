@@ -21,8 +21,8 @@ The first step in generating a design is to specify the design options
 
 ```{r, eval = FALSE}
 design_opts <- list(
-  optimization_algorithm = "random", # "random", "federov", "rsc"
-  efficiency_criteria = "d-efficiency",
+  optimization_algorithm = "random",
+  efficiency_criteria = "d_efficiency",
   model = "mnl",
   blocks = 1,
   tasks = 6,
@@ -30,6 +30,52 @@ design_opts <- list(
 )
 ```
 
+## Optimization algorithms
+
+## Efficiency criteria
+When creating an efficient design, it is important to select the criteria used to measure efficiency. In `spdesign` you can specify one of the following:
+
+### A-efficiency
+
+The A-efficiency criteria, or A-error, seeks to minimize the trace of the variance covariance matrix. Effectively minimizing the sum of variances. This measure is not commonly used, likely because it tends to ignore covariances and is heavily influenced by the variance of one or a few parameters. 
+
+
+$$
+\mathrm{A} = \frac{\mathrm{tr}(\Omega)}{K}
+$$
+To use A-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "a_efficiency"`.
+
+### C-efficiency
+
+The C-efficiency criteria, or C-error, seeks to minimize the variance of the ratio of two parameters, e.g. willingness-to-pay, which is the ratio of the non-cost to the negative of the cost (or price) parameter when the utility function is separable, additive and linear in the parameters [@scarpa_design_2008]. Optimizing a design for the outcome of interest may in some cases be more useful than optimizing for smaller standard errors of the estimates themselves (which is the case of the D-error discussed below). 
+
+This is specified as: `efficiency_criteria = "c_efficiency"`. 
+
+$$
+\mathrm{C} = \mathrm{Var}\left(\frac{\beta_k}{-\beta_j}\right)\approx\beta_j^{-2}\left[\mathrm{Var}(\beta_k)-2\beta_k\beta_j^{-1}\mathrm{Cov}(\beta_k,\beta_j)+(\beta_k/\beta_j)^2\mathrm{Var}(\beta_j)\right]
+$$
+
+Where $\beta_j$ is the "cost"-parameter and $\beta_k$ a vector of non-cost parameters. It is important to note that if the prior for either the numerator or denominator is zero, the ratio is either 0 or $+\infty$ and the standard errors cannot be calculated. To use C-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "c_efficiency"`.
+
+### D-efficiency
+The D-efficiency criteria, or D-error, seeks to minimize the determinant of the variance-covariance matrix, which all else equal, leads to smaller standard errors. The idea being that you can get significance with a samller sample size if your design contains more information, i.e. more informative trade-offs. Unlike the A-error, the D-error considers the covariances as well as the only the variances and is less affected by very large variances for single parameters. 
+
+$$
+\mathrm{D} = \det\left(\Omega\left(\beta, X\right)\right)^{1/K}
+$$
+To use D-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "d_efficiency"`.
+
+### S-efficiency
+
+The S-efficiency measure, or S-error, calculates the theoretical lower-bound sample size necessary to obtain significant estimates for each parameter under the assumption that the priors are correct. The minimum required sample size is equal to the smallest sample size required for all parameters to be theoretically significant. However, it is strongly advised not to rely on these measures as an absolute because sampling issues and measurement errors could mean that larger sample sizes are needed.
+
+$$
+\mathrm{N} \geq \left(\frac{\mathrm{s.e.}_{j,k}(\beta, X)t_\alpha}{\beta_k}\right)^2
+$$
+where $N$ is the theoretical minimum sample size and $t_\alpha$ is the t-value corresponding to significance level $\alpha$ and is set by the researcher. It is important to note that in the case of zero priors, the S-error cannot be calculated and will return $+\infty$. To use S-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "s_efficiency"`.
+
 # The candidate set 
 
 # The list of utility functions 
+
+# References
