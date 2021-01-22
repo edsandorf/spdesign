@@ -22,6 +22,7 @@ set_defaults <- function(opts_input) {
     blocks = 1,
     tasks = 6,
     cores = 1,
+    didx = NULL,
     max_iter = 10,
     eff_threshold = 0.1
   )

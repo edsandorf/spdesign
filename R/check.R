@@ -57,6 +57,15 @@ check_opts <- function(opts) {
   }
   spinner$spin()
 
+  if (is.null(opts$didx)) {
+    if (opts$efficiency_criteria == "c_efficiency") {
+      stop("If you are optimizing for c-efficiency then you must specify the denominator index 'didx'")
+    } else {
+      cli_alert_info("The index for the denominator is not specified and the c-efficiency measure will not be reported.")
+    }
+  }
+  spinner$spin()
+
   if (opts$cores >= parallel::detectCores()) {
     stop("The number of specified cores in 'opts$cores' (", opts$cores, ") is greather than or equal to the number of available cores (", parallel::detectCores(), "). We recommend to use **at most** one less than the number of available logical cores.")
   }
