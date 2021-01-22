@@ -4,31 +4,55 @@
     <loc>https://spdesignr.edsandorf.me/index.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/a_efficiency.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/calculate_a_efficiency.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/c_efficiency.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/calculate_c_efficiency.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/d_efficiency.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/calculate_d_efficiency.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/design.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/calculate_efficiency_criteria.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/calculate_s_efficiency.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/derive_vcov.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/dot-onAttach.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/full_factorial.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/federov.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/generate_design.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/generate_full_factorial.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/make_design_candidate.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/make_random_draws.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/s_efficiency.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/parse_utility.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/spdesignR.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/random.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/rsc.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/set_defaults.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/spdesign.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/articles/generating-a-design.html</loc>

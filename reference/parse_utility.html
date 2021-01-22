@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parse the utility functions — parse_utility • spdesignR</title>
+<title>Parse the utility functions — parse_utility • spdesign</title>
 
 
 <!-- jquery -->
@@ -72,7 +72,7 @@ used to create the design." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">spdesignR</a>
+        <a class="navbar-link" href="../index.html">spdesign</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
@@ -112,7 +112,7 @@ used to create the design." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/edsandorf/spdesignR/">
+  <a href="https://github.com/edsandorf/spdesign/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -131,7 +131,7 @@ used to create the design." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Parse the utility functions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesignR/blob/master/R/parse.R'><code>R/parse.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/parse.R'><code>R/parse.R</code></a></small>
     <div class="hidden name"><code>parse_utility.Rd</code></div>
     </div>
 
@@ -153,18 +153,16 @@ used to create the design.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object containing the outputs from the parsed utility functions, such
-as the named vector of priors, the named list of attributes and their levels,
-restrictions implied by the utility specifications</p>
+    <p>A list with three elements:
+1) The returned cleaned expression of the utility function is ready to be evaluated
+in the design context
+2) A list of parameters
+3) A list of attributes entering each alternative. For example, for two
+alternatives, it will return a list of length, with each list element
+containing the list of attributes entering that alternative's utility function.
+The purpose is to correctly handle alternative specific variables and return
+a list that can be directly passed to create_full_factorial.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>U</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-  alt_1 <span class='op'>=</span> <span class='st'>"beta_1 | c(0.1, 0.5) * x_1 | c(0, 1, 2) + beta_2 | 0.1 * x_2 | c(2, 4, 6, 8)"</span>,
-  alt_2 <span class='op'>=</span> <span class='st'>"beta_1 * x_1 + beta_2 * x_2"</span>
-<span class='op'>)</span>
-
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

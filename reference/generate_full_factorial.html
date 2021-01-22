@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • spdesign</title>
+<title>Generate the full factorial — generate_full_factorial • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,11 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Generate the full factorial — generate_full_factorial" />
+<meta property="og:description" content="make_full_factorial is a wrapper around expand.grid and
+generates the full factorial given the supplied attributes. The attributes
+can either be specified directly by the user or extracted from the list
+of utility functions using parse_utility." />
 
 
 
@@ -58,7 +62,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -128,22 +132,85 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Generate the full factorial</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/full-factorial.R'><code>R/full-factorial.R</code></a></small>
+    <div class="hidden name"><code>generate_full_factorial.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <dl>
-        <dt><a href="generating-a-design.html">Generating a design</a></dt>
-        <dd></dt>
-        <dt><a href="introduction.html">Introduction</a></dt>
-        <dd></dt>
-        <dt><a href="syntax.html">Syntax</a></dt>
-        <dd></dt>
-      </dl>
+    <div class="ref-description">
+    <p><code>make_full_factorial</code> is a wrapper around <code><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></code> and
+generates the full factorial given the supplied attributes. The attributes
+can either be specified directly by the user or extracted from the list
+of utility functions using <code><a href='parse_utility.html'>parse_utility</a></code>.</p>
     </div>
+
+    <pre class="usage"><span class='fu'>generate_full_factorial</span><span class='op'>(</span><span class='va'>attrs</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>attrs</th>
+      <td><p>A named list of attributes and their levels</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A matrix containing the full factorial</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The full factorial is often used as the starting point to generate a candidate
+set. Note that the full factorial will include unrealistic and completely
+dominated alternatives. It is therefore advised to use a subset of the full
+factorial as a candidate set. The user can call <code>generate_full_factorial</code>
+and create a subset that is passed to <code><a href='generate_design.html'>generate_design</a></code> using the `candidate_set`
+parameter, or supply a set of restrictions through the list of design options
+`design_opt`.</p>
+<p>The function is mainly used inside <code><a href='generate_design.html'>generate_design</a></code> and appropriate
+restrictions are then put in place.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>attrs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  a1 <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>,
+  a2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='fu'>generate_full_factorial</span><span class='op'>(</span><span class='va'>attrs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    a1 a2
+#&gt; 1   1  0
+#&gt; 2   2  0
+#&gt; 3   3  0
+#&gt; 4   4  0
+#&gt; 5   5  0
+#&gt; 6   1  1
+#&gt; 7   2  1
+#&gt; 8   3  1
+#&gt; 9   4  1
+#&gt; 10  5  1</div><div class='input'>
+<span class='va'>V</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  alt1 <span class='op'>=</span> <span class='st'>"b_a1[0.1] * a1[1:5] + b_a2[-2] * a2[c(0, 1)]"</span>,
+  alt2 <span class='op'>=</span> <span class='st'>"b_a1      * a1      + b_a2     * a2"</span>
+<span class='op'>)</span>
+
+<span class='va'>attrs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='parse_utility.html'>parse_utility</a></span><span class='op'>(</span><span class='va'>V</span><span class='op'>)</span><span class='op'>$</span><span class='va'>attrs</span>
+<span class='fu'>generate_full_factorial</span><span class='op'>(</span><span class='va'>attrs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    a1 a2
+#&gt; 1   1  0
+#&gt; 2   2  0
+#&gt; 3   3  0
+#&gt; 4   4  0
+#&gt; 5   5  0
+#&gt; 6   1  1
+#&gt; 7   2  1
+#&gt; 8   3  1
+#&gt; 9   4  1
+#&gt; 10  5  1</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
