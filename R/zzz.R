@@ -8,10 +8,10 @@
 #' @return Nothing
 
 .onAttach <- function(libname, pkgname){
-  installed_version <- utils::packageDescription("spdesignR", fields = "Version")
+  installed_version <- utils::packageDescription("spdesign", fields = "Version")
 
   description <- tryCatch({
-    readLines("https://raw.githubusercontent.com/edsandorf/spdesignR/master/DESCRIPTION")
+    readLines("https://raw.githubusercontent.com/edsandorf/spdesign/master/DESCRIPTION")
   }, warning = function(w) {
     return("NA")
   }, error = function(e) {
@@ -24,12 +24,21 @@
     remote_version <- gsub("Version:\\s*", "", description[grep('Version:', description)])
   }
 
-  packageStartupMessage("Thank you for using spdesignR! \n\n",
-    "You are currently using version: ",
-    installed_version, "\n\n",
-    "The latest version is: ", remote_version, "\n\n",
-    "To access the latest version, please run \n",
-    "devtools::install_github('edsandorf/spdesignR') \n\n",
-    "To cite this package: \n",
-    "utils::citation('spdesignR') \n\n")
+  pad_width <- 33
+
+  packageStartupMessage(
+    boxx(
+
+        c(
+          col_green(str_pad("THANK YOU FOR USING SPDESIGN!", 60, "left", " ")),
+          "",
+          paste0(col_green(str_pad("You are currently using version: ", pad_width, "right", " ")), col_white(installed_version)),
+          paste0(col_green(str_pad("The latest stable version is: ", pad_width, "right", " ")), col_white(remote_version)),
+          paste0(col_green(str_pad("Access development version: ", pad_width, "right", " ")), col_white("devtools::install_github('edsandorf/spdesign')")),
+          paste0(col_green(str_pad("To cite the package: ", pad_width, "right", " ")), col_white("utils::citation('spdesign')"))
+        )
+
+      ,
+      padding = 1, float = "center", border_col = col_silver)
+  )
 }
