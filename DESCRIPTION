@@ -1,4 +1,4 @@
-Package: spdesignR
+Package: spdesign
 Type: Package
 Title: Designing Stated Preference Experiments
 Version: 0.0.0.9001
@@ -10,7 +10,7 @@ Description: Contemporary software commonly used to design stated preference exp
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-URL: https://spdesignr.edsandorf.me, https://github.com/edsandorf/spdesignR
+URL: https://spdesign.edsandorf.me, https://github.com/edsandorf/spdesign
 Depends: R (>= 3.1.0), stringr
 Imports:
   cli,

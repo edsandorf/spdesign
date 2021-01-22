@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(spdesignR)
+library(spdesign)
 ```
 
 # Introduction
@@ -37,7 +37,7 @@ A plethora of R packages already exist to create a wide range of different exper
 
 
 ## Why another package?
-`spdesignR` has an easy-to-use interface that people familiar with R will find intuitive to use. Users who have previously used NGENE will find the syntax somewhat familiar.
+`spdesign` has an easy-to-use interface that people familiar with R will find intuitive to use. Users who have previously used NGENE will find the syntax somewhat familiar.
 
 The package interfaces nicely with the [`shinySP`](#) package (under development), which allow users to easily self-host stated preference experiments using Shiny, and shares some functions with the [`cmdlR`](https://github.com/edsandorf/cmdlR) package. 
 

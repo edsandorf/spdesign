@@ -1,17 +1,17 @@
 <!-- badges: start -->
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-last-release/spdesignR)](https://cran.r-project.org/package=spdesignR)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/spdesignR)](http://www.r-pkg.org/pkg/spdesignR)
-[![R build status](https://github.com/edsandorf/spdesignR/workflows/R-CMD-check/badge.svg)](https://github.com/edsandorf/spdesignR/actions)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-last-release/spdesign)](https://cran.r-project.org/package=spdesign)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/spdesign)](http://www.r-pkg.org/pkg/spdesign)
+[![R build status](https://github.com/edsandorf/spdesign/workflows/R-CMD-check/badge.svg)](https://github.com/edsandorf/spdesign/actions)
 <!-- badges: end -->
 
-# spdesignR: Designing Stated Preference Experiments
+# spdesign: Designing Stated Preference Experiments
 
-Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. spdesignR is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods. 
+Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. spdesign is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods. 
 
-# Installing spdesignR
+# Installing spdesign
 The package is currently in development and can only be installed from Github
 
-`devtools::install_github("edsandorf/spdesignR")`
+`devtools::install_github("edsandorf/spdesign")`
 
 # How to contribute?
 1. Go to Github and create an account if you don't have one.

@@ -12,11 +12,11 @@ vignette: >
 ---
 
 # Syntax
-The syntax of `spdesignR` is made to be intuitive and easy, while at the same time very flexible. To achieve this, we use a combination of regular expressions and R's powerful expression parser "under the hood" to translate the user-specified utility functions into objects that can be manipulated by the package. 
+The syntax of `spdesign` is made to be intuitive and easy, while at the same time very flexible. To achieve this, we use a combination of regular expressions and R's powerful expression parser "under the hood" to translate the user-specified utility functions into objects that can be manipulated by the package. 
 
 ## Specifying a parameter with a prior
 ### A fixed prior
-In `spdesignR`, all parameters *must* have a prior. This is a deliberate design choice to make it clear that using a 0 prior is also an assumption in our design. The name of the parameter is followed by a square bracket, which contains the prior. All parameters have to start with `b_`. This is to separate them from attributes and to easily allow for non-linear utility functions. If no prior is specified for a given parameter, an error is returned. If the parameter is generic, i.e. it enters multiple utility expressions, then you only need to specify the prior once. If you specify more than one prior, only the first will be used and a warning is issued. It is strongly recommended that priors for generic parameters are specified the first time they are used (this is a good tip for attributes as well!). 
+In `spdesign`, all parameters *must* have a prior. This is a deliberate design choice to make it clear that using a 0 prior is also an assumption in our design. The name of the parameter is followed by a square bracket, which contains the prior. All parameters have to start with `b_`. This is to separate them from attributes and to easily allow for non-linear utility functions. If no prior is specified for a given parameter, an error is returned. If the parameter is generic, i.e. it enters multiple utility expressions, then you only need to specify the prior once. If you specify more than one prior, only the first will be used and a warning is issued. It is strongly recommended that priors for generic parameters are specified the first time they are used (this is a good tip for attributes as well!). 
 
 For example, to specify a parameter `b_x1` with a prior of `0`, we would write: 
 
@@ -35,6 +35,8 @@ It is even possible to specify parameter priors as functions of earlier paramete
 ```
 b_x1[0.5] * x_1 + b_x2[b_x1 / 2] * x_2
 ```
+
+If you try to specify multiple priors for a single parameter, e.g. `b_x1[c(0.1, 0.2)]`, a warning will be issued and only the first parameter value will be used. Specifying multiple priors for a single parameter is only valid if you are using the `_dummy` or `_effect` syntax to create dummy coded or effects coded variables, respectively.
 
 ### A Bayesian prior
 
@@ -74,22 +76,65 @@ x_1[seq(1, 5, 1)]
 x_1[c(1, 2, 3, 4, 5)]
 ```
 
+However, 
+
+```
+x_1[1, 2, 3, 4, 5]
+```
+
+is not a valid specification and will throw an error. The error will most likely be of the form:
+
+```
+Error in parse(text = x) : <text>:1:2: unexpected ','
+1: 1,
+     ^ 
+```
+
+While we have not written a new intuitive error message for this misspecification, it will be caught by R's parser and we feel that this is sufficient. As a compromise, we state the most likely error here to help users catch why their specifications fail. 
+
+
+
+## Combining parameters, priors, attributes and levels to form a utility function
+
+We combine the parameter and attribute as in the example below to start building our utility expression. We recommend that people use the naming convention `b_x1` being the parameter for the attribute `x1`. It has no practical implication for how the code works or interprets the utility function, but it makes it much easier for the user to see which parameter goes with which attribute. It is also important that the parameter `b_x1` preceeds the attribute `x1`. There is currently no checks written to ensure this, but failing to do so may cause unintended errors in certain instances. For example, if you are using the dummy- or effects-coding shorthand detailed below. 
+
+ ```
+b_x1[0] * x1[1:5]
+```
+
+## Advanced syntax 
 ### Dummy-coded attributes
 We can specify an attribute to be dummy coded using the `_dummy` syntax.
+
+```
+V = list(
+  alt1 = b_x1_dummy[c(0.2, 0.5)] * x1[c(0, 1, 2)],
+  alt2 = b_x1 * x1
+)
+```
+
+A few things to note about using the `_dummy` syntax (this is also true for `_effect` sytax, described below): 
+1) The priors and levels must be specified simultaneously. 
+2) You only need to use the `_dummy` syntax the when the prior is first specified. Importantly, this means that `b_x1_dummy` is used when the prior is specified and `b_x1` is used when referencing the parameters for the dummy coded attributes in the other utility functions. 
+3) You must specify one more level for the attribute than priors for the parameter.
+
+In the case of the example above, it is identical to specifying:
+
+```
+V = list(
+  alt1 = b_x1_1[0.2] * x1_1[0, 1] + b_x1_2[0.5] * x1_2[0, 1],
+  alt2 = b_x1_1 * x1_1 + b_x1_2 * x1_2
+)
+
+```
+
+and implement the restriction that `x1_1` and `x1_2` cannot simultaneously be equal to 1. Under both specifications, estimates are relative to `x1 = 0`.
 
 ### Effects-coded attributes
 We can specify an attribute to be effects coded using the `_effect` syntax.
 
 
 It is important to note that effects and dummy coding are theoretically equivalent [@daly_dummy_2016]. 
-
-## Combining parameters, priors, attributes and levels to form a utility function
-
-We combine the parameter and attribute as in the example below to start building our utility expression. We recommend that people use the naming convention `b_x1` being the parameter for the attribute `x1`. It has no practical implication for how the code works or interprets the utility function, but it makes it much easier for the user to see which parameter goes with which attribute.
-
- ```
-b_x1[0] * x_1[1:5]
-```
 
 # MNL
 

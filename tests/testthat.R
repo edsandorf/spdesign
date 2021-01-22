@@ -1,4 +1,4 @@
 library(testthat)
-library(spdesignR)
+library(spdesign)
 
-test_check("spdesignR")
+test_check("spdesign")
