@@ -53,23 +53,71 @@ generate_design <- function(V, opts, candidate_set = NULL) {
   cli_h1("Evaluating designs")
 
   # Without proper stopping conditions this becomes an infinite loop
-  iter <- 1
+  iter <- 0
   repeat {
+    # Update the iteration counter
+    iter <- iter + 1
+
     # Set up the initial printing to console (if statement for efficiency)
     if (iter == 1) {
       cat("\n")
+      cat(rule(width = 76), "\n")
       cat(str_c(
-        str_pad("Iteration", 12, "left", " "),
+        str_pad("Iteration", 10, "left", " "),
         str_pad("A-error", 10, "left", " "),
         str_pad("C-error", 10, "left", " "),
         str_pad("D-error", 10, "left", " "),
         str_pad("S-error", 10, "left", " "),
-        str_pad("Time stamp\n", 15, "left", " ")
+        str_pad("Time stamp\n", 25, "left", " ")
       ))
-      cat(str_pad(rule(width = 66), 68, "left", " "))
+      cat(rule(width = 76), "\n")
     }
 
-    # This is where the meat of the repeat is, i.e. grab design and calculate efficency
+    # Create a design candidate
+    design_candidate <- make_design_candidate(candidate_set, opts, length(V), type = opts$optimization_algorithm)
+
+    # Create the design environment
+    design_environment <- new.env()
+    list2env(
+      c(
+        list(V_string = parsed_v[["V"]]),
+        as.list(parsed_v[["param"]]), # Will be updated when we consider priors
+        as.list(design_candidate)
+      ),
+      envir = design_environment
+    )
+
+    # Calculate the variance-covariance matrix
+    # design_vcov <- eval(derive_vcov(type = opts$model), envir = design_environment)
+    design_vcov <- derive_vcov(design_environment, type = opts$model)
+    if (is.null(design_vcov)) {
+      next
+    }
+
+    # Calculate the efficiency criteria for which the model is being optimized.
+    p <- do.call(c, parsed_v[["param"]]) # Will fail with Bayesian priors!
+    eff <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = opts$efficiency_criteria)
+
+    # One test for top 10 with unseen updates
+
+    # One test for #1 with visible updates
+    a_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "a_efficiency")
+    c_error <- tryCatch({
+      calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "c_efficiency")
+    },
+    error = function(e) {
+     NA
+    })
+    d_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "d_efficiency")
+    s_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "s_efficiency")
+    cat(str_c(
+      str_pad(as.character(iter), 10, "left", " "),
+      str_pad(as.character(round(a_error, 4)), 10, "left", " "),
+      str_pad(if (is.na(c_error)) "NA" else as.character(round(c_error, 4)), 10, "left", " "),
+      str_pad(as.character(round(d_error, 4)), 10, "left", " "),
+      str_pad(as.character(round(s_error, 4)), 10, "left", " "),
+      str_pad(paste0(Sys.time(), "\n"), 25, "left", " ")
+    ))
 
     # If we have a new current best print to console. The print should use a different
     # colour for the criteria used to optsimize the design. Inside the same if()
@@ -81,14 +129,13 @@ generate_design <- function(V, opts, candidate_set = NULL) {
 
 
     # Stopping conditions
-    # if (iter > opts$max_iter) break
+    if (iter > opts$max_iter) break
     # if (eff < opts$eff_threshold) break
 
-    # Update the iteration counter
-    iter <- iter + 1
+
 
     # Break here for testing purposes ONLY
-    break
+    # break
   }
 
   # Th e output to console every time a better model is found.
