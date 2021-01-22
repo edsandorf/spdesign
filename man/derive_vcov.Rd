@@ -4,9 +4,12 @@
 \alias{derive_vcov}
 \title{Derive the variance covariance matrix of the design}
 \usage{
-derive_vcov(type)
+derive_vcov(design_environment, type)
 }
 \arguments{
+\item{design_environment}{An environment containing all the elements necessary
+to derive the variance-covariance matrix}
+
 \item{type}{A string indicating the model for which you wish to derive the
 variance covariance matrix. Can be either "mnl" or "rpl"}
 }

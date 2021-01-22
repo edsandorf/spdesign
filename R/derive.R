@@ -1,11 +1,13 @@
 #' Derive the variance covariance matrix of the design
 #'
+#' @param design_environment An environment containing all the elements necessary
+#' to derive the variance-covariance matrix
 #' @param type A string indicating the model for which you wish to derive the
 #' variance covariance matrix. Can be either "mnl" or "rpl"
-derive_vcov <- function(type) {
+derive_vcov <- function(design_environment, type) {
   switch(
     type,
-    mnl = derive_vcov_mnl(),
+    mnl = eval(body(derive_vcov_mnl), envir = design_environment),
     rpl = derive_vcov_rpl()
   )
 }
@@ -31,7 +33,7 @@ derive_vcov_mnl <- function() {
 
   # Multiply pr_j with x_j
   X <- lapply(V_string, function(s) {
-    do.call(cbind, lapply(extract_attribute_names(s), get))
+    do.call(cbind, lapply(extract_attribute_names(s), get, envir = design_environment))
   })
 
   pr_x <- mapply("*", pr_j, X, SIMPLIFY = FALSE)
