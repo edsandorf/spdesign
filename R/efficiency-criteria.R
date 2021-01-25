@@ -72,13 +72,18 @@ calculate_a_efficiency <- function(design_vcov) {
 #' single number with the sum of the variances used for optimization
 #'
 calculate_c_efficiency <- function(design_vcov, p, didx, all) {
-  c_eff <- p[-didx]^-2 * (diag(design_vcov)[didx] - 2 * p[didx] * p[-didx]^-1 * design_vcov[didx, seq_len(nrow(design_vcov))[-didx]] + (p[didx] / p[-didx])^2 * diag(design_vcov)[-didx])
-
-  # Check if all are to be returned
-  if (all) {
-    c_eff
+  # Undefined if the denominator is not specified
+  if (is.null(didx)) {
+    NA
   } else {
-    sum(c_eff)
+    c_eff <- p[-didx]^-2 * (diag(design_vcov)[didx] - 2 * p[didx] * p[-didx]^-1 * design_vcov[didx, seq_len(nrow(design_vcov))[-didx]] + (p[didx] / p[-didx])^2 * diag(design_vcov)[-didx])
+
+    # Check if all are to be returned
+    if (all) {
+      c_eff
+    } else {
+      sum(c_eff)
+    }
   }
 }
 
@@ -114,4 +119,33 @@ calculate_s_efficiency <- function(design_vcov, p, all, significance) {
     max(s_eff)
   }
 
+}
+
+#' Creates a printable version of the efficiency criteria
+#'
+#' The function is only meant for internal use to handle pretty printing to
+#' console.
+#'
+#' @param value The value of the efficiency criteria obtained by
+#' \code{\link{calculate_efficiency_criteria}}
+#' @param criteria A character string with the name of the efficiency criteria.
+#' See manual for valid values
+#' @param digits The nubmer of digits to round the printed value to. The default
+#' is 4.
+#' @param opts The list of design options. The default is NULL, but must be
+#' specified to print the criteria in colour.
+#'
+#' @return A character string.
+print_efficiency_criteria <- function(value, criteria, digits = 4, opts = NULL) {
+  if (is.na(value)) {
+    string <- "N/A"
+  } else {
+    string <- as.character(round(value, digits))
+  }
+
+  if (!is.null(opts) && criteria %in% opts$efficiency_criteria) {
+    col_green(str_pad(string, 10, "left", " "))
+  } else {
+    str_pad(string, 10, "left", " ")
+  }
 }

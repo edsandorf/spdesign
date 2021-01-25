@@ -64,10 +64,11 @@ generate_design <- function(V, opts, candidate_set = NULL) {
       cat(rule(width = 76), "\n")
       cat(str_c(
         str_pad("Iteration", 10, "left", " "),
-        str_pad("A-error", 10, "left", " "),
-        str_pad("C-error", 10, "left", " "),
-        str_pad("D-error", 10, "left", " "),
-        str_pad("S-error", 10, "left", " "),
+        if ("a_efficiency" %in% opts$efficiency_criteria) col_green(str_pad("A-error", 10, "left")) else str_pad("A-error", 10, "left", " "),
+        if ("c_efficiency" %in% opts$efficiency_criteria) col_green(str_pad("C-error", 10, "left")) else str_pad("C-error", 10, "left", " "),
+        if ("d_efficiency" %in% opts$efficiency_criteria) col_green(str_pad("D-error", 10, "left")) else str_pad("D-error", 10, "left", " "),
+        if ("s_efficiency" %in% opts$efficiency_criteria) col_green(str_pad("S-error", 10, "left")) else str_pad("S-error", 10, "left", " "),
+
         str_pad("Time stamp\n", 25, "left", " ")
       ))
       cat(rule(width = 76), "\n")
@@ -88,7 +89,6 @@ generate_design <- function(V, opts, candidate_set = NULL) {
     )
 
     # Calculate the variance-covariance matrix
-    # design_vcov <- eval(derive_vcov(type = opts$model), envir = design_environment)
     design_vcov <- derive_vcov(design_environment, type = opts$model)
     if (is.null(design_vcov)) {
       next
@@ -101,52 +101,39 @@ generate_design <- function(V, opts, candidate_set = NULL) {
     # One test for top 10 with unseen updates
 
     # One test for #1 with visible updates
+
+
     a_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "a_efficiency")
-    c_error <- tryCatch({
-      calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "c_efficiency")
-    },
-    error = function(e) {
-     NA
-    })
+    a_error_string <- print_efficiency_criteria(a_error, "a_efficiency", 4, opts)
+
+    c_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "c_efficiency")
+    c_error_string <- print_efficiency_criteria(c_error, "c_efficiency", 4, opts)
+
+
     d_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "d_efficiency")
+    d_error_string <- print_efficiency_criteria(d_error, "d_efficiency", 4, opts)
+
+
     s_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "s_efficiency")
+    s_error_string <- print_efficiency_criteria(s_error, "s_efficiency", 4, opts)
+
     cat(str_c(
       str_pad(as.character(iter), 10, "left", " "),
-      str_pad(as.character(round(a_error, 4)), 10, "left", " "),
-      str_pad(if (is.na(c_error)) "NA" else as.character(round(c_error, 4)), 10, "left", " "),
-      str_pad(as.character(round(d_error, 4)), 10, "left", " "),
-      str_pad(as.character(round(s_error, 4)), 10, "left", " "),
+      a_error_string,
+      c_error_string,
+      d_error_string,
+      s_error_string,
       str_pad(paste0(Sys.time(), "\n"), 25, "left", " ")
     ))
 
-    # If we have a new current best print to console. The print should use a different
-    # colour for the criteria used to optsimize the design. Inside the same if()
-    # statement, we will update the list of valid designs.
-    # If our current design is among the top 10, make adjustments to the list
-    # e.g. if 5, then place and drop 10. so that we always have the top 10 results.
-
-
-
-
-    # Stopping conditions
-    if (iter > opts$max_iter) break
+    # Stopping conditions ----
+    if (iter > opts$max_iter) {
+      cat(rule(width = 76), "\n")
+      break
+    }
     # if (eff < opts$eff_threshold) break
-
-
-
-    # Break here for testing purposes ONLY
-    # break
   }
 
-  # Th e output to console every time a better model is found.
-  # The error columns
-  # Nr  D-error D-error_diff  Time-stamp
-  # 1   0.6434  0.0023        2021-01-20 10:04:94
-
-
-  # If all checks pass, then we need to build the vector of parameters and
-  # and model matrix.
-  # Finish up and get ready to report results
   cat("\n")
   cli_h1("Cleaning up design environment")
 
