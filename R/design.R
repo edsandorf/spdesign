@@ -53,11 +53,8 @@ generate_design <- function(V, opts, candidate_set = NULL) {
   cli_h1("Evaluating designs")
 
   # Without proper stopping conditions this becomes an infinite loop
-  iter <- 0
+  iter <- 1
   repeat {
-    # Update the iteration counter
-    iter <- iter + 1
-
     # Set up the initial printing to console (if statement for efficiency)
     if (iter == 1) {
       cat("\n")
@@ -89,8 +86,14 @@ generate_design <- function(V, opts, candidate_set = NULL) {
     )
 
     # Calculate the variance-covariance matrix
-    design_vcov <- derive_vcov(design_environment, type = opts$model)
-    if (is.null(design_vcov)) {
+    design_vcov <- tryCatch({
+      derive_vcov(design_environment, type = opts$model)
+    },
+    error = function(e) {
+      NA
+    })
+
+    if (any(is.na(design_vcov))) {
       next
     }
 
@@ -124,11 +127,14 @@ generate_design <- function(V, opts, candidate_set = NULL) {
     ))
 
     # Stopping conditions ----
-    if (iter > opts$max_iter) {
+    if (iter >= opts$max_iter) {
       cat(rule(width = 76), "\n")
       break
     }
     # if (eff < opts$eff_threshold) break
+
+    # Update the iteration counter
+    iter <- iter + 1
   }
 
   cat("\n")

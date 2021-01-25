@@ -62,11 +62,7 @@ derive_vcov_mnl <- function() {
   fisher <- crossprod(tmp)
 
   # Return the variance-covariance matrix
-  if (det(fisher) != 0) {
-    solve(fisher)
-  } else {
-    NULL
-  }
+  solve(fisher)
 }
 
 #' Derive the variance covariance matrix for the RPL model
