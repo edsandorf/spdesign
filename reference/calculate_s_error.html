@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate efficiency criteria — calculate_efficiency_criteria • spdesign</title>
+<title>S-error — calculate_s_error • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,9 @@
 
 
 
-<meta property="og:title" content="Calculate efficiency criteria — calculate_efficiency_criteria" />
-<meta property="og:description" content="The function is a wrapper around calculate_a_error,
-calculate_c_error, calculate_d_error and
-calculate_s_error to provide a unified interface for
-calling and calculating efficiency criteria." />
+<meta property="og:title" content="S-error — calculate_s_error" />
+<meta property="og:description" content="Calculates a &quot;lower bound&quot; sample size to obtain theoretically significant
+parameter estimates under the assumption that the priors are correct." />
 
 
 
@@ -132,26 +130,17 @@ calling and calculating efficiency criteria." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate efficiency criteria</h1>
+    <h1>S-error</h1>
     <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/efficiency-criteria.R'><code>R/efficiency-criteria.R</code></a></small>
-    <div class="hidden name"><code>calculate_efficiency_criteria.Rd</code></div>
+    <div class="hidden name"><code>calculate_s_error.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The function is a wrapper around <code><a href='calculate_a_error.html'>calculate_a_error</a></code>,
-<code><a href='calculate_c_error.html'>calculate_c_error</a></code>, <code><a href='calculate_d_error.html'>calculate_d_error</a></code> and
-<code><a href='calculate_s_error.html'>calculate_s_error</a></code> to provide a unified interface for
-calling and calculating efficiency criteria.</p>
+    <p>Calculates a "lower bound" sample size to obtain theoretically significant
+parameter estimates under the assumption that the priors are correct.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calculate_efficiency_criteria</span><span class='op'>(</span>
-  <span class='va'>design_vcov</span>,
-  p <span class='op'>=</span> <span class='cn'>NULL</span>,
-  didx <span class='op'>=</span> <span class='cn'>NULL</span>,
-  all <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  significance <span class='op'>=</span> <span class='fl'>1.96</span>,
-  <span class='va'>type</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>calculate_s_error</span><span class='op'>(</span><span class='va'>design_vcov</span>, <span class='va'>p</span>, <span class='va'>all</span>, <span class='va'>significance</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,11 +156,6 @@ returned by an estimation routine. The matrix should be symmetrical and K-by-K</
 for c- and s-errors. Default value is NULL</p></td>
     </tr>
     <tr>
-      <th>didx</th>
-      <td><p>An integer indicating the position of the denominator in `p` This
-is only used for c-efficiency. Default value is NULL</p></td>
-    </tr>
-    <tr>
       <th>all</th>
       <td><p>If `TRUE` return a K or K-1 vector with parameter specific error measures.
 Default is `FALSE`.</p></td>
@@ -182,27 +166,13 @@ Default is `FALSE`.</p></td>
 The default is significance at the 5<!-- % level with an associated t-value of -->
 1.96.</p></td>
     </tr>
-    <tr>
-      <th>type</th>
-      <td><p>A string indicating the type of efficiency criteria to calculate
-can be either: "a-error", "c-error", "d-error" or "s-error"</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>See individual efficiency criteria</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The function is mainly used internally to evaluate and report on designs,
-but is exported to allow the user to use the function to calculate the
-efficiency criteria of the model once it has been run on their data.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Bliemer and Rose, 2009, Efficiency and sample size requirements for state choice experiments, Transportation Research Board Annual Meeting, Washington DC
-Scarpa and Rose, 2008, Designs efficiency for non-market valuation with choice modelling: How to measure it, what to report and why, Australian Journal of Agricultural and Resource Economics, 52(3):253-282
-Bliemer and Rose, 2005a, Efficiency and sample size requirements for stated choice experiments, Report ITLS-WP-05-08, Institute for Transport and Logistics Studies, University of Sydney
-Kessels, R., Goos, P. and Vandebroek, M., 2006, A comparison of criteria to design efficient choice experiments, Journal of Marketing Research, 43(3):409-419</p>
+    <p>A vector giving the "minimum" sample size for each parameter or a
+single number with the smallest sample size needed for all parameters to be
+theoretically significant.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
