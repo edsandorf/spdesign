@@ -7,11 +7,12 @@ library(spdesign)
 # Set design options ----
 opts <- list(
   optimization_algorithm = "random", # "random", "federov", "rsc"
-  efficiency_criteria = "d_efficiency",
+  efficiency_criteria = "d-error",
   model = "mnl",
   blocks = 1,
   tasks = 6,
-  cores = 1
+  cores = 1,
+  max_iter = 10000
 )
 
 # Define the list of utility functions ----
