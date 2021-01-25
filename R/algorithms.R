@@ -21,7 +21,6 @@ make_design_candidate <- function (candidate_set, opts, J, type) {
 #' Make a random design candidate
 #'
 #' @inheritParams make_design_candidate
-#'
 random <- function(candidate_set, opts, J) {
   # Somewhere in this function, I would need to set the attribute levels of a
   # non-included attribute to 0 to make the derivates work out later
@@ -41,7 +40,6 @@ random <- function(candidate_set, opts, J) {
 #' Make a design candidate based on the modified federov algorithm
 #'
 #' @inheritParams make_design_candidate
-#'
 federov <- function(candidate_set, opts, J) {
   stop("The modified federov algorithm has not been implemented yet.")
 }
@@ -49,7 +47,6 @@ federov <- function(candidate_set, opts, J) {
 #' Make a design candidate based on the rsc algorithm
 #'
 #' @inheritParams make_design_candidate
-#'
 rsc <- function(candidate_set, opts, J) {
   stop("The RSC algorithm has not been implemented yet.")
 }

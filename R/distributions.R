@@ -27,8 +27,6 @@
 #' eval(parse(text = "TR(0, 1)"))
 #' eval(parse(text = "U(0, 1)"))
 #' }
-#'
-#' @noRd
 N <- function(mu, sigma) {
   list(
     mu = mu,
@@ -38,11 +36,9 @@ N <- function(mu, sigma) {
 
 #' A normally distributed prior
 #' @describeIn N The normal distribution when applied to a prior
-#' @noRd
 Np <- N
 
 #' @describeIn N The log normal distribution
-#' @noRd
 LN <- function(mu, sigma) {
   list(
     mu = mu,
@@ -52,11 +48,9 @@ LN <- function(mu, sigma) {
 
 #' A log-normally distributed prior
 #' @describeIn N The log-normal distribution when applied to a prior
-#' @noRd
 LNp <- LN
 
 #' @describeIn N The triangular distribution
-#' @noRd
 TR <- function(mu, sigma) {
   list(
     mu = mu,
@@ -66,11 +60,9 @@ TR <- function(mu, sigma) {
 
 #' A triangular distributed prior
 #' @describeIn N The triangular distribution when applied to a prior
-#' @noRd
 TRp <- TR
 
 #' @describeIn N The uniform distribution
-#' @noRd
 U <- function(mu, sigma) {
   list(
     mu = mu,
@@ -80,14 +72,11 @@ U <- function(mu, sigma) {
 
 #' A uniform distributed prior
 #' @describeIn N The uniform distribution when applied to a prior
-#' @noRd
 Up <- U
 
 #' Transform to the normal distribution
 #'
 #' @param x A numeric standard uniform vector
-#'
-#' @noRd
 transform_n <- function(x) {
   qnorm(x)
 }

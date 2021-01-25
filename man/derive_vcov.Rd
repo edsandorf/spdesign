@@ -13,6 +13,24 @@ to derive the variance-covariance matrix}
 \item{type}{A string indicating the model for which you wish to derive the
 variance covariance matrix. Can be either "mnl" or "rpl"}
 }
+\value{
+The variance covariance matrix. If the Fisher information matrix is
+singular, then return NULL
+}
 \description{
-Derive the variance covariance matrix of the design
+The function is a wrapper around \code{\link{derive_vcov_mnl}} and
+\code{\link{derive_vcov_rpl}} and calculates the variance-covariance matrix
+of the specified model and design given the priors.
+}
+\details{
+The function is called inside the \code{repeat}-loop of \code{\link{generate_design}}
+and will be called once for each set of priors (or once if the priors are not Bayesian).
+This is followed by a call to \code{\link{calculate_efficiency_criteria}}. In the case of
+Bayesian priors, all efficiency criteria are averaged over the prior distribution
+before reported in the optimization.
+
+In the case of multi-core processing, this function is passed along the parallel,
+to take advantage of the fact that each calculation on a set of priors is
+independent of the calculation on other sets of priors. This does not change
+with the model used to optimize the design.
 }

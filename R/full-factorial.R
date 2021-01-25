@@ -35,6 +35,7 @@
 #'
 #' attrs <- parse_utility(V)$attrs
 #' generate_full_factorial(attrs)
+#'
 #' @export
 generate_full_factorial <- function(attrs) {
   expand.grid(attrs)

@@ -1,8 +1,49 @@
+#' Make random draws
+#'
+#' A common interface to creating a variety of random draws used to simulate
+#' the log likelihood function
+#'
+#' @param N Number of respondents in your sample
+#' @param R Number of draws per respondent
+#' @param D Number of dimensions
+#' @param type A character string
+#'
+#' @examples
+#' N <- 10
+#' R <- 5
+#' D <- 3
+#'
+#' draws <- make_random_draws(N, R, D, "scrambled_sobol")
+#' head(draws)
+#'
+#' draws <- make_random_draws(N, R, D, "scrambled_halton")
+#' head(draws)
+#'
+#'@export
+make_random_draws <- function (N, R, D, type) {
+  #   Catch accidental capitalization of the type of draws
+  type_draw <- tolower(type)
+
+  allowed_types <- c("pseudo_random", "mlhs", "standard_halton",
+                     "scrambled_halton", "standard_sobol", "scrambled_sobol")
+
+  if (!(type_draw %in% allowed_types)) {
+    stop("Unknown type of draws specified.")
+  }
+
+  #   Set up a list of functions
+  function_list <- list(make_pseudo_random, make_mlhs, make_standard_halton,
+                        make_scrambled_halton, make_standard_sobol,
+                        make_scrambled_sobol)
+  names(function_list) <- allowed_types
+
+  function_list[[type_draw]](N, R, D)
+}
+
+
 #' Shuffle the order of points in the unit interval.
 #'
 #' @param x A vector
-#'
-#' @noRd
 shuffle <- function (x) {
   x[rank(runif(length(x)))]
 }
@@ -15,8 +56,6 @@ shuffle <- function (x) {
 #' Hess, S., Train, K. E. & Polak, J. W., 2006, On the use of a Modified Latin
 #' Hypercube Sampling (MLHS) method in the estimation of a Mixed Logit Model
 #' for vehicle choice, Transportation Research Part B, 40, pp. 147-163
-#'
-#' @noRd
 make_mlhs <- function (N, R, D) {
   #   Define local parameters
   n <- N * R
@@ -49,8 +88,6 @@ make_mlhs <- function (N, R, D) {
 #' @references Bhat, C. R., 2003, Simulation Estimation of Mixed Discrete Choice
 #' Models Using Randomized and Scrambled Halton Sequences, Transportation
 #' Research Part B, 9, pp. 837-855
-#'
-#' @noRd
 digitize <- function (D, P, count, digit) {
   m <- 1L
   x <- NULL
@@ -82,8 +119,6 @@ digitize <- function (D, P, count, digit) {
 #' @references Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
 #' Models Using Randomized and Scrambled Halton Sequences, Transportation
 #' Research Part B, 9, pp. 837-855
-#'
-#' @noRd
 radical_inverse <- function (D, P, count, digit, perms) {
   m <- 1L
   G <- matrix(0, 1L, D)
@@ -117,8 +152,6 @@ radical_inverse <- function (D, P, count, digit, perms) {
 #' @references Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
 #' Models Using Randomized and Scrambled Halton Sequences, Transportation
 #' Research Part B, 9, pp. 837-855
-#'
-#' @noRd
 make_scrambled_halton <- function (N, R, D) {
   if (D > 16) {
     stop("Cannot scramble sequences beyond the 16th prime")
@@ -151,8 +184,6 @@ make_scrambled_halton <- function (N, R, D) {
 #' Wrapper function for halton() from randtoolbox to create a common interface
 #'
 #' @inheritParams make_random_draws
-#'
-#' @noRd
 make_standard_halton <- function (N, R, D) {
   randtoolbox::halton(N * R, D)
 }
@@ -162,8 +193,6 @@ make_standard_halton <- function (N, R, D) {
 #' Wrapper function for sobol() from randtoolbox to create a common interface
 #'
 #' @inheritParams make_random_draws
-#'
-#' @noRd
 make_standard_sobol <- function (N, R, D) {
   randtoolbox::sobol(N * R, D, scrambling = 0)
 }
@@ -174,8 +203,6 @@ make_standard_sobol <- function (N, R, D) {
 #' Owen + Fazure_Tezuka Scrambling
 #'
 #' @inheritParams make_random_draws
-#'
-#' @noRd
 make_scrambled_sobol <- function (N, R, D) {
   randtoolbox::sobol(N * R, D, scrambling = 3)
 }
@@ -185,51 +212,6 @@ make_scrambled_sobol <- function (N, R, D) {
 #' Wrapper for runif to create a common interface
 #'
 #' @inheritParams make_random_draws
-#'
-#' @noRd
 make_pseudo_random <- function (N, R, D) {
   matrix(runif(N * R * D), nrow = N * R, ncol = D)
-}
-
-#' Make random draws
-#'
-#' A common interface to creating a variety of random draws used to simulate
-#' the log likelihood function
-#'
-#' @param N Number of respondents in your sample
-#' @param R Number of draws per respondent
-#' @param D Number of dimensions
-#' @param type A character string
-#'
-#' @examples
-#' N <- 10
-#' R <- 5
-#' D <- 3
-#'
-#' draws <- make_random_draws(N, R, D, "scrambled_sobol")
-#' head(draws)
-#'
-#' draws <- make_random_draws(N, R, D, "scrambled_halton")
-#' head(draws)
-#'
-#'@export
-
-make_random_draws <- function (N, R, D, type) {
-  #   Catch accidental capitalization of the type of draws
-  type_draw <- tolower(type)
-
-  allowed_types <- c("pseudo_random", "mlhs", "standard_halton",
-                     "scrambled_halton", "standard_sobol", "scrambled_sobol")
-
-  if (!(type_draw %in% allowed_types)) {
-    stop("Unknown type of draws specified.")
-  }
-
-  #   Set up a list of functions
-  function_list <- list(make_pseudo_random, make_mlhs, make_standard_halton,
-                        make_scrambled_halton, make_standard_sobol,
-                        make_scrambled_sobol)
-  names(function_list) <- allowed_types
-
-  function_list[[type_draw]](N, R, D)
 }

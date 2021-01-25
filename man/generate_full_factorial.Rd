@@ -45,4 +45,5 @@ V <- list(
 
 attrs <- parse_utility(V)$attrs
 generate_full_factorial(attrs)
+
 }

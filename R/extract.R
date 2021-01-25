@@ -9,8 +9,6 @@
 #' @param simplify If TRUE return as a vector. Default is FALSE.
 #'
 #' @return A list or vector with all names
-#'
-#' @noRd
 extract_all_names <- function(string, simplify = FALSE) {
   s <- str_extract_all(
     remove_square_bracket(
@@ -34,8 +32,6 @@ extract_all_names <- function(string, simplify = FALSE) {
 #' @param simplify If TRUE return as a vector. Default is FALSE.
 #'
 #' @return A list or vector with the parameter names.
-#'
-#' @noRd
 extract_param_names <- function(string, simplify = FALSE) {
   expr <- "b_.*?\\b"
   s <- str_extract_all(string, expr)
@@ -55,8 +51,6 @@ extract_param_names <- function(string, simplify = FALSE) {
 #' @param simplify If TRUE return as a vector. Default is FALSE
 #'
 #' @return A Vector or string wtih attribute names
-#'
-#' @noRd
 extract_attribute_names <- function(string, simplify = FALSE) {
   all_names <- extract_all_names(string, TRUE)
   param_names <- extract_param_names(string, TRUE)
@@ -73,8 +67,6 @@ extract_attribute_names <- function(string, simplify = FALSE) {
 #' @param simplify If TRUE return as a vector. Default is FALSE.
 #'
 #' @return A vector or list with the extracted value arguments
-#'
-#' @noRd
 extract_values <- function(string, simplify = FALSE) {
   # (?<=(\\|)) - A positive look behind for '['
   # .*? - Non-greedy capture between the start and end of the match
@@ -98,8 +90,6 @@ extract_values <- function(string, simplify = FALSE) {
 #' @return A named list of parameter and attribute values. Each list element is
 #' named and can contain a single prior, a list with a mean and sd, or a vector
 #' with attribute levels
-#'
-#' @noRd
 extract_named_values <- function(string) {
   # Extracting the specified parameters and attributes
   string_elements <- extract_specified(string, TRUE)
@@ -116,8 +106,6 @@ extract_named_values <- function(string) {
 #'
 #' @param string A character string
 #' @param simplify If TRUE return as a vector. Default is FALSE
-#'
-#' @noRd
 extract_specified <- function(string, simplify = FALSE) {
   # [^\\s\\+\\-\\*\\/] - Negative group not match one in the group.
   expr <- "[^\\s\\+\\-\\*\\/]*?\\[.*?\\]"
@@ -141,8 +129,6 @@ extract_specified <- function(string, simplify = FALSE) {
 #' @return A list of length equal to the number of distributions in the order
 #' that they appear in the utility functions going from top left to bottom right
 #' across the list.
-#'
-#' @noRd
 extract_distribution <- function(string) {
   # Extract the distributions and return as a vector.
   unlist(str_extract_all(string, "(N|LN|TR|U)(?=\\()"))

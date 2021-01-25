@@ -101,8 +101,6 @@ generate_design <- function(V, opts, candidate_set = NULL) {
     # One test for top 10 with unseen updates
 
     # One test for #1 with visible updates
-
-
     a_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "a_efficiency")
     a_error_string <- print_efficiency_criteria(a_error, "a_efficiency", 4, opts)
 
@@ -112,7 +110,6 @@ generate_design <- function(V, opts, candidate_set = NULL) {
 
     d_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "d_efficiency")
     d_error_string <- print_efficiency_criteria(d_error, "d_efficiency", 4, opts)
-
 
     s_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "s_efficiency")
     s_error_string <- print_efficiency_criteria(s_error, "s_efficiency", 4, opts)

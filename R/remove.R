@@ -5,8 +5,6 @@
 #' @param string A character string
 #'
 #' @return A character vector with no white spaces
-#'
-#' @noRd
 remove_whitespace <- function(string) {
   str_replace_all(string, "\\s", "")
 }
@@ -16,9 +14,9 @@ remove_whitespace <- function(string) {
 #' Takes a utility function (string) as an input and removes all prior and level
 #' specifications. Effectively everything between [] including [].
 #'
-#' @return A string
+#' @param string A character string
 #'
-#' @noRd
+#' @return A string
 remove_square_bracket <- function(string) {
   str_replace_all(string, "\\[.*?\\]", "")
 }

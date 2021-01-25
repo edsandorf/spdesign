@@ -1,8 +1,17 @@
 #' Runs checks on V
 #'
+#' \code{\link{generate_design}} runs three sets of checks, all detailed here,
+#' in the order of appearance of the function arguments. The checks on V is to
+#' ensure that the user supplied list of utility functions are valid.
+#'
+#' As far as possible, all checks on V should be included in this function. This
+#' is to ensure that the code fails quickly to give the user the ability to
+#' correct any syntax mistakes, to reduce code-duplication and make it easier
+#' to maintain the code base.
+#'
 #' @param V a list of utility functions
 #'
-#' @noRd
+#' @return Nothing
 check_v <- function(V) {
   txt <- "Checking specified utility functions"
   spinner <- make_spinner("line", template = paste0("{spin} ", txt))
@@ -28,9 +37,22 @@ check_v <- function(V) {
 
 #' Runs checks on opts
 #'
+#' \code{\link{generate_design}} runs three sets of checks, all detailed here,
+#' in the order of appearance of the function arguments. The checks on 'opts' is to
+#' ensure that the user supplied list of options are valid.
+#'
+#' As far as possible, all checks on 'opts' should be included in this function. This
+#' is to ensure that the code fails quickly to give the user the ability to
+#' correctly specify missing options, to reduce code-duplication and make it easier
+#' to maintain the code base.
+#'
+#' After 'opts' has been checked, inside \code{\link{generate_design}} a call is
+#' made to \code{\link{set_defaults}} to set missing optional entries to their
+#' default values.
+#'
 #' @param opts A list of design options
 #'
-#' @noRd
+#' @return Nothing
 check_opts <- function(opts) {
   txt <- "Checking 'opts'-list and setting defaults"
   spinner <- make_spinner("line", template = paste0("{spin} ", txt))
@@ -78,9 +100,19 @@ check_opts <- function(opts) {
 
 #' Run checks on the candidate set
 #'
+#' \code{\link{generate_design}} runs three sets of checks, all detailed here,
+#' in the order of appearance of the function arguments. The checks on the
+#' 'candidate_set' is to ensure that the user supplied candidate set is valid.
+#' This mostly comes down to checking its dimensions against the number of
+#' attributes and levels in the utility functions.
+#'
+#' If no candidate set is supplied, \code{\link{generate_design}} will make a
+#' call to \code{\link{generate_full_factorial}} to use the full factorial
+#' subject to specified constraints as the candidate set.
+#'
 #' @param candidate_set A candidate set
 #'
-#' @noRd
+#' @return Nothing
 check_candidate_set <- function(candidate_set) {
   txt <- "Checking the candidate set"
   spinner <- make_spinner("line", template = paste0("{spin} ", txt))
