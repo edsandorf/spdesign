@@ -74,12 +74,18 @@ check_opts <- function(opts) {
   }
   spinner$spin()
 
+  error_measures <- c("a-error", "c-error", "d-error", "s-error")
+  if (!(tolower(opts$efficiency_criteria) %in% error_measures)) {
+    stop(paste0("The optimization algorithm has to be on of: ", paste(error_measures, collapse = ", ")))
+  }
+  spinner$spin()
+
   if (length(opts$efficiency_criteria) > 1) {
     stop("Optimizing for multiple efficiency criteria is not yet implemented.")
   }
   spinner$spin()
 
-  if (is.null(opts$didx) && opts$efficiency_criteria == "c_efficiency") {
+  if (is.null(opts$didx) && opts$efficiency_criteria == "c-error") {
       stop("If you are optimizing for c-efficiency then you must specify the denominator index 'didx'")
   }
   spinner$spin()
@@ -92,7 +98,7 @@ check_opts <- function(opts) {
   cli_alert_success(txt)
 
   # Place all information prints after the the end of the spinner to avoid awkward printing
-  if (is.null(opts$didx) && opts$efficiency_criteria != "c_efficiency") {
+  if (is.null(opts$didx) && opts$efficiency_criteria != "c-error") {
     cli_alert_info("The index for the denominator is not specified and the c-efficiency measure will not be reported.")
   }
 

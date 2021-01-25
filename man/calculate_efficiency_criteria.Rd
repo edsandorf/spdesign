@@ -18,7 +18,7 @@ calculate_efficiency_criteria(
 returned by an estimation routine. The matrix should be symmetrical and K-by-K}
 
 \item{p}{A vector of parameters, e.g. the named vector of priors. This is used
-for c- and s-efficiency. Default value is NULL}
+for c- and s-errors. Default value is NULL}
 
 \item{didx}{An integer indicating the position of the denominator in `p` This
 is only used for c-efficiency. Default value is NULL}
@@ -31,15 +31,15 @@ The default is significance at the 5% level with an associated t-value of
 1.96.}
 
 \item{type}{A string indicating the type of efficiency criteria to calculate
-can be either: "a-efficiency", "c-efficiency", "d-efficiency" or "s-efficiency"}
+can be either: "a-error", "c-error", "d-error" or "s-error"}
 }
 \value{
 See individual efficiency criteria
 }
 \description{
-The function is a wrapper around \code{\link{calculate_a_efficiency}},
-\code{\link{calculate_c_efficiency}}, \code{\link{calculate_d_efficiency}} and
-\code{\link{calculate_s_efficiency}} to provide a unified interface for
+The function is a wrapper around \code{\link{calculate_a_error}},
+\code{\link{calculate_c_error}}, \code{\link{calculate_d_error}} and
+\code{\link{calculate_s_error}} to provide a unified interface for
 calling and calculating efficiency criteria.
 }
 \details{

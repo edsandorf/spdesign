@@ -1,8 +1,8 @@
 #' Calculate efficiency criteria
 #'
-#' The function is a wrapper around \code{\link{calculate_a_efficiency}},
-#' \code{\link{calculate_c_efficiency}}, \code{\link{calculate_d_efficiency}} and
-#' \code{\link{calculate_s_efficiency}} to provide a unified interface for
+#' The function is a wrapper around \code{\link{calculate_a_error}},
+#' \code{\link{calculate_c_error}}, \code{\link{calculate_d_error}} and
+#' \code{\link{calculate_s_error}} to provide a unified interface for
 #' calling and calculating efficiency criteria.
 #'
 #' The function is mainly used internally to evaluate and report on designs,
@@ -12,7 +12,7 @@
 #' @param design_vcov A variance-covariance matrix returned by \code{\link{derive_vcov}} or
 #' returned by an estimation routine. The matrix should be symmetrical and K-by-K
 #' @param p A vector of parameters, e.g. the named vector of priors. This is used
-#' for c- and s-efficiency. Default value is NULL
+#' for c- and s-errors. Default value is NULL
 #' @param didx An integer indicating the position of the denominator in `p` This
 #' is only used for c-efficiency. Default value is NULL
 #' @param all If `TRUE` return a K or K-1 vector with parameter specific error measures.
@@ -21,7 +21,7 @@
 #' The default is significance at the 5% level with an associated t-value of
 #' 1.96.
 #' @param type A string indicating the type of efficiency criteria to calculate
-#' can be either: "a-efficiency", "c-efficiency", "d-efficiency" or "s-efficiency"
+#' can be either: "a-error", "c-error", "d-error" or "s-error"
 #'
 #' @return See individual efficiency criteria
 #'
@@ -42,26 +42,26 @@ calculate_efficiency_criteria <- function(
 ) {
   switch(
     type,
-    a_efficiency = calculate_a_efficiency(design_vcov),
-    c_efficiency = calculate_c_efficiency(design_vcov, p, didx, all),
-    d_efficiency = calculate_d_efficiency(design_vcov),
-    s_efficiency = calculate_s_efficiency(design_vcov, p, all, significance)
+    `a-error` = calculate_a_error(design_vcov),
+    `c-error` = calculate_c_error(design_vcov, p, didx, all),
+    `d-error` = calculate_d_error(design_vcov),
+    `s-error` = calculate_s_error(design_vcov, p, all, significance)
   )
 }
 
-#' A-efficiency
+#' A-error
 #'
-#' Computes the A-efficiency of the design, which is equal to the trace of the
+#' Computes the A-error of the design, which is equal to the trace of the
 #' variance-covariance matrix over the number of parameters to be estimated
 #'
 #' @inheritParams calculate_efficiency_criteria
 #'
-#' @return A single efficiency measure
-calculate_a_efficiency <- function(design_vcov) {
+#' @return A single error measure
+calculate_a_error <- function(design_vcov) {
   sum(diag(design_vcov)) / nrow(design_vcov)
 }
 
-#' C-efficiency
+#' C-error
 #'
 #' Seeks to minimize the variance of the ratio of two parameters, for example,
 #' willingness-to-pay.
@@ -71,7 +71,7 @@ calculate_a_efficiency <- function(design_vcov) {
 #' @return A vector giving the variance of the ratio for each K-1 parameter or a
 #' single number with the sum of the variances used for optimization
 #'
-calculate_c_efficiency <- function(design_vcov, p, didx, all) {
+calculate_c_error <- function(design_vcov, p, didx, all) {
   # Undefined if the denominator is not specified
   if (is.null(didx)) {
     NA
@@ -87,19 +87,19 @@ calculate_c_efficiency <- function(design_vcov, p, didx, all) {
   }
 }
 
-#' D-efficiency
+#' D-error
 #'
-#' Computes the D-efficiency of the design, which is equal to the K-root of the
+#' Computes the D-error of the design, which is equal to the K-root of the
 #' determinant of the variance-covariance matrix.
 #'
 #' @inheritParams calculate_efficiency_criteria
 #'
 #' @return A single number
-calculate_d_efficiency <- function(design_vcov) {
+calculate_d_error <- function(design_vcov) {
   det(design_vcov)^(1/nrow(design_vcov))
 }
 
-#' S-efficiency
+#' S-error
 #'
 #' Calculates a "lower bound" sample size to obtain theoretically significant
 #' parameter estimates under the assumption that the priors are correct.
@@ -109,7 +109,7 @@ calculate_d_efficiency <- function(design_vcov) {
 #' @return A vector giving the "minimum" sample size for each parameter or a
 #' single number with the smallest sample size needed for all parameters to be
 #' theoretically significant.
-calculate_s_efficiency <- function(design_vcov, p, all, significance) {
+calculate_s_error <- function(design_vcov, p, all, significance) {
   s_eff <- ((sqrt(diag(design_vcov)) * significance) / p)^2
 
   # Check if all are to be returned
