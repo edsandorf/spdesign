@@ -55,6 +55,7 @@ generate_design <- function(V, opts, candidate_set = NULL) {
   # Without proper stopping conditions this becomes an infinite loop
   iter <- 1
   current_best <- NULL
+  current_design_candidates <- vector(mode = "list", length = 10)
   repeat {
     # Set up the initial printing to console (if statement for efficiency)
     if (iter == 1) {
@@ -62,10 +63,10 @@ generate_design <- function(V, opts, candidate_set = NULL) {
       cat(rule(width = 76), "\n")
       cat(str_c(
         str_pad("Iteration", 10, "left", " "),
-        if ("a_efficiency" %in% opts$efficiency_criteria) col_green(str_pad("A-error", 10, "left")) else str_pad("A-error", 10, "left", " "),
-        if ("c_efficiency" %in% opts$efficiency_criteria) col_green(str_pad("C-error", 10, "left")) else str_pad("C-error", 10, "left", " "),
-        if ("d_efficiency" %in% opts$efficiency_criteria) col_green(str_pad("D-error", 10, "left")) else str_pad("D-error", 10, "left", " "),
-        if ("s_efficiency" %in% opts$efficiency_criteria) col_green(str_pad("S-error", 10, "left")) else str_pad("S-error", 10, "left", " "),
+        if ("a-error" %in% opts$efficiency_criteria) col_green(str_pad("A-error", 10, "left")) else str_pad("A-error", 10, "left", " "),
+        if ("c-error" %in% opts$efficiency_criteria) col_green(str_pad("C-error", 10, "left")) else str_pad("C-error", 10, "left", " "),
+        if ("d-error" %in% opts$efficiency_criteria) col_green(str_pad("D-error", 10, "left")) else str_pad("D-error", 10, "left", " "),
+        if ("s-error" %in% opts$efficiency_criteria) col_green(str_pad("S-error", 10, "left")) else str_pad("S-error", 10, "left", " "),
 
         str_pad("Time stamp\n", 25, "left", " ")
       ))
@@ -98,32 +99,33 @@ generate_design <- function(V, opts, candidate_set = NULL) {
       next
     }
 
-    # Calculate the efficiency criteria for which the model is being optimized.
+    # Calculate the error measures
     p <- do.call(c, parsed_v[["param"]]) # Will fail with Bayesian priors!
-
-    error_measures_string <- c("a_efficiency", "c_efficiency", "d_efficiency", "s_efficiency")
+    error_measures_string <- c("a-error", "c-error", "d-error", "s-error")
     error_measures <- lapply(error_measures_string, function(x) {
       calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = x)
     })
     names(error_measures) <- error_measures_string
     current_error <- error_measures[[opts$efficiency_criteria]]
 
-    # One test for top 10 with unseen updates
-
+    # Add the efficiency measures to the design candidate
+    attr(design_candidate, "error_measures") <- do.call(c, error_measures)
 
     # Print update to console if we have a new best design and set new current best
     if (current_error < current_best || is.null(current_best)) {
-        error_string <- lapply(seq_along(error_measures), function(i) {
+        printable_error_measures_string <- lapply(seq_along(error_measures), function(i) {
           print_efficiency_criteria(error_measures[[i]], error_measures_string[i], 4, opts)
         })
 
       cat(str_c(
         str_pad(as.character(iter), 10, "left", " "),
-        do.call(str_c, error_string),
+        do.call(str_c, printable_error_measures_string),
         str_pad(paste0(Sys.time(), "\n"), 25, "left", " ")
       ))
 
       current_best <- current_error
+
+      assign("best_design_candidate", design_candidate, envir = .GlobalEnv)
     }
 
     # Stopping conditions ----
