@@ -57,12 +57,8 @@ check_opts <- function(opts) {
   }
   spinner$spin()
 
-  if (is.null(opts$didx)) {
-    if (opts$efficiency_criteria == "c_efficiency") {
+  if (is.null(opts$didx) && opts$efficiency_criteria == "c_efficiency") {
       stop("If you are optimizing for c-efficiency then you must specify the denominator index 'didx'")
-    } else {
-      cli_alert_info("The index for the denominator is not specified and the c-efficiency measure will not be reported.")
-    }
   }
   spinner$spin()
 
@@ -72,6 +68,12 @@ check_opts <- function(opts) {
   spinner$finish()
 
   cli_alert_success(txt)
+
+  # Place all information prints after the the end of the spinner to avoid awkward printing
+  if (is.null(opts$didx) && opts$efficiency_criteria != "c_efficiency") {
+    cli_alert_info("The index for the denominator is not specified and the c-efficiency measure will not be reported.")
+  }
+
 }
 
 #' Run checks on the candidate set
@@ -83,9 +85,7 @@ check_candidate_set <- function(candidate_set) {
   txt <- "Checking the candidate set"
   spinner <- make_spinner("line", template = paste0("{spin} ", txt))
 
-  if (is.null(candidate_set)) {
-    cli_alert_info("No candidate set supplied. The design will use the full factorial subject to supplied constraints.")
-  } else {
+  if (!is.null(candidate_set)) {
     if (!(is.matrix(candidate_set) | is.data.frame(candidate_set))) {
       stop("The supplied 'candidate_set' is neither a matrix nor a data.frame. If you did not intend to supply a candidate set, ommit or set this optsion to NULL.")
     }
@@ -93,4 +93,9 @@ check_candidate_set <- function(candidate_set) {
   spinner$finish()
 
   cli_alert_success(txt)
+
+  # Place all information prints after the the end of the spinner to avoid awkward printing
+  if (is.null(candidate_set)) {
+    cli_alert_info("No candidate set supplied. The design will use the full factorial subject to supplied constraints.")
+  }
 }
