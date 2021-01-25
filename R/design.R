@@ -54,6 +54,7 @@ generate_design <- function(V, opts, candidate_set = NULL) {
 
   # Without proper stopping conditions this becomes an infinite loop
   iter <- 1
+  current_best <- NULL
   repeat {
     # Set up the initial printing to console (if statement for efficiency)
     if (iter == 1) {
@@ -99,32 +100,31 @@ generate_design <- function(V, opts, candidate_set = NULL) {
 
     # Calculate the efficiency criteria for which the model is being optimized.
     p <- do.call(c, parsed_v[["param"]]) # Will fail with Bayesian priors!
-    eff <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = opts$efficiency_criteria)
+
+    error_measures_string <- c("a_efficiency", "c_efficiency", "d_efficiency", "s_efficiency")
+    error_measures <- lapply(error_measures_string, function(x) {
+      calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = x)
+    })
+    names(error_measures) <- error_measures_string
+    current_error <- error_measures[[opts$efficiency_criteria]]
 
     # One test for top 10 with unseen updates
 
-    # One test for #1 with visible updates
-    a_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "a_efficiency")
-    a_error_string <- print_efficiency_criteria(a_error, "a_efficiency", 4, opts)
 
-    c_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "c_efficiency")
-    c_error_string <- print_efficiency_criteria(c_error, "c_efficiency", 4, opts)
+    # Print update to console if we have a new best design and set new current best
+    if (current_error < current_best || is.null(current_best)) {
+        error_string <- lapply(seq_along(error_measures), function(i) {
+          print_efficiency_criteria(error_measures[[i]], error_measures_string[i], 4, opts)
+        })
 
+      cat(str_c(
+        str_pad(as.character(iter), 10, "left", " "),
+        do.call(str_c, error_string),
+        str_pad(paste0(Sys.time(), "\n"), 25, "left", " ")
+      ))
 
-    d_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "d_efficiency")
-    d_error_string <- print_efficiency_criteria(d_error, "d_efficiency", 4, opts)
-
-    s_error <- calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = "s_efficiency")
-    s_error_string <- print_efficiency_criteria(s_error, "s_efficiency", 4, opts)
-
-    cat(str_c(
-      str_pad(as.character(iter), 10, "left", " "),
-      a_error_string,
-      c_error_string,
-      d_error_string,
-      s_error_string,
-      str_pad(paste0(Sys.time(), "\n"), 25, "left", " ")
-    ))
+      current_best <- current_error
+    }
 
     # Stopping conditions ----
     if (iter >= opts$max_iter) {
