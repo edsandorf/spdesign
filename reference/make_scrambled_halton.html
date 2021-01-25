@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a random design candidate — random • spdesign</title>
+<title>Make scrambled Halton draws — make_scrambled_halton • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,13 @@
 
 
 
-<meta property="og:title" content="Make a random design candidate — random" />
-<meta property="og:description" content="Make a random design candidate" />
+<meta property="og:title" content="Make scrambled Halton draws — make_scrambled_halton" />
+<meta property="og:description" content="A function for creating scrambled Halton draws. The code is a translation of
+the [GAUSS](http://www.caee.utexas.edu/prof/bhat/FULL_CODES.htm) codes written
+by Professor Chandra Bhat. Note that the maximum number of dimensions for the
+scrambled Halton draws is limited to 16. This is because only permutations up
+to prime 16 are included in the permutation matrix. Extending to more than
+16 dimensions can be achieved by including a different permutation matrix." />
 
 
 
@@ -129,34 +134,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make a random design candidate</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/algorithms.R'><code>R/algorithms.R</code></a></small>
-    <div class="hidden name"><code>random.Rd</code></div>
+    <h1>Make scrambled Halton draws</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/draws.R'><code>R/draws.R</code></a></small>
+    <div class="hidden name"><code>make_scrambled_halton.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Make a random design candidate</p>
+    <p>A function for creating scrambled Halton draws. The code is a translation of
+the [GAUSS](http://www.caee.utexas.edu/prof/bhat/FULL_CODES.htm) codes written
+by Professor Chandra Bhat. Note that the maximum number of dimensions for the
+scrambled Halton draws is limited to 16. This is because only permutations up
+to prime 16 are included in the permutation matrix. Extending to more than
+16 dimensions can be achieved by including a different permutation matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>random</span><span class='op'>(</span><span class='va'>candidate_set</span>, <span class='va'>opts</span>, <span class='va'>J</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>make_scrambled_halton</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>candidate_set</th>
-      <td><p>A valid candidate set</p></td>
+      <th>N</th>
+      <td><p>Number of respondents in your sample</p></td>
     </tr>
     <tr>
-      <th>opts</th>
-      <td><p>A list of design options</p></td>
+      <th>R</th>
+      <td><p>Number of draws per respondent</p></td>
     </tr>
     <tr>
-      <th>J</th>
-      <td><p>Number of alternatives per choice task</p></td>
+      <th>D</th>
+      <td><p>Number of dimensions</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The permutations are based on the Braaten-Weller algorithm.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
+Models Using Randomized and Scrambled Halton Sequences, Transportation
+Research Part B, 9, pp. 837-855</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

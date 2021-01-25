@@ -40,7 +40,9 @@
 
 
 <meta property="og:title" content="Derive the variance covariance matrix of the design — derive_vcov" />
-<meta property="og:description" content="Derive the variance covariance matrix of the design" />
+<meta property="og:description" content="The function is a wrapper around derive_vcov_mnl and
+derive_vcov_rpl and calculates the variance-covariance matrix
+of the specified model and design given the priors." />
 
 
 
@@ -135,7 +137,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Derive the variance covariance matrix of the design</p>
+    <p>The function is a wrapper around <code><a href='derive_vcov_mnl.html'>derive_vcov_mnl</a></code> and
+<code><a href='derive_vcov_rpl.html'>derive_vcov_rpl</a></code> and calculates the variance-covariance matrix
+of the specified model and design given the priors.</p>
     </div>
 
     <pre class="usage"><span class='fu'>derive_vcov</span><span class='op'>(</span><span class='va'>design_environment</span>, <span class='va'>type</span><span class='op'>)</span></pre>
@@ -155,6 +159,21 @@ variance covariance matrix. Can be either "mnl" or "rpl"</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The variance covariance matrix. If the Fisher information matrix is
+singular, then return NULL</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The function is called inside the <code>repeat</code>-loop of <code><a href='generate_design.html'>generate_design</a></code>
+and will be called once for each set of priors (or once if the priors are not Bayesian).
+This is followed by a call to <code><a href='calculate_efficiency_criteria.html'>calculate_efficiency_criteria</a></code>. In the case of
+Bayesian priors, all efficiency criteria are averaged over the prior distribution
+before reported in the optimization.</p>
+<p>In the case of multi-core processing, this function is passed along the parallel,
+to take advantage of the fact that each calculation on a set of priors is
+independent of the calculation on other sets of priors. This does not change
+with the model used to optimize the design.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

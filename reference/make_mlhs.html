@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a random design candidate — random • spdesign</title>
+<title>Make Modified Latin Hypercube Draws — make_mlhs • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Make a random design candidate — random" />
-<meta property="og:description" content="Make a random design candidate" />
+<meta property="og:title" content="Make Modified Latin Hypercube Draws — make_mlhs" />
+<meta property="og:description" content="Make Modified Latin Hypercube Draws" />
 
 
 
@@ -129,34 +129,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make a random design candidate</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/algorithms.R'><code>R/algorithms.R</code></a></small>
-    <div class="hidden name"><code>random.Rd</code></div>
+    <h1>Make Modified Latin Hypercube Draws</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/draws.R'><code>R/draws.R</code></a></small>
+    <div class="hidden name"><code>make_mlhs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Make a random design candidate</p>
+    <p>Make Modified Latin Hypercube Draws</p>
     </div>
 
-    <pre class="usage"><span class='fu'>random</span><span class='op'>(</span><span class='va'>candidate_set</span>, <span class='va'>opts</span>, <span class='va'>J</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>make_mlhs</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>candidate_set</th>
-      <td><p>A valid candidate set</p></td>
+      <th>N</th>
+      <td><p>Number of respondents in your sample</p></td>
     </tr>
     <tr>
-      <th>opts</th>
-      <td><p>A list of design options</p></td>
+      <th>R</th>
+      <td><p>Number of draws per respondent</p></td>
     </tr>
     <tr>
-      <th>J</th>
-      <td><p>Number of alternatives per choice task</p></td>
+      <th>D</th>
+      <td><p>Number of dimensions</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Hess, S., Train, K. E. &amp; Polak, J. W., 2006, On the use of a Modified Latin
+Hypercube Sampling (MLHS) method in the estimation of a Mixed Logit Model
+for vehicle choice, Transportation Research Part B, 40, pp. 147-163</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

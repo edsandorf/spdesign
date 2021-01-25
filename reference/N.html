@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a random design candidate — random • spdesign</title>
+<title>Evaluating a distribution — N • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,14 @@
 
 
 
-<meta property="og:title" content="Make a random design candidate — random" />
-<meta property="og:description" content="Make a random design candidate" />
+<meta property="og:title" content="Evaluating a distribution — N" />
+<meta property="og:description" content="The function returns its arguments as a named list. The function is used
+inside the utility functions. It is transformed to an expression using
+parse and evaluated using eval. This ensures
+that in the case of an RPL with Bayesian priors, recursion is handled
+automatically. This significantly simplifies translating the utility function
+to lists of parameters to use when optimizing the designs. It is also less
+error prone." />
 
 
 
@@ -129,35 +135,80 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make a random design candidate</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/algorithms.R'><code>R/algorithms.R</code></a></small>
-    <div class="hidden name"><code>random.Rd</code></div>
+    <h1>Evaluating a distribution</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/distributions.R'><code>R/distributions.R</code></a></small>
+    <div class="hidden name"><code>N.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Make a random design candidate</p>
+    <p>The function returns its arguments as a named list. The function is used
+inside the utility functions. It is transformed to an expression using
+<code><a href='https://rdrr.io/r/base/parse.html'>parse</a></code> and evaluated using <code><a href='https://rdrr.io/r/base/eval.html'>eval</a></code>. This ensures
+that in the case of an RPL with Bayesian priors, recursion is handled
+automatically. This significantly simplifies translating the utility function
+to lists of parameters to use when optimizing the designs. It is also less
+error prone.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>random</span><span class='op'>(</span><span class='va'>candidate_set</span>, <span class='va'>opts</span>, <span class='va'>J</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>N</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>Np</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>LN</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>LNp</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>TR</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>TRp</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>U</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>Up</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>candidate_set</th>
-      <td><p>A valid candidate set</p></td>
+      <th>mu</th>
+      <td><p>A parameter indicating the mean or location of the distribution
+depending on whether it is a normal, log-normal, triangular or uniform,
+or it can be another call to <code>N</code>, <code>LN</code>, <code>U</code>
+or <code>TR</code> if the model is an RPL with a Bayesian prior.</p></td>
     </tr>
     <tr>
-      <th>opts</th>
-      <td><p>A list of design options</p></td>
-    </tr>
-    <tr>
-      <th>J</th>
-      <td><p>Number of alternatives per choice task</p></td>
+      <th>sigma</th>
+      <td><p>A parameter indicating the SD or spread of the distribution
+or it can be another call to <code>N</code>, <code>LN</code>, <code>U</code>
+or <code>TR</code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A list of parameters</p>
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    
+<ul>
+<li><p><code>N</code>: The normal distribution</p></li>
+<li><p><code>Np</code>: The normal distribution when applied to a prior</p></li>
+<li><p><code>LN</code>: The log normal distribution</p></li>
+<li><p><code>LNp</code>: The log-normal distribution when applied to a prior</p></li>
+<li><p><code>TR</code>: The triangular distribution</p></li>
+<li><p><code>TRp</code>: The triangular distribution when applied to a prior</p></li>
+<li><p><code>U</code>: The uniform distribution</p></li>
+<li><p><code>Up</code>: The uniform distribution when applied to a prior</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>"N(0, 1)"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>"LN(0, 1)"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>"TR(0, 1)"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>"U(0, 1)"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

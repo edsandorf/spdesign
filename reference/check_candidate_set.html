@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a random design candidate — random • spdesign</title>
+<title>Run checks on the candidate set — check_candidate_set • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,12 @@
 
 
 
-<meta property="og:title" content="Make a random design candidate — random" />
-<meta property="og:description" content="Make a random design candidate" />
+<meta property="og:title" content="Run checks on the candidate set — check_candidate_set" />
+<meta property="og:description" content="generate_design runs three sets of checks, all detailed here,
+in the order of appearance of the function arguments. The checks on the
+'candidate_set' is to ensure that the user supplied candidate set is valid.
+This mostly comes down to checking its dimensions against the number of
+attributes and levels in the utility functions." />
 
 
 
@@ -129,34 +133,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make a random design candidate</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/algorithms.R'><code>R/algorithms.R</code></a></small>
-    <div class="hidden name"><code>random.Rd</code></div>
+    <h1>Run checks on the candidate set</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/check.R'><code>R/check.R</code></a></small>
+    <div class="hidden name"><code>check_candidate_set.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Make a random design candidate</p>
+    <p><code><a href='generate_design.html'>generate_design</a></code> runs three sets of checks, all detailed here,
+in the order of appearance of the function arguments. The checks on the
+'candidate_set' is to ensure that the user supplied candidate set is valid.
+This mostly comes down to checking its dimensions against the number of
+attributes and levels in the utility functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>random</span><span class='op'>(</span><span class='va'>candidate_set</span>, <span class='va'>opts</span>, <span class='va'>J</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_candidate_set</span><span class='op'>(</span><span class='va'>candidate_set</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>candidate_set</th>
-      <td><p>A valid candidate set</p></td>
-    </tr>
-    <tr>
-      <th>opts</th>
-      <td><p>A list of design options</p></td>
-    </tr>
-    <tr>
-      <th>J</th>
-      <td><p>Number of alternatives per choice task</p></td>
+      <td><p>A candidate set</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Nothing</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If no candidate set is supplied, <code><a href='generate_design.html'>generate_design</a></code> will make a
+call to <code><a href='generate_full_factorial.html'>generate_full_factorial</a></code> to use the full factorial
+subject to specified constraints as the candidate set.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

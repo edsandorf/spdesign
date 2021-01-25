@@ -4,6 +4,9 @@
     <loc>https://spdesignr.edsandorf.me/index.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/N.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/calculate_a_efficiency.html</loc>
   </url>
   <url>
@@ -19,10 +22,49 @@
     <loc>https://spdesignr.edsandorf.me/reference/calculate_s_efficiency.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/check_candidate_set.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/check_opts.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/check_v.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/derive_vcov.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/derive_vcov_mnl.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/derive_vcov_rpl.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/digitize.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/dot-onAttach.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/extract_all_names.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/extract_attribute_names.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/extract_distribution.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/extract_named_values.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/extract_param_names.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/extract_specified.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/extract_values.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/federov.html</loc>
@@ -37,13 +79,43 @@
     <loc>https://spdesignr.edsandorf.me/reference/make_design_candidate.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/make_mlhs.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/make_pseudo_random.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/make_random_draws.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/make_scrambled_halton.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/make_scrambled_sobol.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/make_standard_halton.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/make_standard_sobol.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/parse_utility.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/print_efficiency_criteria.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/radical_inverse.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/random.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/remove_square_bracket.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/remove_whitespace.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/rsc.html</loc>
@@ -52,7 +124,13 @@
     <loc>https://spdesignr.edsandorf.me/reference/set_defaults.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/shuffle.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/spdesign.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/transform_n.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/articles/generating-a-design.html</loc>
