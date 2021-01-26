@@ -47,6 +47,7 @@ random <- function(candidate_set, opts, V) {
     })
 
   # Return as data.frame
+  names(design_candidate) <- paste0("alt_", seq_along(design_candidate))
   design_candidate
 }
 
