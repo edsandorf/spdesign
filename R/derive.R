@@ -43,10 +43,6 @@ derive_vcov_mnl <- function() {
   })
 
   # Multiply pr_j with x_j
-  X <- lapply(V_string, function(s) {
-    do.call(cbind, lapply(extract_attribute_names(s), get, envir = design_environment))
-  })
-
   pr_x <- mapply("*", pr_j, X, SIMPLIFY = FALSE)
   sum_pr_x <- Reduce("+", pr_x)
 

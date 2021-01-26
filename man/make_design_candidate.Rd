@@ -4,21 +4,33 @@
 \alias{make_design_candidate}
 \title{Make a design candidate}
 \usage{
-make_design_candidate(candidate_set, opts, J, type)
+make_design_candidate(candidate_set, opts, V, type)
 }
 \arguments{
 \item{candidate_set}{A valid candidate set}
 
 \item{opts}{A list of design options}
 
-\item{J}{Number of alternatives per choice task}
+\item{V}{The list of utility expressions}
 
 \item{type}{One of the implemented types of optimization algorithms}
 }
 \value{
-A matrix in wide format containing the design candidate
+A list the length of J with the design matrix for each alternative
 }
 \description{
 The function is a call to \code{\link{switch}} and a wrapper around the
 design algorithms \code{\link{random}}, \code{\link{federov}} and \code{\link{rsc}}.
+}
+\details{
+The purpose of passing in V is two-fold:
+1) We can determine J
+2) We can extract the attribute names for each utility function to allow us to
+place the correct restrictions on the design candidate. Specifically, we restrict
+all levels of unavailable attributes to zero for alternatives where they do not
+feature. This is to ensure that we do not give weight when deriving the
+variance-covariance matrix using \code{\link{derive_vcov}}. Furthermore,
+the Xs are "sorted" using the order of the candidate set, which ensures that
+when we calculate the sum of the probabilities times X, the correct columns
+are added together. See \code{\link{derive_vcov}}.
 }

@@ -74,7 +74,7 @@ generate_design <- function(V, opts, candidate_set = NULL) {
     }
 
     # Create a design candidate
-    design_candidate <- make_design_candidate(candidate_set, opts, length(V), type = opts$optimization_algorithm)
+    design_candidate <- make_design_candidate(candidate_set, opts, V, type = opts$optimization_algorithm)
 
     # Create the design environment
     design_environment <- new.env()
@@ -82,7 +82,8 @@ generate_design <- function(V, opts, candidate_set = NULL) {
       c(
         list(V_string = parsed_v[["V"]]),
         as.list(parsed_v[["param"]]), # Will be updated when we consider priors
-        as.list(design_candidate)
+        as.list(as.data.frame(do.call(cbind, design_candidate))), # To enable calling variables by name
+        list(X = design_candidate) # Accesses X by name
       ),
       envir = design_environment
     )

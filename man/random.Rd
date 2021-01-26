@@ -4,14 +4,14 @@
 \alias{random}
 \title{Make a random design candidate}
 \usage{
-random(candidate_set, opts, J)
+random(candidate_set, opts, V)
 }
 \arguments{
 \item{candidate_set}{A valid candidate set}
 
 \item{opts}{A list of design options}
 
-\item{J}{Number of alternatives per choice task}
+\item{V}{The list of utility expressions}
 }
 \description{
 Make a random design candidate

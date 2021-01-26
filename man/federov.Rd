@@ -4,14 +4,14 @@
 \alias{federov}
 \title{Make a design candidate based on the modified federov algorithm}
 \usage{
-federov(candidate_set, opts, J)
+federov(candidate_set, opts, V)
 }
 \arguments{
 \item{candidate_set}{A valid candidate set}
 
 \item{opts}{A list of design options}
 
-\item{J}{Number of alternatives per choice task}
+\item{V}{The list of utility expressions}
 }
 \description{
 Make a design candidate based on the modified federov algorithm
