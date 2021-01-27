@@ -4,19 +4,24 @@
 \alias{extract_distribution}
 \title{Extract distributions}
 \usage{
-extract_distribution(string)
+extract_distribution(string, type)
 }
 \arguments{
 \item{string}{A single character string or list of character strings with a
 single or multiple utility functions}
+
+\item{type}{A string indicating the type: prior or param}
 }
 \value{
-A list of length equal to the number of distributions in the order
-that they appear in the utility functions going from top left to bottom right
-across the list.
+A named vector of priors or parameters where the type of distribution
+is given by a character letter: "N", "LN", "U" or "TR"
 }
 \description{
 This function will locate and extract the the distributions for Bayesian
 priors and random parameters as specified in the design. The output is used
 to create the matrix of correct draws for priors and parameters.
+}
+\details{
+IMPORTANT: The function will silently drop duplicates. This is because it is
+called after \code{\link{parse_utility}} inside \code{\link{generate_design}}.
 }

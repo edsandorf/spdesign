@@ -123,13 +123,48 @@ extract_specified <- function(string, simplify = FALSE) {
 #' priors and random parameters as specified in the design. The output is used
 #' to create the matrix of correct draws for priors and parameters.
 #'
+#' IMPORTANT: The function will silently drop duplicates. This is because it is
+#' called after \code{\link{parse_utility}} inside \code{\link{generate_design}}.
+#'
 #' @param string A single character string or list of character strings with a
 #' single or multiple utility functions
+#' @param type A string indicating the type: prior or param
 #'
-#' @return A list of length equal to the number of distributions in the order
-#' that they appear in the utility functions going from top left to bottom right
-#' across the list.
-extract_distribution <- function(string) {
-  # Extract the distributions and return as a vector.
-  unlist(str_extract_all(string, "(N|LN|TR|U)(?=\\()"))
+#' @return A named vector of priors or parameters where the type of distribution
+#' is given by a character letter: "N", "LN", "U" or "TR"
+extract_distribution <- function(string, type) {
+  b <- switch(
+    type,
+    prior = extract_prior_distribution(string),
+    param = extract_param_distribution(string)
+  )
+
+  # If no distribution is found, return NA
+  if (length(b) == 0) {
+    return(NA)
+  }
+
+  expr <- "(?<=\\[)(N|LN|U|TR)"
+  distribution <- unlist(str_extract_all(b, expr))
+  b_names <- extract_param_names(b)
+  names(distribution) <- b_names
+
+  # Remove duplicate values
+  distribution[!duplicated(b_names)]
+}
+
+#' Extract the prior distribution
+#'
+#' @inheritParams extract_distribution
+extract_prior_distribution <- function(string) {
+  expr <- "\\b\\w*\\[(Np|Up|LNp|TRp)\\(.*?\\]"
+  unlist(str_extract_all(string, expr))
+}
+
+#' Extract the parameter distribution
+#'
+#' @inheritParams extract_distribution
+extract_param_distribution <- function(string) {
+  expr <- "\\b\\w*\\[(N|U|LN|TR)\\(.*?\\]"
+  unlist(str_extract_all(string, expr))
 }

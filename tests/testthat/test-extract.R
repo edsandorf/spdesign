@@ -82,7 +82,15 @@ test_that("Extract named values does that correctly", {
 })
 
 test_that("Distributions are extracted correctly", {
-  expect_equal(extract_distribution(c("x_1[c(N(0, 1))]")), "N")
-  expect_true(all(extract_distribution(c("x_1[c(N(0, LN(1, 1)))]")) == c("N", "LN")))
-  expect_true(all(extract_distribution(list("x_1[c(N(0, LN(1, 1)))]", c("TR(0, 1)"))) == c("N", "LN", "TR")))
+  expect_equal(extract_distribution("b_x1[0.1] * x_1[2:5] + b_x2[Up(-1, 1)] * x_2[c(0, 1)] + b_x3[Np(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]", "prior"), c(b_x2 = "U", b_x3 = "N"))
+  expect_equal(extract_distribution(list("b_x1[0.1] * x_1[2:5] + b_x2[Up(-1, 1)] * x_2[c(0, 1)] + b_x3[Np(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]",
+                                         "b_x1[0.1] * x_1[2:5] + b_x2 * x_2[c(0, 1)] + b_x3 * x_3[seq(0, 1, 0.25)]"), "prior"), c(b_x2 = "U", b_x3 = "N"))
+  expect_equal(extract_distribution(list("b_x1[0.1] * x_1[2:5] + b_x2[Up(-1, 1)] * x_2[c(0, 1)] + b_x3 * x_3[seq(0, 1, 0.25)]",
+                                         "b_x1[0.1] * x_1[2:5] + b_x2 * x_2[c(0, 1)] + b_x3[Np(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]"), "prior"), c(b_x2 = "U", b_x3 = "N"))
+  expect_equal(extract_distribution(list("b_x1[0.1] * x_1[2:5] + b_x2[Up(-1, 1)] * x_2[c(0, 1)] + b_x3[Np(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]",
+                                         "b_x1[0.1] * x_1[2:5] + b_x2 * x_2[c(0, 1)] + b_x3[Np(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]"), "prior"), c(b_x2 = "U", b_x3 = "N"))
+  expect_equal(extract_distribution(list("b_x1[0.1] * x_1[2:5] + b_x2[Up(-1, 1)] * x_2[c(0, 1)] + b_x3[Np(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]",
+                                         "b_x1[0.1] * x_1[2:5] + b_x2 * x_2[c(0, 1)] + b_x3[TRp(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]"), "prior"), c(b_x2 = "U", b_x3 = "N"))
+  expect_equal(extract_distribution("b_x1[0.1] * x_1[2:5] + b_x2[0.2] * x_2[c(0, 1)] + b_x3[TRp(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]", "prior"), c(b_x3 = "TR"))
+  expect_equal(extract_distribution("b_x1[0.1] * x_1[2:5] + b_x2[Up(-1, 1)] * x_2[c(0, 1)] + b_x3[Np(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]", "param"), NA)
 })
