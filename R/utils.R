@@ -16,7 +16,7 @@ rep_rows <- function(x, times) {
     stop("'x' must be a data.frame or matrix")
   }
 
-  x[rep(seq_len(nrow(x)), each = times), ]
+  x[rep(seq_len(nrow(x)), each = times), , drop = FALSE]
 }
 
 #' Repeat columns
@@ -36,5 +36,5 @@ rep_cols <- function(x, times) {
     stop("'x' must be a data.frame or matrix")
   }
 
-  x[, rep(seq_len(ncol(x)), each = times)]
+  x[, rep(seq_len(ncol(x)), each = times), drop = FALSE]
 }
