@@ -6,40 +6,41 @@
 #' @param N Number of respondents in your sample
 #' @param R Number of draws per respondent
 #' @param D Number of dimensions
+#' @param seed A seed to change the scrambling of the sobol sequence.
 #' @param type A character string
+#'
+#' @return A matrix of dimensions N*R x D of standard uniform draws
 #'
 #' @examples
 #' N <- 10
 #' R <- 5
 #' D <- 3
 #'
-#' draws <- make_random_draws(N, R, D, "scrambled_sobol")
+#' draws <- make_draws(N, R, D, seed = 10, "scrambled-sobol")
 #' head(draws)
 #'
-#' draws <- make_random_draws(N, R, D, "scrambled_halton")
+#' draws <- make_draws(N, R, D, seed = 10, "scrambled-halton")
 #' head(draws)
 #'
 #'@export
-make_random_draws <- function (N, R, D, type) {
-  #   Catch accidental capitalization of the type of draws
-  type_draw <- tolower(type)
+make_draws <- function (N, R, D, seed, type) {
+  draws <- switch(
+    type,
+    `pseudo_random` = make_pseudo_random(N, R, D),
+    `mlhs` = make_mlhs(N, R, D),
+    `standard-halton` = make_standard_halton(N, R, D),
+    `scrambled-halton` = make_scrambled_halton(N, R, D),
+    `standard_sobol` = make_standard_sobol(N, R, D, seed),
+    `scrambled-sobol` = make_scrambled_sobol(N, R, D, seed)
+  )
 
-  allowed_types <- c("pseudo_random", "mlhs", "standard_halton",
-                     "scrambled_halton", "standard_sobol", "scrambled_sobol")
-
-  if (!(type_draw %in% allowed_types)) {
-    stop("Unknown type of draws specified.")
+  # Return as matrix
+  if (is.matrix(draws)) {
+    draws
+  } else {
+    as.matrix(draws)
   }
-
-  #   Set up a list of functions
-  function_list <- list(make_pseudo_random, make_mlhs, make_standard_halton,
-                        make_scrambled_halton, make_standard_sobol,
-                        make_scrambled_sobol)
-  names(function_list) <- allowed_types
-
-  function_list[[type_draw]](N, R, D)
 }
-
 
 #' Shuffle the order of points in the unit interval.
 #'
@@ -50,7 +51,7 @@ shuffle <- function (x) {
 
 #' Make Modified Latin Hypercube Draws
 #'
-#' @inheritParams make_random_draws
+#' @inheritParams make_draws
 #'
 #' @references
 #' Hess, S., Train, K. E. & Polak, J. W., 2006, On the use of a Modified Latin
@@ -80,7 +81,7 @@ make_mlhs <- function (N, R, D) {
 #'
 #' Equation 1 in Bhat (2003)
 #'
-#' @inheritParams make_random_draws
+#' @inheritParams make_draws
 #' @param P A vector of prime numbers
 #' @param count A matrix
 #' @param digit A vector
@@ -147,7 +148,7 @@ radical_inverse <- function (D, P, count, digit, perms) {
 #'
 #' The permutations are based on the Braaten-Weller algorithm.
 #'
-#' @inheritParams make_random_draws
+#' @inheritParams make_draws
 #'
 #' @references Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
 #' Models Using Randomized and Scrambled Halton Sequences, Transportation
@@ -183,7 +184,7 @@ make_scrambled_halton <- function (N, R, D) {
 #'
 #' Wrapper function for halton() from randtoolbox to create a common interface
 #'
-#' @inheritParams make_random_draws
+#' @inheritParams make_draws
 make_standard_halton <- function (N, R, D) {
   randtoolbox::halton(N * R, D)
 }
@@ -192,9 +193,9 @@ make_standard_halton <- function (N, R, D) {
 #'
 #' Wrapper function for sobol() from randtoolbox to create a common interface
 #'
-#' @inheritParams make_random_draws
-make_standard_sobol <- function (N, R, D) {
-  randtoolbox::sobol(N * R, D, scrambling = 0)
+#' @inheritParams make_draws
+make_standard_sobol <- function (N, R, D, seed = seed) {
+  randtoolbox::sobol(N * R, D, seed = seed, scrambling = 0)
 }
 
 #' Make scrambled sobol draws
@@ -202,16 +203,16 @@ make_standard_sobol <- function (N, R, D) {
 #' Wrapper function for sobol() from randtoolbox to create a common interface.
 #' Owen + Fazure_Tezuka Scrambling
 #'
-#' @inheritParams make_random_draws
-make_scrambled_sobol <- function (N, R, D) {
-  randtoolbox::sobol(N * R, D, scrambling = 3)
+#' @inheritParams make_draws
+make_scrambled_sobol <- function (N, R, D, seed = seed) {
+  randtoolbox::sobol(N * R, D, seed = seed, scrambling = 3)
 }
 
 #' Make pseudo random draws
 #'
 #' Wrapper for runif to create a common interface
 #'
-#' @inheritParams make_random_draws
+#' @inheritParams make_draws
 make_pseudo_random <- function (N, R, D) {
   matrix(runif(N * R * D), nrow = N * R, ncol = D)
 }

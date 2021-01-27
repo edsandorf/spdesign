@@ -4,7 +4,7 @@
 \alias{make_scrambled_sobol}
 \title{Make scrambled sobol draws}
 \usage{
-make_scrambled_sobol(N, R, D)
+make_scrambled_sobol(N, R, D, seed = seed)
 }
 \arguments{
 \item{N}{Number of respondents in your sample}
@@ -12,6 +12,8 @@ make_scrambled_sobol(N, R, D)
 \item{R}{Number of draws per respondent}
 
 \item{D}{Number of dimensions}
+
+\item{seed}{A seed to change the scrambling of the sobol sequence.}
 }
 \description{
 Wrapper function for sobol() from randtoolbox to create a common interface.
