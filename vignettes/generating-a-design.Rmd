@@ -74,6 +74,11 @@ $$
 $$
 where $N$ is the theoretical minimum sample size and $t_\alpha$ is the t-value corresponding to significance level $\alpha$ and is set by the researcher. It is important to note that in the case of zero priors, the S-error cannot be calculated and will return $+\infty$. To use S-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "s_efficiency"`.
 
+## Draws
+When creating a design using Bayesian priors, with random parameters or both, it is necessary to specify the type of draws to use and how many. While researchers agree that scrambled low-discrepancy sequences, e.g. Halton, Sobol or MLHS, perform better than non-scrambled and pseudo-random sequences [@train_discrete_2009; @hess_use_2006; @bhat_simulation_2003], some simulation evidence suggest that scrambled Sobol sequences perform best in simulation, especially as the number of random parameters increase [@czajkowski_simulation_2019]. For this reason, we have set scrambled Sobol as the default choice. The complete list of options is: `pseudo-random`, `mlhs`, `standard-halton`, `scrambled-halton`, `standard-sobol` and `scrambled-sobol`. The option is passed the list of options using `draws_type`. Note that if you use Halton or scrambled Halton draws, the same draws will be used for both the priors and the parameters. This is not advised and if you are optimizing a random parameter logit model with Bayesian priors, use a different set of draws! This issue is noted and can be tracked through the package's [GitHub repository](https://github.com/edsandorf/spdesign/issues/16), but is low priority to be fixed.
+
+The next step is to specify the the number of draws to use. While we are using the same type of draws for both priors and parameters, we do allow the user to specify different number of draws for each. This is to allow the user to tweak the design optimization process between assumptions about how good their priors are and how precicesly they want to approximate the integral of the random parameter logit model. The number of draws are specified through the options `draws_priors` and `draws_params`, for priors and parameters respectively. The default values of both are set to 100 draws. 
+
 # The candidate set 
 
 # The list of utility functions 
