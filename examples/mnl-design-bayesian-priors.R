@@ -1,5 +1,5 @@
 #
-# Example file for creating a simple MNL design
+# Example file for creating a simple MNL design with Bayesian priors
 #
 rm(list = ls(all = TRUE))
 # library(spdesign)
@@ -12,12 +12,12 @@ opts <- list(
   blocks = 1,
   tasks = 6,
   cores = 1,
-  max_iter = 10000
+  max_iter = 1000
 )
 
 # Define the list of utility functions ----
 V <- list(
-  alt1 = "b_x1[0.1] * x_1[2:5] + b_x2[0.4] * x_2[c(0, 1)] + b_x3[-0.2] * x_3[seq(0, 1, 0.25)]",
+  alt1 = "b_x1[0.1] * x_1[2:5] + b_x2[Up(-1, 1)] * x_2[c(0, 1)] + b_x3[Np(0, 1)] * x_3[seq(0, 1, 0.25)]",
   alt2 = "b_x1      * x_1      + b_x2      * x_2          + b_x3          * x_3"
 )
 
