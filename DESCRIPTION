@@ -17,7 +17,8 @@ Imports:
   progress,
   parallel,
   doParallel,
-  randtoolbox
+  randtoolbox,
+  matrixStats
 Suggests: 
   knitr,
   rmarkdown,
