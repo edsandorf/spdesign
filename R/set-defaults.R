@@ -23,6 +23,9 @@ set_defaults <- function(opts_input) {
     tasks = 6,
     cores = 1,
     didx = NULL,
+    draws_priors = 100,
+    draws_params = 100,
+    draws_type = "scrambled-sobol",
     max_iter = 10,
     eff_threshold = 0.1
   )
@@ -37,6 +40,10 @@ set_defaults <- function(opts_input) {
 
   # Set the efficiency criteria to lower
   opts$efficiency_criteria <- tolower(opts$efficiency_criteria)
+
+  # Set the type of draws to lower
+  opts$draws_type <- tolower(opts$draws_type)
+
   spinner$finish()
   cli_alert_success(txt)
   # Return

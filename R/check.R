@@ -90,6 +90,12 @@ check_opts <- function(opts) {
   }
   spinner$spin()
 
+  allowed_types <- c("pseudo-random", "mlhs", "standard-halton", "scrambled-halton", "standard-sobol", "scrambled-sobol")
+  if (!(tolower(opts$draws_type) %in% allowed_types)) {
+    stop(paste0("Unknown type of draws specified. Type of draws allowed: ", paste(allowed_types, collapse = ", ")))
+  }
+  spinner$spin()
+
   if (opts$cores >= parallel::detectCores()) {
     stop("The number of specified cores in 'opts$cores' (", opts$cores, ") is greather than or equal to the number of available cores (", parallel::detectCores(), "). We recommend to use **at most** one less than the number of available logical cores.")
   }
