@@ -90,9 +90,11 @@ check_opts <- function(opts) {
   }
   spinner$spin()
 
-  allowed_types <- c("pseudo-random", "mlhs", "standard-halton", "scrambled-halton", "standard-sobol", "scrambled-sobol")
-  if (!(tolower(opts$draws_type) %in% allowed_types)) {
-    stop(paste0("Unknown type of draws specified. Type of draws allowed: ", paste(allowed_types, collapse = ", ")))
+  if (!is.null(opts$draws_type)) {
+    allowed_types <- c("pseudo-random", "mlhs", "standard-halton", "scrambled-halton", "standard-sobol", "scrambled-sobol")
+    if (!(tolower(opts$draws_type) %in% allowed_types)) {
+      stop(paste0("Unknown type of draws specified. Type of draws allowed: ", paste(allowed_types, collapse = ", ")))
+    }
   }
   spinner$spin()
 
