@@ -1,9 +1,11 @@
-context("Test util functions")
+context("Test utils")
 
-test_that("is_balance returns TRUE/FALSE in correct cases", {
-  expect_true(is_balanced("N()", "(", ")"))
-  expect_true(is_balanced("b_x1[Np(0, 1), Np(0, 1)]", "(", ")"))
-  expect_false(is_balanced("b_x1[Np(0, 1), Np(0, 1]", "(", ")"))
-  expect_true(is_balanced("b_x1[Np(0, 1), Np(0, 1)]", "[", "]"))
-  expect_warning(is_balanced("b_x1[Np(0, 1), Np(0, 1)]", "(", "]"))
+x <- matrix(1:4, nrow = 2)
+
+test_that("Repeat rows correctly repeats the rows of a matrix", {
+  expect_equal(rep_rows(x, 2), structure(c(1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L), .Dim = c(4L, 2L)))
+})
+
+test_that("Repeat columns correctly repeats the columns of a matrix", {
+  expect_equal(rep_cols(x, 2), structure(c(1L, 2L, 1L, 2L, 3L, 4L, 3L, 4L), .Dim = c(2L, 4L)))
 })
