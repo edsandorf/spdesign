@@ -32,3 +32,15 @@ is_balanced <- function(string, open, close) {
     TRUE
   }
 }
+
+
+#' Tests whether the utility expression contains Bayesian priors
+#'
+#' This is useful to create a boolean for flow-control inside \code{\link{generate_design}}
+#'
+#' @param v A string or list of strings
+#'
+#' @return A boolean
+has_bayesian_prior <- function(v) {
+  any(str_detect(v, "(Np|LNp|Up|TRp)\\("))
+}
