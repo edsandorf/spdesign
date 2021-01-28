@@ -48,12 +48,10 @@ generate_design <- function(V, opts, candidate_set = NULL) {
   cli_alert_success("All restrictions successfully applied")
 
   # Create draws used for Bayesian priors ----
-  prior_distributions <- extract_distribution(V, "prior")
+  bayesian_prior <- has_bayesian_prior(V)
+  if (bayesian_prior) {
+    prior_distributions <- extract_distribution(V, "prior")
 
-  # Wrapped in any() to avoid warning when length prior > 1. Possible issue?
-  if (any(is.na(prior_distributions))) {
-    priors <- do.call(cbind, parsed_v[["param"]])
-  } else {
     # Create the matrix of Bayesian priors
     bayesian_priors <- make_draws(1, opts$draws_priors, length(prior_distributions), seed = 123, opts$draws_type)
     colnames(bayesian_priors) <- names(prior_distributions)
@@ -69,10 +67,18 @@ generate_design <- function(V, opts, candidate_set = NULL) {
 
     # Combine into the matrix of priors
     priors <- cbind(bayesian_priors, non_bayesian_priors)
-  }
 
-  # Priors as a list to allow direct use of lapply()
-  priors <- lapply(seq_len(nrow(priors)), function(i) priors[i, ])
+    # Priors as a list to allow direct use of lapply()
+    priors <- lapply(seq_len(nrow(priors)), function(i) priors[i, ])
+
+  } else {
+    if (opts$cores > 1) {
+      opts$cores <- 1
+      cli_alert_info("Using multiple cores is not implemented for designs without Bayesian priors. Number of cores is restored to 1.")
+    }
+
+    priors <- do.call(c, parsed_v[["param"]])
+  }
 
   # Set up the design environment ----
   design_environment <- new.env()
@@ -82,7 +88,9 @@ generate_design <- function(V, opts, candidate_set = NULL) {
   )
 
   # Set up parallel ----
-
+  if (opts$cores > 1) {
+    future::plan(multicore)
+  }
 
   # Evaluate designs ----
   cli_h1("Evaluating designs")
@@ -115,15 +123,21 @@ generate_design <- function(V, opts, candidate_set = NULL) {
 
     # Update the design environment
     list2env(
-      c(as.list(as.data.frame(do.call(cbind, design_candidate))), # To enable calling variables by name
+      c(
+        as.list(as.data.frame(do.call(cbind, design_candidate))), # To enable calling variables by name
         list(X = design_candidate) # Accesses X by name
       ),
       envir = design_environment
     )
 
-    # Loop over priors
-    error_measures <- lapply(priors, calculate_error_measures, design_environment, error_measures_string, opts)
-    error_measures <- matrixStats::colMeans2(do.call(rbind, error_measures), na.rm = TRUE)
+    # Calculate the error measures
+    if (bayesian_prior) {
+      error_measures <- lapply(priors, calculate_error_measures, design_environment, error_measures_string, opts)
+      error_measures <- matrixStats::colMeans2(do.call(rbind, error_measures), na.rm = TRUE)
+    } else {
+      error_measures <- calculate_error_measures(priors, design_environment, error_measures_string, opts)
+    }
+
     names(error_measures) <- error_measures_string
     current_error <- error_measures[[opts$efficiency_criteria]]
 
