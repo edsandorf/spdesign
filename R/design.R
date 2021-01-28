@@ -89,7 +89,9 @@ generate_design <- function(V, opts, candidate_set = NULL) {
 
   # Set up parallel ----
   if (opts$cores > 1) {
-    future::plan(multicore)
+    future::plan(
+      future::multicore(workers = opts$cores)
+    )
   }
 
   # Evaluate designs ----
@@ -132,7 +134,12 @@ generate_design <- function(V, opts, candidate_set = NULL) {
 
     # Calculate the error measures
     if (bayesian_prior) {
-      error_measures <- lapply(priors, calculate_error_measures, design_environment, error_measures_string, opts)
+      if (opts$cores > 1) {
+        # The overhead of sending info to the workers is too high - slows everything down (maybe works for larger designs)
+        error_measures <- future.apply::future_lapply(priors, calculate_error_measures, design_environment, error_measures_string, opts)
+      } else {
+        error_measures <- lapply(priors, calculate_error_measures, design_environment, error_measures_string, opts)
+      }
       error_measures <- matrixStats::colMeans2(do.call(rbind, error_measures), na.rm = TRUE)
     } else {
       error_measures <- calculate_error_measures(priors, design_environment, error_measures_string, opts)
