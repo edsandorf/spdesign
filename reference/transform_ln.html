@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make sobol draws — make_standard_sobol • spdesign</title>
+<title>Transform to the lognormal distribution — transform_ln • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Make sobol draws — make_standard_sobol" />
-<meta property="og:description" content="Wrapper function for sobol() from randtoolbox to create a common interface" />
+<meta property="og:title" content="Transform to the lognormal distribution — transform_ln" />
+<meta property="og:description" content="Transform to the lognormal distribution" />
 
 
 
@@ -129,35 +129,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make sobol draws</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/draws.R'><code>R/draws.R</code></a></small>
-    <div class="hidden name"><code>make_standard_sobol.Rd</code></div>
+    <h1>Transform to the lognormal distribution</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/distributions.R'><code>R/distributions.R</code></a></small>
+    <div class="hidden name"><code>transform_ln.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function for sobol() from randtoolbox to create a common interface</p>
+    <p>Transform to the lognormal distribution</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_standard_sobol</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span>, seed <span class='op'>=</span> <span class='va'>seed</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>transform_ln</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span>, <span class='va'>eta</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>N</th>
-      <td><p>Number of respondents in your sample</p></td>
+      <th>mu</th>
+      <td><p>A value for the mean of the distribution</p></td>
     </tr>
     <tr>
-      <th>R</th>
-      <td><p>Number of draws per respondent</p></td>
+      <th>sigma</th>
+      <td><p>A value for the standard deviation of the distribution</p></td>
     </tr>
     <tr>
-      <th>D</th>
-      <td><p>Number of dimensions</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>A seed to change the scrambling of the sobol sequence.</p></td>
+      <th>eta</th>
+      <td><p>A numeric standard uniform vector</p></td>
     </tr>
     </table>
 

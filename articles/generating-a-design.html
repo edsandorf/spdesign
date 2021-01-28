@@ -159,6 +159,12 @@
 \]</span> where <span class="math inline">\(N\)</span> is the theoretical minimum sample size and <span class="math inline">\(t_\alpha\)</span> is the t-value corresponding to significance level <span class="math inline">\(\alpha\)</span> and is set by the researcher. It is important to note that in the case of zero priors, the S-error cannot be calculated and will return <span class="math inline">\(+\infty\)</span>. To use S-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "s_efficiency"</code>.</p>
 </div>
 </div>
+<div id="draws" class="section level2">
+<h2 class="hasAnchor">
+<a href="#draws" class="anchor"></a>Draws</h2>
+<p>When creating a design using Bayesian priors, with random parameters or both, it is necessary to specify the type of draws to use and how many. While researchers agree that scrambled low-discrepancy sequences, e.g. Halton, Sobol or MLHS, perform better than non-scrambled and pseudo-random sequences <span class="citation">(Train <a href="#ref-train_discrete_2009" role="doc-biblioref">2009</a>; Hess, Train, and Polak <a href="#ref-hess_use_2006" role="doc-biblioref">2006</a>; Bhat <a href="#ref-bhat_simulation_2003" role="doc-biblioref">2003</a>)</span>, some simulation evidence suggest that scrambled Sobol sequences perform best in simulation, especially as the number of random parameters increase <span class="citation">(Czajkowski and Budziński <a href="#ref-czajkowski_simulation_2019" role="doc-biblioref">2019</a>)</span>. For this reason, we have set scrambled Sobol as the default choice. The complete list of options is: <code>pseudo-random</code>, <code>mlhs</code>, <code>standard-halton</code>, <code>scrambled-halton</code>, <code>standard-sobol</code> and <code>scrambled-sobol</code>. The option is passed the list of options using <code>draws_type</code>. Note that if you use Halton or scrambled Halton draws, the same draws will be used for both the priors and the parameters. This is not advised and if you are optimizing a random parameter logit model with Bayesian priors, use a different set of draws! This issue is noted and can be tracked through the package’s <a href="https://github.com/edsandorf/spdesign/issues/16">GitHub repository</a>, but is low priority to be fixed.</p>
+<p>The next step is to specify the the number of draws to use. While we are using the same type of draws for both priors and parameters, we do allow the user to specify different number of draws for each. This is to allow the user to tweak the design optimization process between assumptions about how good their priors are and how precicesly they want to approximate the integral of the random parameter logit model. The number of draws are specified through the options <code>draws_priors</code> and <code>draws_params</code>, for priors and parameters respectively. The default values of both are set to 100 draws.</p>
+</div>
 </div>
 <div id="the-candidate-set" class="section level1">
 <h1 class="hasAnchor">
@@ -172,8 +178,20 @@
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
+<div id="ref-bhat_simulation_2003">
+<p>Bhat, Chandra R. 2003. “Simulation Estimation of Mixed Discrete Choice Models Using Randomized and Scrambled Halton Sequences.” <em>Transportation Research Part B: Methodological</em> 37 (9): 837–55. <a href="https://doi.org/10.1016/S0191-2615(02)00090-5">https://doi.org/10.1016/S0191-2615(02)00090-5</a>.</p>
+</div>
+<div id="ref-czajkowski_simulation_2019">
+<p>Czajkowski, Mikołaj, and Wiktor Budziński. 2019. “Simulation Error in Maximum Likelihood Estimation of Discrete Choice Models.” <em>Journal of Choice Modelling</em> 31 (June): 73–85. <a href="https://doi.org/10.1016/j.jocm.2019.04.003">https://doi.org/10.1016/j.jocm.2019.04.003</a>.</p>
+</div>
+<div id="ref-hess_use_2006">
+<p>Hess, Stephane, Kenneth E. Train, and John W. Polak. 2006. “On the Use of a Modified Latin Hypercube Sampling (MLHS) Method in the Estimation of a Mixed Logit Model for Vehicle Choice.” <em>Transportation Research Part B: Methodological</em> 40 (2): 147–63. <a href="https://doi.org/10.1016/j.trb.2004.10.005">https://doi.org/10.1016/j.trb.2004.10.005</a>.</p>
+</div>
 <div id="ref-scarpa_design_2008">
 <p>Scarpa, Riccardo, and John M. Rose. 2008. “Design Efficiency for Non-Market Valuation with Choice Modelling: How to Measure It, What to Report and Why*.” <em>Australian Journal of Agricultural and Resource Economics</em> 52 (3): 253–82. <a href="https://doi.org/10.1111/j.1467-8489.2007.00436.x">https://doi.org/10.1111/j.1467-8489.2007.00436.x</a>.</p>
+</div>
+<div id="ref-train_discrete_2009">
+<p>Train, Kenneth E. 2009. <em>Discrete Choice Methods with Simulation</em>. 2nd ed. Cambridge University Press.</p>
 </div>
 </div>
 </div>

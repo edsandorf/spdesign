@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make sobol draws — make_standard_sobol • spdesign</title>
+<title>Make random draws — make_draws • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Make sobol draws — make_standard_sobol" />
-<meta property="og:description" content="Wrapper function for sobol() from randtoolbox to create a common interface" />
+<meta property="og:title" content="Make random draws — make_draws" />
+<meta property="og:description" content="A common interface to creating a variety of random draws used to simulate
+the log likelihood function" />
 
 
 
@@ -129,16 +130,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make sobol draws</h1>
+    <h1>Make random draws</h1>
     <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/draws.R'><code>R/draws.R</code></a></small>
-    <div class="hidden name"><code>make_standard_sobol.Rd</code></div>
+    <div class="hidden name"><code>make_draws.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function for sobol() from randtoolbox to create a common interface</p>
+    <p>A common interface to creating a variety of random draws used to simulate
+the log likelihood function</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_standard_sobol</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span>, seed <span class='op'>=</span> <span class='va'>seed</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>make_draws</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span>, <span class='va'>seed</span>, <span class='va'>type</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,9 +161,40 @@
       <th>seed</th>
       <td><p>A seed to change the scrambling of the sobol sequence.</p></td>
     </tr>
+    <tr>
+      <th>type</th>
+      <td><p>A character string</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A matrix of dimensions N*R x D of standard uniform draws</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>N</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='va'>R</span> <span class='op'>&lt;-</span> <span class='fl'>5</span>
+<span class='va'>D</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
+
+<span class='va'>draws</span> <span class='op'>&lt;-</span> <span class='fu'>make_draws</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span>, seed <span class='op'>=</span> <span class='fl'>10</span>, <span class='st'>"scrambled-sobol"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>draws</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           [,1]     [,2]     [,3]
+#&gt; [1,] 0.4163279 0.843947 0.599893
+#&gt; [2,] 0.5693955 0.708931 0.159586
+#&gt; [3,] 0.1755768 0.338082 0.778670
+#&gt; [4,] 0.6969957 0.439546 0.694511
+#&gt; [5,] 0.0600462 0.576020 0.368274
+#&gt; [6,] 0.9532566 0.992286 0.933824</div><div class='input'>
+<span class='va'>draws</span> <span class='op'>&lt;-</span> <span class='fu'>make_draws</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span>, seed <span class='op'>=</span> <span class='fl'>10</span>, <span class='st'>"scrambled-halton"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>draws</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       [,1]     [,2] [,3]
+#&gt; [1,] 0.500 0.666667 0.60
+#&gt; [2,] 0.250 0.333333 0.20
+#&gt; [3,] 0.750 0.222222 0.80
+#&gt; [4,] 0.125 0.888889 0.40
+#&gt; [5,] 0.625 0.555556 0.12
+#&gt; [6,] 0.375 0.111111 0.72</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

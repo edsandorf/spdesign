@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make sobol draws — make_standard_sobol • spdesign</title>
+<title>Repeat columns — rep_cols • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Make sobol draws — make_standard_sobol" />
-<meta property="og:description" content="Wrapper function for sobol() from randtoolbox to create a common interface" />
+<meta property="og:title" content="Repeat columns — rep_cols" />
+<meta property="og:description" content="Repeats each column of the matrix or data frame 'x' a number of times equal to
+'times'." />
 
 
 
@@ -129,39 +130,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make sobol draws</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/draws.R'><code>R/draws.R</code></a></small>
-    <div class="hidden name"><code>make_standard_sobol.Rd</code></div>
+    <h1>Repeat columns</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>rep_cols.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function for sobol() from randtoolbox to create a common interface</p>
+    <p>Repeats each column of the matrix or data frame 'x' a number of times equal to
+'times'.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_standard_sobol</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span>, seed <span class='op'>=</span> <span class='va'>seed</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>rep_cols</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>times</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>N</th>
-      <td><p>Number of respondents in your sample</p></td>
+      <th>x</th>
+      <td><p>A matrix or data frame</p></td>
     </tr>
     <tr>
-      <th>R</th>
-      <td><p>Number of draws per respondent</p></td>
-    </tr>
-    <tr>
-      <th>D</th>
-      <td><p>Number of dimensions</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>A seed to change the scrambling of the sobol sequence.</p></td>
+      <th>times</th>
+      <td><p>An integer indicating the number of times to repeat the row/column</p></td>
     </tr>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>test_matrix</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>12</span><span class='op'>)</span>, <span class='fl'>4</span><span class='op'>)</span>
+<span class='fu'>rep_cols</span><span class='op'>(</span><span class='va'>test_matrix</span>, <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           [,1]      [,2]       [,3]       [,4]     [,5]     [,6]
+#&gt; [1,] 0.0807501 0.0807501 0.00739944 0.00739944 0.732882 0.732882
+#&gt; [2,] 0.8343330 0.8343330 0.46639350 0.46639350 0.772522 0.772522
+#&gt; [3,] 0.6007609 0.6007609 0.49777739 0.49777739 0.874601 0.874601
+#&gt; [4,] 0.1572084 0.1572084 0.28976724 0.28976724 0.174941 0.174941</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
