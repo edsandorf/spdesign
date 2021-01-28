@@ -144,13 +144,13 @@ generate a design based on the specified utility functions, options and
 candidate set.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generate_design</span><span class='op'>(</span><span class='va'>V</span>, <span class='va'>opts</span>, candidate_set <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>generate_design</span><span class='op'>(</span><span class='va'>utility</span>, <span class='va'>opts</span>, candidate_set <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>V</th>
+      <th>utility</th>
       <td><p>A list of utility functions</p></td>
     </tr>
     <tr>
@@ -160,9 +160,9 @@ candidate set.</p>
     <tr>
       <th>candidate_set</th>
       <td><p>A matrix or data frame in the "wide" format containing
-all permitted combinations of attributes. The default is NULL. If no candidate
-set is provided, then the full factorial subject to specified restrictions
-will be used.</p></td>
+all permitted combinations of attributes. The default is NULL. If no
+candidate set is provided, then the full factorial subject to specified
+restrictions will be used.</p></td>
     </tr>
     </table>
 

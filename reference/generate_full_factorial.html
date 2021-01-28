@@ -160,15 +160,15 @@ of utility functions using <code><a href='parse_utility.html'>parse_utility</a><
     <p>A matrix containing the full factorial</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The full factorial is often used as the starting point to generate a candidate
-set. Note that the full factorial will include unrealistic and completely
-dominated alternatives. It is therefore advised to use a subset of the full
-factorial as a candidate set. The user can call <code>generate_full_factorial</code>
-and create a subset that is passed to <code><a href='generate_design.html'>generate_design</a></code> using the `candidate_set`
-parameter, or supply a set of restrictions through the list of design options
-`design_opt`.</p>
-<p>The function is mainly used inside <code><a href='generate_design.html'>generate_design</a></code> and appropriate
-restrictions are then put in place.</p>
+    <p>The full factorial is often used as the starting point to generate a
+candidate set. Note that the full factorial will include unrealistic and
+completely dominated alternatives. It is therefore advised to use a subset
+of the full factorial as a candidate set. The user can call
+<code>generate_full_factorial</code> and create a subset that is passed to
+<code><a href='generate_design.html'>generate_design</a></code> using the `candidate_set` parameter, or supply
+a set of restrictions through the list of design options `design_opt`.</p>
+<p>The function is mainly used inside <code><a href='generate_design.html'>generate_design</a></code> and
+ appropriate restrictions are then put in place.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>attrs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>

@@ -149,8 +149,8 @@ of the specified model and design given the priors.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>design_environment</th>
-      <td><p>An environment containing all the elements necessary
-to derive the variance-covariance matrix</p></td>
+      <td><p>An environment containing all the elements
+necessary to derive the variance-covariance matrix</p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -165,15 +165,16 @@ variance covariance matrix. Can be either "mnl" or "rpl"</p></td>
 singular, then return NULL</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function is called inside the <code>repeat</code>-loop of <code><a href='generate_design.html'>generate_design</a></code>
-and will be called once for each set of priors (or once if the priors are not Bayesian).
-This is followed by a call to <code><a href='calculate_efficiency_criteria.html'>calculate_efficiency_criteria</a></code>. In the case of
-Bayesian priors, all efficiency criteria are averaged over the prior distribution
+    <p>The function is called inside the <code>repeat</code>-loop of
+<code><a href='generate_design.html'>generate_design</a></code> and will be called once for each set of priors
+(or once if the priors are not Bayesian). This is followed by a call to
+<code><a href='calculate_efficiency_criteria.html'>calculate_efficiency_criteria</a></code>. In the case of Bayesian priors,
+all efficiency criteria are averaged over the prior distribution
 before reported in the optimization.</p>
-<p>In the case of multi-core processing, this function is passed along the parallel,
-to take advantage of the fact that each calculation on a set of priors is
-independent of the calculation on other sets of priors. This does not change
-with the model used to optimize the design.</p>
+<p>In the case of multi-core processing, this function is passed along the
+parallel, to take advantage of the fact that each calculation on a set of
+priors is independent of the calculation on other sets of priors. This does
+not change with the model used to optimize the design.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
