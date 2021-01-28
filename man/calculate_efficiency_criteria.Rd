@@ -14,21 +14,22 @@ calculate_efficiency_criteria(
 )
 }
 \arguments{
-\item{design_vcov}{A variance-covariance matrix returned by \code{\link{derive_vcov}} or
-returned by an estimation routine. The matrix should be symmetrical and K-by-K}
+\item{design_vcov}{A variance-covariance matrix returned by
+\code{\link{derive_vcov}} or returned by an estimation routine. The matrix
+should be symmetrical and K-by-K}
 
-\item{p}{A vector of parameters, e.g. the named vector of priors. This is used
-for c- and s-errors. Default value is NULL}
+\item{p}{A vector of parameters, e.g. the named vector of priors. This is
+used for c- and s-errors. Default value is NULL}
 
 \item{didx}{An integer indicating the position of the denominator in `p` This
 is only used for c-efficiency. Default value is NULL}
 
-\item{all}{If `TRUE` return a K or K-1 vector with parameter specific error measures.
-Default is `FALSE`.}
+\item{all}{If `TRUE` return a K or K-1 vector with parameter specific error
+measures. Default is `FALSE`.}
 
-\item{significance}{A t-value corresponding to the desired level of significance.
-The default is significance at the 5% level with an associated t-value of
-1.96.}
+\item{significance}{A t-value corresponding to the desired level of
+significance. The default is significance at the 5% level with an associated
+t-value of 1.96.}
 
 \item{type}{A string indicating the type of efficiency criteria to calculate
 can be either: "a-error", "c-error", "d-error" or "s-error"}
@@ -48,8 +49,16 @@ but is exported to allow the user to use the function to calculate the
 efficiency criteria of the model once it has been run on their data.
 }
 \references{
-Bliemer and Rose, 2009, Efficiency and sample size requirements for state choice experiments, Transportation Research Board Annual Meeting, Washington DC
-Scarpa and Rose, 2008, Designs efficiency for non-market valuation with choice modelling: How to measure it, what to report and why, Australian Journal of Agricultural and Resource Economics, 52(3):253-282
-Bliemer and Rose, 2005a, Efficiency and sample size requirements for stated choice experiments, Report ITLS-WP-05-08, Institute for Transport and Logistics Studies, University of Sydney
-Kessels, R., Goos, P. and Vandebroek, M., 2006, A comparison of criteria to design efficient choice experiments, Journal of Marketing Research, 43(3):409-419
+Bliemer and Rose, 2009, Efficiency and sample size requirements for state
+choice experiments, Transportation Research Board Annual Meeting, Washington
+DC
+Scarpa and Rose, 2008, Designs efficiency for non-market valuation with
+choice modelling: How to measure it, what to report and why, Australian
+Journal of Agricultural and Resource Economics, 52(3):253-282
+Bliemer and Rose, 2005a, Efficiency and sample size requirements for stated
+choice experiments, Report ITLS-WP-05-08, Institute for Transport and
+Logistics Studies, University of Sydney
+Kessels, R., Goos, P. and Vandebroek, M., 2006, A comparison of criteria to
+design efficient choice experiments, Journal of Marketing Research,
+43(3):409-419
 }

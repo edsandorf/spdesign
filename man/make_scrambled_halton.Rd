@@ -15,11 +15,12 @@ make_scrambled_halton(N, R, D)
 }
 \description{
 A function for creating scrambled Halton draws. The code is a translation of
-the [GAUSS](http://www.caee.utexas.edu/prof/bhat/FULL_CODES.htm) codes written
-by Professor Chandra Bhat. Note that the maximum number of dimensions for the
-scrambled Halton draws is limited to 16. This is because only permutations up
-to prime 16 are included in the permutation matrix. Extending to more than
-16 dimensions can be achieved by including a different permutation matrix.
+the [GAUSS](http://www.caee.utexas.edu/prof/bhat/FULL_CODES.htm) codes
+written by Professor Chandra Bhat. Note that the maximum number of dimensions
+for the scrambled Halton draws is limited to 16. This is because only
+permutations up to prime 16 are included in the permutation matrix. Extending
+to more than 16 dimensions can be achieved by including a different
+permutation matrix.
 }
 \details{
 The permutations are based on the Braaten-Weller algorithm.

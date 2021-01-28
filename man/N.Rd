@@ -30,12 +30,13 @@ Up(mu, sigma)
 \arguments{
 \item{mu}{A parameter indicating the mean or location of the distribution
 depending on whether it is a normal, log-normal, triangular or uniform,
-or it can be another call to \code{\link{N}}, \code{\link{LN}}, \code{\link{U}}
-or \code{\link{TR}} if the model is an RPL with a Bayesian prior.}
+or it can be another call to \code{\link{N}}, \code{\link{LN}},
+\code{\link{U}} or \code{\link{TR}} if the model is an RPL with a Bayesian
+prior.}
 
 \item{sigma}{A parameter indicating the SD or spread of the distribution
-or it can be another call to \code{\link{N}}, \code{\link{LN}}, \code{\link{U}}
-or \code{\link{TR}}.}
+or it can be another call to \code{\link{N}}, \code{\link{LN}},
+ \code{\link{U}} or \code{\link{TR}}.}
 }
 \value{
 A list of parameters

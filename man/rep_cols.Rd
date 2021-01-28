@@ -9,11 +9,12 @@ rep_cols(x, times)
 \arguments{
 \item{x}{A matrix or data frame}
 
-\item{times}{An integer indicating the number of times to repeat the row/column}
+\item{times}{An integer indicating the number of times to repeat the
+row/column}
 }
 \description{
-Repeats each column of the matrix or data frame 'x' a number of times equal to
-'times'.
+Repeats each column of the matrix or data frame 'x' a number of times equal
+to 'times'.
 }
 \examples{
 test_matrix <- matrix(runif(12), 4)

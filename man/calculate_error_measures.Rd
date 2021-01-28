@@ -11,8 +11,9 @@ calculate_error_measures(p, design_environment, error_measures_string, opts)
 
 \item{design_environment}{A design environment}
 
-\item{error_measures_string}{A string of efficiency criteria to be calculated.
-The inputs matches \code{\link{calculate_efficiency_criteria}} type.}
+\item{error_measures_string}{A string of efficiency criteria to be
+calculated. The inputs matches \code{\link{calculate_efficiency_criteria}}
+type.}
 
 \item{opts}{List of options}
 }

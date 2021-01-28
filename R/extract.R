@@ -1,9 +1,10 @@
 #' Extract all names
 #'
 #' Extracts all parameter and attribute names from the utility function.
-#' This is a wrapper around \code{\link{str_extract_all}} with a sepcified boundary.
-#' The function also calls \code{\link{remove_square_bracket}} to ensure that if
-#' a word is used inside a square bracket, e.g. seq, it is not extracted.
+#' This is a wrapper around \code{\link{str_extract_all}} with a sepcified
+#' boundary. The function also calls \code{\link{remove_square_bracket}} to
+#' ensure that if a word is used inside a square bracket, e.g. seq, it is not
+#' extracted.
 #'
 #' @param string A character string
 #' @param simplify If TRUE return as a vector. Default is FALSE.
@@ -44,8 +45,8 @@ extract_param_names <- function(string, simplify = FALSE) {
 
 #' Extract attribute names
 #'
-#' Extracts attribute names. It is a wrapper around \code{\link{extract_all_names}}
-#' and \code{\link{extract_param_names}}.
+#' Extracts attribute names. It is a wrapper around
+#' \code{\link{extract_all_names}} and \code{\link{extract_param_names}}.
 #'
 #' @param string A character string
 #' @param simplify If TRUE return as a vector. Default is FALSE
@@ -93,7 +94,9 @@ extract_values <- function(string, simplify = FALSE) {
 extract_named_values <- function(string) {
   # Extracting the specified parameters and attributes
   string_elements <- extract_specified(string, TRUE)
-  values <- lapply(extract_values(string_elements), function(x) eval(parse(text = x)))
+  values <- lapply(extract_values(string_elements), function(x) {
+    eval(parse(text = x))
+  })
   names(values) <- remove_square_bracket(string_elements)
   values
 }
@@ -101,8 +104,8 @@ extract_named_values <- function(string) {
 #' Extract specified
 #'
 #' Only extract parameters and attributes with specified priors and levels. This
-#' is very useful to test whether parameters or attributes are specified multiple
-#' times
+#' is very useful to test whether parameters or attributes are specified
+#' multiple times
 #'
 #' @param string A character string
 #' @param simplify If TRUE return as a vector. Default is FALSE
@@ -124,7 +127,8 @@ extract_specified <- function(string, simplify = FALSE) {
 #' to create the matrix of correct draws for priors and parameters.
 #'
 #' IMPORTANT: The function will silently drop duplicates. This is because it is
-#' called after \code{\link{parse_utility}} inside \code{\link{generate_design}}.
+#' called after \code{\link{parse_utility}} inside
+#' \code{\link{generate_design}}.
 #'
 #' @param string A single character string or list of character strings with a
 #' single or multiple utility functions

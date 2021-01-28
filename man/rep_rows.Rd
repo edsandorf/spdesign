@@ -9,7 +9,8 @@ rep_rows(x, times)
 \arguments{
 \item{x}{A matrix or data frame}
 
-\item{times}{An integer indicating the number of times to repeat the row/column}
+\item{times}{An integer indicating the number of times to repeat the
+row/column}
 }
 \description{
 Repeats each row in the matrix or data frame 'x' a number of times equal to

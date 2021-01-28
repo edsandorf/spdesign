@@ -7,8 +7,9 @@
 calculate_d_error(design_vcov)
 }
 \arguments{
-\item{design_vcov}{A variance-covariance matrix returned by \code{\link{derive_vcov}} or
-returned by an estimation routine. The matrix should be symmetrical and K-by-K}
+\item{design_vcov}{A variance-covariance matrix returned by
+\code{\link{derive_vcov}} or returned by an estimation routine. The matrix
+should be symmetrical and K-by-K}
 }
 \value{
 A single number

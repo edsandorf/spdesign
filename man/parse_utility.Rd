@@ -4,21 +4,21 @@
 \alias{parse_utility}
 \title{Parse the utility functions}
 \usage{
-parse_utility(V)
+parse_utility(utility)
 }
 \arguments{
-\item{V}{A list of utility functions}
+\item{utility}{A list of utility functions}
 }
 \value{
 A list with three elements:
-1) The returned cleaned expression of the utility function is ready to be evaluated
-in the design context
+1) The returned cleaned expression of the utility function is ready to be
+evaluated in the design context
 2) A list of parameters
 3) A list of attributes entering each alternative. For example, for two
 alternatives, it will return a list of length, with each list element
-containing the list of attributes entering that alternative's utility function.
-The purpose is to correctly handle alternative specific variables and return
-a list that can be directly passed to create_full_factorial.
+containing the list of attributes entering that alternative's utility
+function. The purpose is to correctly handle alternative specific variables
+and return a list that can be directly passed to create_full_factorial.
 }
 \description{
 The function parses the list of utilities to extract the relevant parameters

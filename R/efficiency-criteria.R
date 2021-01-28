@@ -9,27 +9,36 @@
 #' but is exported to allow the user to use the function to calculate the
 #' efficiency criteria of the model once it has been run on their data.
 #'
-#' @param design_vcov A variance-covariance matrix returned by \code{\link{derive_vcov}} or
-#' returned by an estimation routine. The matrix should be symmetrical and K-by-K
-#' @param p A vector of parameters, e.g. the named vector of priors. This is used
-#' for c- and s-errors. Default value is NULL
+#' @param design_vcov A variance-covariance matrix returned by
+#' \code{\link{derive_vcov}} or returned by an estimation routine. The matrix
+#' should be symmetrical and K-by-K
+#' @param p A vector of parameters, e.g. the named vector of priors. This is
+#' used for c- and s-errors. Default value is NULL
 #' @param didx An integer indicating the position of the denominator in `p` This
 #' is only used for c-efficiency. Default value is NULL
-#' @param all If `TRUE` return a K or K-1 vector with parameter specific error measures.
-#' Default is `FALSE`.
-#' @param significance A t-value corresponding to the desired level of significance.
-#' The default is significance at the 5% level with an associated t-value of
-#' 1.96.
+#' @param all If `TRUE` return a K or K-1 vector with parameter specific error
+#' measures. Default is `FALSE`.
+#' @param significance A t-value corresponding to the desired level of
+#' significance. The default is significance at the 5% level with an associated
+#' t-value of 1.96.
 #' @param type A string indicating the type of efficiency criteria to calculate
 #' can be either: "a-error", "c-error", "d-error" or "s-error"
 #'
 #' @return See individual efficiency criteria
 #'
 #' @references
-#' Bliemer and Rose, 2009, Efficiency and sample size requirements for state choice experiments, Transportation Research Board Annual Meeting, Washington DC
-#' Scarpa and Rose, 2008, Designs efficiency for non-market valuation with choice modelling: How to measure it, what to report and why, Australian Journal of Agricultural and Resource Economics, 52(3):253-282
-#' Bliemer and Rose, 2005a, Efficiency and sample size requirements for stated choice experiments, Report ITLS-WP-05-08, Institute for Transport and Logistics Studies, University of Sydney
-#' Kessels, R., Goos, P. and Vandebroek, M., 2006, A comparison of criteria to design efficient choice experiments, Journal of Marketing Research, 43(3):409-419
+#' Bliemer and Rose, 2009, Efficiency and sample size requirements for state
+#' choice experiments, Transportation Research Board Annual Meeting, Washington
+#' DC
+#' Scarpa and Rose, 2008, Designs efficiency for non-market valuation with
+#' choice modelling: How to measure it, what to report and why, Australian
+#' Journal of Agricultural and Resource Economics, 52(3):253-282
+#' Bliemer and Rose, 2005a, Efficiency and sample size requirements for stated
+#' choice experiments, Report ITLS-WP-05-08, Institute for Transport and
+#' Logistics Studies, University of Sydney
+#' Kessels, R., Goos, P. and Vandebroek, M., 2006, A comparison of criteria to
+#' design efficient choice experiments, Journal of Marketing Research,
+#' 43(3):409-419
 #'
 #' @export
 calculate_efficiency_criteria <- function(
@@ -76,7 +85,11 @@ calculate_c_error <- function(design_vcov, p, didx, all) {
   if (is.null(didx)) {
     NA
   } else {
-    c_eff <- p[-didx]^-2 * (diag(design_vcov)[didx] - 2 * p[didx] * p[-didx]^-1 * design_vcov[didx, seq_len(nrow(design_vcov))[-didx]] + (p[didx] / p[-didx])^2 * diag(design_vcov)[-didx])
+    c_eff <- p[-didx]^-2 *
+      (diag(design_vcov)[didx] - 2 *
+         p[didx] * p[-didx]^-1 *
+         design_vcov[didx, seq_len(nrow(design_vcov))[-didx]] +
+         (p[didx] / p[-didx])^2 * diag(design_vcov)[-didx])
 
     # Check if all are to be returned
     if (all) {
@@ -96,7 +109,7 @@ calculate_c_error <- function(design_vcov, p, didx, all) {
 #'
 #' @return A single number
 calculate_d_error <- function(design_vcov) {
-  det(design_vcov)^(1/nrow(design_vcov))
+  det(design_vcov) ^ (1 / nrow(design_vcov))
 }
 
 #' S-error
@@ -136,7 +149,12 @@ calculate_s_error <- function(design_vcov, p, all, significance) {
 #' specified to print the criteria in colour.
 #'
 #' @return A character string.
-print_efficiency_criteria <- function(value, criteria, digits = 4, opts = NULL) {
+print_efficiency_criteria <- function(
+  value,
+  criteria,
+  digits = 4,
+  opts = NULL
+) {
   if (is.na(value)) {
     string <- "N/A"
   } else {
@@ -157,12 +175,18 @@ print_efficiency_criteria <- function(value, criteria, digits = 4, opts = NULL) 
 #'
 #' @param p A vector of parameters
 #' @param design_environment A design environment
-#' @param error_measures_string A string of efficiency criteria to be calculated.
-#' The inputs matches \code{\link{calculate_efficiency_criteria}} type.
+#' @param error_measures_string A string of efficiency criteria to be
+#' calculated. The inputs matches \code{\link{calculate_efficiency_criteria}}
+#' type.
 #' @param opts List of options
 #'
 #' @return A named vector of error measures
-calculate_error_measures <- function(p, design_environment, error_measures_string, opts) {
+calculate_error_measures <- function(
+  p,
+  design_environment,
+  error_measures_string,
+  opts
+) {
   # Add the priors to the design environment
   list2env(
     as.list(p),
@@ -183,7 +207,13 @@ calculate_error_measures <- function(p, design_environment, error_measures_strin
 
   # Calculate the error measures
   error_measures <- lapply(error_measures_string, function(x) {
-    calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = x)
+    calculate_efficiency_criteria(
+      design_vcov,
+      p,
+      opts$didx,
+      all = FALSE,
+      type = x
+    )
   })
   do.call(c, error_measures)
 }

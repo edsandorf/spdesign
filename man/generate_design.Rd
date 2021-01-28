@@ -4,17 +4,17 @@
 \alias{generate_design}
 \title{Generate the experimental design}
 \usage{
-generate_design(V, opts, candidate_set = NULL)
+generate_design(utility, opts, candidate_set = NULL)
 }
 \arguments{
-\item{V}{A list of utility functions}
+\item{utility}{A list of utility functions}
 
 \item{opts}{A list of design optsions}
 
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
-all permitted combinations of attributes. The default is NULL. If no candidate
-set is provided, then the full factorial subject to specified restrictions
-will be used.}
+all permitted combinations of attributes. The default is NULL. If no
+candidate set is provided, then the full factorial subject to specified
+restrictions will be used.}
 }
 \value{
 A design list of valid designs

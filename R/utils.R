@@ -4,7 +4,8 @@
 #' 'times'.
 #'
 #' @param x A matrix or data frame
-#' @param times An integer indicating the number of times to repeat the row/column
+#' @param times An integer indicating the number of times to repeat the
+#' row/column
 #'
 #' @examples
 #' test_matrix <- matrix(runif(12), 4)
@@ -21,8 +22,8 @@ rep_rows <- function(x, times) {
 
 #' Repeat columns
 #'
-#' Repeats each column of the matrix or data frame 'x' a number of times equal to
-#' 'times'.
+#' Repeats each column of the matrix or data frame 'x' a number of times equal
+#' to 'times'.
 #'
 #' @inheritParams rep_rows
 #'

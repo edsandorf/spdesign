@@ -7,17 +7,18 @@
 calculate_c_error(design_vcov, p, didx, all)
 }
 \arguments{
-\item{design_vcov}{A variance-covariance matrix returned by \code{\link{derive_vcov}} or
-returned by an estimation routine. The matrix should be symmetrical and K-by-K}
+\item{design_vcov}{A variance-covariance matrix returned by
+\code{\link{derive_vcov}} or returned by an estimation routine. The matrix
+should be symmetrical and K-by-K}
 
-\item{p}{A vector of parameters, e.g. the named vector of priors. This is used
-for c- and s-errors. Default value is NULL}
+\item{p}{A vector of parameters, e.g. the named vector of priors. This is
+used for c- and s-errors. Default value is NULL}
 
 \item{didx}{An integer indicating the position of the denominator in `p` This
 is only used for c-efficiency. Default value is NULL}
 
-\item{all}{If `TRUE` return a K or K-1 vector with parameter specific error measures.
-Default is `FALSE`.}
+\item{all}{If `TRUE` return a K or K-1 vector with parameter specific error
+measures. Default is `FALSE`.}
 }
 \value{
 A vector giving the variance of the ratio for each K-1 parameter or a

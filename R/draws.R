@@ -23,7 +23,7 @@
 #' head(draws)
 #'
 #'@export
-make_draws <- function (N, R, D, seed, type) {
+make_draws <- function(N, R, D, seed, type) {
   draws <- switch(
     type,
     `pseudo_random` = make_pseudo_random(N, R, D),
@@ -45,7 +45,7 @@ make_draws <- function (N, R, D, seed, type) {
 #' Shuffle the order of points in the unit interval.
 #'
 #' @param x A vector
-shuffle <- function (x) {
+shuffle <- function(x) {
   x[rank(runif(length(x)))]
 }
 
@@ -57,7 +57,7 @@ shuffle <- function (x) {
 #' Hess, S., Train, K. E. & Polak, J. W., 2006, On the use of a Modified Latin
 #' Hypercube Sampling (MLHS) method in the estimation of a Mixed Logit Model
 #' for vehicle choice, Transportation Research Part B, 40, pp. 147-163
-make_mlhs <- function (N, R, D) {
+make_mlhs <- function(N, R, D) {
   #   Define local parameters
   n <- N * R
   j <- 1L
@@ -89,7 +89,7 @@ make_mlhs <- function (N, R, D) {
 #' @references Bhat, C. R., 2003, Simulation Estimation of Mixed Discrete Choice
 #' Models Using Randomized and Scrambled Halton Sequences, Transportation
 #' Research Part B, 9, pp. 837-855
-digitize <- function (D, P, count, digit) {
+digitize <- function(D, P, count, digit) {
   m <- 1L
   x <- NULL
 
@@ -114,13 +114,13 @@ digitize <- function (D, P, count, digit) {
 #' Equation 2 in Bhat (2003)
 #'
 #' @inheritParams digitize
-#' @param perms A matrix of the permutations. Defaults to a set of Braaten-Weller
-#' permutations.
+#' @param perms A matrix of the permutations. Defaults to a set of
+#' Braaten-Weller permutations.
 #'
 #' @references Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
 #' Models Using Randomized and Scrambled Halton Sequences, Transportation
 #' Research Part B, 9, pp. 837-855
-radical_inverse <- function (D, P, count, digit, perms) {
+radical_inverse <- function(D, P, count, digit, perms) {
   m <- 1L
   G <- matrix(0, 1L, D)
 
@@ -140,11 +140,12 @@ radical_inverse <- function (D, P, count, digit, perms) {
 #' Make scrambled Halton draws
 #'
 #' A function for creating scrambled Halton draws. The code is a translation of
-#' the [GAUSS](http://www.caee.utexas.edu/prof/bhat/FULL_CODES.htm) codes written
-#' by Professor Chandra Bhat. Note that the maximum number of dimensions for the
-#' scrambled Halton draws is limited to 16. This is because only permutations up
-#' to prime 16 are included in the permutation matrix. Extending to more than
-#' 16 dimensions can be achieved by including a different permutation matrix.
+#' the [GAUSS](http://www.caee.utexas.edu/prof/bhat/FULL_CODES.htm) codes
+#' written by Professor Chandra Bhat. Note that the maximum number of dimensions
+#' for the scrambled Halton draws is limited to 16. This is because only
+#' permutations up to prime 16 are included in the permutation matrix. Extending
+#' to more than 16 dimensions can be achieved by including a different
+#' permutation matrix.
 #'
 #' The permutations are based on the Braaten-Weller algorithm.
 #'
@@ -153,7 +154,7 @@ radical_inverse <- function (D, P, count, digit, perms) {
 #' @references Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
 #' Models Using Randomized and Scrambled Halton Sequences, Transportation
 #' Research Part B, 9, pp. 837-855
-make_scrambled_halton <- function (N, R, D) {
+make_scrambled_halton <- function(N, R, D) {
   if (D > 16) {
     stop("Cannot scramble sequences beyond the 16th prime")
   }
@@ -185,7 +186,7 @@ make_scrambled_halton <- function (N, R, D) {
 #' Wrapper function for halton() from randtoolbox to create a common interface
 #'
 #' @inheritParams make_draws
-make_standard_halton <- function (N, R, D) {
+make_standard_halton <- function(N, R, D) {
   randtoolbox::halton(N * R, D)
 }
 
@@ -194,7 +195,7 @@ make_standard_halton <- function (N, R, D) {
 #' Wrapper function for sobol() from randtoolbox to create a common interface
 #'
 #' @inheritParams make_draws
-make_standard_sobol <- function (N, R, D, seed = seed) {
+make_standard_sobol <- function(N, R, D, seed = seed) {
   randtoolbox::sobol(N * R, D, seed = seed, scrambling = 0)
 }
 
@@ -204,7 +205,7 @@ make_standard_sobol <- function (N, R, D, seed = seed) {
 #' Owen + Fazure_Tezuka Scrambling
 #'
 #' @inheritParams make_draws
-make_scrambled_sobol <- function (N, R, D, seed = seed) {
+make_scrambled_sobol <- function(N, R, D, seed = seed) {
   randtoolbox::sobol(N * R, D, seed = seed, scrambling = 3)
 }
 
@@ -213,6 +214,6 @@ make_scrambled_sobol <- function (N, R, D, seed = seed) {
 #' Wrapper for runif to create a common interface
 #'
 #' @inheritParams make_draws
-make_pseudo_random <- function (N, R, D) {
+make_pseudo_random <- function(N, R, D) {
   matrix(runif(N * R * D), nrow = N * R, ncol = D)
 }

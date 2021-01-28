@@ -7,18 +7,19 @@
 calculate_s_error(design_vcov, p, all, significance)
 }
 \arguments{
-\item{design_vcov}{A variance-covariance matrix returned by \code{\link{derive_vcov}} or
-returned by an estimation routine. The matrix should be symmetrical and K-by-K}
+\item{design_vcov}{A variance-covariance matrix returned by
+\code{\link{derive_vcov}} or returned by an estimation routine. The matrix
+should be symmetrical and K-by-K}
 
-\item{p}{A vector of parameters, e.g. the named vector of priors. This is used
-for c- and s-errors. Default value is NULL}
+\item{p}{A vector of parameters, e.g. the named vector of priors. This is
+used for c- and s-errors. Default value is NULL}
 
-\item{all}{If `TRUE` return a K or K-1 vector with parameter specific error measures.
-Default is `FALSE`.}
+\item{all}{If `TRUE` return a K or K-1 vector with parameter specific error
+measures. Default is `FALSE`.}
 
-\item{significance}{A t-value corresponding to the desired level of significance.
-The default is significance at the 5% level with an associated t-value of
-1.96.}
+\item{significance}{A t-value corresponding to the desired level of
+significance. The default is significance at the 5% level with an associated
+t-value of 1.96.}
 }
 \value{
 A vector giving the "minimum" sample size for each parameter or a

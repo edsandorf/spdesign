@@ -2,24 +2,24 @@
 % Please edit documentation in R/check.R
 \name{check_v}
 \alias{check_v}
-\title{Runs checks on V}
+\title{Runs checks on utility}
 \usage{
-check_v(V)
+check_v(utility)
 }
 \arguments{
-\item{V}{a list of utility functions}
+\item{utility}{a list of utility functions}
 }
 \value{
 Nothing
 }
 \description{
 \code{\link{generate_design}} runs three sets of checks, all detailed here,
-in the order of appearance of the function arguments. The checks on V is to
-ensure that the user supplied list of utility functions are valid.
+in the order of appearance of the function arguments. The checks on utility
+is to ensure that the user supplied list of utility functions are valid.
 }
 \details{
-As far as possible, all checks on V should be included in this function. This
-is to ensure that the code fails quickly to give the user the ability to
-correct any syntax mistakes, to reduce code-duplication and make it easier
-to maintain the code base.
+As far as possible, all checks on utility should be included in this
+function. This is to ensure that the code fails quickly to give the user the
+ability to correct any syntax mistakes, to reduce code-duplication and make
+it easier to maintain the code base.
 }

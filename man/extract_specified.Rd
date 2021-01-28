@@ -13,6 +13,6 @@ extract_specified(string, simplify = FALSE)
 }
 \description{
 Only extract parameters and attributes with specified priors and levels. This
-is very useful to test whether parameters or attributes are specified multiple
-times
+is very useful to test whether parameters or attributes are specified
+multiple times
 }

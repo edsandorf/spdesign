@@ -4,19 +4,20 @@
 #' \code{\link{derive_vcov_rpl}} and calculates the variance-covariance matrix
 #' of the specified model and design given the priors.
 #'
-#' The function is called inside the \code{repeat}-loop of \code{\link{generate_design}}
-#' and will be called once for each set of priors (or once if the priors are not Bayesian).
-#' This is followed by a call to \code{\link{calculate_efficiency_criteria}}. In the case of
-#' Bayesian priors, all efficiency criteria are averaged over the prior distribution
+#' The function is called inside the \code{repeat}-loop of
+#' \code{\link{generate_design}} and will be called once for each set of priors
+#' (or once if the priors are not Bayesian). This is followed by a call to
+#' \code{\link{calculate_efficiency_criteria}}. In the case of Bayesian priors,
+#' all efficiency criteria are averaged over the prior distribution
 #' before reported in the optimization.
 #'
-#' In the case of multi-core processing, this function is passed along the parallel,
-#' to take advantage of the fact that each calculation on a set of priors is
-#' independent of the calculation on other sets of priors. This does not change
-#' with the model used to optimize the design.
+#' In the case of multi-core processing, this function is passed along the
+#' parallel, to take advantage of the fact that each calculation on a set of
+#' priors is independent of the calculation on other sets of priors. This does
+#' not change with the model used to optimize the design.
 #'
-#' @param design_environment An environment containing all the elements necessary
-#' to derive the variance-covariance matrix
+#' @param design_environment An environment containing all the elements
+#' necessary to derive the variance-covariance matrix
 #' @param type A string indicating the model for which you wish to derive the
 #' variance covariance matrix. Can be either "mnl" or "rpl"
 #'
@@ -33,11 +34,11 @@ derive_vcov <- function(design_environment, type) {
 #' Derive the variance covariance matrix for the MNL model
 derive_vcov_mnl <- function() {
   # Calculate the probability of j
-  V <- lapply(V_string, function(v) eval(parse(text = v)))
-  exp_V <- lapply(V, exp)
-  sum_V <- Reduce("+", exp_V)
-  pr_j <- lapply(exp_V, function(v) {
-    v <- v / sum_V
+  utility <- lapply(utility_string, function(v) eval(parse(text = v)))
+  exp_utility <- lapply(utility, exp)
+  sum_utility <- Reduce("+", exp_utility)
+  pr_j <- lapply(exp_utility, function(v) {
+    v <- v / sum_utility
     v[is.na(v)] <- 0
     as.vector(v)
   })
@@ -63,5 +64,7 @@ derive_vcov_mnl <- function() {
 
 #' Derive the variance covariance matrix for the RPL model
 derive_vcov_rpl <- function() {
-  stop("Designs for the RPL model has not been implemented yet.")
+  stop(
+    "Designs for the RPL model has not been implemented yet."
+  )
 }

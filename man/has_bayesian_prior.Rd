@@ -13,5 +13,6 @@ has_bayesian_prior(v)
 A boolean
 }
 \description{
-This is useful to create a boolean for flow-control inside \code{\link{generate_design}}
+This is useful to create a boolean for flow-control inside
+\code{\link{generate_design}}
 }

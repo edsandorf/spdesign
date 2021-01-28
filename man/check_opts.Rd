@@ -14,14 +14,14 @@ Nothing
 }
 \description{
 \code{\link{generate_design}} runs three sets of checks, all detailed here,
-in the order of appearance of the function arguments. The checks on 'opts' is to
-ensure that the user supplied list of options are valid.
+in the order of appearance of the function arguments. The checks on 'opts'
+is to ensure that the user supplied list of options are valid.
 }
 \details{
-As far as possible, all checks on 'opts' should be included in this function. This
-is to ensure that the code fails quickly to give the user the ability to
-correctly specify missing options, to reduce code-duplication and make it easier
-to maintain the code base.
+As far as possible, all checks on 'opts' should be included in this function.
+This is to ensure that the code fails quickly to give the user the ability to
+correctly specify missing options, to reduce code-duplication and make it
+easier to maintain the code base.
 
 After 'opts' has been checked, inside \code{\link{generate_design}} a call is
 made to \code{\link{set_defaults}} to set missing optional entries to their

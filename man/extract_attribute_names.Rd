@@ -15,6 +15,6 @@ extract_attribute_names(string, simplify = FALSE)
 A Vector or string wtih attribute names
 }
 \description{
-Extracts attribute names. It is a wrapper around \code{\link{extract_all_names}}
-and \code{\link{extract_param_names}}.
+Extracts attribute names. It is a wrapper around
+\code{\link{extract_all_names}} and \code{\link{extract_param_names}}.
 }

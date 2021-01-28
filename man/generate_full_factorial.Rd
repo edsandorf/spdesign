@@ -19,16 +19,16 @@ can either be specified directly by the user or extracted from the list
 of utility functions using \code{\link{parse_utility}}.
 }
 \details{
-The full factorial is often used as the starting point to generate a candidate
-set. Note that the full factorial will include unrealistic and completely
-dominated alternatives. It is therefore advised to use a subset of the full
-factorial as a candidate set. The user can call \code{generate_full_factorial}
-and create a subset that is passed to \code{\link{generate_design}} using the `candidate_set`
-parameter, or supply a set of restrictions through the list of design options
-`design_opt`.
+The full factorial is often used as the starting point to generate a
+candidate set. Note that the full factorial will include unrealistic and
+completely dominated alternatives. It is therefore advised to use a subset
+of the full factorial as a candidate set. The user can call
+\code{generate_full_factorial} and create a subset that is passed to
+\code{\link{generate_design}} using the `candidate_set` parameter, or supply
+a set of restrictions through the list of design options `design_opt`.
 
-The function is mainly used inside \code{\link{generate_design}} and appropriate
-restrictions are then put in place.
+The function is mainly used inside \code{\link{generate_design}} and
+ appropriate restrictions are then put in place.
 }
 \examples{
 attrs <- list(

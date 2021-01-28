@@ -15,8 +15,8 @@ radical_inverse(D, P, count, digit, perms)
 
 \item{digit}{A vector}
 
-\item{perms}{A matrix of the permutations. Defaults to a set of Braaten-Weller
-permutations.}
+\item{perms}{A matrix of the permutations. Defaults to a set of
+Braaten-Weller permutations.}
 }
 \description{
 Equation 2 in Bhat (2003)

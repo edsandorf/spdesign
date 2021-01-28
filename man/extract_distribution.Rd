@@ -23,5 +23,6 @@ to create the matrix of correct draws for priors and parameters.
 }
 \details{
 IMPORTANT: The function will silently drop duplicates. This is because it is
-called after \code{\link{parse_utility}} inside \code{\link{generate_design}}.
+called after \code{\link{parse_utility}} inside
+\code{\link{generate_design}}.
 }
