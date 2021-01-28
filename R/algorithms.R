@@ -36,7 +36,7 @@ random <- function(candidate_set, opts, V) {
   J <- length(V)
   candidates <- opts$tasks * opts$blocks * J
   split_idx <- shuffle(rep(seq_len(J), (opts$tasks * opts$blocks)))
-  candidate_idx <- split(sample(seq_len(nrow(candidate_set)), candidates), split_idx)
+  candidate_idx <- split(sample(seq_len(nrow(candidate_set)), candidates, replace = opts$sample_with_replacement), split_idx)
   names_string <- colnames(candidate_set)
   design_candidate <- lapply(seq_len(J), function(j) {
       candidate_subset <- candidate_set[candidate_idx[[j]], ]
