@@ -149,3 +149,41 @@ print_efficiency_criteria <- function(value, criteria, digits = 4, opts = NULL) 
     str_pad(string, 10, "left", " ")
   }
 }
+
+#' Calculates the error measures
+#'
+#' The function is called from inside the lapply() loop over priors in the
+#' \code{\link{generate_design}} function.
+#'
+#' @param p A vector of parameters
+#' @param design_environment A design environment
+#' @param error_measures_string A string of efficiency criteria to be calculated.
+#' The inputs matches \code{\link{calculate_efficiency_criteria}} type.
+#' @param opts List of options
+#'
+#' @return A named vector of error measures
+calculate_error_measures <- function(p, design_environment, error_measures_string, opts) {
+  # Add the priors to the design environment
+  list2env(
+    as.list(p),
+    envir = design_environment
+  )
+
+  # Calculate the variance-covariance matrix
+  design_vcov <- tryCatch({
+    derive_vcov(design_environment, type = opts$model)
+  },
+  error = function(e) {
+    NA
+  })
+
+  if (any(is.na(design_vcov))) {
+    return(rep(NA, length(error_measures_string)))
+  }
+
+  # Calculate the error measures
+  error_measures <- lapply(error_measures_string, function(x) {
+    calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = x)
+  })
+  do.call(c, error_measures)
+}

@@ -47,7 +47,42 @@ generate_design <- function(V, opts, candidate_set = NULL) {
 
   cli_alert_success("All restrictions successfully applied")
 
+  # Create draws used for Bayesian priors ----
+  prior_distributions <- extract_distribution(V, "prior")
+
+  # Wrapped in any() to avoid warning when length prior > 1. Possible issue?
+  if (any(is.na(prior_distributions))) {
+    priors <- do.call(cbind, parsed_v[["param"]])
+  } else {
+    # Create the matrix of Bayesian priors
+    bayesian_priors <- make_draws(1, opts$draws_priors, length(prior_distributions), seed = 123, opts$draws_type)
+    colnames(bayesian_priors) <- names(prior_distributions)
+    for (i in seq_len(ncol(bayesian_priors))) {
+      name <- names(prior_distributions[i])
+      value <- parsed_v[["param"]][[name]]
+      bayesian_priors[, i] <- transform_distribution(value$mu, value$sigma, bayesian_priors[, i], prior_distributions[i])
+    }
+
+    # Create the matrix of non-Bayesian priors
+    non_bayesian_priors <- do.call(cbind, parsed_v[["param"]][!(names(parsed_v[["param"]]) %in% names(prior_distributions))])
+    non_bayesian_priors <- rep_rows(non_bayesian_priors, nrow(bayesian_priors))
+
+    # Combine into the matrix of priors
+    priors <- cbind(bayesian_priors, non_bayesian_priors)
+  }
+
+  # Priors as a list to allow direct use of lapply()
+  priors <- lapply(seq_len(nrow(priors)), function(i) priors[i, ])
+
+  # Set up the design environment ----
+  design_environment <- new.env()
+  list2env(
+    list(V_string = parsed_v[["V"]]),
+    envir = design_environment
+  )
+
   # Set up parallel ----
+
 
   # Evaluate designs ----
   cli_h1("Evaluating designs")
@@ -55,7 +90,9 @@ generate_design <- function(V, opts, candidate_set = NULL) {
   # Without proper stopping conditions this becomes an infinite loop
   iter <- 1
   current_best <- NULL
+  error_measures_string <- c("a-error", "c-error", "d-error", "s-error")
   current_design_candidates <- vector(mode = "list", length = 10)
+  time_start <- Sys.time()
   repeat {
     # Set up the initial printing to console (if statement for efficiency)
     if (iter == 1) {
@@ -76,41 +113,26 @@ generate_design <- function(V, opts, candidate_set = NULL) {
     # Create a design candidate
     design_candidate <- make_design_candidate(candidate_set, opts, V, type = opts$optimization_algorithm)
 
-    # Create the design environment
-    design_environment <- new.env()
+    # Update the design environment
     list2env(
-      c(
-        list(V_string = parsed_v[["V"]]),
-        as.list(parsed_v[["param"]]), # Will be updated when we consider priors
-        as.list(as.data.frame(do.call(cbind, design_candidate))), # To enable calling variables by name
+      c(as.list(as.data.frame(do.call(cbind, design_candidate))), # To enable calling variables by name
         list(X = design_candidate) # Accesses X by name
       ),
       envir = design_environment
     )
 
-    # Calculate the variance-covariance matrix
-    design_vcov <- tryCatch({
-      derive_vcov(design_environment, type = opts$model)
-    },
-    error = function(e) {
-      NA
-    })
-
-    if (any(is.na(design_vcov))) {
-      next
-    }
-
-    # Calculate the error measures
-    p <- do.call(c, parsed_v[["param"]]) # Will fail with Bayesian priors!
-    error_measures_string <- c("a-error", "c-error", "d-error", "s-error")
-    error_measures <- lapply(error_measures_string, function(x) {
-      calculate_efficiency_criteria(design_vcov, p, opts$didx, all = FALSE, type = x)
-    })
+    # Loop over priors
+    error_measures <- lapply(priors, calculate_error_measures, design_environment, error_measures_string, opts)
+    error_measures <- matrixStats::colMeans2(do.call(rbind, error_measures), na.rm = TRUE)
     names(error_measures) <- error_measures_string
     current_error <- error_measures[[opts$efficiency_criteria]]
 
-    # Add the efficiency measures to the design candidate
-    attr(design_candidate, "error_measures") <- do.call(c, error_measures)
+    if (is.na(current_error)) {
+      next
+    }
+
+   # Add the efficiency measures to the design candidate
+    attr(design_candidate, "error_measures") <- error_measures
 
     # Print update to console if we have a new best design and set new current best
     if (current_error < current_best || is.null(current_best)) {
@@ -138,9 +160,11 @@ generate_design <- function(V, opts, candidate_set = NULL) {
 
     # Update the iteration counter
     iter <- iter + 1
+
   }
 
   cat("\n")
   cli_h1("Cleaning up design environment")
+  cat("Time spent searching for designs: ", Sys.time() - time_start, "\n")
 
 }
