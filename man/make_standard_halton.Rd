@@ -4,14 +4,14 @@
 \alias{make_standard_halton}
 \title{Wrapper for halton()}
 \usage{
-make_standard_halton(N, R, D)
+make_standard_halton(n_ind, n_draws, n_dim)
 }
 \arguments{
-\item{N}{Number of respondents in your sample}
+\item{n_ind}{Number of individuals in your sample}
 
-\item{R}{Number of draws per respondent}
+\item{n_draws}{Number of draws per respondent}
 
-\item{D}{Number of dimensions}
+\item{n_dim}{Number of dimensions}
 }
 \description{
 Wrapper function for halton() from randtoolbox to create a common interface

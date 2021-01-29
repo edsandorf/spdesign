@@ -4,14 +4,14 @@
 \alias{make_scrambled_halton}
 \title{Make scrambled Halton draws}
 \usage{
-make_scrambled_halton(N, R, D)
+make_scrambled_halton(n_ind, n_draws, n_dim)
 }
 \arguments{
-\item{N}{Number of respondents in your sample}
+\item{n_ind}{Number of individuals in your sample}
 
-\item{R}{Number of draws per respondent}
+\item{n_draws}{Number of draws per respondent}
 
-\item{D}{Number of dimensions}
+\item{n_dim}{Number of dimensions}
 }
 \description{
 A function for creating scrambled Halton draws. The code is a translation of
@@ -26,7 +26,7 @@ permutation matrix.
 The permutations are based on the Braaten-Weller algorithm.
 }
 \references{
-Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
-Models Using Randomized and Scrambled Halton Sequences, Transportation
+Bhat, C. n_draws., 2003, Simulation Estimation of Mixed Descrete
+Choice Models Using Randomized and Scrambled Halton Sequences, Transportation
 Research Part B, 9, pp. 837-855
 }

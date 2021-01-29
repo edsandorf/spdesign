@@ -4,35 +4,36 @@
 \alias{make_draws}
 \title{Make random draws}
 \usage{
-make_draws(N, R, D, seed, type)
+make_draws(n_ind, n_draws, n_dim, seed, type)
 }
 \arguments{
-\item{N}{Number of respondents in your sample}
+\item{n_ind}{Number of individuals in your sample}
 
-\item{R}{Number of draws per respondent}
+\item{n_draws}{Number of draws per respondent}
 
-\item{D}{Number of dimensions}
+\item{n_dim}{Number of dimensions}
 
 \item{seed}{A seed to change the scrambling of the sobol sequence.}
 
 \item{type}{A character string}
 }
 \value{
-A matrix of dimensions N*R x D of standard uniform draws
+A matrix of dimensions n_ind*n_draws x n_dim of standard uniform
+draws
 }
 \description{
 A common interface to creating a variety of random draws used to simulate
 the log likelihood function
 }
 \examples{
-N <- 10
-R <- 5
-D <- 3
+n_ind <- 10
+n_draws <- 5
+n_dim <- 3
 
-draws <- make_draws(N, R, D, seed = 10, "scrambled-sobol")
+draws <- make_draws(n_ind, n_draws, n_dim, seed = 10, "scrambled-sobol")
 head(draws)
 
-draws <- make_draws(N, R, D, seed = 10, "scrambled-halton")
+draws <- make_draws(n_ind, n_draws, n_dim, seed = 10, "scrambled-halton")
 head(draws)
 
 }

@@ -4,14 +4,14 @@
 \alias{make_pseudo_random}
 \title{Make pseudo random draws}
 \usage{
-make_pseudo_random(N, R, D)
+make_pseudo_random(n_ind, n_draws, n_dim)
 }
 \arguments{
-\item{N}{Number of respondents in your sample}
+\item{n_ind}{Number of individuals in your sample}
 
-\item{R}{Number of draws per respondent}
+\item{n_draws}{Number of draws per respondent}
 
-\item{D}{Number of dimensions}
+\item{n_dim}{Number of dimensions}
 }
 \description{
 Wrapper for runif to create a common interface

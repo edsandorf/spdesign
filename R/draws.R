@@ -3,35 +3,36 @@
 #' A common interface to creating a variety of random draws used to simulate
 #' the log likelihood function
 #'
-#' @param N Number of respondents in your sample
-#' @param R Number of draws per respondent
-#' @param D Number of dimensions
+#' @param n_ind Number of individuals in your sample
+#' @param n_draws Number of draws per respondent
+#' @param n_dim Number of dimensions
 #' @param seed A seed to change the scrambling of the sobol sequence.
 #' @param type A character string
 #'
-#' @return A matrix of dimensions N*R x D of standard uniform draws
+#' @return A matrix of dimensions n_ind*n_draws x n_dim of standard uniform
+#' draws
 #'
 #' @examples
-#' N <- 10
-#' R <- 5
-#' D <- 3
+#' n_ind <- 10
+#' n_draws <- 5
+#' n_dim <- 3
 #'
-#' draws <- make_draws(N, R, D, seed = 10, "scrambled-sobol")
+#' draws <- make_draws(n_ind, n_draws, n_dim, seed = 10, "scrambled-sobol")
 #' head(draws)
 #'
-#' draws <- make_draws(N, R, D, seed = 10, "scrambled-halton")
+#' draws <- make_draws(n_ind, n_draws, n_dim, seed = 10, "scrambled-halton")
 #' head(draws)
 #'
 #'@export
-make_draws <- function(N, R, D, seed, type) {
+make_draws <- function(n_ind, n_draws, n_dim, seed, type) {
   draws <- switch(
     type,
-    `pseudo_random` = make_pseudo_random(N, R, D),
-    `mlhs` = make_mlhs(N, R, D),
-    `standard-halton` = make_standard_halton(N, R, D),
-    `scrambled-halton` = make_scrambled_halton(N, R, D),
-    `standard_sobol` = make_standard_sobol(N, R, D, seed),
-    `scrambled-sobol` = make_scrambled_sobol(N, R, D, seed)
+    `pseudo_random` = make_pseudo_random(n_ind, n_draws, n_dim),
+    `mlhs` = make_mlhs(n_ind, n_draws, n_dim),
+    `standard-halton` = make_standard_halton(n_ind, n_draws, n_dim),
+    `scrambled-halton` = make_scrambled_halton(n_ind, n_draws, n_dim),
+    `standard_sobol` = make_standard_sobol(n_ind, n_draws, n_dim, seed),
+    `scrambled-sobol` = make_scrambled_sobol(n_ind, n_draws, n_dim, seed)
   )
 
   # Return as matrix
@@ -57,19 +58,21 @@ shuffle <- function(x) {
 #' Hess, S., Train, K. E. & Polak, J. W., 2006, On the use of a Modified Latin
 #' Hypercube Sampling (MLHS) method in the estimation of a Mixed Logit Model
 #' for vehicle choice, Transportation Research Part B, 40, pp. 147-163
-make_mlhs <- function(N, R, D) {
+make_mlhs <- function(n_ind, n_draws, n_dim) {
   #   Define local parameters
-  n <- N * R
+  n <- n_ind * n_draws
   j <- 1L
   k <- 1L
 
-  draws <- matrix(0, n, D)
-  uniform <- seq(0, N - 1) / N
+  draws <- matrix(0, n, n_dim)
+  uniform <- seq(0, n_ind - 1) / n_ind
 
-  while (j < R + 1L) {
+  while (j < n_draws + 1L) {
     k <- 1L
-    while (k < D + 1L) {
-      draws[(1L + N * (j - 1L)):(N * j), k] <- shuffle(uniform + runif(1) / N)
+    while (k < n_dim + 1L) {
+      draws[(1L + n_ind * (j - 1L)):(n_ind * j), k] <- shuffle(
+        uniform + runif(1) / n_ind
+      )
       k <- k + 1L
     }
     j <- j + 1L
@@ -82,22 +85,22 @@ make_mlhs <- function(N, R, D) {
 #' Equation 1 in Bhat (2003)
 #'
 #' @inheritParams make_draws
-#' @param P A vector of prime numbers
+#' @param primes A vector of prime numbers
 #' @param count A matrix
 #' @param digit A vector
 #'
-#' @references Bhat, C. R., 2003, Simulation Estimation of Mixed Discrete Choice
-#' Models Using Randomized and Scrambled Halton Sequences, Transportation
+#' @references Bhat, C. n_draws., 2003, Simulation Estimation of Mixed Discrete
+#' Choice Models Using Randomized and Scrambled Halton Sequences, Transportation
 #' Research Part B, 9, pp. 837-855
-digitize <- function(D, P, count, digit) {
+digitize <- function(n_dim, primes, count, digit) {
   m <- 1L
   x <- NULL
 
-  while (m <= D) {
+  while (m <= n_dim) {
     l <- 1L
     r <- 1
     while (r == 1) {
-      x <- count[m, l] != (P[m] - 1)
+      x <- count[m, l] != (primes[m] - 1)
       r <- r - x
       count[m, l] <- (count[m, l] + 1) * (x == 1)
       digit[m] <- ((l - 1L) == digit[m]) + digit[m]
@@ -117,19 +120,19 @@ digitize <- function(D, P, count, digit) {
 #' @param perms A matrix of the permutations. Defaults to a set of
 #' Braaten-Weller permutations.
 #'
-#' @references Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
-#' Models Using Randomized and Scrambled Halton Sequences, Transportation
+#' @references Bhat, C. n_draws., 2003, Simulation Estimation of Mixed Descrete
+#' Choice Models Using Randomized and Scrambled Halton Sequences, Transportation
 #' Research Part B, 9, pp. 837-855
-radical_inverse <- function(D, P, count, digit, perms) {
+radical_inverse <- function(n_dim, primes, count, digit, perms) {
   m <- 1L
-  G <- matrix(0, 1L, D)
+  G <- matrix(0, 1L, n_dim)
 
-  while (m <= D) {
+  while (m <= n_dim) {
     l <- 1L
-    p <- P[m]
+    p <- primes[m]
     while (l <= digit[m]) {
       G[m] <- (perms[m, (count[m, l] + 1L)] / p) + G[m]
-      p <- p * P[m]
+      p <- p * primes[m]
       l <- l + 1L
     }
     m <- m + 1L
@@ -151,31 +154,33 @@ radical_inverse <- function(D, P, count, digit, perms) {
 #'
 #' @inheritParams make_draws
 #'
-#' @references Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
-#' Models Using Randomized and Scrambled Halton Sequences, Transportation
+#' @references Bhat, C. n_draws., 2003, Simulation Estimation of Mixed Descrete
+#' Choice Models Using Randomized and Scrambled Halton Sequences, Transportation
 #' Research Part B, 9, pp. 837-855
-make_scrambled_halton <- function(N, R, D) {
-  if (D > 16) {
+make_scrambled_halton <- function(n_ind, n_draws, n_dim) {
+  if (n_dim > 16) {
     stop("Cannot scramble sequences beyond the 16th prime")
   }
 
   max_digit <- 50
 
-  primes <- c(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53)[1L:D]
-  H <- matrix(0, (N * R), D)
+  primes <- c(
+    2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53
+  )[1L:n_dim]
+  H <- matrix(0, (n_ind * n_draws), n_dim)
 
   #   Initialize the scrambling sequence
-  count <- matrix(0, D, max_digit)
-  count[, 1L] <- rep(1, D)
-  digit <- rep(1, D)
-  H[1L, ] <- radical_inverse(D, primes, count, digit, xbrat)
+  count <- matrix(0, n_dim, max_digit)
+  count[, 1L] <- rep(1, n_dim)
+  digit <- rep(1, n_dim)
+  H[1L, ] <- radical_inverse(n_dim, primes, count, digit, xbrat)
 
   j <- 2L
-  while (j <= (N * R)) {
-    count_digit <- digitize(D, primes, count, digit)
+  while (j <= (n_ind * n_draws)) {
+    count_digit <- digitize(n_dim, primes, count, digit)
     count <- count_digit[["count"]]
     digit <- count_digit[["digit"]]
-    H[j, ] <- radical_inverse(D, primes, count, digit, xbrat)
+    H[j, ] <- radical_inverse(n_dim, primes, count, digit, xbrat)
     j <- j + 1L
   }
   return(H)
@@ -186,8 +191,8 @@ make_scrambled_halton <- function(N, R, D) {
 #' Wrapper function for halton() from randtoolbox to create a common interface
 #'
 #' @inheritParams make_draws
-make_standard_halton <- function(N, R, D) {
-  randtoolbox::halton(N * R, D)
+make_standard_halton <- function(n_ind, n_draws, n_dim) {
+  randtoolbox::halton(n_ind * n_draws, n_dim)
 }
 
 #' Make sobol draws
@@ -195,8 +200,8 @@ make_standard_halton <- function(N, R, D) {
 #' Wrapper function for sobol() from randtoolbox to create a common interface
 #'
 #' @inheritParams make_draws
-make_standard_sobol <- function(N, R, D, seed = seed) {
-  randtoolbox::sobol(N * R, D, seed = seed, scrambling = 0)
+make_standard_sobol <- function(n_ind, n_draws, n_dim, seed = seed) {
+  randtoolbox::sobol(n_ind * n_draws, n_dim, seed = seed, scrambling = 0)
 }
 
 #' Make scrambled sobol draws
@@ -205,8 +210,8 @@ make_standard_sobol <- function(N, R, D, seed = seed) {
 #' Owen + Fazure_Tezuka Scrambling
 #'
 #' @inheritParams make_draws
-make_scrambled_sobol <- function(N, R, D, seed = seed) {
-  randtoolbox::sobol(N * R, D, seed = seed, scrambling = 3)
+make_scrambled_sobol <- function(n_ind, n_draws, n_dim, seed = seed) {
+  randtoolbox::sobol(n_ind * n_draws, n_dim, seed = seed, scrambling = 3)
 }
 
 #' Make pseudo random draws
@@ -214,6 +219,6 @@ make_scrambled_sobol <- function(N, R, D, seed = seed) {
 #' Wrapper for runif to create a common interface
 #'
 #' @inheritParams make_draws
-make_pseudo_random <- function(N, R, D) {
-  matrix(runif(N * R * D), nrow = N * R, ncol = D)
+make_pseudo_random <- function(n_ind, n_draws, n_dim) {
+  matrix(runif(n_ind * n_draws * n_dim), nrow = n_ind * n_draws, ncol = n_dim)
 }

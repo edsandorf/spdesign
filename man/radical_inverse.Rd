@@ -4,12 +4,12 @@
 \alias{radical_inverse}
 \title{Compute the radical inverse}
 \usage{
-radical_inverse(D, P, count, digit, perms)
+radical_inverse(n_dim, primes, count, digit, perms)
 }
 \arguments{
-\item{D}{Number of dimensions}
+\item{n_dim}{Number of dimensions}
 
-\item{P}{A vector of prime numbers}
+\item{primes}{A vector of prime numbers}
 
 \item{count}{A matrix}
 
@@ -22,7 +22,7 @@ Braaten-Weller permutations.}
 Equation 2 in Bhat (2003)
 }
 \references{
-Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
-Models Using Randomized and Scrambled Halton Sequences, Transportation
+Bhat, C. n_draws., 2003, Simulation Estimation of Mixed Descrete
+Choice Models Using Randomized and Scrambled Halton Sequences, Transportation
 Research Part B, 9, pp. 837-855
 }

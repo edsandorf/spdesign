@@ -4,14 +4,14 @@
 \alias{make_scrambled_sobol}
 \title{Make scrambled sobol draws}
 \usage{
-make_scrambled_sobol(N, R, D, seed = seed)
+make_scrambled_sobol(n_ind, n_draws, n_dim, seed = seed)
 }
 \arguments{
-\item{N}{Number of respondents in your sample}
+\item{n_ind}{Number of individuals in your sample}
 
-\item{R}{Number of draws per respondent}
+\item{n_draws}{Number of draws per respondent}
 
-\item{D}{Number of dimensions}
+\item{n_dim}{Number of dimensions}
 
 \item{seed}{A seed to change the scrambling of the sobol sequence.}
 }
