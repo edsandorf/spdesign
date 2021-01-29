@@ -40,18 +40,18 @@ If you try to specify multiple priors for a single parameter, e.g. `b_x1[c(0.1, 
 
 ### A Bayesian prior
 
-We can specify a Bayesian prior by specifying the distribution of the prior. For example, `Up(-1, 1)` means that we allow the prior to follow a uniform distribution between -1 and 1. 
+We can specify a Bayesian prior by specifying the distribution of the prior. For example, `uniform_p(-1, 1)` means that we allow the prior to follow a uniform distribution between -1 and 1. 
 
 ```
-b_x1[Up(-1, 1)]
+b_x1[uniform_p(-1, 1)]
 ```
 
 We can use the following distributions:
 
-* Normal - `Np(mean, sd)`
-* Log-normal - `LNp(mean, sd)`
-* Triangular - `TRp(location, spread)`
-* Uniform - `Up(location, spread)`
+* Normal - `normal_p(mean, sd)`
+* Log-normal - `lognormal_p(mean, sd)`
+* Triangular - `triangular_p(location, spread)`
+* Uniform - `uniform_p(location, spread)`
 
 All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Notice that the name of the distribution is in capital letters followed by a lower case `p` indicating that it is a prior. This is to distinguish it from a random parameter in an RPL model. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs. 
 

@@ -22,7 +22,7 @@ The first step in generating a design is to specify the design options
 ```{r, eval = FALSE}
 design_opts <- list(
   optimization_algorithm = "random",
-  efficiency_criteria = "d_efficiency",
+  efficiency_criteria = "d-error",
   model = "mnl",
   blocks = 1,
   tasks = 6,
@@ -43,19 +43,19 @@ The A-efficiency criteria, or A-error, seeks to minimize the trace of the varian
 $$
 \mathrm{A} = \frac{\mathrm{tr}(\Omega)}{K}
 $$
-To use A-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "a_efficiency"`.
+To use A-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "a-error"`.
 
 ### C-efficiency
 
 The C-efficiency criteria, or C-error, seeks to minimize the variance of the ratio of two parameters, e.g. willingness-to-pay, which is the ratio of the non-cost to the negative of the cost (or price) parameter when the utility function is separable, additive and linear in the parameters [@scarpa_design_2008]. Optimizing a design for the outcome of interest may in some cases be more useful than optimizing for smaller standard errors of the estimates themselves (which is the case of the D-error discussed below). 
 
-This is specified as: `efficiency_criteria = "c_efficiency"`. 
+This is specified as: `efficiency_criteria = "c-error"`. 
 
 $$
 \mathrm{C} = \mathrm{Var}\left(\frac{\beta_k}{-\beta_j}\right)\approx\beta_j^{-2}\left[\mathrm{Var}(\beta_k)-2\beta_k\beta_j^{-1}\mathrm{Cov}(\beta_k,\beta_j)+(\beta_k/\beta_j)^2\mathrm{Var}(\beta_j)\right]
 $$
 
-Where $\beta_j$ is the "cost"-parameter and $\beta_k$ a vector of non-cost parameters. It is important to note that if the prior for either the numerator or denominator is zero, the ratio is either 0 or $+\infty$ and the standard errors cannot be calculated. To use C-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "c_efficiency"`.
+Where $\beta_j$ is the "cost"-parameter and $\beta_k$ a vector of non-cost parameters. It is important to note that if the prior for either the numerator or denominator is zero, the ratio is either 0 or $+\infty$ and the standard errors cannot be calculated. To use C-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "c-error"`.
 
 ### D-efficiency
 The D-efficiency criteria, or D-error, seeks to minimize the determinant of the variance-covariance matrix, which all else equal, leads to smaller standard errors. The idea being that you can get significance with a samller sample size if your design contains more information, i.e. more informative trade-offs. Unlike the A-error, the D-error considers the covariances as well as the only the variances and is less affected by very large variances for single parameters. 
@@ -63,7 +63,7 @@ The D-efficiency criteria, or D-error, seeks to minimize the determinant of the 
 $$
 \mathrm{D} = \det\left(\Omega\left(\beta, X\right)\right)^{1/K}
 $$
-To use D-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "d_efficiency"`.
+To use D-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "d-error"`.
 
 ### S-efficiency
 
@@ -72,7 +72,7 @@ The S-efficiency measure, or S-error, calculates the theoretical lower-bound sam
 $$
 \mathrm{N} \geq \left(\frac{\mathrm{s.e.}_{j,k}(\beta, X)t_\alpha}{\beta_k}\right)^2
 $$
-where $N$ is the theoretical minimum sample size and $t_\alpha$ is the t-value corresponding to significance level $\alpha$ and is set by the researcher. It is important to note that in the case of zero priors, the S-error cannot be calculated and will return $+\infty$. To use S-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "s_efficiency"`.
+where $N$ is the theoretical minimum sample size and $t_\alpha$ is the t-value corresponding to significance level $\alpha$ and is set by the researcher. It is important to note that in the case of zero priors, the S-error cannot be calculated and will return $+\infty$. To use S-efficiency as the criteria to optimize the design simply specify: `efficiency_criteria = "s-error"`.
 
 ## Draws
 When creating a design using Bayesian priors, with random parameters or both, it is necessary to specify the type of draws to use and how many. While researchers agree that scrambled low-discrepancy sequences, e.g. Halton, Sobol or MLHS, perform better than non-scrambled and pseudo-random sequences [@train_discrete_2009; @hess_use_2006; @bhat_simulation_2003], some simulation evidence suggest that scrambled Sobol sequences perform best in simulation, especially as the number of random parameters increase [@czajkowski_simulation_2019]. For this reason, we have set scrambled Sobol as the default choice. The complete list of options is: `pseudo-random`, `mlhs`, `standard-halton`, `scrambled-halton`, `standard-sobol` and `scrambled-sobol`. The option is passed the list of options using `draws_type`. Note that if you use Halton or scrambled Halton draws, the same draws will be used for both the priors and the parameters. This is not advised and if you are optimizing a random parameter logit model with Bayesian priors, use a different set of draws! This issue is noted and can be tracked through the package's [GitHub repository](https://github.com/edsandorf/spdesign/issues/16), but is low priority to be fixed.

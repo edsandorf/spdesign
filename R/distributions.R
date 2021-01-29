@@ -10,25 +10,25 @@
 #'
 #' @param mu A parameter indicating the mean or location of the distribution
 #' depending on whether it is a normal, log-normal, triangular or uniform,
-#' or it can be another call to \code{\link{N}}, \code{\link{LN}},
-#' \code{\link{U}} or \code{\link{TR}} if the model is an RPL with a Bayesian
+#' or it can be another call to \code{\link{normal}}, \code{\link{lognormal}},
+#' \code{\link{uniform}} or \code{\link{triangular}} if the model is an RPL with a Bayesian
 #' prior.
 #' @param sigma A parameter indicating the SD or spread of the distribution
-#' or it can be another call to \code{\link{N}}, \code{\link{LN}},
-#'  \code{\link{U}} or \code{\link{TR}}.
+#' or it can be another call to \code{\link{normal}}, \code{\link{lognormal}},
+#'  \code{\link{uniform}} or \code{\link{triangular}}.
 #'
 #' @return A list of parameters
 #'
-#' @describeIn N The normal distribution
+#' @describeIn normal The normal distribution
 #'
 #' @examples
 #' \dontrun{
-#' eval(parse(text = "N(0, 1)"))
-#' eval(parse(text = "LN(0, 1)"))
-#' eval(parse(text = "TR(0, 1)"))
-#' eval(parse(text = "U(0, 1)"))
+#' eval(parse(text = "normal(0, 1)"))
+#' eval(parse(text = "lognormal(0, 1)"))
+#' eval(parse(text = "triangular(0, 1)"))
+#' eval(parse(text = "uniform(0, 1)"))
 #' }
-N <- function(mu, sigma) {
+normal <- function(mu, sigma) {
   list(
     mu = mu,
     sigma = sigma
@@ -36,11 +36,11 @@ N <- function(mu, sigma) {
 }
 
 #' A normally distributed prior
-#' @describeIn N The normal distribution when applied to a prior
-Np <- N
+#' @describeIn normal The normal distribution when applied to a prior
+normal_p <- normal
 
-#' @describeIn N The log normal distribution
-LN <- function(mu, sigma) {
+#' @describeIn normal The log normal distribution
+lognormal <- function(mu, sigma) {
   list(
     mu = mu,
     sigma = sigma
@@ -48,11 +48,11 @@ LN <- function(mu, sigma) {
 }
 
 #' A log-normally distributed prior
-#' @describeIn N The log-normal distribution when applied to a prior
-LNp <- LN
+#' @describeIn normal The log-normal distribution when applied to a prior
+lognormal_p <- lognormal
 
-#' @describeIn N The triangular distribution
-TR <- function(mu, sigma) {
+#' @describeIn normal The triangular distribution
+triangular <- function(mu, sigma) {
   list(
     mu = mu,
     sigma = sigma
@@ -60,11 +60,11 @@ TR <- function(mu, sigma) {
 }
 
 #' A triangular distributed prior
-#' @describeIn N The triangular distribution when applied to a prior
-TRp <- TR
+#' @describeIn normal The triangular distribution when applied to a prior
+triangular_p <- triangular
 
-#' @describeIn N The uniform distribution
-U <- function(mu, sigma) {
+#' @describeIn normal The uniform distribution
+uniform <- function(mu, sigma) {
   list(
     mu = mu,
     sigma = sigma
@@ -72,10 +72,8 @@ U <- function(mu, sigma) {
 }
 
 #' A uniform distributed prior
-#' @describeIn N The uniform distribution when applied to a prior
-Up <- U
-
-
+#' @describeIn normal The uniform distribution when applied to a prior
+uniform_p <- uniform
 
 #' Transform distribution
 #'
@@ -88,38 +86,38 @@ Up <- U
 transform_distribution <- function(mu, sigma, eta, type) {
   switch(
     type,
-    N = transform_n(mu, sigma, eta),
-    LN = transform_ln(mu, sigma, eta),
-    U = transform_u(mu, sigma, eta),
-    TR = transform_tr(mu, sigma, eta),
+    normal = transform_normal(mu, sigma, eta),
+    lognormal = transform_lognormal(mu, sigma, eta),
+    uniform = transform_uniform(mu, sigma, eta),
+    triangular = transform_triangular(mu, sigma, eta),
   )
 }
 
 #' Transform to the normal distribution
 #'
 #' @inheritParams transform_distribution
-transform_n <- function(mu, sigma, eta) {
+transform_normal <- function(mu, sigma, eta) {
   mu + sigma * qnorm(eta)
 }
 
 #' Transform to the lognormal distribution
 #'
 #' @inheritParams transform_distribution
-transform_ln <- function(mu, sigma, eta) {
+transform_lognormal <- function(mu, sigma, eta) {
   exp(mu + sigma * qnorm(eta))
 }
 
 #' Transform to the uniform distribution
 #'
 #' @inheritParams transform_distribution
-transform_u <- function(mu, sigma, eta) {
+transform_uniform <- function(mu, sigma, eta) {
   mu + sigma * (2 * eta - 1)
 }
 
 #' Transform to the triangular distribution
 #'
 #' @inheritParams transform_distribution
-transform_tr <- function(mu, sigma, eta) {
+transform_triangular <- function(mu, sigma, eta) {
   idx <- +(eta < 0.5)
   eta <- idx * (sqrt(2 * eta) - 1) + (1 - idx) * (1 - sqrt(2 * (1 - eta)))
   mu + sigma * eta

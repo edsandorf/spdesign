@@ -135,7 +135,7 @@ extract_specified <- function(string, simplify = FALSE) {
 #' @param type A string indicating the type: prior or param
 #'
 #' @return A named vector of priors or parameters where the type of distribution
-#' is given by a character letter: "N", "LN", "U" or "TR"
+#' is given by a character letter: "normal", "lognormal", "uniform" or "triangular"
 extract_distribution <- function(string, type) {
   b <- switch(
     type,
@@ -148,7 +148,7 @@ extract_distribution <- function(string, type) {
     return(NA)
   }
 
-  expr <- "(?<=\\[)(N|LN|U|TR)"
+  expr <- "(?<=\\[)(normal|lognormal|uniform|triangular)"
   distribution <- unlist(str_extract_all(b, expr))
   b_names <- extract_param_names(b)
   names(distribution) <- b_names
@@ -161,7 +161,7 @@ extract_distribution <- function(string, type) {
 #'
 #' @inheritParams extract_distribution
 extract_prior_distribution <- function(string) {
-  expr <- "\\b\\w*\\[(Np|Up|LNp|TRp)\\(.*?\\]"
+  expr <- "\\b\\w*\\[(normal_p|uniform_p|lognormal_p|triangular_p)\\(.*?\\]"
   unlist(str_extract_all(string, expr))
 }
 
@@ -169,6 +169,6 @@ extract_prior_distribution <- function(string) {
 #'
 #' @inheritParams extract_distribution
 extract_param_distribution <- function(string) {
-  expr <- "\\b\\w*\\[(N|U|LN|TR)\\(.*?\\]"
+  expr <- "\\b\\w*\\[(normal|uniform|lognormal|triangular)\\(.*?\\]"
   unlist(str_extract_all(string, expr))
 }

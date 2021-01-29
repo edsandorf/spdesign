@@ -53,7 +53,7 @@ is_balanced <- function(string, open, close) {
 #'
 #' @return A boolean
 has_bayesian_prior <- function(string) {
-  any(str_detect(string, "(Np|LNp|Up|TRp)\\("))
+  any(str_detect(string, "(normal_p|lognormal_p|uniform_p|triangular_p)\\("))
 }
 
 #' Tests whether the utility expression contains random parameters
@@ -65,5 +65,5 @@ has_bayesian_prior <- function(string) {
 #'
 #' @return A boolean
 has_random_parameter <- function(string) {
-  any(str_detect(string, "(N|LN|U|TR)\\("))
+  any(str_detect(string, "(normal|lognormal|uniform|triangular)\\("))
 }
