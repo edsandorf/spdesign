@@ -5,7 +5,7 @@
 #'  \code{\link{rsc}}.
 #'
 #' The purpose of passing in utility is two-fold:
-#' 1) We can determine nalts
+#' 1) We can determine n_alts
 #' 2) We can extract the attribute names for each utility function to allow us
 #' to place the correct restrictions on the design candidate. Specifically, we
 #' restrict all levels of unavailable attributes to zero for alternatives where
@@ -20,7 +20,7 @@
 #' @param utility The list of utility expressions
 #' @param type One of the implemented types of optimization algorithms
 #'
-#' @return A list the length of nalts with the design matrix for each
+#' @return A list the length of n_alts with the design matrix for each
 #' alternative
 make_design_candidate <- function(candidate_set, opts, utility, type) {
   switch(
@@ -36,18 +36,18 @@ make_design_candidate <- function(candidate_set, opts, utility, type) {
 #' @inheritParams make_design_candidate
 random <- function(candidate_set, opts, utility) {
   # Some useful things
-  nalts <- length(utility)
+  n_alts <- length(utility)
   rows <- nrow(candidate_set)
   col_names <- colnames(candidate_set)
-  candidates <- opts$tasks * opts$blocks * nalts
-  split_idx <- shuffle(rep(seq_len(nalts), (opts$tasks * opts$blocks)))
+  candidates <- opts$tasks * opts$blocks * n_alts
+  split_idx <- shuffle(rep(seq_len(n_alts), (opts$tasks * opts$blocks)))
   candidate_idx <- split(
     sample(seq_len(rows), candidates, replace = opts$sample_with_replacement),
     split_idx
   )
 
   # Create the design candidate
-  design_candidate <- lapply(seq_len(nalts), function(j) {
+  design_candidate <- lapply(seq_len(n_alts), function(j) {
     candidate_subset <- candidate_set[candidate_idx[[j]], ]
     # Restrict unavailable attributes to zero to correctly derive vcov
     restrictions <- +(col_names %in% extract_attribute_names(utility[[j]]))

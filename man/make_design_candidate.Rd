@@ -16,7 +16,7 @@ make_design_candidate(candidate_set, opts, utility, type)
 \item{type}{One of the implemented types of optimization algorithms}
 }
 \value{
-A list the length of nalts with the design matrix for each
+A list the length of n_alts with the design matrix for each
 alternative
 }
 \description{
@@ -26,7 +26,7 @@ design algorithms \code{\link{random}}, \code{\link{federov}} and
 }
 \details{
 The purpose of passing in utility is two-fold:
-1) We can determine nalts
+1) We can determine n_alts
 2) We can extract the attribute names for each utility function to allow us
 to place the correct restrictions on the design candidate. Specifically, we
 restrict all levels of unavailable attributes to zero for alternatives where
