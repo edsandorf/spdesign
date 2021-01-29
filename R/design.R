@@ -26,22 +26,30 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   )
 
   # Checks on utility
-  ansi_with_hidden_cursor(check_v(utility))
+  ansi_with_hidden_cursor(
+    check_v(utility)
+  )
 
   # Checks on opts
-  ansi_with_hidden_cursor(check_opts(opts))
+  ansi_with_hidden_cursor(
+    check_opts(opts)
+  )
 
   # Set default options
   opts <- set_defaults(opts)
 
   # Checks on the candidate set
-  ansi_with_hidden_cursor(check_candidate_set(candidate_set))
+  ansi_with_hidden_cursor(
+    check_candidate_set(candidate_set)
+  )
 
   # Parse utility ----
   cli_h2(
     "Parsing the utility expression"
   )
+
   parsed_v <- parse_utility(utility)
+
   cli_alert_success(
     "The supplied utility expression 'utility' has been parsed"
   )
@@ -50,6 +58,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   cli_h2(
     "Applying restrictions to the candidate set"
   )
+
   if (is.null(candidate_set)) {
     candidate_set <- generate_full_factorial(parsed_v$attrs)
     cli_alert_success(
@@ -134,9 +143,16 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   current_best <- NULL
   error_measures_string <- c("a-error", "c-error", "d-error", "s-error")
   time_start <- Sys.time()
+  best_design_candidate <- NULL
+  on.exit(
+    return(best_design_candidate),
+    add = TRUE
+  )
+
+  # Search for designs until the criteria are met
   repeat {
     # Create a design candidate
-    design_candidate <- make_design_candidate(
+    current_design_candidate <- make_design_candidate(
       candidate_set,
       opts,
       utility,
@@ -146,8 +162,8 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     # Update the design environment
     list2env(
       c(
-        as.list(as.data.frame(do.call(cbind, design_candidate))),
-        list(X = design_candidate)
+        as.list(as.data.frame(do.call(cbind, current_design_candidate))),
+        list(X = current_design_candidate)
       ),
       envir = design_environment
     )
@@ -164,6 +180,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
           error_measures_string,
           opts
         )
+
       } else {
         error_measures <- lapply(
           priors,
@@ -173,6 +190,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
           opts
         )
       }
+
       error_measures <- matrixStats::colMeans2(
         do.call(
           rbind,
@@ -180,6 +198,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
         ),
         na.rm = TRUE
       )
+
     } else {
       error_measures <- calculate_error_measures(
         priors,
@@ -197,7 +216,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     }
 
     # Add the efficiency measures to the design candidate
-    attr(design_candidate, "error_measures") <- error_measures
+    attr(current_design_candidate, "error_measures") <- error_measures
 
     # Print update to set new current best (incl. first iteration)
     if (current_error < current_best || is.null(current_best)) {
@@ -212,9 +231,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
       )
 
       current_best <- current_error
-
-      # Need to find a different solution to assigning to global
-      assign("best_design_candidate", design_candidate, envir = .GlobalEnv)
+      best_design_candidate <- current_design_candidate
     }
 
     # Stopping conditions ----
@@ -248,4 +265,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     Sys.time() - time_start,
     "\n"
   )
+
+  # Return the best design candidate
+  best_design_candidate
 }

@@ -22,4 +22,4 @@ utility <- list(
 )
 
 # Generate designs ----
-generate_design(utility, opts)
+design <- generate_design(utility, opts)

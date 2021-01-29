@@ -12,7 +12,7 @@ opts <- list(
   blocks = 1,
   tasks = 6,
   cores = 1,
-  max_iter = 1000
+  max_iter = 100
 )
 
 # Define the list of utility functions ----
@@ -22,4 +22,4 @@ utility <- list(
 )
 
 # Generate designs ----
-generate_design(utility, opts)
+design <- generate_design(utility, opts)
