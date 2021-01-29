@@ -82,10 +82,6 @@ parse_utility <- function(utility) {
   # Restore names that were dropped when cleaning utility
   names(cleaned_utility) <- names(utility)
   attrs <- values[!param_idx]
-  # This next step may not be necessary
-  # attrs <- lapply(cleaned_utility, function(v) {
-  #   attrs[extract_attribute_names(v, TRUE)]
-  # })
 
   # Return a list with cleaned utility, parameters and attributes
   list(
