@@ -42,7 +42,7 @@ prepare_priors <- function(utility, parsed_utility, opts) {
     non_bayesian_priors <- rep_rows(non_bayesian_priors, nrow(bayesian_priors))
 
     # Combine into the matrix of priors
-    priors <- cbind(bayesian_priors, non_bayesian_priors)
+    priors <- cbind(bayesian_priors, non_bayesian_priors)[, names(param)]
 
     # Priors as a list to allow direct use of lapply()
     priors <- lapply(seq_len(nrow(priors)), function(i) priors[i, ])
