@@ -50,7 +50,9 @@ random <- function(candidate_set, opts, utility) {
   design_candidate <- lapply(seq_len(n_alts), function(j) {
     candidate_subset <- candidate_set[candidate_idx[[j]], ]
     # Restrict unavailable attributes to zero to correctly derive vcov
-    restrictions <- +(col_names %in% extract_attribute_names(utility[[j]]))
+    restrictions <- as.integer(
+      col_names %in% extract_attribute_names(utility[[j]])
+    )
     candidate_subset <- t(t(candidate_subset) * restrictions)
     colnames(candidate_subset) <- paste(colnames(candidate_subset), j,
                                         sep = "_")

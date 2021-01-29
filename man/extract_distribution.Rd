@@ -14,7 +14,8 @@ single or multiple utility functions}
 }
 \value{
 A named vector of priors or parameters where the type of distribution
-is given by a character letter: "normal", "lognormal", "uniform" or "triangular"
+is given by a character letter: "normal", "lognormal", "uniform" or
+"triangular"
 }
 \description{
 This function will locate and extract the the distributions for Bayesian

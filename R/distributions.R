@@ -11,8 +11,8 @@
 #' @param mu A parameter indicating the mean or location of the distribution
 #' depending on whether it is a normal, log-normal, triangular or uniform,
 #' or it can be another call to \code{\link{normal}}, \code{\link{lognormal}},
-#' \code{\link{uniform}} or \code{\link{triangular}} if the model is an RPL with a Bayesian
-#' prior.
+#' \code{\link{uniform}} or \code{\link{triangular}} if the model is an RPL with
+#' a Bayesian prior.
 #' @param sigma A parameter indicating the SD or spread of the distribution
 #' or it can be another call to \code{\link{normal}}, \code{\link{lognormal}},
 #'  \code{\link{uniform}} or \code{\link{triangular}}.
@@ -118,7 +118,7 @@ transform_uniform <- function(mu, sigma, eta) {
 #'
 #' @inheritParams transform_distribution
 transform_triangular <- function(mu, sigma, eta) {
-  idx <- +(eta < 0.5)
+  idx <- as.integer(eta < 0.5)
   eta <- idx * (sqrt(2 * eta) - 1) + (1 - idx) * (1 - sqrt(2 * (1 - eta)))
   mu + sigma * eta
 }

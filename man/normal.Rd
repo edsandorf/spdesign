@@ -31,8 +31,8 @@ uniform_p(mu, sigma)
 \item{mu}{A parameter indicating the mean or location of the distribution
 depending on whether it is a normal, log-normal, triangular or uniform,
 or it can be another call to \code{\link{normal}}, \code{\link{lognormal}},
-\code{\link{uniform}} or \code{\link{triangular}} if the model is an RPL with a Bayesian
-prior.}
+\code{\link{uniform}} or \code{\link{triangular}} if the model is an RPL with
+a Bayesian prior.}
 
 \item{sigma}{A parameter indicating the SD or spread of the distribution
 or it can be another call to \code{\link{normal}}, \code{\link{lognormal}},

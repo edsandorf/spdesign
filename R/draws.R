@@ -125,19 +125,19 @@ digitize <- function(n_dim, primes, count, digit) {
 #' Research Part B, 9, pp. 837-855
 radical_inverse <- function(n_dim, primes, count, digit, perms) {
   m <- 1L
-  G <- matrix(0, 1L, n_dim)
+  g <- matrix(0, 1L, n_dim)
 
   while (m <= n_dim) {
     l <- 1L
     p <- primes[m]
     while (l <= digit[m]) {
-      G[m] <- (perms[m, (count[m, l] + 1L)] / p) + G[m]
+      g[m] <- (perms[m, (count[m, l] + 1L)] / p) + g[m]
       p <- p * primes[m]
       l <- l + 1L
     }
     m <- m + 1L
   }
-  return(G)
+  return(g)
 }
 
 #' Make scrambled Halton draws
@@ -167,23 +167,23 @@ make_scrambled_halton <- function(n_ind, n_draws, n_dim) {
   primes <- c(
     2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53
   )[1L:n_dim]
-  H <- matrix(0, (n_ind * n_draws), n_dim)
+  h <- matrix(0, (n_ind * n_draws), n_dim)
 
   #   Initialize the scrambling sequence
   count <- matrix(0, n_dim, max_digit)
   count[, 1L] <- rep(1, n_dim)
   digit <- rep(1, n_dim)
-  H[1L, ] <- radical_inverse(n_dim, primes, count, digit, xbrat)
+  h[1L, ] <- radical_inverse(n_dim, primes, count, digit, xbrat)
 
   j <- 2L
   while (j <= (n_ind * n_draws)) {
     count_digit <- digitize(n_dim, primes, count, digit)
     count <- count_digit[["count"]]
     digit <- count_digit[["digit"]]
-    H[j, ] <- radical_inverse(n_dim, primes, count, digit, xbrat)
+    h[j, ] <- radical_inverse(n_dim, primes, count, digit, xbrat)
     j <- j + 1L
   }
-  return(H)
+  return(h)
 }
 
 #' Wrapper for halton()

@@ -135,7 +135,8 @@ extract_specified <- function(string, simplify = FALSE) {
 #' @param type A string indicating the type: prior or param
 #'
 #' @return A named vector of priors or parameters where the type of distribution
-#' is given by a character letter: "normal", "lognormal", "uniform" or "triangular"
+#' is given by a character letter: "normal", "lognormal", "uniform" or
+#' "triangular"
 extract_distribution <- function(string, type) {
   b <- switch(
     type,
