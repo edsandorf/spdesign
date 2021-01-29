@@ -135,11 +135,6 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   error_measures_string <- c("a-error", "c-error", "d-error", "s-error")
   time_start <- Sys.time()
   repeat {
-    # Print initial header to console
-    if (iter == 1) {
-      print_initial_header(opts, padding = 10, width = 80)
-    }
-
     # Create a design candidate
     design_candidate <- make_design_candidate(
       candidate_set,
@@ -204,14 +199,15 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     # Add the efficiency measures to the design candidate
     attr(design_candidate, "error_measures") <- error_measures
 
-    # Print update to set new current best
+    # Print update to set new current best (incl. first iteration)
     if (current_error < current_best || is.null(current_best)) {
-      print_efficiency_criteria(
+      print_iteration_information(
         iter,
-        error_measures,
-        error_measures_string,
+        values = error_measures,
+        criteria = error_measures_string,
         digits = 4,
         padding = 10,
+        width = 80,
         opts
       )
 

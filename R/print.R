@@ -1,14 +1,59 @@
+#' Prints iteration information
+#'
+#' Prints iteration information every time a better design is found. The
+#' function wraps around \code{\link{print_initial_header}} and
+#' \code{\link{print_efficiency_criteria}}. This reduces the number of
+#' if-statements and function calls within \code{\link{generate_design}} in an
+#' attempt simplify code maintenance.
+#'
+#' @param iter An integer giving the iteration of the loop
+#' @param values The value of the efficiency criteria obtained by
+#' \code{\link{calculate_efficiency_criteria}}
+#' @param criteria A character string with the name of the efficiency criteria.
+#' See manual for valid values
+#' @param digits The nubmer of digits to round the printed value to. The default
+#' is 4.
+#' @param padding An integer specifying the padding of each column element.
+#' Default value is 10.
+#' @param width An integer giving the width of the horizontal rules. Default
+#' value is 80
+#' @param opts The list of design options. The default is NULL, but must be
+#' specified to print the criteria in color.
+#'
+#' @return Nothing
+print_iteration_information <- function(
+  iter,
+  values,
+  criteria,
+  digits = 4,
+  padding = 10,
+  width = 80,
+  opts
+) {
+  # Print the header at the first iteration
+  if (iter == 1) {
+    print_initial_header(opts, padding = 10, width = 80)
+  }
+
+  # Print information on the efficiency criteria
+  print_efficiency_criteria(
+    iter,
+    values,
+    criteria,
+    digits = 4,
+    padding = 10,
+    opts = NULL
+  )
+
+}
+
 #' Prints the initial header for the table of results
 #'
 #' The function prints the initial header for the console output and colors in
 #' the criteria used for optimization. Effectively, the function makes multiple
-#' calls to \code{\link{cat}}
+#' calls to \code{\link{cat}}.
 #'
-#' @param opts A list of options
-#' @param padding An integer specifying the padding of each column element.
-#' Default value is 10
-#' @param width An integer giving the width of the horizontal rules. Default
-#' value is 80
+#' @inheritParams print_iteration_information
 #'
 #' @return Noting
 print_initial_header <- function(opts, padding = 10, width = 80) {
@@ -46,20 +91,11 @@ print_initial_header <- function(opts, padding = 10, width = 80) {
 
 #' Creates a printable version of the efficiency criteria
 #'
-#' The function is only meant for internal use to handle pretty printing to
-#' console.
+#' The function prints a string of efficiency criteria to the console and
+#' highlights the color of the considered efficiency criteria. Effectively it
+#' is a wrapper around multiple calls to \code{\link{cat}}.
 #'
-#' @param iter An integer giving the iteration of the loop
-#' @param values The value of the efficiency criteria obtained by
-#' \code{\link{calculate_efficiency_criteria}}
-#' @param criteria A character string with the name of the efficiency criteria.
-#' See manual for valid values
-#' @param digits The nubmer of digits to round the printed value to. The default
-#' is 4.
-#' @param padding An integer specifying the padding of each column element.
-#' Default value is 10.
-#' @param opts The list of design options. The default is NULL, but must be
-#' specified to print the criteria in colour.
+#' @inheritParams print_iteration_information
 #'
 #' @return A character string.
 print_efficiency_criteria <- function(

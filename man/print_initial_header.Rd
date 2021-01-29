@@ -7,10 +7,11 @@
 print_initial_header(opts, padding = 10, width = 80)
 }
 \arguments{
-\item{opts}{A list of options}
+\item{opts}{The list of design options. The default is NULL, but must be
+specified to print the criteria in color.}
 
 \item{padding}{An integer specifying the padding of each column element.
-Default value is 10}
+Default value is 10.}
 
 \item{width}{An integer giving the width of the horizontal rules. Default
 value is 80}
@@ -21,5 +22,5 @@ Noting
 \description{
 The function prints the initial header for the console output and colors in
 the criteria used for optimization. Effectively, the function makes multiple
-calls to \code{\link{cat}}
+calls to \code{\link{cat}}.
 }
