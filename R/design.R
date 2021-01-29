@@ -135,38 +135,9 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   error_measures_string <- c("a-error", "c-error", "d-error", "s-error")
   time_start <- Sys.time()
   repeat {
-    # Set up the initial printing to console (if statement for efficiency)
+    # Print initial header to console
     if (iter == 1) {
-      cat("\n")
-      cat(rule(width = 76), "\n")
-      cat(
-        str_c(
-          str_pad("Iteration", 10, "left", " "),
-          if ("a-error" %in% opts$efficiency_criteria) {
-            col_green(str_pad("A-error", 10, "left"))
-          } else {
-            str_pad("A-error", 10, "left", " ")
-          },
-          if ("c-error" %in% opts$efficiency_criteria) {
-            col_green(str_pad("C-error", 10, "left"))
-          } else {
-            str_pad("C-error", 10, "left", " ")
-          },
-          if ("d-error" %in% opts$efficiency_criteria) {
-            col_green(str_pad("D-error", 10, "left"))
-          } else {
-            str_pad("D-error", 10, "left", " ")
-          },
-          if ("s-error" %in% opts$efficiency_criteria) {
-            col_green(str_pad("S-error", 10, "left"))
-          } else {
-            str_pad("S-error", 10, "left", " ")
-          },
-
-          str_pad("Time stamp\n", 25, "left", " ")
-        )
-      )
-      cat(rule(width = 76), "\n")
+      print_initial_header(opts, padding = 10, width = 80)
     }
 
     # Create a design candidate
@@ -235,23 +206,14 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
 
     # Print update to set new current best
     if (current_error < current_best || is.null(current_best)) {
-      printable_string <- lapply(
-        seq_along(error_measures),
-        function(i) {
-          print_efficiency_criteria(
-            error_measures[[i]],
-            error_measures_string[i],
-            4,
-            opts
-          )
-        }
+      print_efficiency_criteria(
+        iter,
+        error_measures,
+        error_measures_string,
+        digits = 4,
+        padding = 10,
+        opts
       )
-
-      cat(str_c(
-        str_pad(as.character(iter), 10, "left", " "),
-        do.call(str_c, printable_string),
-        str_pad(paste0(Sys.time(), "\n"), 25, "left", " ")
-      ))
 
       current_best <- current_error
 

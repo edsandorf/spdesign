@@ -4,14 +4,16 @@
 \alias{print_initial_header}
 \title{Prints the initial header for the table of results}
 \usage{
-print_initial_header(opts, padding, width)
+print_initial_header(opts, padding = 10, width = 80)
 }
 \arguments{
 \item{opts}{A list of options}
 
-\item{padding}{An integer specifying the padding of each column element}
+\item{padding}{An integer specifying the padding of each column element.
+Default value is 10}
 
-\item{width}{An integer giving the width of the horizontal rules}
+\item{width}{An integer giving the width of the horizontal rules. Default
+value is 80}
 }
 \value{
 Noting

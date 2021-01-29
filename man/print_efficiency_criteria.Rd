@@ -4,10 +4,19 @@
 \alias{print_efficiency_criteria}
 \title{Creates a printable version of the efficiency criteria}
 \usage{
-print_efficiency_criteria(value, criteria, digits = 4, opts = NULL)
+print_efficiency_criteria(
+  iter,
+  values,
+  criteria,
+  digits = 4,
+  padding = 10,
+  opts = NULL
+)
 }
 \arguments{
-\item{value}{The value of the efficiency criteria obtained by
+\item{iter}{An integer giving the iteration of the loop}
+
+\item{values}{The value of the efficiency criteria obtained by
 \code{\link{calculate_efficiency_criteria}}}
 
 \item{criteria}{A character string with the name of the efficiency criteria.
@@ -15,6 +24,9 @@ See manual for valid values}
 
 \item{digits}{The nubmer of digits to round the printed value to. The default
 is 4.}
+
+\item{padding}{An integer specifying the padding of each column element.
+Default value is 10.}
 
 \item{opts}{The list of design options. The default is NULL, but must be
 specified to print the criteria in colour.}
