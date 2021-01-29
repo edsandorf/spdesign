@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make scrambled sobol draws — make_scrambled_sobol • spdesign</title>
+<title>Prints iteration information — print_iteration_information • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,12 @@
 
 
 
-<meta property="og:title" content="Make scrambled sobol draws — make_scrambled_sobol" />
-<meta property="og:description" content="Wrapper function for sobol() from randtoolbox to create a common interface.
-Owen + Fazure_Tezuka Scrambling" />
+<meta property="og:title" content="Prints iteration information — print_iteration_information" />
+<meta property="og:description" content="Prints iteration information every time a better design is found. The
+function wraps around print_initial_header and
+print_efficiency_criteria. This reduces the number of
+if-statements and function calls within generate_design in an
+attempt simplify code maintenance." />
 
 
 
@@ -130,39 +133,71 @@ Owen + Fazure_Tezuka Scrambling" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make scrambled sobol draws</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/draws.R'><code>R/draws.R</code></a></small>
-    <div class="hidden name"><code>make_scrambled_sobol.Rd</code></div>
+    <h1>Prints iteration information</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/print.R'><code>R/print.R</code></a></small>
+    <div class="hidden name"><code>print_iteration_information.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function for sobol() from randtoolbox to create a common interface.
-Owen + Fazure_Tezuka Scrambling</p>
+    <p>Prints iteration information every time a better design is found. The
+function wraps around <code><a href='print_initial_header.html'>print_initial_header</a></code> and
+<code><a href='print_efficiency_criteria.html'>print_efficiency_criteria</a></code>. This reduces the number of
+if-statements and function calls within <code><a href='generate_design.html'>generate_design</a></code> in an
+attempt simplify code maintenance.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_scrambled_sobol</span><span class='op'>(</span><span class='va'>n_ind</span>, <span class='va'>n_draws</span>, <span class='va'>n_dim</span>, seed <span class='op'>=</span> <span class='va'>seed</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>print_iteration_information</span><span class='op'>(</span>
+  <span class='va'>iter</span>,
+  <span class='va'>values</span>,
+  <span class='va'>criteria</span>,
+  digits <span class='op'>=</span> <span class='fl'>4</span>,
+  padding <span class='op'>=</span> <span class='fl'>10</span>,
+  width <span class='op'>=</span> <span class='fl'>80</span>,
+  <span class='va'>opts</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>n_ind</th>
-      <td><p>Number of individuals in your sample</p></td>
+      <th>iter</th>
+      <td><p>An integer giving the iteration of the loop</p></td>
     </tr>
     <tr>
-      <th>n_draws</th>
-      <td><p>Number of draws per respondent</p></td>
+      <th>values</th>
+      <td><p>The value of the efficiency criteria obtained by
+<code><a href='calculate_efficiency_criteria.html'>calculate_efficiency_criteria</a></code></p></td>
     </tr>
     <tr>
-      <th>n_dim</th>
-      <td><p>Number of dimensions</p></td>
+      <th>criteria</th>
+      <td><p>A character string with the name of the efficiency criteria.
+See manual for valid values</p></td>
     </tr>
     <tr>
-      <th>seed</th>
-      <td><p>A seed to change the scrambling of the sobol sequence.</p></td>
+      <th>digits</th>
+      <td><p>The nubmer of digits to round the printed value to. The default
+is 4.</p></td>
+    </tr>
+    <tr>
+      <th>padding</th>
+      <td><p>An integer specifying the padding of each column element.
+Default value is 10.</p></td>
+    </tr>
+    <tr>
+      <th>width</th>
+      <td><p>An integer giving the width of the horizontal rules. Default
+value is 80</p></td>
+    </tr>
+    <tr>
+      <th>opts</th>
+      <td><p>The list of design options. The default is NULL, but must be
+specified to print the criteria in color.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Nothing</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

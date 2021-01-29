@@ -110,7 +110,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">design_opts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   optimization_algorithm <span class="op">=</span> <span class="st">"random"</span>,
-  efficiency_criteria <span class="op">=</span> <span class="st">"d_efficiency"</span>,
+  efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,
   model <span class="op">=</span> <span class="st">"mnl"</span>,
   blocks <span class="op">=</span> <span class="fl">1</span>,
   tasks <span class="op">=</span> <span class="fl">6</span>,
@@ -130,17 +130,17 @@
 <p>The A-efficiency criteria, or A-error, seeks to minimize the trace of the variance covariance matrix. Effectively minimizing the sum of variances. This measure is not commonly used, likely because it tends to ignore covariances and is heavily influenced by the variance of one or a few parameters.</p>
 <p><span class="math display">\[
 \mathrm{A} = \frac{\mathrm{tr}(\Omega)}{K}
-\]</span> To use A-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "a_efficiency"</code>.</p>
+\]</span> To use A-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "a-error"</code>.</p>
 </div>
 <div id="c-efficiency" class="section level3">
 <h3 class="hasAnchor">
 <a href="#c-efficiency" class="anchor"></a>C-efficiency</h3>
 <p>The C-efficiency criteria, or C-error, seeks to minimize the variance of the ratio of two parameters, e.g. willingness-to-pay, which is the ratio of the non-cost to the negative of the cost (or price) parameter when the utility function is separable, additive and linear in the parameters <span class="citation">(Scarpa and Rose <a href="#ref-scarpa_design_2008" role="doc-biblioref">2008</a>)</span>. Optimizing a design for the outcome of interest may in some cases be more useful than optimizing for smaller standard errors of the estimates themselves (which is the case of the D-error discussed below).</p>
-<p>This is specified as: <code>efficiency_criteria = "c_efficiency"</code>.</p>
+<p>This is specified as: <code>efficiency_criteria = "c-error"</code>.</p>
 <p><span class="math display">\[
 \mathrm{C} = \mathrm{Var}\left(\frac{\beta_k}{-\beta_j}\right)\approx\beta_j^{-2}\left[\mathrm{Var}(\beta_k)-2\beta_k\beta_j^{-1}\mathrm{Cov}(\beta_k,\beta_j)+(\beta_k/\beta_j)^2\mathrm{Var}(\beta_j)\right]
 \]</span></p>
-<p>Where <span class="math inline">\(\beta_j\)</span> is the “cost”-parameter and <span class="math inline">\(\beta_k\)</span> a vector of non-cost parameters. It is important to note that if the prior for either the numerator or denominator is zero, the ratio is either 0 or <span class="math inline">\(+\infty\)</span> and the standard errors cannot be calculated. To use C-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "c_efficiency"</code>.</p>
+<p>Where <span class="math inline">\(\beta_j\)</span> is the “cost”-parameter and <span class="math inline">\(\beta_k\)</span> a vector of non-cost parameters. It is important to note that if the prior for either the numerator or denominator is zero, the ratio is either 0 or <span class="math inline">\(+\infty\)</span> and the standard errors cannot be calculated. To use C-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "c-error"</code>.</p>
 </div>
 <div id="d-efficiency" class="section level3">
 <h3 class="hasAnchor">
@@ -148,7 +148,7 @@
 <p>The D-efficiency criteria, or D-error, seeks to minimize the determinant of the variance-covariance matrix, which all else equal, leads to smaller standard errors. The idea being that you can get significance with a samller sample size if your design contains more information, i.e. more informative trade-offs. Unlike the A-error, the D-error considers the covariances as well as the only the variances and is less affected by very large variances for single parameters.</p>
 <p><span class="math display">\[
 \mathrm{D} = \det\left(\Omega\left(\beta, X\right)\right)^{1/K}
-\]</span> To use D-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "d_efficiency"</code>.</p>
+\]</span> To use D-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "d-error"</code>.</p>
 </div>
 <div id="s-efficiency" class="section level3">
 <h3 class="hasAnchor">
@@ -156,7 +156,7 @@
 <p>The S-efficiency measure, or S-error, calculates the theoretical lower-bound sample size necessary to obtain significant estimates for each parameter under the assumption that the priors are correct. The minimum required sample size is equal to the smallest sample size required for all parameters to be theoretically significant. However, it is strongly advised not to rely on these measures as an absolute because sampling issues and measurement errors could mean that larger sample sizes are needed.</p>
 <p><span class="math display">\[
 \mathrm{N} \geq \left(\frac{\mathrm{s.e.}_{j,k}(\beta, X)t_\alpha}{\beta_k}\right)^2
-\]</span> where <span class="math inline">\(N\)</span> is the theoretical minimum sample size and <span class="math inline">\(t_\alpha\)</span> is the t-value corresponding to significance level <span class="math inline">\(\alpha\)</span> and is set by the researcher. It is important to note that in the case of zero priors, the S-error cannot be calculated and will return <span class="math inline">\(+\infty\)</span>. To use S-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "s_efficiency"</code>.</p>
+\]</span> where <span class="math inline">\(N\)</span> is the theoretical minimum sample size and <span class="math inline">\(t_\alpha\)</span> is the t-value corresponding to significance level <span class="math inline">\(\alpha\)</span> and is set by the researcher. It is important to note that in the case of zero priors, the S-error cannot be calculated and will return <span class="math inline">\(+\infty\)</span>. To use S-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "s-error"</code>.</p>
 </div>
 </div>
 <div id="draws" class="section level2">

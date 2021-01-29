@@ -150,21 +150,21 @@ to more than 16 dimensions can be achieved by including a different
 permutation matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_scrambled_halton</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>make_scrambled_halton</span><span class='op'>(</span><span class='va'>n_ind</span>, <span class='va'>n_draws</span>, <span class='va'>n_dim</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>N</th>
-      <td><p>Number of respondents in your sample</p></td>
+      <th>n_ind</th>
+      <td><p>Number of individuals in your sample</p></td>
     </tr>
     <tr>
-      <th>R</th>
+      <th>n_draws</th>
       <td><p>Number of draws per respondent</p></td>
     </tr>
     <tr>
-      <th>D</th>
+      <th>n_dim</th>
       <td><p>Number of dimensions</p></td>
     </tr>
     </table>
@@ -174,8 +174,8 @@ permutation matrix.</p>
     <p>The permutations are based on the Braaten-Weller algorithm.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Bhat, C. R., 2003, Simulation Estimation of Mixed Descrete Choice
-Models Using Randomized and Scrambled Halton Sequences, Transportation
+    <p>Bhat, C. n_draws., 2003, Simulation Estimation of Mixed Descrete
+Choice Models Using Randomized and Scrambled Halton Sequences, Transportation
 Research Part B, 9, pp. 837-855</p>
 
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract distributions — extract_distribution • spdesign</title>
+<title>Evaluating a distribution — normal • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,14 @@
 
 
 
-<meta property="og:title" content="Extract distributions — extract_distribution" />
-<meta property="og:description" content="This function will locate and extract the the distributions for Bayesian
-priors and random parameters as specified in the design. The output is used
-to create the matrix of correct draws for priors and parameters." />
+<meta property="og:title" content="Evaluating a distribution — normal" />
+<meta property="og:description" content="The function returns its arguments as a named list. The function is used
+inside the utility functions. It is transformed to an expression using
+parse and evaluated using eval. This ensures
+that in the case of an RPL with Bayesian priors, recursion is handled
+automatically. This significantly simplifies translating the utility function
+to lists of parameters to use when optimizing the designs. It is also less
+error prone." />
 
 
 
@@ -131,44 +135,81 @@ to create the matrix of correct draws for priors and parameters." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract distributions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/extract.R'><code>R/extract.R</code></a></small>
-    <div class="hidden name"><code>extract_distribution.Rd</code></div>
+    <h1>Evaluating a distribution</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/distributions.R'><code>R/distributions.R</code></a></small>
+    <div class="hidden name"><code>normal.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function will locate and extract the the distributions for Bayesian
-priors and random parameters as specified in the design. The output is used
-to create the matrix of correct draws for priors and parameters.</p>
+    <p>The function returns its arguments as a named list. The function is used
+inside the utility functions. It is transformed to an expression using
+<code><a href='https://rdrr.io/r/base/parse.html'>parse</a></code> and evaluated using <code><a href='https://rdrr.io/r/base/eval.html'>eval</a></code>. This ensures
+that in the case of an RPL with Bayesian priors, recursion is handled
+automatically. This significantly simplifies translating the utility function
+to lists of parameters to use when optimizing the designs. It is also less
+error prone.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_distribution</span><span class='op'>(</span><span class='va'>string</span>, <span class='va'>type</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>normal</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>normal_p</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>lognormal</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>lognormal_p</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>triangular</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>triangular_p</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>uniform</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span>
+
+<span class='fu'>uniform_p</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>string</th>
-      <td><p>A single character string or list of character strings with a
-single or multiple utility functions</p></td>
+      <th>mu</th>
+      <td><p>A parameter indicating the mean or location of the distribution
+depending on whether it is a normal, log-normal, triangular or uniform,
+or it can be another call to <code>normal</code>, <code>lognormal</code>,
+<code>uniform</code> or <code>triangular</code> if the model is an RPL with
+a Bayesian prior.</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>A string indicating the type: prior or param</p></td>
+      <th>sigma</th>
+      <td><p>A parameter indicating the SD or spread of the distribution
+or it can be another call to <code>normal</code>, <code>lognormal</code>,
+ <code>uniform</code> or <code>triangular</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named vector of priors or parameters where the type of distribution
-is given by a character letter: "normal", "lognormal", "uniform" or
-"triangular"</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>A list of parameters</p>
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
-    <p>IMPORTANT: The function will silently drop duplicates. This is because it is
-called after <code><a href='parse_utility.html'>parse_utility</a></code> inside
-<code><a href='generate_design.html'>generate_design</a></code>.</p>
+    
+<ul>
+<li><p><code>normal</code>: The normal distribution</p></li>
+<li><p><code>normal_p</code>: The normal distribution when applied to a prior</p></li>
+<li><p><code>lognormal</code>: The log normal distribution</p></li>
+<li><p><code>lognormal_p</code>: The log-normal distribution when applied to a prior</p></li>
+<li><p><code>triangular</code>: The triangular distribution</p></li>
+<li><p><code>triangular_p</code>: The triangular distribution when applied to a prior</p></li>
+<li><p><code>uniform</code>: The uniform distribution</p></li>
+<li><p><code>uniform_p</code>: The uniform distribution when applied to a prior</p></li>
+</ul>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>"normal(0, 1)"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>"lognormal(0, 1)"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>"triangular(0, 1)"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>"uniform(0, 1)"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

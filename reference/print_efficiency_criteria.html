@@ -40,8 +40,9 @@
 
 
 <meta property="og:title" content="Creates a printable version of the efficiency criteria — print_efficiency_criteria" />
-<meta property="og:description" content="The function is only meant for internal use to handle pretty printing to
-console." />
+<meta property="og:description" content="The function prints a string of efficiency criteria to the console and
+highlights the color of the considered efficiency criteria. Effectively it
+is a wrapper around multiple calls to cat." />
 
 
 
@@ -131,22 +132,34 @@ console." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Creates a printable version of the efficiency criteria</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/efficiency-criteria.R'><code>R/efficiency-criteria.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/print.R'><code>R/print.R</code></a></small>
     <div class="hidden name"><code>print_efficiency_criteria.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The function is only meant for internal use to handle pretty printing to
-console.</p>
+    <p>The function prints a string of efficiency criteria to the console and
+highlights the color of the considered efficiency criteria. Effectively it
+is a wrapper around multiple calls to <code><a href='https://rdrr.io/r/base/cat.html'>cat</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>print_efficiency_criteria</span><span class='op'>(</span><span class='va'>value</span>, <span class='va'>criteria</span>, digits <span class='op'>=</span> <span class='fl'>4</span>, opts <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>print_efficiency_criteria</span><span class='op'>(</span>
+  <span class='va'>iter</span>,
+  <span class='va'>values</span>,
+  <span class='va'>criteria</span>,
+  digits <span class='op'>=</span> <span class='fl'>4</span>,
+  padding <span class='op'>=</span> <span class='fl'>10</span>,
+  opts <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>value</th>
+      <th>iter</th>
+      <td><p>An integer giving the iteration of the loop</p></td>
+    </tr>
+    <tr>
+      <th>values</th>
       <td><p>The value of the efficiency criteria obtained by
 <code><a href='calculate_efficiency_criteria.html'>calculate_efficiency_criteria</a></code></p></td>
     </tr>
@@ -161,9 +174,14 @@ See manual for valid values</p></td>
 is 4.</p></td>
     </tr>
     <tr>
+      <th>padding</th>
+      <td><p>An integer specifying the padding of each column element.
+Default value is 10.</p></td>
+    </tr>
+    <tr>
       <th>opts</th>
       <td><p>The list of design options. The default is NULL, but must be
-specified to print the criteria in colour.</p></td>
+specified to print the criteria in color.</p></td>
     </tr>
     </table>
 

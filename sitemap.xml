@@ -4,9 +4,6 @@
     <loc>https://spdesignr.edsandorf.me/index.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/N.html</loc>
-  </url>
-  <url>
     <loc>https://spdesignr.edsandorf.me/reference/calculate_a_error.html</loc>
   </url>
   <url>
@@ -88,6 +85,9 @@
     <loc>https://spdesignr.edsandorf.me/reference/has_bayesian_prior.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/has_random_parameter.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/make_design_candidate.html</loc>
   </url>
   <url>
@@ -112,10 +112,22 @@
     <loc>https://spdesignr.edsandorf.me/reference/make_standard_sobol.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/normal.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/parse_utility.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/prepare_priors.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/print_efficiency_criteria.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/print_initial_header.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/print_iteration_information.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/radical_inverse.html</loc>
@@ -151,16 +163,16 @@
     <loc>https://spdesignr.edsandorf.me/reference/transform_distribution.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/transform_ln.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/transform_lognormal.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/transform_n.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/transform_normal.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/transform_tr.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/transform_triangular.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/transform_u.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/transform_uniform.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/articles/generating-a-design.html</loc>

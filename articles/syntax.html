@@ -120,17 +120,17 @@
 <div id="a-bayesian-prior" class="section level3">
 <h3 class="hasAnchor">
 <a href="#a-bayesian-prior" class="anchor"></a>A Bayesian prior</h3>
-<p>We can specify a Bayesian prior by specifying the distribution of the prior. For example, <code><a href="../reference/N.html">Up(-1, 1)</a></code> means that we allow the prior to follow a uniform distribution between -1 and 1.</p>
-<pre><code>b_x1[Up(-1, 1)]</code></pre>
+<p>We can specify a Bayesian prior by specifying the distribution of the prior. For example, <code><a href="../reference/normal.html">uniform_p(-1, 1)</a></code> means that we allow the prior to follow a uniform distribution between -1 and 1.</p>
+<pre><code>b_x1[uniform_p(-1, 1)]</code></pre>
 <p>We can use the following distributions:</p>
 <ul>
-<li>Normal - <code><a href="../reference/N.html">Np(mean, sd)</a></code>
+<li>Normal - <code><a href="../reference/normal.html">normal_p(mean, sd)</a></code>
 </li>
-<li>Log-normal - <code><a href="../reference/N.html">LNp(mean, sd)</a></code>
+<li>Log-normal - <code><a href="../reference/normal.html">lognormal_p(mean, sd)</a></code>
 </li>
-<li>Triangular - <code><a href="../reference/N.html">TRp(location, spread)</a></code>
+<li>Triangular - <code><a href="../reference/normal.html">triangular_p(location, spread)</a></code>
 </li>
-<li>Uniform - <code><a href="../reference/N.html">Up(location, spread)</a></code>
+<li>Uniform - <code><a href="../reference/normal.html">uniform_p(location, spread)</a></code>
 </li>
 </ul>
 <p>All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Notice that the name of the distribution is in capital letters followed by a lower case <code>p</code> indicating that it is a prior. This is to distinguish it from a random parameter in an RPL model. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs.</p>

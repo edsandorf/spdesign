@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make scrambled sobol draws — make_scrambled_sobol • spdesign</title>
+<title>Transform to the triangular distribution — transform_triangular • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Make scrambled sobol draws — make_scrambled_sobol" />
-<meta property="og:description" content="Wrapper function for sobol() from randtoolbox to create a common interface.
-Owen + Fazure_Tezuka Scrambling" />
+<meta property="og:title" content="Transform to the triangular distribution — transform_triangular" />
+<meta property="og:description" content="Transform to the triangular distribution" />
 
 
 
@@ -130,36 +129,31 @@ Owen + Fazure_Tezuka Scrambling" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make scrambled sobol draws</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/draws.R'><code>R/draws.R</code></a></small>
-    <div class="hidden name"><code>make_scrambled_sobol.Rd</code></div>
+    <h1>Transform to the triangular distribution</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/distributions.R'><code>R/distributions.R</code></a></small>
+    <div class="hidden name"><code>transform_triangular.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Wrapper function for sobol() from randtoolbox to create a common interface.
-Owen + Fazure_Tezuka Scrambling</p>
+    <p>Transform to the triangular distribution</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_scrambled_sobol</span><span class='op'>(</span><span class='va'>n_ind</span>, <span class='va'>n_draws</span>, <span class='va'>n_dim</span>, seed <span class='op'>=</span> <span class='va'>seed</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>transform_triangular</span><span class='op'>(</span><span class='va'>mu</span>, <span class='va'>sigma</span>, <span class='va'>eta</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>n_ind</th>
-      <td><p>Number of individuals in your sample</p></td>
+      <th>mu</th>
+      <td><p>A value for the mean of the distribution</p></td>
     </tr>
     <tr>
-      <th>n_draws</th>
-      <td><p>Number of draws per respondent</p></td>
+      <th>sigma</th>
+      <td><p>A value for the standard deviation of the distribution</p></td>
     </tr>
     <tr>
-      <th>n_dim</th>
-      <td><p>Number of dimensions</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>A seed to change the scrambling of the sobol sequence.</p></td>
+      <th>eta</th>
+      <td><p>A numeric standard uniform vector</p></td>
     </tr>
     </table>
 

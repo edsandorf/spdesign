@@ -140,21 +140,21 @@ the log likelihood function" />
 the log likelihood function</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_draws</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span>, <span class='va'>seed</span>, <span class='va'>type</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>make_draws</span><span class='op'>(</span><span class='va'>n_ind</span>, <span class='va'>n_draws</span>, <span class='va'>n_dim</span>, <span class='va'>seed</span>, <span class='va'>type</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>N</th>
-      <td><p>Number of respondents in your sample</p></td>
+      <th>n_ind</th>
+      <td><p>Number of individuals in your sample</p></td>
     </tr>
     <tr>
-      <th>R</th>
+      <th>n_draws</th>
       <td><p>Number of draws per respondent</p></td>
     </tr>
     <tr>
-      <th>D</th>
+      <th>n_dim</th>
       <td><p>Number of dimensions</p></td>
     </tr>
     <tr>
@@ -169,14 +169,15 @@ the log likelihood function</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix of dimensions N*R x D of standard uniform draws</p>
+    <p>A matrix of dimensions n_ind*n_draws x n_dim of standard uniform
+draws</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>N</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-<span class='va'>R</span> <span class='op'>&lt;-</span> <span class='fl'>5</span>
-<span class='va'>D</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
+    <pre class="examples"><div class='input'><span class='va'>n_ind</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='va'>n_draws</span> <span class='op'>&lt;-</span> <span class='fl'>5</span>
+<span class='va'>n_dim</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
 
-<span class='va'>draws</span> <span class='op'>&lt;-</span> <span class='fu'>make_draws</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span>, seed <span class='op'>=</span> <span class='fl'>10</span>, <span class='st'>"scrambled-sobol"</span><span class='op'>)</span>
+<span class='va'>draws</span> <span class='op'>&lt;-</span> <span class='fu'>make_draws</span><span class='op'>(</span><span class='va'>n_ind</span>, <span class='va'>n_draws</span>, <span class='va'>n_dim</span>, seed <span class='op'>=</span> <span class='fl'>10</span>, <span class='st'>"scrambled-sobol"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>draws</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;           [,1]     [,2]     [,3]
 #&gt; [1,] 0.4163279 0.843947 0.599893
@@ -185,7 +186,7 @@ the log likelihood function</p>
 #&gt; [4,] 0.6969957 0.439546 0.694511
 #&gt; [5,] 0.0600462 0.576020 0.368274
 #&gt; [6,] 0.9532566 0.992286 0.933824</div><div class='input'>
-<span class='va'>draws</span> <span class='op'>&lt;-</span> <span class='fu'>make_draws</span><span class='op'>(</span><span class='va'>N</span>, <span class='va'>R</span>, <span class='va'>D</span>, seed <span class='op'>=</span> <span class='fl'>10</span>, <span class='st'>"scrambled-halton"</span><span class='op'>)</span>
+<span class='va'>draws</span> <span class='op'>&lt;-</span> <span class='fu'>make_draws</span><span class='op'>(</span><span class='va'>n_ind</span>, <span class='va'>n_draws</span>, <span class='va'>n_dim</span>, seed <span class='op'>=</span> <span class='fl'>10</span>, <span class='st'>"scrambled-halton"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>draws</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;       [,1]     [,2] [,3]
 #&gt; [1,] 0.500 0.666667 0.60
