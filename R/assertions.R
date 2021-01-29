@@ -49,9 +49,21 @@ is_balanced <- function(string, open, close) {
 #' This is useful to create a boolean for flow-control inside
 #' \code{\link{generate_design}}
 #'
-#' @param v A string or list of strings
+#' @param string A string or list of strings
 #'
 #' @return A boolean
-has_bayesian_prior <- function(v) {
-  any(str_detect(v, "(Np|LNp|Up|TRp)\\("))
+has_bayesian_prior <- function(string) {
+  any(str_detect(string, "(Np|LNp|Up|TRp)\\("))
+}
+
+#' Tests whether the utility expression contains random parameters
+#'
+#' This is useful to create a boolean for flow-control inside
+#' \code{\link{generate_design}}
+#'
+#' @param string A string or list of strings
+#'
+#' @return A boolean
+has_random_parameter <- function(string) {
+  any(str_detect(string, "(N|LN|U|TR)\\("))
 }
