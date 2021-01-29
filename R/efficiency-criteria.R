@@ -134,40 +134,6 @@ calculate_s_error <- function(design_vcov, p, all, significance) {
 
 }
 
-#' Creates a printable version of the efficiency criteria
-#'
-#' The function is only meant for internal use to handle pretty printing to
-#' console.
-#'
-#' @param value The value of the efficiency criteria obtained by
-#' \code{\link{calculate_efficiency_criteria}}
-#' @param criteria A character string with the name of the efficiency criteria.
-#' See manual for valid values
-#' @param digits The nubmer of digits to round the printed value to. The default
-#' is 4.
-#' @param opts The list of design options. The default is NULL, but must be
-#' specified to print the criteria in colour.
-#'
-#' @return A character string.
-print_efficiency_criteria <- function(
-  value,
-  criteria,
-  digits = 4,
-  opts = NULL
-) {
-  if (is.na(value)) {
-    string <- "N/A"
-  } else {
-    string <- as.character(round(value, digits))
-  }
-
-  if (!is.null(opts) && criteria %in% opts$efficiency_criteria) {
-    col_green(str_pad(string, 10, "left", " "))
-  } else {
-    str_pad(string, 10, "left", " ")
-  }
-}
-
 #' Calculates the error measures
 #'
 #' The function is called from inside the lapply() loop over priors in the
