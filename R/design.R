@@ -48,7 +48,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     "Parsing the utility expression"
   )
 
-  parsed_v <- parse_utility(utility)
+  parsed_utility <- parse_utility(utility)
 
   cli_alert_success(
     "The supplied utility expression 'utility' has been parsed"
@@ -60,7 +60,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   )
 
   if (is.null(candidate_set)) {
-    candidate_set <- generate_full_factorial(parsed_v$attrs)
+    candidate_set <- generate_full_factorial(parsed_utility$attrs)
     cli_alert_success(
       "Full factorial created"
     )
@@ -70,59 +70,13 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     "All restrictions successfully applied"
   )
 
-  # Create draws used for Bayesian priors ----
-  bayesian_prior <- has_bayesian_prior(utility)
-  if (bayesian_prior) {
-    prior_dists <- extract_distribution(utility, "prior")
-
-    # Create the matrix of Bayesian priors
-    bayesian_priors <- make_draws(
-      1,
-      opts$draws_priors,
-      length(prior_dists),
-      seed = 123,
-      opts$draws_type
-    )
-    colnames(bayesian_priors) <- names(prior_dists)
-    for (i in seq_len(ncol(bayesian_priors))) {
-      name <- names(prior_dists[i])
-      value <- parsed_v[["param"]][[name]]
-      bayesian_priors[, i] <- transform_distribution(
-        value$mu, value$sigma,
-        bayesian_priors[, i],
-        prior_dists[i]
-      )
-    }
-
-    # Create the matrix of non-Bayesian priors
-    names_bayesian_priors <- names(parsed_v[["param"]]) %in% names(prior_dists)
-    non_bayesian_priors <- do.call(
-      cbind,
-      parsed_v[["param"]][!names_bayesian_priors])
-    non_bayesian_priors <- rep_rows(non_bayesian_priors, nrow(bayesian_priors))
-
-    # Combine into the matrix of priors
-    priors <- cbind(bayesian_priors, non_bayesian_priors)
-
-    # Priors as a list to allow direct use of lapply()
-    priors <- lapply(seq_len(nrow(priors)), function(i) priors[i, ])
-
-  } else {
-    if (opts$cores > 1) {
-      opts$cores <- 1
-      cli_alert_info(
-        "Using multiple cores is not implemented for designs without Bayesian
-        priors. Number of cores is restored to 1."
-      )
-    }
-
-    priors <- do.call(c, parsed_v[["param"]])
-  }
+  # Prepare the list of priors ----
+  priors <- prepare_priors(utility, parsed_utility, opts)
 
   # Set up the design environment ----
   design_environment <- new.env()
   list2env(
-    list(utility_string = parsed_v[["utility"]]),
+    list(utility_string = parsed_utility[["utility"]]),
     envir = design_environment
   )
 
@@ -169,44 +123,34 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     )
 
     # Calculate the error measures
-    if (bayesian_prior) {
-      if (opts$cores > 1) {
-        # The overhead of sending info to the workers is too high
-        # slows everything down (maybe works for larger designs)
-        error_measures <- future.apply::future_lapply(
-          priors,
-          calculate_error_measures,
-          design_environment,
-          error_measures_string,
-          opts
-        )
-
-      } else {
-        error_measures <- lapply(
-          priors,
-          calculate_error_measures,
-          design_environment,
-          error_measures_string,
-          opts
-        )
-      }
-
-      error_measures <- matrixStats::colMeans2(
-        do.call(
-          rbind,
-          error_measures
-        ),
-        na.rm = TRUE
+    if (opts$cores > 1) {
+      # The overhead of sending info to the workers is too high
+      # slows everything down (maybe works for larger designs)
+      error_measures <- future.apply::future_lapply(
+        priors,
+        calculate_error_measures,
+        design_environment,
+        error_measures_string,
+        opts
       )
 
     } else {
-      error_measures <- calculate_error_measures(
+      error_measures <- lapply(
         priors,
+        calculate_error_measures,
         design_environment,
         error_measures_string,
         opts
       )
     }
+
+    error_measures <- matrixStats::colMeans2(
+      do.call(
+        rbind,
+        error_measures
+      ),
+      na.rm = TRUE
+    )
 
     names(error_measures) <- error_measures_string
     current_error <- error_measures[[opts$efficiency_criteria]]
@@ -253,7 +197,6 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
 
     # Update the iteration counter
     iter <- iter + 1
-
   }
 
   cat("\n")
@@ -267,5 +210,6 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   )
 
   # Return the best design candidate
-  best_design_candidate
+  # best_design_candidate
+
 }
