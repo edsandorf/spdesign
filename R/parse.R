@@ -72,7 +72,7 @@ parse_utility <- function(utility) {
     for (i in seq_along(attribute_names)) {
       v <- str_replace_all(
         v,
-        attribute_names[i],
+        paste0("\\b", attribute_names[i]),
         paste(attribute_names[i], j, sep = "_")
       )
     }
