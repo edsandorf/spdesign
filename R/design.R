@@ -244,8 +244,4 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     Sys.time() - time_start,
     "\n"
   )
-
-  # Return the best design candidate
-  # best_design_candidate
-
 }
