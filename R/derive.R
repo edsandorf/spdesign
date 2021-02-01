@@ -33,6 +33,10 @@ derive_vcov <- function(design_environment, type) {
 
 #' Derive the variance covariance matrix for the MNL model
 derive_vcov_mnl <- function() {
+  # Bind locally within function to avoid CRAN NOTE
+  utility_string <- utility_string
+  x_j <- x_j
+
   # Calculate the probability of j
   utility <- lapply(utility_string, function(v) eval(parse(text = v)))
   exp_utility <- lapply(utility, exp)
@@ -44,7 +48,7 @@ derive_vcov_mnl <- function() {
   })
 
   # Multiply pr_j with x_j
-  pr_x <- mapply("*", pr_j, X, SIMPLIFY = FALSE)
+  pr_x <- mapply("*", pr_j, x_j, SIMPLIFY = FALSE)
   sum_pr_x <- Reduce("+", pr_x)
 
   # Take the square root of the probabilities
@@ -52,7 +56,7 @@ derive_vcov_mnl <- function() {
 
   # Take the difference between the attribute levels and the sum of the
   # probabilities of the alternatives
-  pr_diff <- lapply(X, function(x) x - sum_pr_x)
+  pr_diff <- lapply(x_j, function(x) x - sum_pr_x)
   pr_diff <- mapply("*", pr_diff, sqrt_pr_j, SIMPLIFY = FALSE)
 
   tmp <- as.matrix(Reduce(rbind, pr_diff))

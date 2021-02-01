@@ -117,7 +117,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     list2env(
       c(
         as.list(as.data.frame(do.call(cbind, current_design_candidate))),
-        list(X = current_design_candidate)
+        list(x_j = current_design_candidate)
       ),
       envir = design_environment
     )
