@@ -20,58 +20,86 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     "Setting up the design environment"
   )
 
-  # Initial checks ----
+  # Utility ----
   cli_h2(
-    "Running initial checks"
+    "Checking and parsing utility"
   )
 
-  # Checks on utility
   ansi_with_hidden_cursor(
-    check_v(utility)
-  )
-
-  # Checks on opts
-  ansi_with_hidden_cursor(
-    check_opts(opts)
-  )
-
-  # Set default options
-  opts <- set_defaults(opts)
-
-  # Checks on the candidate set
-  ansi_with_hidden_cursor(
-    check_candidate_set(candidate_set)
-  )
-
-  # Parse utility ----
-  cli_h2(
-    "Parsing the utility expression"
+    check_utility(utility)
   )
 
   parsed_utility <- parse_utility(utility)
 
   cli_alert_success(
-    "The supplied utility expression 'utility' has been parsed"
+    "The supplied utility functions have been parsed"
   )
 
-  # Apply restrictions to the candidate set (create one if not supplied) ----
+  # Options ----
   cli_h2(
-    "Applying restrictions to the candidate set"
+    "Checking the supplied list of options and setting defaults"
+  )
+
+  ansi_with_hidden_cursor(
+    check_opts(opts)
+  )
+
+  opts <- set_defaults(opts)
+
+  cli_alert_success(
+    "Default options has been set"
+  )
+
+  # Candidate set ----
+  cli_h2(
+    "Checking the candidate set and applying restrictions"
   )
 
   if (is.null(candidate_set)) {
+    cli_alert_info(
+      "No candidate set supplied. The design will use the full factorial
+      subject to supplied constraints."
+    )
+
     candidate_set <- generate_full_factorial(parsed_utility$attrs)
+
     cli_alert_success(
       "Full factorial created"
     )
+  } else {
+    ansi_with_hidden_cursor(
+      check_candidate_set(candidate_set, parsed_utility)
+    )
+
+    cli_alert_info(
+      "The attribute levels are determined based on the supplied candidate set
+      and not the levels specified in the utility functions."
+    )
+
+    parsed_utility[["attrs"]] <- lapply(
+      as.list(
+        as.data.frame(candidate_set)
+      ),
+      unique
+    )
   }
+
+  candidate_set <- apply_restrictions(candidate_set, opts$restrictions)
 
   cli_alert_success(
     "All restrictions successfully applied"
   )
 
   # Prepare the list of priors ----
+  cli_h2(
+    "Preparing the list of priors"
+  )
+
   priors <- prepare_priors(utility, parsed_utility, opts)
+
+  cli_alert_success(
+    "Priors prepared successfully"
+  )
 
   # Set up the design environment ----
   design_environment <- new.env()
@@ -82,8 +110,16 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
 
   # Set up parallel ----
   if (opts$cores > 1) {
+    cli_h2(
+      "Preparing multicore estimation"
+    )
+
     future::plan(
       future::multicore(workers = opts$cores)
+    )
+
+    cli_alert_success(
+      "Multicore estimation prepared successfully"
     )
   }
 

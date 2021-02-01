@@ -81,6 +81,44 @@ The next step is to specify the the number of draws to use. While we are using t
 
 # The candidate set 
 
+Often, not all combinations in a full factorial makes sense. Therefore it is important to exclude the combinations of attribute levels that cannot occur in the design. There are two ways we can do this:
+
+1) We supply a restricted candidate set using the option `candidate_set` in `generate_design`.
+2) We specify restrictions in the list of options throught `opts$restrictions`, which are then applied to the full factorial. 
+
+Restrictions are specified as a list of the form of a list. To make it clear, let us illustrate with a simple example. Consider the following full factorial generated from two attributes taking on two levels: 
+
+```
+  x1 x2
+1  0  0
+2  1  0
+3  0  1
+4  1  1
+```
+
+Furthermore, let us assume that both attributes cannot simultaneously take on the value of 1. To implement this restriction, we would specify: 
+
+```
+opts <- list(
+  restrictions = list(
+    "x1 == 1 & x2 == 1"
+  )
+)
+```
+
+and if they both couldn't be 0 at the same time as well, we would specify: 
+ 
+```
+opts <- list(
+  restrictions = list(
+    "x1 == 1 & x2 == 1",
+    "x1 == 0 & x2 == 0"
+  )
+)
+```
+
+The user familiar with R will notice that this is the exact same syntax we would use to subset a matrix. 
+
 # The list of utility functions 
 
 # References
