@@ -4,10 +4,13 @@
 \alias{check_candidate_set}
 \title{Run checks on the candidate set}
 \usage{
-check_candidate_set(candidate_set)
+check_candidate_set(candidate_set, parsed_utility)
 }
 \arguments{
 \item{candidate_set}{A candidate set}
+
+\item{parsed_utility}{A list with the parsed utility expressions from
+\code{\link{parse_utility}}}
 }
 \value{
 Nothing

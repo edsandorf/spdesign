@@ -12,8 +12,8 @@
 #' @param utility a list of utility functions
 #'
 #' @return Nothing
-check_v <- function(utility) {
-  txt <- "Checking specified utility functions"
+check_utility <- function(utility) {
+  txt <- "Checking the supplied utility functions"
   spinner <- make_spinner("line", template = paste0("{spin} ", txt))
 
   if (!is.list(utility)) stop(
@@ -66,7 +66,7 @@ check_v <- function(utility) {
 #'
 #' @return Nothing
 check_opts <- function(opts) {
-  txt <- "Checking 'opts'-list and setting defaults"
+  txt <- "Checking the supplied list of options"
   spinner <- make_spinner("line", template = paste0("{spin} ", txt))
 
   required <- c("optimization_algorithm", "efficiency_criteria", "model",
@@ -176,30 +176,33 @@ check_opts <- function(opts) {
 #' subject to specified constraints as the candidate set.
 #'
 #' @param candidate_set A candidate set
+#' @param parsed_utility A list with the parsed utility expressions from
+#' \code{\link{parse_utility}}
 #'
 #' @return Nothing
-check_candidate_set <- function(candidate_set) {
+check_candidate_set <- function(candidate_set, parsed_utility) {
   txt <- "Checking the candidate set"
   spinner <- make_spinner("line", template = paste0("{spin} ", txt))
 
-  if (!is.null(candidate_set)) {
-    if (!(is.matrix(candidate_set) | is.data.frame(candidate_set))) {
-      stop(
-        "The supplied 'candidate_set' is neither a matrix nor a data.frame.
+  if (!(is.matrix(candidate_set) | is.data.frame(candidate_set))) {
+    stop(
+      "The supplied 'candidate_set' is neither a matrix nor a data.frame.
         If you did not intend to supply a candidate set, ommit or set this
         options to NULL."
-      )
-    }
+    )
+  }
+  spinner$spin()
+
+  if (!all(names(candidate_set) %in% names(parsed_utility[["attrs"]]))) {
+    stop(
+      "Not all attributes specified in the utility functions are specified in
+      the candidate set. Make sure that all attributes are specified and that
+      the names used in the utility functions correspond to the column names
+      of the supplied candidate set"
+    )
   }
   spinner$finish()
 
   cli_alert_success(txt)
 
-  # Information prints after spinner completes to avoid awkward printing
-  if (is.null(candidate_set)) {
-    cli_alert_info(
-      "No candidate set supplied. The design will use the full factorial
-      subject to supplied constraints."
-    )
-  }
 }
