@@ -12,11 +12,7 @@ opts <- list(
   blocks = 1,
   tasks = 6,
   cores = 1,
-  max_iter = 10000,
-  restrictions = list(
-    "x1 == 2 & x2 == 0 & x3 == 0",
-    "x2 == 1 & x3 == 1"
-  )
+  max_iter = 10000
 )
 
 # Define the list of utility functions ----
@@ -33,6 +29,9 @@ candidate_set <- generate_full_factorial(
     x3 = seq(0, 1, 0.25)
   )
 )
+
+candidate_set <- candidate_set[!(candidate_set$x1 == 2 & candidate_set$x2 == 0 & candidate_set$x3 == 0), ]
+candidate_set <- candidate_set[!(candidate_set$x2 == 1 & candidate_set$x3 == 1), ]
 
 # Generate designs ----
 design <- generate_design(utility, opts, candidate_set)
