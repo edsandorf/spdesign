@@ -29,8 +29,7 @@ extract_all_names <- function(string, simplify = FALSE) {
 #' Extracts all words starting with "b_". Leverages the fact that all parameters
 #' has to start with "b_".
 #'
-#' @param string A character string
-#' @param simplify If TRUE return as a vector. Default is FALSE.
+#' @inheritParams extract_all_names
 #'
 #' @return A list or vector with the parameter names.
 extract_param_names <- function(string, simplify = FALSE) {
@@ -48,8 +47,7 @@ extract_param_names <- function(string, simplify = FALSE) {
 #' Extracts attribute names. It is a wrapper around
 #' \code{\link{extract_all_names}} and \code{\link{extract_param_names}}.
 #'
-#' @param string A character string
-#' @param simplify If TRUE return as a vector. Default is FALSE
+#' @inheritParams extract_all_names
 #'
 #' @return A Vector or string wtih attribute names
 extract_attribute_names <- function(string, simplify = FALSE) {
@@ -64,8 +62,7 @@ extract_attribute_names <- function(string, simplify = FALSE) {
 #' Extracts the value argument(s) of the supplied string. The value argument
 #' is defined as the characters between [] string.
 #'
-#' @param string A character string
-#' @param simplify If TRUE return as a vector. Default is FALSE.
+#' @inheritParams extract_all_names
 #'
 #' @return A vector or list with the extracted value arguments
 extract_values <- function(string, simplify = FALSE) {
@@ -86,7 +83,7 @@ extract_values <- function(string, simplify = FALSE) {
 #' The function extracts the named values of the supplied utility function. This
 #' function is called from within \code{\link{parse_utility}}
 #'
-#' @param string A string
+#' @inheritParams extract_all_names
 #'
 #' @return A named list of parameter and attribute values. Each list element is
 #' named and can contain a single prior, a list with a mean and sd, or a vector
@@ -107,8 +104,7 @@ extract_named_values <- function(string) {
 #' is very useful to test whether parameters or attributes are specified
 #' multiple times
 #'
-#' @param string A character string
-#' @param simplify If TRUE return as a vector. Default is FALSE
+#' @inheritParams extract_all_names
 extract_specified <- function(string, simplify = FALSE) {
   # [^\\s\\+\\-\\*\\/] - Negative group not match one in the group.
   expr <- "[^\\s\\+\\-\\*\\/]*?\\[.*?\\]"

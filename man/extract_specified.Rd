@@ -9,7 +9,7 @@ extract_specified(string, simplify = FALSE)
 \arguments{
 \item{string}{A character string}
 
-\item{simplify}{If TRUE return as a vector. Default is FALSE}
+\item{simplify}{If TRUE return as a vector. Default is FALSE.}
 }
 \description{
 Only extract parameters and attributes with specified priors and levels. This

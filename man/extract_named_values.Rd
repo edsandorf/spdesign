@@ -7,7 +7,7 @@
 extract_named_values(string)
 }
 \arguments{
-\item{string}{A string}
+\item{string}{A character string}
 }
 \value{
 A named list of parameter and attribute values. Each list element is

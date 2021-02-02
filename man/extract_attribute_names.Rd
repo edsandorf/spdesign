@@ -9,7 +9,7 @@ extract_attribute_names(string, simplify = FALSE)
 \arguments{
 \item{string}{A character string}
 
-\item{simplify}{If TRUE return as a vector. Default is FALSE}
+\item{simplify}{If TRUE return as a vector. Default is FALSE.}
 }
 \value{
 A Vector or string wtih attribute names
