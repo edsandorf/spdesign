@@ -21,18 +21,37 @@ test_that("Remove white spaces does exactly that", {
 
 test_that("Returns a string without the expressions inside square brackets", {
   expect_equal(
-    remove_square_bracket("b_x[0.1]"),
+    remove_square_brackets("b_x[0.1]"),
     "b_x"
   )
   expect_equal(
-    remove_square_bracket("b_x[0.1] / x_1[2^5]"),
+    remove_square_brackets("b_x[0.1] / x_1[2^5]"),
     "b_x / x_1"
   )
   expect_equal(
-    remove_square_bracket("b_x[normal(normal(0, 1), 1)]"),
+    remove_square_brackets("b_x[normal(normal(0, 1), 1)]"),
     "b_x"
   )
   expect_equal(
-    remove_square_bracket("b_x     [0.1]"),
+    remove_square_brackets("b_x     [0.1]"),
+    "b_x     ")
+})
+
+
+test_that("Returns a string without the expressions inside brackets", {
+  expect_equal(
+    remove_all_brackets("b_x[0.1](0.1)"),
+    "b_x"
+  )
+  expect_equal(
+    remove_all_brackets("b_x[0.1](0:5) / x_1[2^5](1, 2)"),
+    "b_x / x_1"
+  )
+  expect_equal(
+    remove_all_brackets("b_x[normal(normal(0, 1), 1)](0, 1)"),
+    "b_x"
+  )
+  expect_equal(
+    remove_all_brackets("b_x     [0.1]"),
     "b_x     ")
 })

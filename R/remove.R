@@ -9,14 +9,39 @@ remove_whitespace <- function(string) {
   str_replace_all(string, "\\s", "")
 }
 
-#' Removes the square bracket containing parameters and levels
+#' Removes all brackets
 #'
-#' Takes a utility function (string) as an input and removes all prior and level
-#' specifications. Effectively everything between [] including [].
+#' Takes a string as input and removes everything between square and round
+#' brackets. The function wraps around \code{\link{remove_square_brackets}} and
+#' \code{\link{remove_round_brackets}}. To avoid problems, we first remove
+#' square brackets.
 #'
 #' @param string A character string
 #'
-#' @return A string
-remove_square_bracket <- function(string) {
+#' @return A string without brackets
+remove_all_brackets <- function(string) {
+  # Remove square brackets before round brackets
+  remove_round_brackets(
+    remove_square_brackets(
+      string
+    )
+  )
+}
+
+#' Remove square bracket
+#'
+#' Removes everything between (and including) square brackets
+#'
+#' @inheritParams remove_all_brackets
+remove_square_brackets <- function(string) {
   str_replace_all(string, "\\[.*?\\]", "")
+}
+
+#' Remove round bracket
+#'
+#' Removes everything between (and including) round brackets
+#'
+#' @inheritParams remove_all_brackets
+remove_round_brackets <- function(string) {
+  str_replace_all(string, "\\(.*?\\)", "")
 }

@@ -2,7 +2,7 @@
 #'
 #' Extracts all parameter and attribute names from the utility function.
 #' This is a wrapper around \code{\link{str_extract_all}} with a sepcified
-#' boundary. The function also calls \code{\link{remove_square_bracket}} to
+#' boundary. The function also calls \code{\link{remove_all_brackets}} to
 #' ensure that if a word is used inside a square bracket, e.g. seq, it is not
 #' extracted.
 #'
@@ -12,7 +12,7 @@
 #' @return A list or vector with all names
 extract_all_names <- function(string, simplify = FALSE) {
   s <- str_extract_all(
-    remove_square_bracket(
+    remove_all_brackets(
       string
     ),
     boundary("word")
@@ -97,7 +97,7 @@ extract_named_values <- function(string) {
   values <- lapply(extract_values(string_elements), function(x) {
     eval(parse(text = x))
   })
-  names(values) <- remove_square_bracket(string_elements)
+  names(values) <- remove_square_brackets(string_elements)
   values
 }
 

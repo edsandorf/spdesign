@@ -66,8 +66,9 @@ parse_utility <- function(utility) {
 
   # Prepare attributes
   param_idx <- value_names %in% grep("b_", value_names, value = TRUE)
-  cleaned_utility <- lapply(seq_along(utility), function(j) {
-    v <- str_replace_all(remove_square_bracket(utility[[j]]), "\\s+", " ")
+
+    cleaned_utility <- lapply(seq_along(utility), function(j) {
+    v <- str_replace_all(remove_all_brackets(utility[[j]]), "\\s+", " ")
     attribute_names <- extract_attribute_names(v)
     for (i in seq_along(attribute_names)) {
       v <- str_replace_all(
@@ -79,6 +80,7 @@ parse_utility <- function(utility) {
     # Return v
     v
   })
+
   # Restore names that were dropped when cleaning utility
   names(cleaned_utility) <- names(utility)
   attrs <- values[!param_idx]
