@@ -29,7 +29,8 @@ set_defaults <- function(opts_input) {
     max_iter = 10,
     eff_threshold = 0.1,
     sample_with_replacement = FALSE,
-    restrictions = NULL
+    restrictions = NULL,
+    level_balance = FALSE
   )
 
   # Replace the values in the default list with the user supplied list
