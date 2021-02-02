@@ -81,6 +81,29 @@ test_that("Extract named values does that correctly", {
   )
 })
 
+test_that("Attribute level balance frequencies are extracted", {
+  expect_equal(
+    extract_level_occurrence(
+      "b_x1[normal_p(0, 1)] + x1[seq(0, 1, 0.25)](1, 2, 3, 4, 5) + b_x2[0.1] * x2(1, 2, 3, 4)",
+      TRUE
+    ),
+    c(
+      "(1, 2, 3, 4, 5)",
+      "(1, 2, 3, 4)"
+    )
+  )
+  expect_equal(
+    extract_level_occurrence(
+      "b_x1[normal_p(0, 1)] + x1[seq(0, 1, 0.25)](1, 2, 3:5, 4, 5) + b_x2[0.1] * x2(4)",
+      TRUE
+    ),
+    c(
+      "(1, 2, 3:5, 4, 5)",
+      "(4)"
+    )
+  )
+})
+
 test_that("Distributions are extracted correctly", {
   expect_equal(extract_distribution("b_x1[0.1] * x_1[2:5] + b_x2[uniform_p(-1, 1)] * x_2[c(0, 1)] + b_x3[normal_p(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]", "prior"), c(b_x2 = "uniform", b_x3 = "normal"))
   expect_equal(extract_distribution(list("b_x1[0.1] * x_1[2:5] + b_x2[uniform_p(-1, 1)] * x_2[c(0, 1)] + b_x3[normal_p(-0.2, 0.2)] * x_3[seq(0, 1, 0.25)]",

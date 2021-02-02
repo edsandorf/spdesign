@@ -116,6 +116,26 @@ extract_specified <- function(string, simplify = FALSE) {
   }
 }
 
+#' Extract the frequency of levels
+#'
+#' The function extracts how many times each level of an attribute should
+#' occur within the design when attribute level balance is not enforced.
+#'
+#' @inheritParams extract_all_names
+extract_level_occurrence <- function(string, simplify = FALSE) {
+  expr <- "(?<=\\b)\\(.*?\\)"
+  s <- str_extract_all(
+    remove_square_brackets(string),
+    expr
+  )
+
+  if (simplify) {
+    unlist(s)
+  } else {
+    s
+  }
+}
+
 #' Extract distributions
 #'
 #' This function will locate and extract the the distributions for Bayesian
