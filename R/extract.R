@@ -11,12 +11,8 @@
 #'
 #' @return A list or vector with all names
 extract_all_names <- function(string, simplify = FALSE) {
-  s <- str_extract_all(
-    remove_all_brackets(
-      string
-    ),
-    boundary("word")
-  )
+  s <- str_extract_all(remove_all_brackets(string), boundary("word"))
+
   if (simplify) {
     unlist(s)
   } else {
@@ -35,6 +31,7 @@ extract_all_names <- function(string, simplify = FALSE) {
 extract_param_names <- function(string, simplify = FALSE) {
   expr <- "b_.*?\\b"
   s <- str_extract_all(string, expr)
+
   if (simplify) {
     unlist(s)
   } else {
@@ -71,6 +68,7 @@ extract_values <- function(string, simplify = FALSE) {
   # (?=(\\*|\\+|$)) - A positive look ahead for ']'
   expr <- "(?<=\\[).*?(?=\\])"
   s <- str_extract_all(string, expr)
+
   if (simplify) {
     unlist(s)
   } else {
@@ -107,8 +105,10 @@ extract_named_values <- function(string) {
 #' @inheritParams extract_all_names
 extract_specified <- function(string, simplify = FALSE) {
   # [^\\s\\+\\-\\*\\/] - Negative group not match one in the group.
-  expr <- "[^\\s\\+\\-\\*\\/]*?\\[.*?\\]"
+  # (\\(.*?\\))? - Optional to match the parenthesis with level occurrences
+  expr <- "[^\\s\\+\\-\\*\\/]*?\\[.*?\\](\\(.*?\\))?"
   s <- str_extract_all(string, expr)
+
   if (simplify) {
     unlist(s)
   } else {
