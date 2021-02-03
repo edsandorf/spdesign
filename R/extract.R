@@ -89,10 +89,12 @@ extract_values <- function(string, simplify = FALSE) {
 extract_named_values <- function(string) {
   # Extracting the specified parameters and attributes
   string_elements <- extract_specified(string, TRUE)
+
   values <- lapply(extract_values(string_elements), function(x) {
     eval(parse(text = x))
   })
-  names(values) <- remove_square_brackets(string_elements)
+
+  names(values) <- remove_all_brackets(string_elements)
   values
 }
 
