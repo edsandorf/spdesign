@@ -52,3 +52,45 @@ set_default_options <- function(opts_input) {
   # Return
   opts
 }
+
+#' Sets the default level occurrence in an attribute level balanced design
+#'
+#' The function sets the default level occurrence of an attribute when a design
+#' is restricted to be attribute level balanced. If the design cannot be
+#' attribute level balanced, then the restriction will be relaxed for each
+#' attribute failing to meet this criteria. Specifically, the code will impose
+#' a minimum range of how often an attribute level can occur. This will secure
+#' that the design is near attribute level balanced. In this case a warning is
+#' issued.
+#'
+#' This function is called within \code{\link{get_level_occurrence}}
+#'
+#' @param n_lvls An integer giving the number of levels for the considered
+#' attribute
+#' @inheritParams get_level_occurrence
+#'
+#' @return A named list of lists where the top level gives the attribute and the
+#' lower level gives the times or range each attribute level should occur in
+#' the design
+set_default_level_occurrence <- function(n_lvls, candidate_rows) {
+  # Check if attribute level balance can be achieved
+  if ((candidate_rows %% n_lvls) == 0) {
+    lvl <- candidate_rows / n_lvls
+
+  } else {
+    warning(
+      "The number of levels specified for this attribute is not a multiple
+        of the number of rows in the design candidate. Relaxing the attribute
+        level balance requirement for this attribute by specifying a narrow
+        range for the attribute level occurrence to ensure near attribute level
+        balance.",
+      noBreaks. = TRUE
+    )
+    minimum <- floor(candidate_rows / n_lvls)
+    lvl <- minimum:(minimum + 1)
+  }
+
+  lvls <- lapply(seq_len(n_lvls), function(n) lvl)
+  names(lvls) <- paste0("lvl", seq_along(lvls))
+  lvls
+}

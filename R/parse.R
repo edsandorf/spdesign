@@ -86,10 +86,25 @@ parse_utility <- function(utility, opts) {
   names(cleaned_utility) <- names(utility)
   attrs <- values[!param_idx]
 
+  # Detect attribute level occurrence
+  if (opts$level_balance) {
+    candidate_rows <- n_alts * opts$blocks * opts$tasks
+
+    level_occurrence <- get_level_occurrence(
+      utility,
+      attrs,
+      candidate_rows
+    )
+
+  } else {
+    level_occurrence <- NULL
+  }
+
   # Return a list with cleaned utility, parameters and attributes
   list(
     utility = cleaned_utility,
     param = values[param_idx],
-    attrs = attrs
+    attrs = attrs,
+    level_occurrence = level_occurrence
   )
 }
