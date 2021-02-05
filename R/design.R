@@ -20,21 +20,6 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     "Setting up the design environment"
   )
 
-  # Utility ----
-  cli_h2(
-    "Checking and parsing utility"
-  )
-
-  ansi_with_hidden_cursor(
-    check_utility(utility)
-  )
-
-  parsed_utility <- parse_utility(utility)
-
-  cli_alert_success(
-    "The supplied utility functions have been parsed"
-  )
-
   # Options ----
   cli_h2(
     "Checking the supplied list of options and setting defaults"
@@ -44,10 +29,25 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     check_opts(opts)
   )
 
-  opts <- set_defaults(opts)
+  opts <- set_default_options(opts)
 
   cli_alert_success(
     "Default options has been set"
+  )
+
+  # Utility ----
+  cli_h2(
+    "Checking and parsing utility"
+  )
+
+  ansi_with_hidden_cursor(
+    check_utility(utility)
+  )
+
+  parsed_utility <- parse_utility(utility, opts)
+
+  cli_alert_success(
+    "The supplied utility functions have been parsed"
   )
 
   # Candidate set ----
