@@ -21,6 +21,9 @@
 #' @return A matrix containing the full factorial
 #'
 #' @examples
+#' opts <- list(
+#'   level_balance = FALSE
+#' )
 #' attrs <- list(
 #'   a1 = 1:5,
 #'   a2 = c(0, 1)
@@ -33,7 +36,7 @@
 #'   alt2 = "b_a1      * a1      + b_a2     * a2"
 #' )
 #'
-#' attrs <- parse_utility(V)$attrs
+#' attrs <- parse_utility(V, opts)$attrs
 #' generate_full_factorial(attrs)
 #'
 #' @export

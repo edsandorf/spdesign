@@ -24,6 +24,6 @@ correctly specify missing options, to reduce code-duplication and make it
 easier to maintain the code base.
 
 After 'opts' has been checked, inside \code{\link{generate_design}} a call is
-made to \code{\link{set_defaults}} to set missing optional entries to their
-default values.
+made to \code{\link{set_default_options}} to set missing optional entries to
+their default values.
 }

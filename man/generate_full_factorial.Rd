@@ -31,6 +31,9 @@ The function is mainly used inside \code{\link{generate_design}} and
  appropriate restrictions are then put in place.
 }
 \examples{
+opts <- list(
+  level_balance = FALSE
+)
 attrs <- list(
   a1 = 1:5,
   a2 = c(0, 1)
@@ -43,7 +46,7 @@ V <- list(
   alt2 = "b_a1      * a1      + b_a2     * a2"
 )
 
-attrs <- parse_utility(V)$attrs
+attrs <- parse_utility(V, opts)$attrs
 generate_full_factorial(attrs)
 
 }
