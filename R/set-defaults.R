@@ -10,7 +10,7 @@
 #' @return A list of design options populated by sensible default values
 #'
 #' @export
-set_defaults <- function(opts_input) {
+set_default_options <- function(opts_input) {
   txt <- "Setting default design options"
   spinner <- make_spinner("line", template = paste0("{spin} ", txt))
 
