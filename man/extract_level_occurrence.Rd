@@ -14,4 +14,7 @@ extract_level_occurrence(string, simplify = FALSE)
 \description{
 The function extracts how many times each level of an attribute should
 occur within the design when attribute level balance is not enforced.
+Note that it extracts the parentheses AFTER the end of the square brackets.
+Specifying round brackets without the square brackets are syntactically
+invalid and therefore we want the code to fail in this case.
 }

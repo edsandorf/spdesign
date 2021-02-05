@@ -122,14 +122,14 @@ extract_specified <- function(string, simplify = FALSE) {
 #'
 #' The function extracts how many times each level of an attribute should
 #' occur within the design when attribute level balance is not enforced.
+#' Note that it extracts the parentheses AFTER the end of the square brackets.
+#' Specifying round brackets without the square brackets are syntactically
+#' invalid and therefore we want the code to fail in this case.
 #'
 #' @inheritParams extract_all_names
 extract_level_occurrence <- function(string, simplify = FALSE) {
-  expr <- "(?<=\\b)\\(.*?\\)"
-  s <- str_extract_all(
-    remove_square_brackets(string),
-    expr
-  )
+  expr <- "(?<=\\])\\(.*?\\)"
+  s <- str_extract_all(string, expr)
 
   if (simplify) {
     unlist(s)
