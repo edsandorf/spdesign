@@ -4,10 +4,12 @@
 \alias{parse_utility}
 \title{Parse the utility functions}
 \usage{
-parse_utility(utility)
+parse_utility(utility, opts)
 }
 \arguments{
 \item{utility}{A list of utility functions}
+
+\item{opts}{A list of design options}
 }
 \value{
 A list with three elements:

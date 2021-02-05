@@ -1,12 +1,17 @@
 context("Correctly parses the list of utility functions")
 
+opts <- list(
+  level_balance = FALSE
+)
+
 test_that("Error messages are triggered correctly", {
   expect_error(
     parse_utility(
       utility <- list(
         alt1 = "b_x1[0.1] * x_1      + b_x2      * x_2 + b_x3[normal(0, 1)] * x_3[seq(0, 1, 0.25)]",
         alt2 = "b_x1      * x_1[2:5] + b_x2[0.4] * x_2      + b_x3          * x_3"
-      )
+      ),
+      opts
     )
   )
 })
@@ -17,7 +22,8 @@ test_that("Warning messages are triggered correctly", {
       utility <- list(
         alt1 = "b_x1[0.1] * x_1      + b_x2      * x_2[1:3] + b_x3[normal(0, 1)] * x_3[seq(0, 1, 0.25)]",
         alt2 = "b_x1[6]      * x_1[2:5] + b_x2[0.4] * x_2[1:6]      + b_x3          * x_3"
-      )
+      ),
+      opts
     )
   )
 })
@@ -28,7 +34,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
       utility <- list(
         alt1 = "b_x1[0.1] * x_1      + b_x2      * x_2[1:3] + b_x3[normal(0, 1)] * x_3[seq(0, 1, 0.25)]",
         alt2 = "b_x1      * x_1[2:5] + b_x2[0.4] * x_2      + b_x3          * x_3"
-      )
+      ),
+      opts
     ),
     list(
       utility = list(
@@ -47,7 +54,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
         x_2 = 1:3,
         x_3 = seq(0, 1, 0.25),
         x_1 = 2:5
-      )
+      ),
+      level_occurrence = NULL
     )
   )
 
@@ -57,7 +65,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
       utility <- list(
         alt1 = "b_x1[0.1] * x_1      + b_x2      * x_2[1:3] + b_x3[normal(0, 1)] * x_3[seq(0, 1, 0.25)]",
         alt2 = "b_x1      * x_1[2:5] + b_x2[0.4] * x_2      + b_x3          * x_3 + b_x4[0.001] * x_4[c(2, 4, 6)]"
-      )
+      ),
+      opts
     ),
     list(
       utility = list(
@@ -78,7 +87,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
         x_3 = seq(0, 1, 0.25),
         x_1 = 2:5,
         x_4 = c(2, 4, 6)
-      )
+      ),
+      level_occurrence = NULL
     )
   )
 
@@ -89,7 +99,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
       utility <- list(
         alt1 = "b_x2      * x_2[1:3] +  b_x1[0.1] * x_1      + b_x3[normal(0, 1)] * x_3[seq(0, 1, 0.25)]",
         alt2 = "b_x1      * x_1[2:5] + b_x2[0.4] * x_2      + b_x3          * x_3 + b_x4[0.001] * x_4[c(2, 4, 6)]"
-      )
+      ),
+      opts
     ),
     list(
       utility = list(
@@ -110,7 +121,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
         x_3 = seq(0, 1, 0.25),
         x_1 = 2:5,
         x_4 = c(2, 4, 6)
-      )
+      ),
+      level_occurrence = NULL
     )
   )
 
@@ -121,7 +133,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
         utility <- list(
           alt1 = "b_x1[0.1] * x_1      + b_x2[uniform_p(-1, 1)]      * x_2[1:3] + b_x3[normal(0, 1)] * x_3[seq(0, 1, 0.25)]",
           alt2 = "b_x1      * x_1[2:5] + b_x2[0.4] * x_2      + b_x3          * x_3[1:6]"
-        )
+        ),
+        opts
       )
     ),
     list(
@@ -144,7 +157,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
         x_2 = 1:3,
         x_3 = seq(0, 1, 0.25),
         x_1 = 2:5
-      )
+      ),
+      level_occurrence = NULL
     )
   )
 
@@ -155,7 +169,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
         utility <- list(
           alt1 = "b_x1[0.1] * x_1      + b_x2[uniform_p(-1, 1)]      * x_2[1:3] + x_3[seq(0, 1, 0.25)] * b_x3[normal(0, 1)]",
           alt2 = "b_x1      * x_1[2:5] + b_x2[0.4] * x_2      + b_x3          * x_3[1:6]"
-        )
+        ),
+        opts
       )
     ),
     list(
@@ -178,7 +193,8 @@ test_that("The utility parser correctly splits and returns attributes and parame
         x_2 = 1:3,
         x_3 = seq(0, 1, 0.25),
         x_1 = 2:5
-      )
+      ),
+      level_occurrence = NULL
     )
   )
 })

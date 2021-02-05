@@ -4,6 +4,7 @@
 #' used to create the design.
 #'
 #' @param utility A list of utility functions
+#' @param opts A list of design options
 #'
 #' @return
 #' A list with three elements:
@@ -17,12 +18,12 @@
 #' and return a list that can be directly passed to create_full_factorial.
 #'
 #'@export
-parse_utility <- function(utility) {
+parse_utility <- function(utility, opts) {
   # Extract useful information ----
   all_names <- unique(remove_whitespace(extract_all_names(utility, TRUE)))
   values <- extract_named_values(utility)
   value_names <- names(values)
-
+  n_alts <- length(utility)
 
   # Dummy coding ----
   if (any(str_detect(utility, "_dummy"))) {
@@ -67,7 +68,7 @@ parse_utility <- function(utility) {
   # Prepare attributes
   param_idx <- value_names %in% grep("b_", value_names, value = TRUE)
 
-    cleaned_utility <- lapply(seq_along(utility), function(j) {
+  cleaned_utility <- lapply(seq_along(utility), function(j) {
     v <- str_replace_all(remove_all_brackets(utility[[j]]), "\\s+", " ")
     attribute_names <- extract_attribute_names(v)
     for (i in seq_along(attribute_names)) {
