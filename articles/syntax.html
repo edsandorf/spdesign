@@ -171,6 +171,25 @@ x_1[c(1, 2, 3, 4, 5)]</code></pre>
 <div id="advanced-syntax" class="section level2">
 <h2 class="hasAnchor">
 <a href="#advanced-syntax" class="anchor"></a>Advanced syntax</h2>
+<div id="attribute-level-balance" class="section level3">
+<h3 class="hasAnchor">
+<a href="#attribute-level-balance" class="anchor"></a>Attribute level balance</h3>
+<p>Attribute level balance is controlled with the option <code>opts$level_balance</code>. The default value is <code>FALSE</code>. It is possible to impose attribute level balance setting this option to <code>TRUE</code>. While it is known that level balanced designs are less efficient, it may be desirable to ensure that all attribute levels occur with equal frequency. However, it is only possible to obtain attribute level balance if the number of levels an attribute can take is a multiple of the number of rows in the design candidate. The number of rows is equal to the product of the number of alternatives per choice task and number of choice tasks. For example, if we have a dummy attribute and our design candidate has 12 rows, then each attribute level occurs exactly 6 times. If we have an attribute with three levels, then each level occurs exactly 4 times across the design.</p>
+<p>However, if the number of levels for any attribute is not a multiple of the number of rows in the design candidate, then we cannot achieve attribute level balance. In this case, the package will print a warning that attribute level balance cannot be assured, but that it will strive to get as close as possible. The way it does this is by letting go of attribute level balance only for the attributes whose levels are not multiples of the number of rows in the design candidate. Furthermore, it will try to have each attribute level occur a number of times that is as close to attribute level balance as possible. For example, if we have an attribute with 3 levels and a design candidate with 10 rows, then each attribute level will occur a minimum of 3 times with one attribute level occuring 4 times. That said, the package does provide the user with some flexibility in how this is specified.</p>
+<p>It is possible for the user to specify that each level of our three-level attribute occurs a minimum of 3 times. To do this, we would need <code>level_balance = TRUE</code> and specify the minimum number of times each level would occur in a rounded parenthesis behind the attribute level specification.</p>
+<pre><code>b_x1[0] * x1[c(0, 1, 2)](3, 2, 3)</code></pre>
+<p>In the specification above, 0 would occur a minimum of 3 times, 1 would occur a minimum of 2 times and 3 would occur a minimum of 3 times. If all levels could occure at a minimum an equal number of times, we can write this more succinctly as:</p>
+<pre><code>b_x1[0] * x1[c(0, 1, 2)](3)</code></pre>
+<p>Two important things to note about the above specification: 1) You can only specify the number of times an attribute should occur in the design at the same time as you specify the number of levels, and 2) the number of comma-separated elements inside the parenthesis has to be equal to 1 (all take the same minimum/maximum number) or equal to the number of levels. Any number of elements inbetween will lead to an error and no design will be produced. In some cases it might be desirable to specify a range indicating an acceptable number of times an attribute level can occur. We do this using the standard range-operator <code><a href="https://rdrr.io/r/base/Colon.html">:</a></code> in R. In the example below, each attribute level can occur 3, 4 or 5 times.</p>
+<pre><code>b_x1[0] * x1[c(0, 1, 2)](3:5, 3:5, 3:5)</code></pre>
+<p>It may be desirable to not use a continuous range. For example, you can specify that an attribute level should only occur 2, 4 or 6 times using either of the two following specifications:</p>
+<pre><code>b_x1[0] * x1[c(0, 1, 2)](seq(2, 6, 2))
+
+# OR
+
+b_x1[0] * x1[c(0, 1, 2)](c(2, 4, 6))</code></pre>
+<p>The same restrictions outlined above with respect to what is specified inside the parenthesis apply.</p>
+</div>
 <div id="dummy-coded-attributes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#dummy-coded-attributes" class="anchor"></a>Dummy-coded attributes</h3>

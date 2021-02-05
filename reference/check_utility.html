@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parse the utility functions — parse_utility • spdesign</title>
+<title>Runs checks on utility — check_utility • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,10 @@
 
 
 
-<meta property="og:title" content="Parse the utility functions — parse_utility" />
-<meta property="og:description" content="The function parses the list of utilities to extract the relevant parameters
-used to create the design." />
+<meta property="og:title" content="Runs checks on utility — check_utility" />
+<meta property="og:description" content="generate_design runs three sets of checks, all detailed here,
+in the order of appearance of the function arguments. The checks on utility
+is to ensure that the user supplied list of utility functions are valid." />
 
 
 
@@ -130,42 +131,37 @@ used to create the design." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parse the utility functions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/parse.R'><code>R/parse.R</code></a></small>
-    <div class="hidden name"><code>parse_utility.Rd</code></div>
+    <h1>Runs checks on utility</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/check.R'><code>R/check.R</code></a></small>
+    <div class="hidden name"><code>check_utility.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The function parses the list of utilities to extract the relevant parameters
-used to create the design.</p>
+    <p><code><a href='generate_design.html'>generate_design</a></code> runs three sets of checks, all detailed here,
+in the order of appearance of the function arguments. The checks on utility
+is to ensure that the user supplied list of utility functions are valid.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parse_utility</span><span class='op'>(</span><span class='va'>utility</span>, <span class='va'>opts</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_utility</span><span class='op'>(</span><span class='va'>utility</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>utility</th>
-      <td><p>A list of utility functions</p></td>
-    </tr>
-    <tr>
-      <th>opts</th>
-      <td><p>A list of design options</p></td>
+      <td><p>a list of utility functions</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with three elements:
-1) The returned cleaned expression of the utility function is ready to be
-evaluated in the design context
-2) A list of parameters
-3) A list of attributes entering each alternative. For example, for two
-alternatives, it will return a list of length, with each list element
-containing the list of attributes entering that alternative's utility
-function. The purpose is to correctly handle alternative specific variables
-and return a list that can be directly passed to create_full_factorial.</p>
+    <p>Nothing</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>As far as possible, all checks on utility should be included in this
+function. This is to ensure that the code fails quickly to give the user the
+ability to correct any syntax mistakes, to reduce code-duplication and make
+it easier to maintain the code base.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

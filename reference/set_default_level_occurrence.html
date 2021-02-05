@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parse the utility functions — parse_utility • spdesign</title>
+<title>Sets the default level occurrence in an attribute level balanced design — set_default_level_occurrence • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,14 @@
 
 
 
-<meta property="og:title" content="Parse the utility functions — parse_utility" />
-<meta property="og:description" content="The function parses the list of utilities to extract the relevant parameters
-used to create the design." />
+<meta property="og:title" content="Sets the default level occurrence in an attribute level balanced design — set_default_level_occurrence" />
+<meta property="og:description" content="The function sets the default level occurrence of an attribute when a design
+is restricted to be attribute level balanced. If the design cannot be
+attribute level balanced, then the restriction will be relaxed for each
+attribute failing to meet this criteria. Specifically, the code will impose
+a minimum range of how often an attribute level can occur. This will secure
+that the design is near attribute level balanced. In this case a warning is
+issued." />
 
 
 
@@ -130,42 +135,47 @@ used to create the design." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parse the utility functions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/parse.R'><code>R/parse.R</code></a></small>
-    <div class="hidden name"><code>parse_utility.Rd</code></div>
+    <h1>Sets the default level occurrence in an attribute level balanced design</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/set-defaults.R'><code>R/set-defaults.R</code></a></small>
+    <div class="hidden name"><code>set_default_level_occurrence.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The function parses the list of utilities to extract the relevant parameters
-used to create the design.</p>
+    <p>The function sets the default level occurrence of an attribute when a design
+is restricted to be attribute level balanced. If the design cannot be
+attribute level balanced, then the restriction will be relaxed for each
+attribute failing to meet this criteria. Specifically, the code will impose
+a minimum range of how often an attribute level can occur. This will secure
+that the design is near attribute level balanced. In this case a warning is
+issued.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parse_utility</span><span class='op'>(</span><span class='va'>utility</span>, <span class='va'>opts</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>set_default_level_occurrence</span><span class='op'>(</span><span class='va'>n_lvls</span>, <span class='va'>candidate_rows</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>utility</th>
-      <td><p>A list of utility functions</p></td>
+      <th>n_lvls</th>
+      <td><p>An integer giving the number of levels for the considered
+attribute</p></td>
     </tr>
     <tr>
-      <th>opts</th>
-      <td><p>A list of design options</p></td>
+      <th>candidate_rows</th>
+      <td><p>An integer giving the number of rows in each design
+candidate, which is equal to the product of the number of alternatives,
+tasks and blocks.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with three elements:
-1) The returned cleaned expression of the utility function is ready to be
-evaluated in the design context
-2) A list of parameters
-3) A list of attributes entering each alternative. For example, for two
-alternatives, it will return a list of length, with each list element
-containing the list of attributes entering that alternative's utility
-function. The purpose is to correctly handle alternative specific variables
-and return a list that can be directly passed to create_full_factorial.</p>
+    <p>A named list of lists where the top level gives the attribute and the
+lower level gives the times or range each attribute level should occur in
+the design</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function is called within <code><a href='get_level_occurrence.html'>get_level_occurrence</a></code></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

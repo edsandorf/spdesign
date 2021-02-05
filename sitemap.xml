@@ -4,6 +4,9 @@
     <loc>https://spdesignr.edsandorf.me/index.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/apply_restrictions.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/calculate_a_error.html</loc>
   </url>
   <url>
@@ -28,7 +31,7 @@
     <loc>https://spdesignr.edsandorf.me/reference/check_opts.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/check_v.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/check_utility.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/derive_vcov.html</loc>
@@ -53,6 +56,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/extract_distribution.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/extract_level_occurrence.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/extract_named_values.html</loc>
@@ -80,6 +86,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/generate_full_factorial.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/get_level_occurrence.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/has_bayesian_prior.html</loc>
@@ -136,7 +145,13 @@
     <loc>https://spdesignr.edsandorf.me/reference/random.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/remove_square_bracket.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/remove_all_brackets.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/remove_round_brackets.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/remove_square_brackets.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/remove_whitespace.html</loc>
@@ -151,7 +166,10 @@
     <loc>https://spdesignr.edsandorf.me/reference/rsc.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/set_defaults.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/set_default_level_occurrence.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/set_default_options.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/shuffle.html</loc>

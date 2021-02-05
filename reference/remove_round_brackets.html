@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parse the utility functions — parse_utility • spdesign</title>
+<title>Remove round bracket — remove_round_brackets • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Parse the utility functions — parse_utility" />
-<meta property="og:description" content="The function parses the list of utilities to extract the relevant parameters
-used to create the design." />
+<meta property="og:title" content="Remove round bracket — remove_round_brackets" />
+<meta property="og:description" content="Removes everything between (and including) round brackets" />
 
 
 
@@ -130,42 +129,26 @@ used to create the design." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parse the utility functions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/parse.R'><code>R/parse.R</code></a></small>
-    <div class="hidden name"><code>parse_utility.Rd</code></div>
+    <h1>Remove round bracket</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/remove.R'><code>R/remove.R</code></a></small>
+    <div class="hidden name"><code>remove_round_brackets.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The function parses the list of utilities to extract the relevant parameters
-used to create the design.</p>
+    <p>Removes everything between (and including) round brackets</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parse_utility</span><span class='op'>(</span><span class='va'>utility</span>, <span class='va'>opts</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>remove_round_brackets</span><span class='op'>(</span><span class='va'>string</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>utility</th>
-      <td><p>A list of utility functions</p></td>
-    </tr>
-    <tr>
-      <th>opts</th>
-      <td><p>A list of design options</p></td>
+      <th>string</th>
+      <td><p>A character string</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A list with three elements:
-1) The returned cleaned expression of the utility function is ready to be
-evaluated in the design context
-2) A list of parameters
-3) A list of attributes entering each alternative. For example, for two
-alternatives, it will return a list of length, with each list element
-containing the list of attributes entering that alternative's utility
-function. The purpose is to correctly handle alternative specific variables
-and return a list that can be directly passed to create_full_factorial.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

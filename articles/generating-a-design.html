@@ -169,6 +169,31 @@
 <div id="the-candidate-set" class="section level1">
 <h1 class="hasAnchor">
 <a href="#the-candidate-set" class="anchor"></a>The candidate set</h1>
+<p>Often, not all combinations in a full factorial makes sense. Therefore it is important to exclude the combinations of attribute levels that cannot occur in the design. There are two ways we can do this:</p>
+<ol style="list-style-type: decimal">
+<li>We supply a restricted candidate set using the option <code>candidate_set</code> in <code>generate_design</code>.</li>
+<li>We specify restrictions in the list of options throught <code>opts$restrictions</code>, which are then applied to the full factorial.</li>
+</ol>
+<p>Restrictions are specified as a list of the form of a list. To make it clear, let us illustrate with a simple example. Consider the following full factorial generated from two attributes taking on two levels:</p>
+<pre><code>  x1 x2
+1  0  0
+2  1  0
+3  0  1
+4  1  1</code></pre>
+<p>Furthermore, let us assume that both attributes cannot simultaneously take on the value of 1. To implement this restriction, we would specify:</p>
+<pre><code>opts &lt;- list(
+  restrictions = list(
+    "x1 == 1 &amp; x2 == 1"
+  )
+)</code></pre>
+<p>and if they both couldn’t be 0 at the same time as well, we would specify:</p>
+<pre><code>opts &lt;- list(
+  restrictions = list(
+    "x1 == 1 &amp; x2 == 1",
+    "x1 == 0 &amp; x2 == 0"
+  )
+)</code></pre>
+<p>The user familiar with R will notice that this is the exact same syntax we would use to subset a matrix.</p>
 </div>
 <div id="the-list-of-utility-functions" class="section level1">
 <h1 class="hasAnchor">
