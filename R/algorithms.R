@@ -39,8 +39,8 @@ random <- function(candidate_set, opts, utility) {
   n_alts <- length(utility)
   rows <- nrow(candidate_set)
   col_names <- colnames(candidate_set)
-  candidates <- opts$tasks * opts$blocks * n_alts
-  split_idx <- shuffle(rep(seq_len(n_alts), (opts$tasks * opts$blocks)))
+  candidates <- opts$tasks * n_alts
+  split_idx <- shuffle(rep(seq_len(n_alts), opts$tasks))
   candidate_idx <- split(
     sample(seq_len(rows), candidates, replace = opts$sample_with_replacement),
     split_idx

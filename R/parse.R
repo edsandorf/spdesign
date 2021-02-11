@@ -88,7 +88,7 @@ parse_utility <- function(utility, opts) {
 
   # Detect attribute level occurrence
   if (opts$level_balance) {
-    candidate_rows <- n_alts * opts$blocks * opts$tasks
+    candidate_rows <- n_alts * opts$tasks
 
     level_occurrence <- get_level_occurrence(
       utility,
