@@ -1,7 +1,8 @@
 context("Correctly parses the list of utility functions")
 
 opts <- list(
-  level_balance = FALSE
+  level_balance = FALSE,
+  tasks = 6
 )
 
 test_that("Error messages are triggered correctly", {
@@ -198,3 +199,4 @@ test_that("The utility parser correctly splits and returns attributes and parame
     )
   )
 })
+

@@ -65,9 +65,20 @@ parse_utility <- function(utility, opts) {
     value_names <- value_names[!duplicate_idx]
   }
 
-  # Prepare attributes
+  # Prepare param
   param_idx <- value_names %in% grep("b_", value_names, value = TRUE)
+  param <- values[param_idx]
 
+  # Check degrees of freedom
+  if ((opts$tasks * (n_alts - 1)) < length(param)) {
+    stop(
+      "The design is too small to identify all main effects. Not enough degrees
+      of freedom. This will be turned into a warning later when we have decided
+      how to proceed."
+    )
+  }
+
+  # Clean utility
   cleaned_utility <- lapply(seq_along(utility), function(j) {
     v <- str_replace_all(remove_all_brackets(utility[[j]]), "\\s+", " ")
     attribute_names <- extract_attribute_names(v)
@@ -103,7 +114,7 @@ parse_utility <- function(utility, opts) {
   # Return a list with cleaned utility, parameters and attributes
   list(
     utility = cleaned_utility,
-    param = values[param_idx],
+    param = param,
     attrs = attrs,
     level_occurrence = level_occurrence
   )
