@@ -69,6 +69,13 @@ check_opts <- function(opts) {
   txt <- "Checking the supplied list of options"
   spinner <- make_spinner("line", template = paste0("{spin} ", txt))
 
+  if (opts$blocks > opts$tasks) {
+    stop(
+      "The number of blocks cannot be greater than the number of tasks to assign
+      to the blocks."
+    )
+  }
+
   required <- c("optimization_algorithm", "efficiency_criteria", "model",
                 "tasks")
   test_required <- lapply(required, function(x) {
