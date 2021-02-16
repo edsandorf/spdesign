@@ -6,7 +6,7 @@ rm(list = ls(all = TRUE))
 
 # Set design options ----
 opts <- list(
-  optimization_algorithm = "random",
+  optimization_algorithm = "federov",
   efficiency_criteria = "d-error",
   model = "mnl",
   blocks = 1,

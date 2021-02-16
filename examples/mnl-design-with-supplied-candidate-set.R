@@ -6,7 +6,7 @@ rm(list = ls(all = TRUE))
 
 # Set design options ----
 opts <- list(
-  optimization_algorithm = "random",
+  optimization_algorithm = "federov",
   efficiency_criteria = "d-error",
   model = "mnl",
   blocks = 1,
@@ -24,14 +24,17 @@ utility <- list(
 # Use the full factorial as the candidate set
 candidate_set <- generate_full_factorial(
   list(
-    x1 = 1:5,
-    x2 = c(0, 1),
-    x3 = seq(0, 1, 0.25)
+    alt1_x1 = 1:5,
+    alt1_x2 = c(0, 1),
+    alt1_x3 = seq(0, 1, 0.25),
+    alt2_x1 = 1:5,
+    alt2_x2 = c(0, 1),
+    alt2_x3 = seq(0, 1, 0.25)
   )
 )
 
-candidate_set <- candidate_set[!(candidate_set$x1 == 2 & candidate_set$x2 == 0 & candidate_set$x3 == 0), ]
-candidate_set <- candidate_set[!(candidate_set$x2 == 1 & candidate_set$x3 == 1), ]
+candidate_set <- candidate_set[!(candidate_set$alt1_x1 == 2 & candidate_set$alt1_x2 == 0 & candidate_set$alt1_x3 == 0), ]
+candidate_set <- candidate_set[!(candidate_set$alt2_x2 == 1 & candidate_set$alt2_x3 == 1), ]
 
 # Generate designs ----
 design <- generate_design(utility, opts, candidate_set)

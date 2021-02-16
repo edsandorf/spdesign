@@ -6,7 +6,7 @@ rm(list = ls(all = TRUE))
 
 # Set design options ----
 opts <- list(
-  optimization_algorithm = "random",
+  optimization_algorithm = "federov",
   efficiency_criteria = "d-error",
   model = "mnl",
   blocks = 1,
@@ -14,8 +14,8 @@ opts <- list(
   cores = 1,
   max_iter = 10000,
   restrictions = list(
-    "x1 == 2 & x2 == 0 & x3 == 0",
-    "x2 == 1 & x3 == 1"
+    "alt1_x1 == 2 & alt1_x2 == 0 & alt1_x3 == 0",
+    "alt2_x2 == 1 & alt2_x3 == 1"
   )
 )
 
