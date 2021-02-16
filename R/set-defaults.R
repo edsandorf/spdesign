@@ -16,7 +16,12 @@ set_default_options <- function(opts_input) {
 
   # Define the complete list of design options with default values
   opts <- list(
-    optimization_algorithm = "random", # "random", "federov", "rsc"
+    algorithm = list(
+      alg = "rsc",
+      swap = 1,
+      swap_on_imp = 20,
+      reset = 10000
+    ),
     efficiency_criteria = "d-efficiency",
     model = "mnl",
     blocks = 1,
@@ -34,11 +39,13 @@ set_default_options <- function(opts_input) {
   )
 
   # Replace the values in the default list with the user supplied list
+  idx <- !(names(opts$algorithm) %in% names(opts_input$algorithm))
+  opts_input$algorithm <- c(opts_input$algorithm, opts$algorithm[idx])
   opts[names(opts_input)] <- opts_input
   spinner$spin()
 
   # Set the optimization algorihtm to lower
-  opts$optimization_algorithm <- tolower(opts$optimization_algorithm)
+  opts$algorithm$alg <- tolower(opts$algorithm$alg)
   spinner$spin()
 
   # Set the efficiency criteria to lower

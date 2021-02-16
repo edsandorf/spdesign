@@ -4,15 +4,22 @@
 \alias{rsc}
 \title{Make a design candidate based on the rsc algorithm}
 \usage{
-rsc(candidate_set, opts, utility)
+rsc(parsed_utility, current_design_candidate, opts, iter_with_no_imp)
 }
 \arguments{
-\item{candidate_set}{A valid candidate set}
+\item{parsed_utility}{A list containing the elements of the parsed utility
+expression obtained from \code{\link{parse_utility}}.}
+
+\item{current_design_candidate}{A candidate for the RSC algorithm. To allow for marginal
+changes the candidate is passed back in for each iteration.}
 
 \item{opts}{A list of design options}
 
-\item{utility}{The list of utility expressions}
+\item{iter_with_no_imp}{The iteration number}
 }
 \description{
-Make a design candidate based on the rsc algorithm
+Depending on the setting the function calls a combination of
+\code{\link{relabel}}, \code{\link{swap}} and \code{\link{cycle}}
+to create new design candidates. The code is intentionally written modular
+to allow for all special cases of the algorithm.
 }

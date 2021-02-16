@@ -4,14 +4,13 @@
 \alias{random}
 \title{Make a random design candidate}
 \usage{
-random(candidate_set, opts, utility)
+random(candidate_set, opts)
 }
 \arguments{
-\item{candidate_set}{A valid candidate set}
+\item{candidate_set}{A valid candidate set. This is only used for the
+'random' and 'federov' algorithms.}
 
 \item{opts}{A list of design options}
-
-\item{utility}{The list of utility expressions}
 }
 \description{
 Make a random design candidate

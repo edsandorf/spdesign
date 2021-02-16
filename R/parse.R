@@ -79,15 +79,15 @@ parse_utility <- function(utility, opts) {
     )
   }
 
-  # Clean utility
+  # Clean utility ----
   cleaned_utility <- lapply(seq_along(utility), function(j) {
     v <- str_replace_all(remove_all_brackets(utility[[j]]), "\\s+", " ")
-    attribute_names <- extract_attribute_names(v)
-    for (i in seq_along(attribute_names)) {
+    attrs_names <- extract_attribute_names(v)
+    for (i in seq_along(attrs_names)) {
       v <- str_replace_all(
         v,
-        paste0("\\b", attribute_names[i]),
-        paste(attribute_names[i], j, sep = "_")
+        paste0("\\b", attrs_names[i]),
+        paste(names(utility[j]), attrs_names[i], sep = "_")
       )
     }
     # Return v
@@ -96,23 +96,36 @@ parse_utility <- function(utility, opts) {
 
   # Restore names that were dropped when cleaning utility
   names(cleaned_utility) <- names(utility)
+
+  # Prepare attributes ----
   attrs <- values[!param_idx]
+  attribute_names <- names(attrs)
 
-  # Detect attribute level occurrence
-  if (opts$level_balance) {
-    candidate_rows <- n_alts * opts$tasks
+  # Expand the list of attributes to wide format.
+  attrs <- lapply(seq_along(utility), function(j) {
+    # Set all initial levels to 0
+    attrs_tmp <- lapply(seq_along(attribute_names), function(i) 0)
+    names(attrs_tmp) <- attribute_names
 
-    level_occurrence <- get_level_occurrence(
-      utility,
-      attrs,
-      candidate_rows
-    )
+    # Replace with attribute values
+    attrs_names <- extract_attribute_names(utility[[j]])
+    attrs_tmp[attrs_names] <- attrs[attrs_names]
 
-  } else {
-    level_occurrence <- NULL
-  }
+    # Name and return
+    names(attrs_tmp) <- paste(names(utility[j]), attribute_names, sep = "_")
+    attrs_tmp
+  })
 
-  # Return a list with cleaned utility, parameters and attributes
+  attrs <- do.call(c, attrs)
+
+  # Determine level occurrence ----
+  level_occurrence <- get_level_occurrence(
+    utility,
+    attrs,
+    candidate_rows
+  )
+
+# Return a list with cleaned utility, parameters and attributes ----
   list(
     utility = cleaned_utility,
     param = param,

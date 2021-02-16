@@ -43,6 +43,15 @@ The package interfaces nicely with the [`shinySP`](#) package (under development
 
 The package leverages the power of R's powerful expression parsers to enable users familiar with R to use basic mathematical operators when defining utility functions and specifying attribute levels and parameter priors. The code is fully open source and freely available to anyone under a permissive MIT license. We have done our best to document the code, its functions and workflow to allow anyone to extend and contribute to the project. If you wish to do so, please read the guidelines for [how to contribute](#) and the [detailed package documentation](#). All contributions are acknowledged and tracked using the functionalities available through [GitHub](https://github.com/). 
 
+## Nomenclature
+* Attribute level 
+* Attribute
+* Alternative 
+* Choice task
+* Design candidate
+* Candidate set
+
+
 ## Acknowledgements
 The authors are grateful to members of the [Applied Choice Research Group (ACRG)](https://acrg.site) at the University of Stirling for extensively testing the package and providing feedback on the UI prior to the release of v0.1.0. 
 

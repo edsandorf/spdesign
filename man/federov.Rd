@@ -2,17 +2,16 @@
 % Please edit documentation in R/algorithms.R
 \name{federov}
 \alias{federov}
-\title{Make a design candidate based on the modified federov algorithm}
+\title{Make a design candidate based on the Modified Federov Algorithm}
 \usage{
-federov(candidate_set, opts, utility)
+federov(candidate_set, opts)
 }
 \arguments{
-\item{candidate_set}{A valid candidate set}
+\item{candidate_set}{A valid candidate set. This is only used for the
+'random' and 'federov' algorithms.}
 
 \item{opts}{A list of design options}
-
-\item{utility}{The list of utility expressions}
 }
 \description{
-Make a design candidate based on the modified federov algorithm
+Make a design candidate based on the Modified Federov Algorithm
 }

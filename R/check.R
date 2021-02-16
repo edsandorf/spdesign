@@ -76,7 +76,7 @@ check_opts <- function(opts) {
     )
   }
 
-  required <- c("optimization_algorithm", "efficiency_criteria", "model",
+  required <- c("algorithm", "efficiency_criteria", "model",
                 "tasks")
   test_required <- lapply(required, function(x) {
     spinner$spin()
@@ -96,7 +96,7 @@ check_opts <- function(opts) {
   spinner$spin()
 
   optimization_algorithms <- c("random", "federov", "rsc")
-  if (!(tolower(opts$optimization_algorithm) %in% optimization_algorithms)) {
+  if (!(tolower(opts$algorithm$alg) %in% optimization_algorithms)) {
     stop(
       paste0(
         "The optimization algorithm has to be on of: ",

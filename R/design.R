@@ -85,6 +85,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   }
 
   candidate_set <- apply_restrictions(candidate_set, opts$restrictions)
+  candidate_set <- as.matrix(candidate_set)
 
   cli_alert_success(
     "All restrictions successfully applied"
@@ -130,10 +131,12 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
 
   # Without proper stopping conditions this becomes an infinite loop
   iter <- 1
+  iter_with_no_imp <- 1
   current_best <- NULL
   error_measures_string <- c("a-error", "c-error", "d-error", "s-error")
   time_start <- Sys.time()
   best_design_candidate <- NULL
+  current_design_candidate <- NULL
   on.exit(
     return(best_design_candidate),
     add = TRUE
@@ -143,17 +146,29 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   repeat {
     # Create a design candidate
     current_design_candidate <- make_design_candidate(
+      parsed_utility,
       candidate_set,
+      current_design_candidate,
       opts,
-      utility,
-      type = opts$optimization_algorithm
+      iter_with_no_imp,
+      type = opts$algorithm$alg
     )
+
+    # Determine x_j
+    attrs_names <- colnames(current_design_candidate)
+    x_j <- lapply(seq_along(utility), function(i) {
+      tmp <- current_design_candidate[, grep(names(utility[i]), attrs_names),
+                               drop = FALSE]
+      colnames(tmp) <- NULL
+      tmp
+    })
+    names(x_j) <- names(utility)
 
     # Update the design environment
     list2env(
       c(
-        as.list(as.data.frame(do.call(cbind, current_design_candidate))),
-        list(x_j = current_design_candidate)
+        as.list(as.data.frame(current_design_candidate)),
+        list(x_j = x_j)
       ),
       envir = design_environment
     )
@@ -212,6 +227,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
 
       current_best <- current_error
       best_design_candidate <- current_design_candidate
+      iter_with_no_imp <- 0
     }
 
     # Stopping conditions ----
@@ -232,6 +248,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     }
 
     # Update the iteration counter
+    iter_with_no_imp <- iter_with_no_imp + 1
     iter <- iter + 1
   }
 

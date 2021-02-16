@@ -38,8 +38,8 @@ derive_vcov_mnl <- function() {
   x_j <- x_j
 
   # Calculate the probability of j
-  utility <- lapply(utility_string, function(v) eval(parse(text = v)))
-  exp_utility <- lapply(utility, exp)
+  obs_utility <- lapply(utility_string, function(v) eval(parse(text = v)))
+  exp_utility <- lapply(obs_utility, exp)
   sum_utility <- Reduce("+", exp_utility)
   pr_j <- lapply(exp_utility, function(v) {
     v <- v / sum_utility

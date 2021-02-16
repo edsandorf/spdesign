@@ -4,20 +4,33 @@
 \alias{make_design_candidate}
 \title{Make a design candidate}
 \usage{
-make_design_candidate(candidate_set, opts, utility, type)
+make_design_candidate(
+  parsed_utility,
+  candidate_set,
+  current_design_candidate,
+  opts,
+  iter_with_no_imp,
+  type
+)
 }
 \arguments{
-\item{candidate_set}{A valid candidate set}
+\item{parsed_utility}{A list containing the elements of the parsed utility
+expression obtained from \code{\link{parse_utility}}.}
+
+\item{candidate_set}{A valid candidate set. This is only used for the
+'random' and 'federov' algorithms.}
+
+\item{current_design_candidate}{A candidate for the RSC algorithm. To allow for marginal
+changes the candidate is passed back in for each iteration.}
 
 \item{opts}{A list of design options}
 
-\item{utility}{The list of utility expressions}
+\item{iter_with_no_imp}{The iteration number}
 
 \item{type}{One of the implemented types of optimization algorithms}
 }
 \value{
-A list the length of n_alts with the design matrix for each
-alternative
+A matrix with the design candidate in the 'wide' format.
 }
 \description{
 The function is a call to \code{\link{switch}} and a wrapper around the

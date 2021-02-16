@@ -6,11 +6,13 @@ rm(list = ls(all = TRUE))
 
 # Set design options ----
 opts <- list(
-  optimization_algorithm = "random",
+  algorithm = list(
+    alg = "rsc"
+  ),
   efficiency_criteria = "d-error",
   model = "mnl",
   blocks = 1,
-  tasks = 6,
+  tasks = 20,
   cores = 1,
   max_iter = 10000,
   level_balance = TRUE
@@ -19,7 +21,7 @@ opts <- list(
 # Define the list of utility functions ----
 utility <- list(
   alt1 = "b_x1[0.1] * x_1[2:5] + b_x2[0.4] * x_2[c(0, 1)] + b_x3[-0.2] * x_3[seq(0, 1, 0.25)]",
-  alt2 = "b_x1      * x_1      + b_x2      * x_2          + b_x3          * x_3"
+  alt2 = "b_x1      * x_1      + b_x2      * x_2    +      b_x3 * x_3"
 )
 
 # Generate designs ----
