@@ -142,22 +142,40 @@ design algorithms <code><a href='random.html'>random</a></code>, <code><a href='
  <code><a href='rsc.html'>rsc</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_design_candidate</span><span class='op'>(</span><span class='va'>candidate_set</span>, <span class='va'>opts</span>, <span class='va'>utility</span>, <span class='va'>type</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>make_design_candidate</span><span class='op'>(</span>
+  <span class='va'>parsed_utility</span>,
+  <span class='va'>candidate_set</span>,
+  <span class='va'>current_design_candidate</span>,
+  <span class='va'>opts</span>,
+  <span class='va'>iter_with_no_imp</span>,
+  <span class='va'>type</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>parsed_utility</th>
+      <td><p>A list containing the elements of the parsed utility
+expression obtained from <code><a href='parse_utility.html'>parse_utility</a></code>.</p></td>
+    </tr>
+    <tr>
       <th>candidate_set</th>
-      <td><p>A valid candidate set</p></td>
+      <td><p>A valid candidate set. This is only used for the
+'random' and 'federov' algorithms.</p></td>
+    </tr>
+    <tr>
+      <th>current_design_candidate</th>
+      <td><p>A candidate for the RSC algorithm. To allow for marginal
+changes the candidate is passed back in for each iteration.</p></td>
     </tr>
     <tr>
       <th>opts</th>
       <td><p>A list of design options</p></td>
     </tr>
     <tr>
-      <th>utility</th>
-      <td><p>The list of utility expressions</p></td>
+      <th>iter_with_no_imp</th>
+      <td><p>The iteration number</p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -167,8 +185,7 @@ design algorithms <code><a href='random.html'>random</a></code>, <code><a href='
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list the length of n_alts with the design matrix for each
-alternative</p>
+    <p>A matrix with the design candidate in the 'wide' format.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The purpose of passing in utility is two-fold:

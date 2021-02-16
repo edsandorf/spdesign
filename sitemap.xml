@@ -34,6 +34,9 @@
     <loc>https://spdesignr.edsandorf.me/reference/check_utility.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/cycle.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/derive_vcov.html</loc>
   </url>
   <url>
@@ -86,6 +89,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/generate_full_factorial.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/generate_rsc_candidate.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/get_level_occurrence.html</loc>
@@ -145,6 +151,9 @@
     <loc>https://spdesignr.edsandorf.me/reference/random.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/relabel.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/remove_all_brackets.html</loc>
   </url>
   <url>
@@ -176,6 +185,12 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/spdesign.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/swap.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/swap_values.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/transform_distribution.html</loc>

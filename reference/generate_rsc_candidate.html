@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a design candidate based on the rsc algorithm — rsc • spdesign</title>
+<title>Generates a candidate for the RSC algorithm — generate_rsc_candidate • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,9 @@
 
 
 
-<meta property="og:title" content="Make a design candidate based on the rsc algorithm — rsc" />
-<meta property="og:description" content="Depending on the setting the function calls a combination of
-relabel, swap and cycle
-to create new design candidates. The code is intentionally written modular
-to allow for all special cases of the algorithm." />
+<meta property="og:title" content="Generates a candidate for the RSC algorithm — generate_rsc_candidate" />
+<meta property="og:description" content="The function will populate the design candidate matrix used for the RSC
+algorithm." />
 
 
 
@@ -132,43 +130,43 @@ to allow for all special cases of the algorithm." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make a design candidate based on the rsc algorithm</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/algorithms.R'><code>R/algorithms.R</code></a></small>
-    <div class="hidden name"><code>rsc.Rd</code></div>
+    <h1>Generates a candidate for the RSC algorithm</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/generate.R'><code>R/generate.R</code></a></small>
+    <div class="hidden name"><code>generate_rsc_candidate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Depending on the setting the function calls a combination of
-<code><a href='relabel.html'>relabel</a></code>, <code><a href='swap.html'>swap</a></code> and <code><a href='cycle.html'>cycle</a></code>
-to create new design candidates. The code is intentionally written modular
-to allow for all special cases of the algorithm.</p>
+    <p>The function will populate the design candidate matrix used for the RSC
+algorithm.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rsc</span><span class='op'>(</span><span class='va'>parsed_utility</span>, <span class='va'>current_design_candidate</span>, <span class='va'>opts</span>, <span class='va'>iter_with_no_imp</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>generate_rsc_candidate</span><span class='op'>(</span><span class='va'>parsed_utility</span>, <span class='va'>opts</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>parsed_utility</th>
-      <td><p>A list containing the elements of the parsed utility
-expression obtained from <code><a href='parse_utility.html'>parse_utility</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>current_design_candidate</th>
-      <td><p>A candidate for the RSC algorithm. To allow for marginal
-changes the candidate is passed back in for each iteration.</p></td>
+      <td><p>A named list of the parsed utility expression</p></td>
     </tr>
     <tr>
       <th>opts</th>
-      <td><p>A list of design options</p></td>
-    </tr>
-    <tr>
-      <th>iter_with_no_imp</th>
-      <td><p>The iteration number</p></td>
+      <td><p>A list of options</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A matrix with rows equal to the number of choice tasks and columns
+equal to the number of attributes in the 'wide' format</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>To ensure attribute level balance or that the number of times an attribute
+level occurs is within the range specified in the list level_occurrence,
+we sample from the list of occurrences subject to the constraint that the
+sum has to be equal to the number of rows, i.e. choice tasks. While this is
+a theoretical bottle neck for very large designs, it is still sufficiently
+fast. It is only run once every 10 000 iterations of the RSC algorithm.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

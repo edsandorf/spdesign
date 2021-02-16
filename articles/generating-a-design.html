@@ -119,6 +119,30 @@
 <div id="optimization-algorithms" class="section level2">
 <h2 class="hasAnchor">
 <a href="#optimization-algorithms" class="anchor"></a>Optimization algorithms</h2>
+<p>The choice of which algorithm to use depends on the design you are trying to find.</p>
+<div id="modified-federov-algorithm" class="section level3">
+<h3 class="hasAnchor">
+<a href="#modified-federov-algorithm" class="anchor"></a>Modified Federov Algorithm</h3>
+<p>The Modified Federov Algorithm is a row based algorithm <span class="citation">(Hensher, Rose, and Greene <a href="#ref-hensher_applied_2005" role="doc-biblioref">2005</a>; Cook and Nachtrheim <a href="#ref-cook_comparison_1980" role="doc-biblioref">1980</a>)</span>. This means that it samples rows (choice situations) from a candidate set. The candidate set can be the full factorial, indeed this is the default unless a candidate set is supplied or restrictions are specified through <code>opts$restrictions</code>, or a fractional factorial. Defining the allowed set of candidate choice tasks up front means that it is easy to remove bad alternatives and choice tasks prior to searching for design candidates and it is easy to implement constraints, for example that certain attribute levels cannot occur simultaneously within an alternative or choice task. However, it is very difficult to satisfy attribute level balance since it is necessary to check for balance each time a design candidate is selected from the candidate set. It is also important to note that using the MFA with large designs may be impossible due to memory constraints. Since it is necessary to specify the full factorial over all alternatives, the initial candidate set may become very large. So if the design is very large, it may be necessary to use the RSC algorithm to find a design (see below).</p>
+<p>Steps involved in the algorithm</p>
+<ol style="list-style-type: decimal">
+<li>Determine the candidate set. In this package, the default is the full factorial and we remove all candidates implied by the restrictions passed through <code>opts$restrictions</code>.</li>
+<li>Select alternatives from the candidate set, combine into choice tasks and design candidate. Checks for attribute level balance if necessary. The default is to sample alternatives without replacement, which ensures that no choice task will contain identical alternatives nor will any given alternative be repeated across the design. The latter effect may lead to a less efficient design. Setting <code>opts$sample_with_replacement = TRUE</code> will sample with replacement from the candidate set.</li>
+<li>Calculate the specified error measures (see below).</li>
+<li>Check if the current design is better than a previous design.</li>
+</ol>
+<p>Steps 2-4 are repeated until a specified efficiency threshold is met, the maximum number of iterations is reached or the user stops the search manually.</p>
+</div>
+<div id="relabeling-swapping-and-cycling-rsc" class="section level3">
+<h3 class="hasAnchor">
+<a href="#relabeling-swapping-and-cycling-rsc" class="anchor"></a>Relabeling, Swapping and Cycling (RSC)</h3>
+<p>The RSC algorithm is a column based algorithm <span class="citation">(Hensher, Rose, and Greene <a href="#ref-hensher_applied_2005" role="doc-biblioref">2005</a>; Huber and Zwerina <a href="#ref-huber_importance_1996" role="doc-biblioref">1996</a>; Sándor and Wedel <a href="#ref-sandor_profile_2002" role="doc-biblioref">2002</a>)</span>.</p>
+<ol style="list-style-type: decimal">
+<li>Better for very large designs</li>
+<li>Easy to satisfy attribute level balance</li>
+<li>Harder to implement constraints, e.g. attribute levels cannot co-occur, because the constraints have to be checked after each relabeling, swapping and cycling iteration.</li>
+</ol>
+</div>
 </div>
 <div id="efficiency-criteria" class="section level2">
 <h2 class="hasAnchor">
@@ -169,28 +193,42 @@
 <div id="the-candidate-set" class="section level1">
 <h1 class="hasAnchor">
 <a href="#the-candidate-set" class="anchor"></a>The candidate set</h1>
-<p>Often, not all combinations in a full factorial makes sense. Therefore it is important to exclude the combinations of attribute levels that cannot occur in the design. There are two ways we can do this:</p>
+<p>When we use the Modified Federov Algorithm to find design candidates, we begin by defining the candidate set. The candidate set can be the full factorial or a fractional factorial design. Often, we find that not all combinations of the full factorial makes sense. For example, it could be that if the level of an attribute occurs in alternative one, then it has to take a different level in alternative 2 or that attribute levels within an alternative cannot occur simultaneously. To avoid this, it is important to exclude these choice tasks. There are two ways we can do this:</p>
 <ol style="list-style-type: decimal">
-<li>We supply a restricted candidate set using the option <code>candidate_set</code> in <code>generate_design</code>.</li>
-<li>We specify restrictions in the list of options throught <code>opts$restrictions</code>, which are then applied to the full factorial.</li>
+<li>We supply a restricted candidate set using the option <code>candidate_set</code> in <code>generate_design</code>. Supplying a candidate set is only possible if you are using a Modified Federov Algorithm.</li>
+<li>We specify restrictions in the list of options through <code>opts$restrictions</code>. These are either applied to the candidate set before searching for design candidates (in the case of the MFA) or after each relabeling, swapping or cycling step (in the case of the RSC algorithm).</li>
 </ol>
+<p>To illustrate how restrictions are applied, we will use the case of the candidate set. Consider the following full factorial generated from two attributes taking on two levels in a design with two alternatives.</p>
 <p>Restrictions are specified as a list of the form of a list. To make it clear, let us illustrate with a simple example. Consider the following full factorial generated from two attributes taking on two levels:</p>
-<pre><code>  x1 x2
-1  0  0
-2  1  0
-3  0  1
-4  1  1</code></pre>
-<p>Furthermore, let us assume that both attributes cannot simultaneously take on the value of 1. To implement this restriction, we would specify:</p>
+<pre><code>   alt1_x1 alt1_x2 alt2_x1 alt2_x2
+1        0       0       0       0
+2        1       0       0       0
+3        0       1       0       0
+4        1       1       0       0
+5        0       0       1       0
+6        1       0       1       0
+7        0       1       1       0
+8        1       1       1       0
+9        0       0       0       1
+10       1       0       0       1
+11       0       1       0       1
+12       1       1       0       1
+13       0       0       1       1
+14       1       0       1       1
+15       0       1       1       1
+16       1       1       1       1</code></pre>
+<p>Notice that this candidate set is in the ‘wide’ format with a prefix corresponding to the alternative. The name of the prefix is determined based on the names of the alternatives in the list of utilities. Furthermore, let us assume that both attributes cannot simultaneously take on the value of 1. To implement this restriction, we would specify:</p>
 <pre><code>opts &lt;- list(
   restrictions = list(
-    "x1 == 1 &amp; x2 == 1"
+    "alt1_x1 == 1 &amp; alt1_x2 == 1",
+    "alt2_x1 == 1 &amp; alt2_x2 == 1"
   )
 )</code></pre>
+<p>We specify a separate list element for each alternative. If we had specified all in a single character string, then we would only exclude alternatives where all attributes in all alternatives were equal to 1. In this case, we did not want that. It is similarly possible to specify restrictions that work across alternatives, for example that <code>alt1_x1</code> and <code>alt2_x2</code> cannot be 1 at the same time:</p>
 <p>and if they both couldn’t be 0 at the same time as well, we would specify:</p>
 <pre><code>opts &lt;- list(
   restrictions = list(
-    "x1 == 1 &amp; x2 == 1",
-    "x1 == 0 &amp; x2 == 0"
+    "alt1_x1 == 1 &amp; alt2_x2 == 1"
   )
 )</code></pre>
 <p>The user familiar with R will notice that this is the exact same syntax we would use to subset a matrix.</p>
@@ -198,6 +236,25 @@
 <div id="the-list-of-utility-functions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#the-list-of-utility-functions" class="anchor"></a>The list of utility functions</h1>
+<div id="a-no-choice-or-opt-out-alternative" class="section level2">
+<h2 class="hasAnchor">
+<a href="#a-no-choice-or-opt-out-alternative" class="anchor"></a>A no choice or opt out alternative</h2>
+<p>The ‘no choice’ or ‘opt out’ alternative has to be explicitly included with a utility of zero. This is to ensure correct estimation of the variance-covariance matrix.</p>
+</div>
+<div id="selecting-priors" class="section level2">
+<h2 class="hasAnchor">
+<a href="#selecting-priors" class="anchor"></a>Selecting priors</h2>
+<p>In the case of of zero priors and attribute level balance, then the most efficient design will be an orthogonal design <span class="citation">(Hensher, Rose, and Greene <a href="#ref-hensher_applied_2005" role="doc-biblioref">2005</a>, 268)</span>.</p>
+</div>
+</div>
+<div id="inspecting-the-design" class="section level1">
+<h1 class="hasAnchor">
+<a href="#inspecting-the-design" class="anchor"></a>Inspecting the design</h1>
+<div id="dominantdominated-alternatives" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dominantdominated-alternatives" class="anchor"></a>Dominant/dominated alternatives</h2>
+<p>Dominant or dominated alternatives should be avoided at all cost. The inclusion of such alternatives in the design and by extension the data will lead to bias in the estimated parameters <span class="citation">(Hensher, Rose, and Greene <a href="#ref-hensher_applied_2005" role="doc-biblioref">2005</a>)</span>. It is important to manually inspect all designs for potential dominating alternatives by considering the sign of the priors and the levels of the attributes in each alternative and choice task.</p>
+</div>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
@@ -206,11 +263,23 @@
 <div id="ref-bhat_simulation_2003">
 <p>Bhat, Chandra R. 2003. “Simulation Estimation of Mixed Discrete Choice Models Using Randomized and Scrambled Halton Sequences.” <em>Transportation Research Part B: Methodological</em> 37 (9): 837–55. <a href="https://doi.org/10.1016/S0191-2615(02)00090-5">https://doi.org/10.1016/S0191-2615(02)00090-5</a>.</p>
 </div>
+<div id="ref-cook_comparison_1980">
+<p>Cook, R. Dennis, and Christopher J. Nachtrheim. 1980. “A Comparison of Algorithms for Constructing Exact D-Optimal Designs.” <em>Technometrics</em> 22 (3): 315–24. <a href="https://doi.org/10.1080/00401706.1980.10486162">https://doi.org/10.1080/00401706.1980.10486162</a>.</p>
+</div>
 <div id="ref-czajkowski_simulation_2019">
 <p>Czajkowski, Mikołaj, and Wiktor Budziński. 2019. “Simulation Error in Maximum Likelihood Estimation of Discrete Choice Models.” <em>Journal of Choice Modelling</em> 31 (June): 73–85. <a href="https://doi.org/10.1016/j.jocm.2019.04.003">https://doi.org/10.1016/j.jocm.2019.04.003</a>.</p>
 </div>
+<div id="ref-hensher_applied_2005">
+<p>Hensher, David A., John M. Rose, and William H. Greene. 2005. <em>Applied Choice Analysis: A Primer</em>. Cambridge University Press.</p>
+</div>
 <div id="ref-hess_use_2006">
 <p>Hess, Stephane, Kenneth E. Train, and John W. Polak. 2006. “On the Use of a Modified Latin Hypercube Sampling (MLHS) Method in the Estimation of a Mixed Logit Model for Vehicle Choice.” <em>Transportation Research Part B: Methodological</em> 40 (2): 147–63. <a href="https://doi.org/10.1016/j.trb.2004.10.005">https://doi.org/10.1016/j.trb.2004.10.005</a>.</p>
+</div>
+<div id="ref-huber_importance_1996">
+<p>Huber, Joel, and Klaus Zwerina. 1996. “The Importance of Utility Balance in Efficient Choice Designs.” <em>Journal of Marketing Research</em> 33 (3): 307–17. <a href="https://doi.org/10.1177/002224379603300305">https://doi.org/10.1177/002224379603300305</a>.</p>
+</div>
+<div id="ref-sandor_profile_2002">
+<p>Sándor, Zsolt, and Michel Wedel. 2002. “Profile Construction in Experimental Choice Designs for Mixed Logit Models.” <em>Marketing Science</em> 21 (4): 455–75. <a href="https://doi.org/10.1287/mksc.21.4.455.131">https://doi.org/10.1287/mksc.21.4.455.131</a>.</p>
 </div>
 <div id="ref-scarpa_design_2008">
 <p>Scarpa, Riccardo, and John M. Rose. 2008. “Design Efficiency for Non-Market Valuation with Choice Modelling: How to Measure It, What to Report and Why*.” <em>Australian Journal of Agricultural and Resource Economics</em> 52 (3): 253–82. <a href="https://doi.org/10.1111/j.1467-8489.2007.00436.x">https://doi.org/10.1111/j.1467-8489.2007.00436.x</a>.</p>

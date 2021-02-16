@@ -41,9 +41,10 @@
 
 <meta property="og:title" content="Function for getting and setting up the list of level occurrences — get_level_occurrence" />
 <meta property="og:description" content="The function is called from within parse_utility with the
-purpose of getting the list of attributes, levels and occurrences wihtin the
+purpose of getting the list of attributes, levels and occurrences within the
 design. This is necessary to impose attribute level balance or near attribute
-level balance." />
+level balance. This is also necessary to correctly populate the candidate
+matrix used for the RSC algorithm." />
 
 
 
@@ -133,25 +134,26 @@ level balance." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Function for getting and setting up the list of level occurrences</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/level-balance.R'><code>R/level-balance.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/level-occurrence.R'><code>R/level-occurrence.R</code></a></small>
     <div class="hidden name"><code>get_level_occurrence.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>The function is called from within <code><a href='parse_utility.html'>parse_utility</a></code> with the
-purpose of getting the list of attributes, levels and occurrences wihtin the
+purpose of getting the list of attributes, levels and occurrences within the
 design. This is necessary to impose attribute level balance or near attribute
-level balance.</p>
+level balance. This is also necessary to correctly populate the candidate
+matrix used for the RSC algorithm.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_level_occurrence</span><span class='op'>(</span><span class='va'>string</span>, <span class='va'>attrs</span>, <span class='va'>candidate_rows</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_level_occurrence</span><span class='op'>(</span><span class='va'>utility</span>, <span class='va'>attrs</span>, <span class='va'>candidate_rows</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>string</th>
-      <td><p>A character string with the utility expression</p></td>
+      <th>utility</th>
+      <td><p>A character utility with the utility expression</p></td>
     </tr>
     <tr>
       <th>attrs</th>
