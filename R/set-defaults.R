@@ -78,16 +78,9 @@ set_default_level_occurrence <- function(n_lvls, candidate_rows) {
     lvl <- candidate_rows / n_lvls
 
   } else {
-    warning(
-      "The number of levels specified for this attribute is not a multiple
-        of the number of rows in the design candidate. Relaxing the attribute
-        level balance requirement for this attribute by specifying a narrow
-        range for the attribute level occurrence to ensure near attribute level
-        balance.",
-      noBreaks. = TRUE
-    )
     minimum <- floor(candidate_rows / n_lvls)
     lvl <- minimum:(minimum + 1)
+
   }
 
   lvls <- lapply(seq_len(n_lvls), function(n) lvl)
