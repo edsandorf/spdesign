@@ -24,12 +24,14 @@ parse_utility <- function(utility, opts) {
   values <- extract_named_values(utility)
   value_names <- names(values)
   n_alts <- length(utility)
+  candidate_rows <- opts$tasks
 
   # Dummy coding ----
   if (any(str_detect(utility, "_dummy"))) {
 
   }
 
+  # Checks ----
   if (!all(all_names %in% value_names)) {
     missing_idx <- which((all_names %in% value_names) == FALSE)
     missing_values <- paste0("'", all_names[missing_idx], "'", collapse = " ")
@@ -43,7 +45,6 @@ parse_utility <- function(utility, opts) {
     )
   }
 
-  # Check whether a parameter or attribute is specified more than once
   if (any(duplicated(value_names))) {
     duplicate_idx <- duplicated(value_names)
     duplicate_values <- paste0(
@@ -65,7 +66,7 @@ parse_utility <- function(utility, opts) {
     value_names <- value_names[!duplicate_idx]
   }
 
-  # Prepare param
+  # Prepare parameters ----
   param_idx <- value_names %in% grep("b_", value_names, value = TRUE)
   param <- values[param_idx]
 
