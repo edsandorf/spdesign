@@ -39,3 +39,19 @@ rep_cols <- function(x, times) {
 
   x[, rep(seq_len(ncol(x)), each = times), drop = FALSE]
 }
+
+#' Swaps the values
+#'
+#' Swaps the first value in values with the second value in values in x.
+#'
+#' @param x A vector
+#' @param values A vector of length 2 with levels to swap
+#'
+#' @return A vector of the same length as x with swapped values
+swap_values <- function(x, values) {
+  first_match <- x == values[[1L]]
+  second_match <- x == values[[2L]]
+  x[first_match] <- values[[2L]]
+  x[second_match] <- values[[1L]]
+  x
+}
