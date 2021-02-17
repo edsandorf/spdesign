@@ -140,6 +140,17 @@ b_x1[0] * x1[c(0, 1, 2)](c(2, 4, 6))
 
 The same restrictions outlined above with respect to what is specified inside the parenthesis apply. 
 
+### Interactions
+If you believe that there are interaction effects between attributes in your model, then these will have to be considered at the design stage. Any design that is not a full factorial assumes that some higher order interaction effects are insignificant. To ensure that you are able to identify the effect of an interaction in your data, this will have to be included in the design. To inclde an interaction term in the design, we can use the following syntax.
+
+```
+b_x1[0] * x1[c(0, 1)] + b_x2 * x2[c(0, 1)] + b_x1x2 * I(x1 * x2)
+```
+
+Two things to note about the specification of the utility function with interactions. First, the levels of the attributes are specified when the attribute is first introduced and not in the interaction term itself, and two, for the parser to correctly interpret an interaction term, it needs to be wrapped in R's internal function for handling interactions `I()`. 
+
+We have included more examples of how this works in the excamples folder on Github. 
+
 ### Dummy-coded attributes
 We can specify an attribute to be dummy coded using the `_dummy` syntax.
 
