@@ -97,6 +97,15 @@ parse_utility <- function(utility, opts) {
   # Restore names that were dropped when cleaning utility
   names(cleaned_utility) <- names(utility)
 
+  # Define the formula to get x_j (effectively remove the parameters from U)
+  formula_utility <- lapply(cleaned_utility, function(u, param_names) {
+    for (x in param_names) {
+      u <- remove_param(x, u)
+    }
+
+    as.formula(paste0("~ 0 +", u))
+  }, names(param))
+
   # Prepare attributes ----
   attrs <- values[!param_idx]
   attribute_names <- names(attrs)
@@ -128,8 +137,10 @@ parse_utility <- function(utility, opts) {
 # Return a list with cleaned utility, parameters and attributes ----
   list(
     utility = cleaned_utility,
+    formula_utility = formula_utility,
     param = param,
     attrs = attrs,
+    attr_names = attribute_names,
     level_occurrence = level_occurrence
   )
 }
