@@ -19,13 +19,15 @@
 #' expression obtained from \code{\link{parse_utility}}.
 #' @param candidate_set A valid candidate set. This is only used for the
 #' 'random' and 'federov' algorithms.
-#' @param current_design_candidate A candidate for the RSC algorithm. To allow for marginal
-#' changes the candidate is passed back in for each iteration.
+#' @param current_design_candidate A candidate for the RSC algorithm. To allow
+#' for marginal changes the candidate is passed back in for each iteration.
 #' @param opts A list of design options
 #' @param iter_with_no_imp The iteration number
 #' @param type One of the implemented types of optimization algorithms
 #'
-#' @return A matrix with the design candidate in the 'wide' format.
+#' @return A data.frame with the design candidate in the 'wide' format. It is
+#' explicitly returned as a dataframe to use with model.matrix and to set up
+#' the environment. Reduces the number of calls to as.data.frame()
 make_design_candidate <- function(
   parsed_utility,
   candidate_set,
@@ -46,34 +48,6 @@ make_design_candidate <- function(
 #'
 #' @inheritParams make_design_candidate
 random <- function(candidate_set, opts) {
-  # Some useful things
-  # n_alts <- length(utility)
-  # rows <- nrow(candidate_set)
-  # col_names <- colnames(candidate_set)
-  # candidates <- opts$tasks * n_alts
-  # split_idx <- shuffle(rep(seq_len(n_alts), opts$tasks))
-  # candidate_idx <- split(
-  #   sample(seq_len(rows), candidates, replace = opts$sample_with_replacement),
-  #   split_idx
-  # )
-  #
-  # # Create the design candidate
-  # design_candidate <- lapply(seq_len(n_alts), function(j) {
-  #   candidate_subset <- candidate_set[candidate_idx[[j]], ]
-  #   # Restrict unavailable attributes to zero to correctly derive vcov
-  #   restrictions <- as.integer(
-  #     col_names %in% extract_attribute_names(utility[[j]])
-  #   )
-  #   candidate_subset <- t(t(candidate_subset) * restrictions)
-  #   colnames(candidate_subset) <- paste(colnames(candidate_subset), j,
-  #                                       sep = "_")
-  #   candidate_subset
-  # })
-  #
-  # # Return as data.frame
-  # names(design_candidate) <- paste0("alt_", seq_along(design_candidate))
-  # design_candidate
-
   stop(
     "The 'random' algorithm has not been implemented yet."
   )
@@ -90,7 +64,8 @@ federov <- function(candidate_set, opts) {
     replace = opts$sample_with_replacement
   )
 
-  candidate_set[candidate_idx, ]
+  # Return as dataframe
+  as.data.frame(candidate_set[candidate_idx, ])
 }
 
 #' Make a design candidate based on the rsc algorithm
@@ -123,7 +98,7 @@ rsc <- function(
 
 
   # Return
-  current_design_candidate
+  as.data.frame(current_design_candidate)
 }
 
 #' Relabeling of attribute levels
