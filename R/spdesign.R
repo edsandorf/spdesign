@@ -10,6 +10,5 @@
 #'
 #' @import cli
 #' @import stringr
-#' @importFrom stats runif
-#' @importFrom stats qnorm
+#' @importFrom stats runif qnorm as.formula model.matrix
 NULL
