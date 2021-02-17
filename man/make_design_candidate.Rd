@@ -20,8 +20,8 @@ expression obtained from \code{\link{parse_utility}}.}
 \item{candidate_set}{A valid candidate set. This is only used for the
 'random' and 'federov' algorithms.}
 
-\item{current_design_candidate}{A candidate for the RSC algorithm. To allow for marginal
-changes the candidate is passed back in for each iteration.}
+\item{current_design_candidate}{A candidate for the RSC algorithm. To allow
+for marginal changes the candidate is passed back in for each iteration.}
 
 \item{opts}{A list of design options}
 
@@ -30,7 +30,9 @@ changes the candidate is passed back in for each iteration.}
 \item{type}{One of the implemented types of optimization algorithms}
 }
 \value{
-A matrix with the design candidate in the 'wide' format.
+A data.frame with the design candidate in the 'wide' format. It is
+explicitly returned as a dataframe to use with model.matrix and to set up
+the environment. Reduces the number of calls to as.data.frame()
 }
 \description{
 The function is a call to \code{\link{switch}} and a wrapper around the

@@ -10,8 +10,8 @@ rsc(parsed_utility, current_design_candidate, opts, iter_with_no_imp)
 \item{parsed_utility}{A list containing the elements of the parsed utility
 expression obtained from \code{\link{parse_utility}}.}
 
-\item{current_design_candidate}{A candidate for the RSC algorithm. To allow for marginal
-changes the candidate is passed back in for each iteration.}
+\item{current_design_candidate}{A candidate for the RSC algorithm. To allow
+for marginal changes the candidate is passed back in for each iteration.}
 
 \item{opts}{A list of design options}
 

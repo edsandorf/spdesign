@@ -7,8 +7,8 @@
 relabel(current_design_candidate)
 }
 \arguments{
-\item{current_design_candidate}{A candidate for the RSC algorithm. To allow for marginal
-changes the candidate is passed back in for each iteration.}
+\item{current_design_candidate}{A candidate for the RSC algorithm. To allow
+for marginal changes the candidate is passed back in for each iteration.}
 }
 \description{
 Relabels the attribute levels to create a new design candidate. For example,

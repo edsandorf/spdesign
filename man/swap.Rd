@@ -7,8 +7,8 @@
 swap(current_design_candidate)
 }
 \arguments{
-\item{current_design_candidate}{A candidate for the RSC algorithm. To allow for marginal
-changes the candidate is passed back in for each iteration.}
+\item{current_design_candidate}{A candidate for the RSC algorithm. To allow
+for marginal changes the candidate is passed back in for each iteration.}
 }
 \description{
 Swaps the order of the attributes to create a new design candidate. For
