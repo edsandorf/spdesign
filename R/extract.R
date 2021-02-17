@@ -1,17 +1,21 @@
 #' Extract all names
 #'
 #' Extracts all parameter and attribute names from the utility function.
-#' This is a wrapper around \code{\link{str_extract_all}} with a sepcified
+#' This is a wrapper around \code{\link{str_extract_all}} with a specified
 #' boundary. The function also calls \code{\link{remove_all_brackets}} to
 #' ensure that if a word is used inside a square bracket, e.g. seq, it is not
 #' extracted.
+#'
+#' Note that we are not matching spaces nor the interaction operator I(). This
+#' is to avoid I being identified as its own (unspecified) attribute.
 #'
 #' @param string A character string
 #' @param simplify If TRUE return as a vector. Default is FALSE.
 #'
 #' @return A list or vector with all names
 extract_all_names <- function(string, simplify = FALSE) {
-  s <- str_extract_all(remove_all_brackets(string), boundary("word"))
+  s <- str_extract_all(remove_all_brackets(string), "\\b[^(\\s|I\\()]\\w*\\b")
+  s <- lapply(s, unique)
 
   if (simplify) {
     unlist(s)

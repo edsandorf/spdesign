@@ -16,8 +16,12 @@ A list or vector with all names
 }
 \description{
 Extracts all parameter and attribute names from the utility function.
-This is a wrapper around \code{\link{str_extract_all}} with a sepcified
+This is a wrapper around \code{\link{str_extract_all}} with a specified
 boundary. The function also calls \code{\link{remove_all_brackets}} to
 ensure that if a word is used inside a square bracket, e.g. seq, it is not
 extracted.
+}
+\details{
+Note that we are not matching spaces nor the interaction operator I(). This
+is to avoid I being identified as its own (unspecified) attribute.
 }
