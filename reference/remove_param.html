@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a design candidate — make_design_candidate • spdesign</title>
+<title>Removes the parameter from the utility string — remove_param • spdesign</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Make a design candidate — make_design_candidate" />
-<meta property="og:description" content="The function is a call to switch and a wrapper around the
-design algorithms random, federov and
- rsc." />
+<meta property="og:title" content="Removes the parameter from the utility string — remove_param" />
+<meta property="og:description" content="Removes the parameter from the utility string" />
 
 
 
@@ -131,75 +129,30 @@ design algorithms random, federov and
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make a design candidate</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/algorithms.R'><code>R/algorithms.R</code></a></small>
-    <div class="hidden name"><code>make_design_candidate.Rd</code></div>
+    <h1>Removes the parameter from the utility string</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edsandorf/spdesign/blob/master/R/remove.R'><code>R/remove.R</code></a></small>
+    <div class="hidden name"><code>remove_param.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The function is a call to <code><a href='https://rdrr.io/r/base/switch.html'>switch</a></code> and a wrapper around the
-design algorithms <code><a href='random.html'>random</a></code>, <code><a href='federov.html'>federov</a></code> and
- <code><a href='rsc.html'>rsc</a></code>.</p>
+    <p>Removes the parameter from the utility string</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_design_candidate</span><span class='op'>(</span>
-  <span class='va'>parsed_utility</span>,
-  <span class='va'>candidate_set</span>,
-  <span class='va'>current_design_candidate</span>,
-  <span class='va'>opts</span>,
-  <span class='va'>iter_with_no_imp</span>,
-  <span class='va'>type</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>remove_param</span><span class='op'>(</span><span class='va'>param</span>, <span class='va'>string</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>parsed_utility</th>
-      <td><p>A list containing the elements of the parsed utility
-expression obtained from <code><a href='parse_utility.html'>parse_utility</a></code>.</p></td>
+      <th>param</th>
+      <td><p>A string with the parameter name</p></td>
     </tr>
     <tr>
-      <th>candidate_set</th>
-      <td><p>A valid candidate set. This is only used for the
-'random' and 'federov' algorithms.</p></td>
-    </tr>
-    <tr>
-      <th>current_design_candidate</th>
-      <td><p>A candidate for the RSC algorithm. To allow
-for marginal changes the candidate is passed back in for each iteration.</p></td>
-    </tr>
-    <tr>
-      <th>opts</th>
-      <td><p>A list of design options</p></td>
-    </tr>
-    <tr>
-      <th>iter_with_no_imp</th>
-      <td><p>The iteration number</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>One of the implemented types of optimization algorithms</p></td>
+      <th>string</th>
+      <td><p>A string to remove param from</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A data.frame with the design candidate in the 'wide' format. It is
-explicitly returned as a dataframe to use with model.matrix and to set up
-the environment. Reduces the number of calls to as.data.frame()</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The purpose of passing in utility is two-fold:
-1) We can determine n_alts
-2) We can extract the attribute names for each utility function to allow us
-to place the correct restrictions on the design candidate. Specifically, we
-restrict all levels of unavailable attributes to zero for alternatives where
-they do not feature. This is to ensure that we do not give weight when
-deriving the variance-covariance matrix using <code><a href='derive_vcov.html'>derive_vcov</a></code>.
-Furthermore, the Xs are "sorted" using the order of the candidate set, which
-ensures that when we calculate the sum of the probabilities times X, the
-correct columns are added together. See <code><a href='derive_vcov.html'>derive_vcov</a></code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

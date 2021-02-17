@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Extract all names — extract_all_names" />
 <meta property="og:description" content="Extracts all parameter and attribute names from the utility function.
-This is a wrapper around str_extract_all with a sepcified
+This is a wrapper around str_extract_all with a specified
 boundary. The function also calls remove_all_brackets to
 ensure that if a word is used inside a square bracket, e.g. seq, it is not
 extracted." />
@@ -140,7 +140,7 @@ extracted." />
 
     <div class="ref-description">
     <p>Extracts all parameter and attribute names from the utility function.
-This is a wrapper around <code>str_extract_all</code> with a sepcified
+This is a wrapper around <code>str_extract_all</code> with a specified
 boundary. The function also calls <code><a href='remove_all_brackets.html'>remove_all_brackets</a></code> to
 ensure that if a word is used inside a square bracket, e.g. seq, it is not
 extracted.</p>
@@ -164,6 +164,10 @@ extracted.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list or vector with all names</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note that we are not matching spaces nor the interaction operator I(). This
+is to avoid I being identified as its own (unspecified) attribute.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

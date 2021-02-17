@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Remove round bracket — remove_round_brackets" />
-<meta property="og:description" content="Removes everything between (and including) round brackets" />
+<meta property="og:description" content="Removes everything between (and including) round brackets. We negating
+matches with I(), since this is R's interaction operator." />
 
 
 
@@ -135,7 +136,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Removes everything between (and including) round brackets</p>
+    <p>Removes everything between (and including) round brackets. We negating
+matches with I(), since this is R's interaction operator.</p>
     </div>
 
     <pre class="usage"><span class='fu'>remove_round_brackets</span><span class='op'>(</span><span class='va'>string</span><span class='op'>)</span></pre>
@@ -149,6 +151,9 @@
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>(?&lt;!I) - A negative lookbehind for I</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
