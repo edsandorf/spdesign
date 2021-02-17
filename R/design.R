@@ -136,7 +136,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   error_measures_string <- c("a-error", "c-error", "d-error", "s-error")
   time_start <- Sys.time()
   best_design_candidate <- NULL
-  current_design_candidate <- NULL
+  design_candidate <- NULL
   on.exit(
     return(best_design_candidate),
     add = TRUE
@@ -145,29 +145,48 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
   # Search for designs until the criteria are met
   repeat {
     # Create a design candidate
-    current_design_candidate <- make_design_candidate(
+    design_candidate <- make_design_candidate(
       parsed_utility,
       candidate_set,
-      current_design_candidate,
+      design_candidate,
       opts,
       iter_with_no_imp,
       type = opts$algorithm$alg
     )
 
     # Determine x_j
-    attrs_names <- colnames(current_design_candidate)
-    x_j <- lapply(seq_along(utility), function(i) {
-      tmp <- current_design_candidate[, grep(names(utility[i]), attrs_names),
-                               drop = FALSE]
-      colnames(tmp) <- NULL
-      tmp
+    alt_names <- names(utility)
+    x_j <- lapply(seq_along(utility), function(j) {
+      frmla <- parsed_utility$formula_utility[[j]]
+      model.matrix(frmla, design_candidate)
     })
-    names(x_j) <- names(utility)
+    names(x_j) <- alt_names
+
+    # This is not memory efficient, but we can return including interactions
+    current_design_candidate <- do.call(cbind, x_j)
+
+    # Update the column names of x_j
+    for (j in seq_along(x_j)) {
+      colnames(x_j[[j]]) <- str_replace_all(
+        colnames(x_j[[j]]),
+        paste0(alt_names[[j]], "_"),
+        ""
+      )
+    }
+
+    colnames_x_j <- unique(do.call(c, lapply(x_j, colnames)))
+    attr_mat <- matrix(0, nrow(design_candidate), ncol = length(colnames_x_j),
+                       dimnames = list(NULL, colnames_x_j))
+
+    x_j <- lapply(x_j, function(x) {
+      attr_mat[, colnames(x)] <- x
+      attr_mat
+    })
 
     # Update the design environment
     list2env(
       c(
-        as.list(as.data.frame(current_design_candidate)),
+        as.list(design_candidate),
         list(x_j = x_j)
       ),
       envir = design_environment
@@ -211,7 +230,7 @@ generate_design <- function(utility, opts, candidate_set = NULL) {
     }
 
     # Add the efficiency measures to the design candidate
-    attr(current_design_candidate, "error_measures") <- error_measures
+    attr(design_candidate, "error_measures") <- error_measures
 
     # Print update to set new current best (incl. first iteration)
     if (current_error < current_best || is.null(current_best)) {
