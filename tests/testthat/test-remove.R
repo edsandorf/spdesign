@@ -54,4 +54,9 @@ test_that("Returns a string without the expressions inside brackets", {
   expect_equal(
     remove_all_brackets("b_x     [0.1]"),
     "b_x     ")
+
+  expect_equal(
+    remove_all_brackets("b_x[0.1] * x1[c(0, 1)] + b_x2[0.1] * I(x1)"),
+    "b_x * x1 + b_x2 * I(x1)"
+  )
 })
