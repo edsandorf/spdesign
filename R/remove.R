@@ -39,9 +39,20 @@ remove_square_brackets <- function(string) {
 
 #' Remove round bracket
 #'
-#' Removes everything between (and including) round brackets
+#' Removes everything between (and including) round brackets. We negating
+#' matches with I(), since this is R's interaction operator.
+#'
+#' (?<!I) - A negative lookbehind for I
 #'
 #' @inheritParams remove_all_brackets
 remove_round_brackets <- function(string) {
-  str_replace_all(string, "\\(.*?\\)", "")
+  str_replace_all(string, "(?<!I)\\(.*?\\)", "")
+}
+
+#' Removes the parameter from the utility string
+#'
+#' @param param A string with the parameter name
+#' @param string A string to remove param from
+remove_param <- function(param, string) {
+  str_replace_all(string, paste0(param, "(\\s)*?(\\*|\\/|\\+|\\-)"), "")
 }

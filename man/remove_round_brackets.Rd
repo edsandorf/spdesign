@@ -10,5 +10,9 @@ remove_round_brackets(string)
 \item{string}{A character string}
 }
 \description{
-Removes everything between (and including) round brackets
+Removes everything between (and including) round brackets. We negating
+matches with I(), since this is R's interaction operator.
+}
+\details{
+(?<!I) - A negative lookbehind for I
 }
