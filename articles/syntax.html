@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,20 +33,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9001</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -70,7 +66,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/edsandorf/spdesign/">
+  <a href="https://github.com/edsandorf/spdesign/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -91,70 +87,70 @@
       <h1 data-toc-skip>Syntax</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/edsandorf/spdesign/blob/master/vignettes/syntax.Rmd"><code>vignettes/syntax.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/edsandorf/spdesign/blob/HEAD/vignettes/syntax.Rmd" class="external-link"><code>vignettes/syntax.Rmd</code></a></small>
       <div class="hidden name"><code>syntax.Rmd</code></div>
 
     </div>
 
     
     
-<div id="syntax" class="section level1">
-<h1 class="hasAnchor">
-<a href="#syntax" class="anchor"></a>Syntax</h1>
+<div class="section level2">
+<h2 id="syntax">Syntax<a class="anchor" aria-label="anchor" href="#syntax"></a>
+</h2>
 <p>The syntax of <code>spdesign</code> is made to be intuitive and easy, while at the same time very flexible. To achieve this, we use a combination of regular expressions and R’s powerful expression parser “under the hood” to translate the user-specified utility functions into objects that can be manipulated by the package.</p>
-<div id="specifying-a-parameter-with-a-prior" class="section level2">
-<h2 class="hasAnchor">
-<a href="#specifying-a-parameter-with-a-prior" class="anchor"></a>Specifying a parameter with a prior</h2>
-<div id="a-fixed-prior" class="section level3">
-<h3 class="hasAnchor">
-<a href="#a-fixed-prior" class="anchor"></a>A fixed prior</h3>
+<div class="section level3">
+<h3 id="specifying-a-parameter-with-a-prior">Specifying a parameter with a prior<a class="anchor" aria-label="anchor" href="#specifying-a-parameter-with-a-prior"></a>
+</h3>
+<div class="section level4">
+<h4 id="a-fixed-prior">A fixed prior<a class="anchor" aria-label="anchor" href="#a-fixed-prior"></a>
+</h4>
 <p>In <code>spdesign</code>, all parameters <em>must</em> have a prior. This is a deliberate design choice to make it clear that using a 0 prior is also an assumption in our design. The name of the parameter is followed by a square bracket, which contains the prior. All parameters have to start with <code>b_</code>. This is to separate them from attributes and to easily allow for non-linear utility functions. If no prior is specified for a given parameter, an error is returned. If the parameter is generic, i.e. it enters multiple utility expressions, then you only need to specify the prior once. If you specify more than one prior, only the first will be used and a warning is issued. It is strongly recommended that priors for generic parameters are specified the first time they are used (this is a good tip for attributes as well!).</p>
 <p>For example, to specify a parameter <code>b_x1</code> with a prior of <code>0</code>, we would write:</p>
-<pre><code>b_x1[0]</code></pre>
-<p>Because we are leveraging R’s built-in parser, we can use basic mathematical operators to manipulate the values of our priors. For example, using the basic functions <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>, <code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code>, <code><a href="https://rdrr.io/r/base/Arithmetic.html">*</a></code>, <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code> and <code><a href="https://rdrr.io/r/base/Arithmetic.html">^</a></code>:</p>
-<pre><code>b_x1[2 * 0.4]</code></pre>
+<pre><code><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span></code></pre>
+<p>Because we are leveraging R’s built-in parser, we can use basic mathematical operators to manipulate the values of our priors. For example, using the basic functions <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and <code>^</code>:</p>
+<pre><code><span class="va">b_x1</span><span class="op">[</span><span class="fl">2</span> <span class="op">*</span> <span class="fl">0.4</span><span class="op">]</span></code></pre>
 <p>It is even possible to specify parameter priors as functions of earlier parameters. The only requirement is that the earlier parameter has been specified with a prior. In the example below, the prior value of <code>b_x2</code> is specified as half of <code>b_x1</code>.</p>
-<pre><code>b_x1[0.5] * x_1 + b_x2[b_x1 / 2] * x_2</code></pre>
+<pre><code><span class="va">b_x1</span><span class="op">[</span><span class="fl">0.5</span><span class="op">]</span> <span class="op">*</span> <span class="va">x_1</span> <span class="op">+</span> <span class="va">b_x2</span><span class="op">[</span><span class="va">b_x1</span> <span class="op">/</span> <span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="va">x_2</span></code></pre>
 <p>If you try to specify multiple priors for a single parameter, e.g. <code>b_x1[c(0.1, 0.2)]</code>, a warning will be issued and only the first parameter value will be used. Specifying multiple priors for a single parameter is only valid if you are using the <code>_dummy</code> or <code>_effect</code> syntax to create dummy coded or effects coded variables, respectively.</p>
 </div>
-<div id="a-bayesian-prior" class="section level3">
-<h3 class="hasAnchor">
-<a href="#a-bayesian-prior" class="anchor"></a>A Bayesian prior</h3>
-<p>We can specify a Bayesian prior by specifying the distribution of the prior. For example, <code><a href="../reference/normal.html">uniform_p(-1, 1)</a></code> means that we allow the prior to follow a uniform distribution between -1 and 1.</p>
-<pre><code>b_x1[uniform_p(-1, 1)]</code></pre>
+<div class="section level4">
+<h4 id="a-bayesian-prior">A Bayesian prior<a class="anchor" aria-label="anchor" href="#a-bayesian-prior"></a>
+</h4>
+<p>We can specify a Bayesian prior by specifying the distribution of the prior. For example, <code>uniform_p(-1, 1)</code> means that we allow the prior to follow a uniform distribution between -1 and 1.</p>
+<pre><code><span class="va">b_x1</span><span class="op">[</span><span class="fu"><a href="../reference/normal.html">uniform_p</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span></code></pre>
 <p>We can use the following distributions:</p>
 <ul>
-<li>Normal - <code><a href="../reference/normal.html">normal_p(mean, sd)</a></code>
+<li>Normal - <code>normal_p(mean, sd)</code>
 </li>
-<li>Log-normal - <code><a href="../reference/normal.html">lognormal_p(mean, sd)</a></code>
+<li>Log-normal - <code>lognormal_p(mean, sd)</code>
 </li>
-<li>Triangular - <code><a href="../reference/normal.html">triangular_p(location, spread)</a></code>
+<li>Triangular - <code>triangular_p(location, spread)</code>
 </li>
-<li>Uniform - <code><a href="../reference/normal.html">uniform_p(location, spread)</a></code>
+<li>Uniform - <code>uniform_p(location, spread)</code>
 </li>
 </ul>
 <p>All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Notice that the name of the distribution is in capital letters followed by a lower case <code>p</code> indicating that it is a prior. This is to distinguish it from a random parameter in an RPL model. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs.</p>
 </div>
 </div>
-<div id="specifying-a-parameter-with-levels" class="section level2">
-<h2 class="hasAnchor">
-<a href="#specifying-a-parameter-with-levels" class="anchor"></a>Specifying a parameter with levels</h2>
-<div id="linear-attributes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#linear-attributes" class="anchor"></a>Linear attributes</h3>
+<div class="section level3">
+<h3 id="specifying-a-parameter-with-levels">Specifying a parameter with levels<a class="anchor" aria-label="anchor" href="#specifying-a-parameter-with-levels"></a>
+</h3>
+<div class="section level4">
+<h4 id="linear-attributes">Linear attributes<a class="anchor" aria-label="anchor" href="#linear-attributes"></a>
+</h4>
 <p>The syntax for specifying attributes and levels is similar to how we specify parameters and priors. The attribute name is specified to the left and levels are specified inside <code>[]</code>. Below, the attribute <code>x_1</code> can take on the levels 1, 2, 3, 4 and 5.</p>
-<pre><code>x_1[1:5]</code></pre>
+<pre><code><span class="va">x_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></code></pre>
 <p>When we specify the levels, we can make use of R’s built in functions for generating sequences and vectors. For example, the following three specifications are identical:</p>
-<pre><code># Specification 1
-x_1[1:5]
+<pre><code><span class="co"># Specification 1</span>
+<span class="va">x_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
 
-# Specification 2
-x_1[seq(1, 5, 1)]
+<span class="co"># Specification 2</span>
+<span class="va">x_1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span>
 
-# Specification 3
-x_1[c(1, 2, 3, 4, 5)]</code></pre>
+<span class="co"># Specification 3</span>
+<span class="va">x_1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span></code></pre>
 <p>However,</p>
-<pre><code>x_1[1, 2, 3, 4, 5]</code></pre>
+<pre><code><span class="va">x_1</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">]</span></code></pre>
 <p>is not a valid specification and will throw an error. The error will most likely be of the form:</p>
 <pre><code>Error in parse(text = x) : &lt;text&gt;:1:2: unexpected ','
 1: 1,
@@ -162,85 +158,84 @@ x_1[c(1, 2, 3, 4, 5)]</code></pre>
 <p>While we have not written a new intuitive error message for this misspecification, it will be caught by R’s parser and we feel that this is sufficient. As a compromise, we state the most likely error here to help users catch why their specifications fail.</p>
 </div>
 </div>
-<div id="combining-parameters-priors-attributes-and-levels-to-form-a-utility-function" class="section level2">
-<h2 class="hasAnchor">
-<a href="#combining-parameters-priors-attributes-and-levels-to-form-a-utility-function" class="anchor"></a>Combining parameters, priors, attributes and levels to form a utility function</h2>
+<div class="section level3">
+<h3 id="combining-parameters-priors-attributes-and-levels-to-form-a-utility-function">Combining parameters, priors, attributes and levels to form a utility function<a class="anchor" aria-label="anchor" href="#combining-parameters-priors-attributes-and-levels-to-form-a-utility-function"></a>
+</h3>
 <p>We combine the parameter and attribute as in the example below to start building our utility expression. We recommend that people use the naming convention <code>b_x1</code> being the parameter for the attribute <code>x1</code>. It has no practical implication for how the code works or interprets the utility function, but it makes it much easier for the user to see which parameter goes with which attribute. It is also important that the parameter <code>b_x1</code> preceeds the attribute <code>x1</code>. There is currently no checks written to ensure this, but failing to do so may cause unintended errors in certain instances. For example, if you are using the dummy- or effects-coding shorthand detailed below.</p>
-<pre><code>b_x1[0] * x1[1:5]</code></pre>
+<pre><code><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></code></pre>
 </div>
-<div id="advanced-syntax" class="section level2">
-<h2 class="hasAnchor">
-<a href="#advanced-syntax" class="anchor"></a>Advanced syntax</h2>
-<div id="attribute-level-balance" class="section level3">
-<h3 class="hasAnchor">
-<a href="#attribute-level-balance" class="anchor"></a>Attribute level balance</h3>
+<div class="section level3">
+<h3 id="advanced-syntax">Advanced syntax<a class="anchor" aria-label="anchor" href="#advanced-syntax"></a>
+</h3>
+<div class="section level4">
+<h4 id="attribute-level-balance">Attribute level balance<a class="anchor" aria-label="anchor" href="#attribute-level-balance"></a>
+</h4>
 <p>Attribute level balance is controlled with the option <code>opts$level_balance</code>. The default value is <code>FALSE</code>. It is possible to impose attribute level balance setting this option to <code>TRUE</code>. While it is known that level balanced designs are less efficient, it may be desirable to ensure that all attribute levels occur with equal frequency. However, it is only possible to obtain attribute level balance if the number of levels an attribute can take is a multiple of the number of rows in the design candidate. The number of rows is equal to the product of the number of alternatives per choice task and number of choice tasks. For example, if we have a dummy attribute and our design candidate has 12 rows, then each attribute level occurs exactly 6 times. If we have an attribute with three levels, then each level occurs exactly 4 times across the design.</p>
 <p>However, if the number of levels for any attribute is not a multiple of the number of rows in the design candidate, then we cannot achieve attribute level balance. In this case, the package will print a warning that attribute level balance cannot be assured, but that it will strive to get as close as possible. The way it does this is by letting go of attribute level balance only for the attributes whose levels are not multiples of the number of rows in the design candidate. Furthermore, it will try to have each attribute level occur a number of times that is as close to attribute level balance as possible. For example, if we have an attribute with 3 levels and a design candidate with 10 rows, then each attribute level will occur a minimum of 3 times with one attribute level occuring 4 times. That said, the package does provide the user with some flexibility in how this is specified.</p>
 <p>It is possible for the user to specify that each level of our three-level attribute occurs a minimum of 3 times. To do this, we would need <code>level_balance = TRUE</code> and specify the minimum number of times each level would occur in a rounded parenthesis behind the attribute level specification.</p>
-<pre><code>b_x1[0] * x1[c(0, 1, 2)](3, 2, 3)</code></pre>
+<pre><code><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></code></pre>
 <p>In the specification above, 0 would occur a minimum of 3 times, 1 would occur a minimum of 2 times and 3 would occur a minimum of 3 times. If all levels could occure at a minimum an equal number of times, we can write this more succinctly as:</p>
-<pre><code>b_x1[0] * x1[c(0, 1, 2)](3)</code></pre>
-<p>Two important things to note about the above specification: 1) You can only specify the number of times an attribute should occur in the design at the same time as you specify the number of levels, and 2) the number of comma-separated elements inside the parenthesis has to be equal to 1 (all take the same minimum/maximum number) or equal to the number of levels. Any number of elements inbetween will lead to an error and no design will be produced. In some cases it might be desirable to specify a range indicating an acceptable number of times an attribute level can occur. We do this using the standard range-operator <code><a href="https://rdrr.io/r/base/Colon.html">:</a></code> in R. In the example below, each attribute level can occur 3, 4 or 5 times.</p>
-<pre><code>b_x1[0] * x1[c(0, 1, 2)](3:5, 3:5, 3:5)</code></pre>
+<pre><code><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></code></pre>
+<p>Two important things to note about the above specification: 1) You can only specify the number of times an attribute should occur in the design at the same time as you specify the number of levels, and 2) the number of comma-separated elements inside the parenthesis has to be equal to 1 (all take the same minimum/maximum number) or equal to the number of levels. Any number of elements inbetween will lead to an error and no design will be produced. In some cases it might be desirable to specify a range indicating an acceptable number of times an attribute level can occur. We do this using the standard range-operator <code>:</code> in R. In the example below, each attribute level can occur 3, 4 or 5 times.</p>
+<pre><code><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></code></pre>
 <p>It may be desirable to not use a continuous range. For example, you can specify that an attribute level should only occur 2, 4 or 6 times using either of the two following specifications:</p>
-<pre><code>b_x1[0] * x1[c(0, 1, 2)](seq(2, 6, 2))
+<pre><code><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 
-# OR
+<span class="co"># OR</span>
 
-b_x1[0] * x1[c(0, 1, 2)](c(2, 4, 6))</code></pre>
+<span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></code></pre>
 <p>The same restrictions outlined above with respect to what is specified inside the parenthesis apply.</p>
 </div>
-<div id="interactions" class="section level3">
-<h3 class="hasAnchor">
-<a href="#interactions" class="anchor"></a>Interactions</h3>
+<div class="section level4">
+<h4 id="interactions">Interactions<a class="anchor" aria-label="anchor" href="#interactions"></a>
+</h4>
 <p>If you believe that there are interaction effects between attributes in your model, then these will have to be considered at the design stage. Any design that is not a full factorial assumes that some higher order interaction effects are insignificant. To ensure that you are able to identify the effect of an interaction in your data, this will have to be included in the design. To inclde an interaction term in the design, we can use the following syntax.</p>
-<pre><code>b_x1[0] * x1[c(0, 1)] + b_x2 * x2[c(0, 1)] + b_x1x2 * I(x1 * x2)</code></pre>
-<p>Two things to note about the specification of the utility function with interactions. First, the levels of the attributes are specified when the attribute is first introduced and not in the interaction term itself, and two, for the parser to correctly interpret an interaction term, it needs to be wrapped in R’s internal function for handling interactions <code><a href="https://rdrr.io/r/base/AsIs.html">I()</a></code>.</p>
+<pre><code><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">+</span> <span class="va">b_x2</span> <span class="op">*</span> <span class="va">x2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">+</span> <span class="va">b_x1x2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">x1</span> <span class="op">*</span> <span class="va">x2</span><span class="op">)</span></code></pre>
+<p>Two things to note about the specification of the utility function with interactions. First, the levels of the attributes are specified when the attribute is first introduced and not in the interaction term itself, and two, for the parser to correctly interpret an interaction term, it needs to be wrapped in R’s internal function for handling interactions <code><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I()</a></code>.</p>
 <p>We have included more examples of how this works in the excamples folder on Github.</p>
 </div>
-<div id="dummy-coded-attributes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#dummy-coded-attributes" class="anchor"></a>Dummy-coded attributes</h3>
+<div class="section level4">
+<h4 id="dummy-coded-attributes">Dummy-coded attributes<a class="anchor" aria-label="anchor" href="#dummy-coded-attributes"></a>
+</h4>
 <p>We can specify an attribute to be dummy coded using the <code>_dummy</code> syntax.</p>
-<pre><code>V = list(
-  alt1 = b_x1_dummy[c(0.2, 0.5)] * x1[c(0, 1, 2)],
-  alt2 = b_x1 * x1
-)</code></pre>
+<pre><code><span class="va">V</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+  alt1 <span class="op">=</span> <span class="va">b_x1_dummy</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span>,
+  alt2 <span class="op">=</span> <span class="va">b_x1</span> <span class="op">*</span> <span class="va">x1</span>
+<span class="op">)</span></code></pre>
 <p>A few things to note about using the <code>_dummy</code> syntax (this is also true for <code>_effect</code> sytax, described below): 1) The priors and levels must be specified simultaneously. 2) You only need to use the <code>_dummy</code> syntax the when the prior is first specified. Importantly, this means that <code>b_x1_dummy</code> is used when the prior is specified and <code>b_x1</code> is used when referencing the parameters for the dummy coded attributes in the other utility functions. 3) You must specify one more level for the attribute than priors for the parameter.</p>
 <p>In the case of the example above, it is identical to specifying:</p>
-<pre><code>V = list(
-  alt1 = b_x1_1[0.2] * x1_1[0, 1] + b_x1_2[0.5] * x1_2[0, 1],
-  alt2 = b_x1_1 * x1_1 + b_x1_2 * x1_2
-)
-</code></pre>
+<pre><code><span class="va">V</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+  alt1 <span class="op">=</span> <span class="va">b_x1_1</span><span class="op">[</span><span class="fl">0.2</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1_1</span><span class="op">[</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">b_x1_2</span><span class="op">[</span><span class="fl">0.5</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1_2</span><span class="op">[</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">]</span>,
+  alt2 <span class="op">=</span> <span class="va">b_x1_1</span> <span class="op">*</span> <span class="va">x1_1</span> <span class="op">+</span> <span class="va">b_x1_2</span> <span class="op">*</span> <span class="va">x1_2</span>
+<span class="op">)</span></code></pre>
 <p>and implement the restriction that <code>x1_1</code> and <code>x1_2</code> cannot simultaneously be equal to 1. Under both specifications, estimates are relative to <code>x1 = 0</code>.</p>
 </div>
-<div id="effects-coded-attributes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#effects-coded-attributes" class="anchor"></a>Effects-coded attributes</h3>
+<div class="section level4">
+<h4 id="effects-coded-attributes">Effects-coded attributes<a class="anchor" aria-label="anchor" href="#effects-coded-attributes"></a>
+</h4>
 <p>We can specify an attribute to be effects coded using the <code>_effect</code> syntax.</p>
 <p>It is important to note that effects and dummy coding are theoretically equivalent <span class="citation">(Daly, Dekker, and Hess <a href="#ref-daly_dummy_2016" role="doc-biblioref">2016</a>)</span>.</p>
 </div>
 </div>
 </div>
-<div id="mnl" class="section level1">
-<h1 class="hasAnchor">
-<a href="#mnl" class="anchor"></a>MNL</h1>
-<div id="mnl-with-fixed-priors" class="section level2">
-<h2 class="hasAnchor">
-<a href="#mnl-with-fixed-priors" class="anchor"></a>MNL with fixed priors</h2>
+<div class="section level2">
+<h2 id="mnl">MNL<a class="anchor" aria-label="anchor" href="#mnl"></a>
+</h2>
+<div class="section level3">
+<h3 id="mnl-with-fixed-priors">MNL with fixed priors<a class="anchor" aria-label="anchor" href="#mnl-with-fixed-priors"></a>
+</h3>
 </div>
-<div id="mnl-with-bayesian-priors" class="section level2">
-<h2 class="hasAnchor">
-<a href="#mnl-with-bayesian-priors" class="anchor"></a>MNL with Bayesian priors</h2>
+<div class="section level3">
+<h3 id="mnl-with-bayesian-priors">MNL with Bayesian priors<a class="anchor" aria-label="anchor" href="#mnl-with-bayesian-priors"></a>
+</h3>
 </div>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references">
 <div id="ref-daly_dummy_2016">
-<p>Daly, Andrew, Thijs Dekker, and Stephane Hess. 2016. “Dummy Coding Vs Effects Coding for Categorical Variables: Clarifications and Extensions.” <em>Journal of Choice Modelling</em>, Standalone technical contributions in choice modelling, 21 (December): 36–41. <a href="https://doi.org/10.1016/j.jocm.2016.09.005">https://doi.org/10.1016/j.jocm.2016.09.005</a>.</p>
+<p>Daly, Andrew, Thijs Dekker, and Stephane Hess. 2016. “Dummy Coding Vs Effects Coding for Categorical Variables: Clarifications and Extensions.” <em>Journal of Choice Modelling</em>, Standalone technical contributions in choice modelling, 21 (December): 36–41. <a href="https://doi.org/10.1016/j.jocm.2016.09.005" class="external-link">https://doi.org/10.1016/j.jocm.2016.09.005</a>.</p>
 </div>
 </div>
 </div>
@@ -257,11 +252,13 @@ b_x1[0] * x1[c(0, 1, 2)](c(2, 4, 6))</code></pre>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://edsandorf.me">Erlend Dancke Sandorf</a>, <a href="https://dannycampbell.me">Danny Campbell</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://edsandorf.me" class="external-link">Erlend Dancke Sandorf</a>, <a href="https://dannycampbell.me" class="external-link">Danny Campbell</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -269,6 +266,8 @@ b_x1[0] * x1[c(0, 1, 2)](c(2, 4, 6))</code></pre>
 
   
 
+
+  
 
   </body>
 </html>

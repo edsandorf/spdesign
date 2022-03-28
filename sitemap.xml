@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://spdesignr.edsandorf.me/404.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/articles/generating-a-design.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/articles/introduction.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/articles/syntax.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/authors.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/index.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/news/index.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/apply_restrictions.html</loc>
@@ -101,6 +125,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/has_random_parameter.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/index.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/make_design_candidate.html</loc>
@@ -209,14 +236,5 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/transform_uniform.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/articles/generating-a-design.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/articles/introduction.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/articles/syntax.html</loc>
   </url>
 </urlset>
