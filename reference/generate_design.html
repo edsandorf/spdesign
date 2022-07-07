@@ -20,7 +20,7 @@ candidate set."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9002</span>
       </span>
     </div>
 
@@ -75,24 +75,103 @@ candidate set.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">generate_design</span><span class="op">(</span><span class="va">utility</span>, <span class="va">opts</span>, candidate_set <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">generate_design</span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  <span class="va">tasks</span>,</span>
+<span>  blocks <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a-error"</span>, <span class="st">"c-error"</span>, <span class="st">"d-error"</span>, <span class="st">"s-error"</span><span class="op">)</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"federov"</span>, <span class="st">"random"</span><span class="op">)</span>,</span>
+<span>  draws <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pseudo-random"</span>, <span class="st">"mlhs"</span>, <span class="st">"standard-halton"</span>, <span class="st">"scrambled-halton"</span>,</span>
+<span>    <span class="st">"standard-sobol"</span>, <span class="st">"scrambled-sobol"</span><span class="op">)</span>,</span>
+<span>  R <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  didx <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  candidate_set <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  restrictions <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  level_balance <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cores <span class="op">=</span> <span class="fl">1</span>, max_iter <span class="op">=</span> <span class="fl">10000</span>, efficiency_threshold <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>    sample_with_replacement <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>utility</dt>
-<dd><p>A list of utility functions</p></dd>
-<dt>opts</dt>
-<dd><p>A list of design optsions</p></dd>
+<dd><p>A named list of utility functions</p></dd>
+
+
+<dt>tasks</dt>
+<dd><p>An integer giving the number of tasks (rows) in the final design</p></dd>
+
+
+<dt>blocks</dt>
+<dd><p>An integer giving the number of blocks to block the design
+into. The default value is 1. 2022-07-07: Blocking functionality is not
+implemented.</p></dd>
+
+
+<dt>model</dt>
+<dd><p>A character string indicating the model to optimize the design
+for. Currently the only model programmed is the 'mnl' model and this is also
+set as the default.</p></dd>
+
+
+<dt>efficiency_criteria</dt>
+<dd><p>A character string giving the efficiency criteria
+to optimize for. One of 'a-error', 'c-error', 'd-error' or 's-error'. No
+default is set and argument must be specified. Optimizing for multiple
+criteria is not yet implemented and will result in an error.</p></dd>
+
+
+<dt>algorithm</dt>
+<dd><p>A character string giving the optimization algorithm to use.
+No default is set and the argument must be specified to be one of 'federov'
+or 'random'. The 'rsc' algorithm is not implemented yet.</p></dd>
+
+
+<dt>draws</dt>
+<dd><p>The type of draws to use with Bayesian priors (and rpl, but
+this model is not yet implemented). No default is set and must be specified
+as one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
+"standard-sobol","scrambled-sobol".</p></dd>
+
+
+<dt>R</dt>
+<dd><p>An integer giving the number of draws to use. The default is 100.</p></dd>
+
+
+<dt>didx</dt>
+<dd><p>A character string giving the name of the parameter in the
+denominator. Must be specified when optimizing for 'c-error'</p></dd>
+
+
 <dt>candidate_set</dt>
 <dd><p>A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
 candidate set is provided, then the full factorial subject to specified
 restrictions will be used.</p></dd>
+
+
+<dt>restrictions</dt>
+<dd><p>A list of restrictions. Often this list will be pulled
+directly from the list of options or it is a modified list of restrictions
+following calls to _dummy or _effects coding.</p></dd>
+
+
+<dt>level_balance</dt>
+<dd><p>A placeholder boolean for whether to impose level
+balance in the design</p></dd>
+
+
+<dt>control</dt>
+<dd><p>A list of control options</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A design list of valid designs</p>
+    
+
+<p>A design list of valid designs</p>
     </div>
 
   </div>
@@ -107,7 +186,7 @@ restrictions will be used.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

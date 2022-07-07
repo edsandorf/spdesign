@@ -19,7 +19,7 @@ of the specified model and design given the priors."><!-- mathjax --><script src
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9002</span>
       </span>
     </div>
 
@@ -73,35 +73,31 @@ of the specified model and design given the priors.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">derive_vcov</span><span class="op">(</span><span class="va">design_environment</span>, <span class="va">type</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">derive_vcov</span><span class="op">(</span><span class="va">priors</span>, <span class="va">design_environment</span>, <span class="va">type</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>design_environment</dt>
+    <dl><dt>priors</dt>
+<dd><p>A named vector of assumed priors</p></dd>
+
+
+<dt>design_environment</dt>
 <dd><p>An environment containing all the elements
 necessary to derive the variance-covariance matrix</p></dd>
+
+
 <dt>type</dt>
 <dd><p>A string indicating the model for which you wish to derive the
 variance covariance matrix. Can be either "mnl" or "rpl"</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The variance covariance matrix. If the Fisher information matrix is
+    
+
+<p>The variance covariance matrix. If the Fisher information matrix is
 singular, then return NULL</p>
-    </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>The function is called inside the <code>repeat</code>-loop of
-<code><a href="generate_design.html">generate_design</a></code> and will be called once for each set of priors
-(or once if the priors are not Bayesian). This is followed by a call to
-<code><a href="calculate_efficiency_criteria.html">calculate_efficiency_criteria</a></code>. In the case of Bayesian priors,
-all efficiency criteria are averaged over the prior distribution
-before reported in the optimization.</p>
-<p>In the case of multi-core processing, this function is passed along the
-parallel, to take advantage of the fact that each calculation on a set of
-priors is independent of the calculation on other sets of priors. This does
-not change with the model used to optimize the design.</p>
     </div>
 
   </div>
@@ -116,7 +112,7 @@ not change with the model used to optimize the design.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

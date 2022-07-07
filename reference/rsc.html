@@ -20,7 +20,7 @@ to allow for all special cases of the algorithm."><!-- mathjax --><script src="h
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9002</span>
       </span>
     </div>
 
@@ -63,7 +63,7 @@ to allow for all special cases of the algorithm."><!-- mathjax --><script src="h
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Make a design candidate based on the rsc algorithm</h1>
-    <small class="dont-index">Source: <a href="https://github.com/edsandorf/spdesign/blob/HEAD/R/algorithms.R" class="external-link"><code>R/algorithms.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/edsandorf/spdesign/blob/HEAD/R/rsc.R" class="external-link"><code>R/rsc.R</code></a></small>
     <div class="hidden name"><code>rsc.Rd</code></div>
     </div>
 
@@ -75,21 +75,66 @@ to allow for all special cases of the algorithm.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rsc</span><span class="op">(</span><span class="va">parsed_utility</span>, <span class="va">current_design_candidate</span>, <span class="va">opts</span>, <span class="va">iter_with_no_imp</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rsc</span><span class="op">(</span></span>
+<span>  <span class="va">design_object</span>,</span>
+<span>  <span class="va">model</span>,</span>
+<span>  <span class="va">efficiency_criteria</span>,</span>
+<span>  <span class="va">utility_parsed</span>,</span>
+<span>  <span class="va">priors</span>,</span>
+<span>  <span class="va">didx</span>,</span>
+<span>  <span class="va">candidate_set</span>,</span>
+<span>  <span class="va">tasks</span>,</span>
+<span>  <span class="va">control</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>parsed_utility</dt>
-<dd><p>A list containing the elements of the parsed utility
-expression obtained from <code><a href="parse_utility.html">parse_utility</a></code>.</p></dd>
-<dt>current_design_candidate</dt>
-<dd><p>A candidate for the RSC algorithm. To allow
-for marginal changes the candidate is passed back in for each iteration.</p></dd>
-<dt>opts</dt>
-<dd><p>A list of design options</p></dd>
-<dt>iter_with_no_imp</dt>
-<dd><p>The iteration number</p></dd>
+    <dl><dt>design_object</dt>
+<dd><p>A list of class 'spdesign' created within the
+<code><a href="generate_design.html">generate_design</a></code> function</p></dd>
+
+
+<dt>model</dt>
+<dd><p>A character string indicating the model to optimize the design
+for. Currently the only model programmed is the 'mnl' model and this is also
+set as the default.</p></dd>
+
+
+<dt>efficiency_criteria</dt>
+<dd><p>A character string giving the efficiency criteria
+to optimize for. One of 'a-error', 'c-error', 'd-error' or 's-error'. No
+default is set and argument must be specified. Optimizing for multiple
+criteria is not yet implemented and will result in an error.</p></dd>
+
+
+<dt>utility_parsed</dt>
+<dd><p>A parsed utility expression</p></dd>
+
+
+<dt>priors</dt>
+<dd><p>A list of priors</p></dd>
+
+
+<dt>didx</dt>
+<dd><p>A character string giving the name of the parameter in the
+denominator. Must be specified when optimizing for 'c-error'</p></dd>
+
+
+<dt>candidate_set</dt>
+<dd><p>A matrix or data frame in the "wide" format containing
+all permitted combinations of attributes. The default is NULL. If no
+candidate set is provided, then the full factorial subject to specified
+restrictions will be used.</p></dd>
+
+
+<dt>tasks</dt>
+<dd><p>An integer giving the number of tasks (rows) in the final design</p></dd>
+
+
+<dt>control</dt>
+<dd><p>A list of control options</p></dd>
+
 </dl></div>
 
   </div>
@@ -104,7 +149,7 @@ for marginal changes the candidate is passed back in for each iteration.</p></dd
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

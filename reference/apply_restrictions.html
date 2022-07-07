@@ -19,7 +19,7 @@ to the supplied candidate set using standard subsetting routines."><!-- mathjax 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9002</span>
       </span>
     </div>
 
@@ -73,21 +73,29 @@ to the supplied candidate set using standard subsetting routines.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">apply_restrictions</span><span class="op">(</span><span class="va">candidate_set</span>, <span class="va">restrictions</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">apply_restrictions</span><span class="op">(</span><span class="va">candidate_set</span>, <span class="va">restrictions</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>candidate_set</dt>
-<dd><p>A valid candidate set</p></dd>
+<dd><p>A matrix or data frame in the "wide" format containing
+all permitted combinations of attributes. The default is NULL. If no
+candidate set is provided, then the full factorial subject to specified
+restrictions will be used.</p></dd>
+
+
 <dt>restrictions</dt>
 <dd><p>A list of restrictions. Often this list will be pulled
 directly from the list of options or it is a modified list of restrictions
 following calls to _dummy or _effects coding.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A restricted candidate set</p>
+    
+
+<p>A restricted candidate set</p>
     </div>
 
   </div>
@@ -102,7 +110,7 @@ following calls to _dummy or _effects coding.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9002</span>
       </span>
     </div>
 
@@ -71,32 +71,35 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rep_rows</span><span class="op">(</span><span class="va">x</span>, <span class="va">times</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rep_rows</span><span class="op">(</span><span class="va">x</span>, <span class="va">times</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>A matrix or data frame</p></dd>
+
+
 <dt>times</dt>
 <dd><p>An integer indicating the number of times to repeat the
 row/column</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">test_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">rep_rows</span><span class="op">(</span><span class="va">test_matrix</span>, <span class="fl">2</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">test_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rep_rows</span><span class="op">(</span><span class="va">test_matrix</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]     [,2]     [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.202573 0.421842 0.970058</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.202573 0.421842 0.970058</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.928187 0.745096 0.141353</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.928187 0.745096 0.141353</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.313169 0.575706 0.556883</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.313169 0.575706 0.556883</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [7,] 0.193526 0.781797 0.861721</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [8,] 0.193526 0.781797 0.861721</span>
-<span class="r-in"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.915804 0.867498 0.632809</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.915804 0.867498 0.632809</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.794906 0.758750 0.854433</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.794906 0.758750 0.854433</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.400853 0.778251 0.802978</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.400853 0.778251 0.802978</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [7,] 0.739085 0.469069 0.387196</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [8,] 0.739085 0.469069 0.387196</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -111,7 +114,7 @@ row/column</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -18,7 +18,7 @@ the log likelihood function"><!-- mathjax --><script src="https://cdnjs.cloudfla
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9002</span>
       </span>
     </div>
 
@@ -71,46 +71,57 @@ the log likelihood function</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">make_draws</span><span class="op">(</span><span class="va">n_ind</span>, <span class="va">n_draws</span>, <span class="va">n_dim</span>, <span class="va">seed</span>, <span class="va">type</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_draws</span><span class="op">(</span><span class="va">n_ind</span>, <span class="va">n_draws</span>, <span class="va">n_dim</span>, <span class="va">seed</span>, <span class="va">type</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>n_ind</dt>
 <dd><p>Number of individuals in your sample</p></dd>
+
+
 <dt>n_draws</dt>
 <dd><p>Number of draws per respondent</p></dd>
+
+
 <dt>n_dim</dt>
 <dd><p>Number of dimensions</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>A seed to change the scrambling of the sobol sequence.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>A character string</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A matrix of dimensions n_ind*n_draws x n_dim of standard uniform
+    
+
+<p>A matrix of dimensions n_ind*n_draws x n_dim of standard uniform
 draws</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">n_ind</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
-<span class="r-in"><span class="va">n_draws</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
-<span class="r-in"><span class="va">n_dim</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">draws</span> <span class="op">&lt;-</span> <span class="fu">make_draws</span><span class="op">(</span><span class="va">n_ind</span>, <span class="va">n_draws</span>, <span class="va">n_dim</span>, seed <span class="op">=</span> <span class="fl">10</span>, <span class="st">"scrambled-sobol"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">draws</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]     [,2]     [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.4163279 0.843947 0.599893</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.5693955 0.708931 0.159586</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.1755768 0.338082 0.778670</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.6969957 0.439546 0.694511</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0600462 0.576020 0.368274</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.9532566 0.992286 0.933824</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">draws</span> <span class="op">&lt;-</span> <span class="fu">make_draws</span><span class="op">(</span><span class="va">n_ind</span>, <span class="va">n_draws</span>, <span class="va">n_dim</span>, seed <span class="op">=</span> <span class="fl">10</span>, <span class="st">"scrambled-halton"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">draws</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">n_ind</span> <span class="op">&lt;-</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="va">n_draws</span> <span class="op">&lt;-</span> <span class="fl">5</span></span></span>
+<span class="r-in"><span><span class="va">n_dim</span> <span class="op">&lt;-</span> <span class="fl">3</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">draws</span> <span class="op">&lt;-</span> <span class="fu">make_draws</span><span class="op">(</span><span class="va">n_ind</span>, <span class="va">n_draws</span>, <span class="va">n_dim</span>, seed <span class="op">=</span> <span class="fl">10</span>, <span class="st">"scrambled-sobol"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">draws</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        [,1]  [,2]  [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.500 0.500 0.500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 0.750 0.250 0.750</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 0.250 0.750 0.250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 0.375 0.375 0.625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 0.875 0.875 0.125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 0.625 0.125 0.375</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">draws</span> <span class="op">&lt;-</span> <span class="fu">make_draws</span><span class="op">(</span><span class="va">n_ind</span>, <span class="va">n_draws</span>, <span class="va">n_dim</span>, seed <span class="op">=</span> <span class="fl">10</span>, <span class="st">"scrambled-halton"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">draws</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]     [,2] [,3]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.500 0.666667 0.60</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.250 0.333333 0.20</span>
@@ -118,7 +129,7 @@ draws</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.125 0.888889 0.40</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.625 0.555556 0.12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.375 0.111111 0.72</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -133,7 +144,7 @@ draws</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

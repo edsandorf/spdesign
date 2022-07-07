@@ -23,7 +23,7 @@ error prone."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9002</span>
       </span>
     </div>
 
@@ -81,21 +81,21 @@ error prone.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">normal</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>
-
-<span class="fu">normal_p</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>
-
-<span class="fu">lognormal</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>
-
-<span class="fu">lognormal_p</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>
-
-<span class="fu">triangular</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>
-
-<span class="fu">triangular_p</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>
-
-<span class="fu">uniform</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span>
-
-<span class="fu">uniform_p</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">normal</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">normal_p</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">lognormal</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">lognormal_p</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">triangular</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">triangular_p</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">uniform</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">uniform_p</span><span class="op">(</span><span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -106,14 +106,19 @@ depending on whether it is a normal, log-normal, triangular or uniform,
 or it can be another call to <code>normal</code>, <code>lognormal</code>,
 <code>uniform</code> or <code>triangular</code> if the model is an RPL with
 a Bayesian prior.</p></dd>
+
+
 <dt>sigma</dt>
 <dd><p>A parameter indicating the SD or spread of the distribution
 or it can be another call to <code>normal</code>, <code>lognormal</code>,
  <code>uniform</code> or <code>triangular</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list of parameters</p>
+    
+
+<p>A list of parameters</p>
     </div>
     <div id="functions">
     <h2>Functions</h2>
@@ -130,12 +135,12 @@ or it can be another call to <code>normal</code>, <code>lognormal</code>,
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"normal(0, 1)"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"lognormal(0, 1)"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"triangular(0, 1)"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"uniform(0, 1)"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"normal(0, 1)"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"lognormal(0, 1)"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"triangular(0, 1)"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="st">"uniform(0, 1)"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -150,7 +155,7 @@ or it can be another call to <code>normal</code>, <code>lognormal</code>,
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
