@@ -1,6 +1,6 @@
 context("That restrictions are correctly applied to the candidate set")
 
-candidate_set <- generate_full_factorial(list(x1 = c(0, 1), x2 = c(0, 1)))
+candidate_set <- full_factorial(list(x1 = c(0, 1), x2 = c(0, 1)))
 
 test_that("Restriction pattern one", {
   restrictions <- list(

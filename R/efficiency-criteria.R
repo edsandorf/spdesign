@@ -1,3 +1,57 @@
+#' Calculate efficiency
+#'
+#' The function is called inside \code{\link{evaluate_design_candidate}}
+#'
+#' @param priors a list or vector of assumed priors
+#' @param design_environment A design environment in which to evaluate the
+#' the function to derive the variance-covariance matrix.
+#' @param return_all If `TRUE` return a K or K-1 vector with parameter specific error
+#' measures. Default is `FALSE`.
+#' @param significance A t-value corresponding to the desired level of
+#' significance. The default is significance at the 5% level with an associated
+#' t-value of 1.96.
+#' @inheritParams generate_design
+#'
+#' @return A named vector of efficiency criteria
+calculate_efficiency <- function(priors,
+                                 design_environment,
+                                 model,
+                                 didx,
+                                 return_all = FALSE,
+                                 significance = 1.96) {
+  # Define the string of possible efficiency criteria
+  efficiency_criteria_string <- c("a-error", "c-error", "d-error", "s-error")
+
+  # Derive the variance-covariance matrix
+  design_vcov <- derive_vcov(priors, design_environment, type = model)
+
+  # Check if we have NA in the variance-covariance matrix. If so, return vecor
+  # of NA
+  if (any(is.na(design_vcov))) {
+    return(
+      rep(NA, length(efficiency_criteria_string))
+    )
+  }
+
+
+
+  efficiency_criteria <- lapply(efficiency_criteria_string, function(x) {
+    return(
+      calculate_efficiency_criteria(design_vcov,
+                                    priors,
+                                    didx,
+                                    return_all,
+                                    significance,
+                                    type = x)
+    )
+  })
+
+  return(
+    do.call(c, efficiency_criteria)
+  )
+}
+
+
 #' Calculate efficiency criteria
 #'
 #' The function is a wrapper around \code{\link{calculate_a_error}},
@@ -12,15 +66,8 @@
 #' @param design_vcov A variance-covariance matrix returned by
 #' \code{\link{derive_vcov}} or returned by an estimation routine. The matrix
 #' should be symmetrical and K-by-K
-#' @param p A vector of parameters, e.g. the named vector of priors. This is
-#' used for c- and s-errors. Default value is NULL
-#' @param didx An integer indicating the position of the denominator in `p` This
-#' is only used for c-efficiency. Default value is NULL
-#' @param all If `TRUE` return a K or K-1 vector with parameter specific error
-#' measures. Default is `FALSE`.
-#' @param significance A t-value corresponding to the desired level of
-#' significance. The default is significance at the 5% level with an associated
-#' t-value of 1.96.
+#' @inheritParams calculate_efficiency
+#' @param p Prior values
 #' @param type A string indicating the type of efficiency criteria to calculate
 #' can be either: "a-error", "c-error", "d-error" or "s-error"
 #'
@@ -45,16 +92,16 @@ calculate_efficiency_criteria <- function(
   design_vcov,
   p = NULL,
   didx = NULL,
-  all = FALSE,
+  return_all = FALSE,
   significance = 1.96,
   type
 ) {
   switch(
     type,
     `a-error` = calculate_a_error(design_vcov),
-    `c-error` = calculate_c_error(design_vcov, p, didx, all),
+    `c-error` = calculate_c_error(design_vcov, p, didx, return_all),
     `d-error` = calculate_d_error(design_vcov),
-    `s-error` = calculate_s_error(design_vcov, p, all, significance)
+    `s-error` = calculate_s_error(design_vcov, p, return_all, significance)
   )
 }
 
@@ -80,7 +127,7 @@ calculate_a_error <- function(design_vcov) {
 #' @return A vector giving the variance of the ratio for each K-1 parameter or a
 #' single number with the sum of the variances used for optimization
 #'
-calculate_c_error <- function(design_vcov, p, didx, all) {
+calculate_c_error <- function(design_vcov, p, didx, return_all) {
   # Undefined if the denominator is not specified
   if (is.null(didx)) {
     NA
@@ -92,7 +139,7 @@ calculate_c_error <- function(design_vcov, p, didx, all) {
          (p[didx] / p[-didx])^2 * diag(design_vcov)[-didx])
 
     # Check if all are to be returned
-    if (all) {
+    if (return_all) {
       c_eff
     } else {
       sum(c_eff)
@@ -122,11 +169,11 @@ calculate_d_error <- function(design_vcov) {
 #' @return A vector giving the "minimum" sample size for each parameter or a
 #' single number with the smallest sample size needed for all parameters to be
 #' theoretically significant.
-calculate_s_error <- function(design_vcov, p, all, significance) {
+calculate_s_error <- function(design_vcov, p, return_all, significance) {
   s_eff <- ((sqrt(diag(design_vcov)) * significance) / p)^2
 
   # Check if all are to be returned
-  if (all) {
+  if (return_all) {
     s_eff
   } else {
     max(s_eff)
@@ -134,52 +181,3 @@ calculate_s_error <- function(design_vcov, p, all, significance) {
 
 }
 
-#' Calculates the error measures
-#'
-#' The function is called from inside the lapply() loop over priors in the
-#' \code{\link{generate_design}} function.
-#'
-#' @param p A vector of parameters
-#' @param design_environment A design environment
-#' @param error_measures_string A string of efficiency criteria to be
-#' calculated. The inputs matches \code{\link{calculate_efficiency_criteria}}
-#' type.
-#' @param opts List of options
-#'
-#' @return A named vector of error measures
-calculate_error_measures <- function(
-  p,
-  design_environment,
-  error_measures_string,
-  opts
-) {
-  # Add the priors to the design environment
-  list2env(
-    as.list(p),
-    envir = design_environment
-  )
-
-  # Calculate the variance-covariance matrix
-  design_vcov <- tryCatch({
-    derive_vcov(design_environment, type = opts$model)
-  },
-  error = function(e) {
-    NA
-  })
-
-  if (any(is.na(design_vcov))) {
-    return(rep(NA, length(error_measures_string)))
-  }
-
-  # Calculate the error measures
-  error_measures <- lapply(error_measures_string, function(x) {
-    calculate_efficiency_criteria(
-      design_vcov,
-      p,
-      opts$didx,
-      all = FALSE,
-      type = x
-    )
-  })
-  do.call(c, error_measures)
-}

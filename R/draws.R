@@ -27,7 +27,7 @@
 make_draws <- function(n_ind, n_draws, n_dim, seed, type) {
   draws <- switch(
     type,
-    `pseudo_random` = make_pseudo_random(n_ind, n_draws, n_dim),
+    `pseudo-random` = make_pseudo_random(n_ind, n_draws, n_dim),
     `mlhs` = make_mlhs(n_ind, n_draws, n_dim),
     `standard-halton` = make_standard_halton(n_ind, n_draws, n_dim),
     `scrambled-halton` = make_scrambled_halton(n_ind, n_draws, n_dim),

@@ -4,24 +4,21 @@
 #' expression that is then parsed and evaluated to apply the restrictions
 #' to the supplied candidate set using standard subsetting routines.
 #'
-#' @param candidate_set A valid candidate set
-#' @param restrictions A list of restrictions. Often this list will be pulled
-#' directly from the list of options or it is a modified list of restrictions
-#' following calls to _dummy or _effects coding.
+#' @inheritParams generate_design
 #'
 #' @return A restricted candidate set
 apply_restrictions <- function(candidate_set, restrictions) {
-  attrs <- names(candidate_set)
+  attribute_names <- names(candidate_set)
 
   # Reformat the restrictions
   restrictions <- lapply(seq_along(restrictions), function(i) {
     restriction <- restrictions[[i]]
 
-    for (j in seq_along(attrs)) {
+    for (j in seq_along(attribute_names)) {
       restriction <- str_replace_all(
         restriction,
-        attrs[[j]],
-        paste0("candidate_set$", attrs[[j]])
+        attribute_names[[j]],
+        paste0("candidate_set$", attribute_names[[j]])
       )
     }
 
@@ -34,6 +31,8 @@ apply_restrictions <- function(candidate_set, restrictions) {
     candidate_set <- eval(parse(text = restrictions[[i]]))
   }
 
-  # Implicitly return the restricted candidate set
-  candidate_set
+  # Return
+  return(
+    candidate_set
+  )
 }

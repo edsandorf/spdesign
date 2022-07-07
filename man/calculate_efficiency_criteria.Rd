@@ -8,7 +8,7 @@ calculate_efficiency_criteria(
   design_vcov,
   p = NULL,
   didx = NULL,
-  all = FALSE,
+  return_all = FALSE,
   significance = 1.96,
   type
 )
@@ -18,13 +18,12 @@ calculate_efficiency_criteria(
 \code{\link{derive_vcov}} or returned by an estimation routine. The matrix
 should be symmetrical and K-by-K}
 
-\item{p}{A vector of parameters, e.g. the named vector of priors. This is
-used for c- and s-errors. Default value is NULL}
+\item{p}{Prior values}
 
-\item{didx}{An integer indicating the position of the denominator in `p` This
-is only used for c-efficiency. Default value is NULL}
+\item{didx}{A character string giving the name of the parameter in the
+denominator. Must be specified when optimizing for 'c-error'}
 
-\item{all}{If `TRUE` return a K or K-1 vector with parameter specific error
+\item{return_all}{If `TRUE` return a K or K-1 vector with parameter specific error
 measures. Default is `FALSE`.}
 
 \item{significance}{A t-value corresponding to the desired level of

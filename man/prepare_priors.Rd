@@ -4,14 +4,19 @@
 \alias{prepare_priors}
 \title{Prepare the list of priors}
 \usage{
-prepare_priors(utility, parsed_utility, opts)
+prepare_priors(utility, utility_parsed, draws, R)
 }
 \arguments{
-\item{utility}{A list of utility functions}
+\item{utility}{A named list of utility functions}
 
-\item{parsed_utility}{A list containing the parsed utility expression}
+\item{utility_parsed}{A parsed utility expression}
 
-\item{opts}{A list of options}
+\item{draws}{The type of draws to use with Bayesian priors (and rpl, but
+this model is not yet implemented). No default is set and must be specified
+as one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
+"standard-sobol","scrambled-sobol".}
+
+\item{R}{An integer giving the number of draws to use. The default is 100.}
 }
 \value{
 A list of priors

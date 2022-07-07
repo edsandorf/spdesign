@@ -4,17 +4,69 @@
 \alias{generate_design}
 \title{Generate the experimental design}
 \usage{
-generate_design(utility, opts, candidate_set = NULL)
+generate_design(
+  utility,
+  tasks,
+  blocks = 1,
+  model = "mnl",
+  efficiency_criteria = c("a-error", "c-error", "d-error", "s-error"),
+  algorithm = c("federov", "random"),
+  draws = c("pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
+    "standard-sobol", "scrambled-sobol"),
+  R = 100,
+  didx = NULL,
+  candidate_set = NULL,
+  restrictions = NULL,
+  level_balance = FALSE,
+  control = list(cores = 1, max_iter = 10000, efficiency_threshold = 0.1,
+    sample_with_replacement = FALSE)
+)
 }
 \arguments{
-\item{utility}{A list of utility functions}
+\item{utility}{A named list of utility functions}
 
-\item{opts}{A list of design optsions}
+\item{tasks}{An integer giving the number of tasks (rows) in the final design}
+
+\item{blocks}{An integer giving the number of blocks to block the design
+into. The default value is 1. 2022-07-07: Blocking functionality is not
+implemented.}
+
+\item{model}{A character string indicating the model to optimize the design
+for. Currently the only model programmed is the 'mnl' model and this is also
+set as the default.}
+
+\item{efficiency_criteria}{A character string giving the efficiency criteria
+to optimize for. One of 'a-error', 'c-error', 'd-error' or 's-error'. No
+default is set and argument must be specified. Optimizing for multiple
+criteria is not yet implemented and will result in an error.}
+
+\item{algorithm}{A character string giving the optimization algorithm to use.
+No default is set and the argument must be specified to be one of 'federov'
+or 'random'. The 'rsc' algorithm is not implemented yet.}
+
+\item{draws}{The type of draws to use with Bayesian priors (and rpl, but
+this model is not yet implemented). No default is set and must be specified
+as one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
+"standard-sobol","scrambled-sobol".}
+
+\item{R}{An integer giving the number of draws to use. The default is 100.}
+
+\item{didx}{A character string giving the name of the parameter in the
+denominator. Must be specified when optimizing for 'c-error'}
 
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
 candidate set is provided, then the full factorial subject to specified
 restrictions will be used.}
+
+\item{restrictions}{A list of restrictions. Often this list will be pulled
+directly from the list of options or it is a modified list of restrictions
+following calls to _dummy or _effects coding.}
+
+\item{level_balance}{A placeholder boolean for whether to impose level
+balance in the design}
+
+\item{control}{A list of control options}
 }
 \value{
 A design list of valid designs

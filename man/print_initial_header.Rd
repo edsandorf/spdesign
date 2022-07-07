@@ -4,11 +4,10 @@
 \alias{print_initial_header}
 \title{Prints the initial header for the table of results}
 \usage{
-print_initial_header(opts, padding = 10, width = 80)
+print_initial_header(efficiency_criteria, padding = 10, width = 80)
 }
 \arguments{
-\item{opts}{The list of design options. The default is NULL, but must be
-specified to print the criteria in color.}
+\item{efficiency_criteria}{The criteria that we optimize over}
 
 \item{padding}{An integer specifying the padding of each column element.
 Default value is 10.}

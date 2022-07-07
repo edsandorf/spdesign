@@ -4,23 +4,6 @@
 rm(list = ls(all = TRUE))
 # library(spdesign)
 
-# Set design options ----
-opts <- list(
-  algorithm = list(
-    alg = "federov"
-  ),
-  efficiency_criteria = "d-error",
-  model = "mnl",
-  blocks = 1,
-  tasks = 6,
-  cores = 1,
-  max_iter = 10000,
-  restrictions = list(
-    "alt1_x1 == 2 & alt1_x2 == 0 & alt1_x3 == 0",
-    "alt2_x2 == 1 & alt2_x3 == 1"
-  )
-)
-
 # Define the list of utility functions ----
 utility <- list(
   alt1 = "b_x1[0.1] * x1[2:5] + b_x2[0.4] * x2[c(0, 1)] + b_x3[-0.2] * x3[seq(0, 1, 0.25)]",
@@ -28,4 +11,10 @@ utility <- list(
 )
 
 # Generate designs ----
-design <- generate_design(utility, opts)
+design <- generate_design(utility, tasks = 20,
+                          model = "mnl", efficiency_criteria = "d-error",
+                          algorithm = "federov", draws = "scrambled-sobol",
+                          restrictions = list(
+                            "alt1_x1 == 2 & alt1_x2 == 0 & alt1_x3 == 0",
+                            "alt2_x2 == 1 & alt2_x3 == 1"
+                          ))

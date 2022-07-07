@@ -5,279 +5,251 @@
 #' generate a design based on the specified utility functions, options and
 #' candidate set.
 #'
-#' @param utility A list of utility functions
-#' @param opts A list of design optsions
+#' @param utility A named list of utility functions
+#' @param tasks An integer giving the number of tasks (rows) in the final design
+#' @param blocks An integer giving the number of blocks to block the design
+#' into. The default value is 1. 2022-07-07: Blocking functionality is not
+#' implemented.
+#' @param model A character string indicating the model to optimize the design
+#' for. Currently the only model programmed is the 'mnl' model and this is also
+#' set as the default.
+#' @param efficiency_criteria A character string giving the efficiency criteria
+#' to optimize for. One of 'a-error', 'c-error', 'd-error' or 's-error'. No
+#' default is set and argument must be specified. Optimizing for multiple
+#' criteria is not yet implemented and will result in an error.
+#' @param algorithm A character string giving the optimization algorithm to use.
+#' No default is set and the argument must be specified to be one of 'federov'
+#' or 'random'. The 'rsc' algorithm is not implemented yet.
+#' @param draws The type of draws to use with Bayesian priors (and rpl, but
+#' this model is not yet implemented). No default is set and must be specified
+#' as one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
+#' "standard-sobol","scrambled-sobol".
+#' @param R An integer giving the number of draws to use. The default is 100.
+#' @param didx A character string giving the name of the parameter in the
+#' denominator. Must be specified when optimizing for 'c-error'
 #' @param candidate_set A matrix or data frame in the "wide" format containing
 #' all permitted combinations of attributes. The default is NULL. If no
 #' candidate set is provided, then the full factorial subject to specified
 #' restrictions will be used.
+#' @param restrictions A list of restrictions. Often this list will be pulled
+#' directly from the list of options or it is a modified list of restrictions
+#' following calls to _dummy or _effects coding.
+#' @param level_balance A placeholder boolean for whether to impose level
+#' balance in the design
+#' @param control A list of control options
 #'
 #' @return A design list of valid designs
 #'
 #' @export
-generate_design <- function(utility, opts, candidate_set = NULL) {
-  cli_h1(
-    "Setting up the design environment"
+generate_design <- function(utility,
+                            tasks,
+                            blocks = 1,
+                            model = "mnl",
+                            efficiency_criteria = c("a-error", "c-error",
+                                                    "d-error", "s-error"),
+                            algorithm = c("federov", "random"),
+                            draws = c("pseudo-random", "mlhs", "standard-halton",
+                                      "scrambled-halton", "standard-sobol",
+                                      "scrambled-sobol"),
+                            R = 100,
+                            didx = NULL,
+                            candidate_set = NULL,
+                            restrictions = NULL,
+                            level_balance = FALSE,
+                            control = list(
+                              cores = 1,
+                              max_iter = 10000,
+                              efficiency_threshold = 0.1,
+                              sample_with_replacement = FALSE
+                            )) {
+
+  # Match and check model arguments ----
+  cli_h2("Checking function arguments")
+  # Utility NBNB! Will fail to catch if utility is a data.frame!!
+  stopifnot(is.list(utility))
+  stopifnot(length(utility) > 1)
+  stopifnot(all(do.call(c, lapply(utility, is_balanced, "[", "]"))))
+  stopifnot(all(do.call(c, lapply(utility, is_balanced, "(", ")"))))
+
+  # Set the default for control and replace the specified values in control
+  default_control <- list(
+    cores = 1,
+    max_iter = 10000,
+    efficiency_threshold = 0.1,
+    sample_with_replacement = FALSE
   )
 
-  # Options ----
-  cli_h2(
-    "Checking the supplied list of options and setting defaults"
-  )
+  control <- utils::modifyList(default_control, control)
 
-  ansi_with_hidden_cursor(
-    check_opts(opts)
-  )
+  # Blocks and tasks
+  if (blocks > tasks) {
+    stop("You cannot have more blocks than tasks")
+  }
 
-  opts <- set_default_options(opts)
+  if (tasks %% blocks != 0)  {
+    stop("You cannot have uneven number of tasks per block")
+  }
 
-  cli_alert_success(
-    "Default options has been set"
-  )
+  # Model
+  model <- match.arg(model)
 
-  # Utility ----
-  cli_h2(
-    "Checking and parsing utility"
-  )
+  # Efficiency criteria
+  efficiency_criteria <- match.arg(efficiency_criteria, several.ok = TRUE)
 
-  ansi_with_hidden_cursor(
-    check_utility(utility)
-  )
+  if (length(efficiency_criteria) > 1) {
+    stop("Optimizing over multiple criteria is not implemented")
+  }
 
-  parsed_utility <- parse_utility(utility, opts)
+  if (is.null(didx) && efficiency_criteria == "c-error") {
+    stop("The denominator index 'didx' must be specified for c-error")
+  }
 
-  cli_alert_success(
-    "The supplied utility functions have been parsed"
-  )
+  # Algorithm
+  algorithm <- match.arg(algorithm)
+
+  # Draws
+  draws <- match.arg(draws)
+
+  # Consider a core-check if relevant at a later point.
+
+  # Parse utility ----
+  cli_h2("Parsing utility")
+  utility_parsed <- parse_utility(utility, tasks)
 
   # Candidate set ----
-  cli_h2(
-    "Checking the candidate set and applying restrictions"
-  )
+  cli_h2("Checking the candidate set and applying restrictions")
 
+  # If no candidate set is supplied generate full factorial if not run simple
+  # checks
   if (is.null(candidate_set)) {
-    cli_alert_info(
-      "No candidate set supplied. The design will use the full factorial
-      subject to supplied constraints."
-    )
+    cli_alert_info("No candidate set supplied. The design will use the full factorial subject to supplied constraints.")
 
-    candidate_set <- generate_full_factorial(parsed_utility$attrs)
+    candidate_set <- full_factorial(get_attribute_levels(utility_parsed))
 
-    cli_alert_success(
-      "Full factorial created"
-    )
+    cli_alert_success("Full factorial created")
+
   } else {
-    ansi_with_hidden_cursor(
-      check_candidate_set(candidate_set, parsed_utility)
-    )
+    # Check that it is a matrix
+    stopifnot((is.matrix(candidate_set) || is.data.frame(candidate_set)))
 
+    # Check candidate set
+    if (!all(names(candidate_set) %in% names(get_attribute_levels(utility_parsed)))) {
+      stop(
+        "Not all attributes specified in the utility functions are specified in
+        the candidate set. Make sure that all attributes are specified and that
+        the names used in the utility functions correspond to the column names
+        of the supplied candidate set. Note the candidate set must be supplied
+        in 'wide' format."
+      )
+    }
+
+    # Print information about attribute levels.
     cli_alert_info(
       "The attribute levels are determined based on the supplied candidate set
-      and not the levels specified in the utility functions."
+      and not the levels specified in the utility functions because levels not
+      present in the candidate set cannot be part of the design. Should this be
+      an error?"
     )
 
-    parsed_utility[["attrs"]] <- lapply(
+    utility_parsed[["attribute_levels"]] <- lapply(
       as.list(
-        as.data.frame(candidate_set)
+        as.data.frame(
+          candidate_set
+        )
       ),
       unique
     )
   }
 
-  candidate_set <- apply_restrictions(candidate_set, opts$restrictions)
+  # Apply the restrictions to the candidate set
+  candidate_set <- apply_restrictions(candidate_set, restrictions)
   candidate_set <- as.matrix(candidate_set)
 
-  cli_alert_success(
-    "All restrictions successfully applied"
-  )
+  cli_alert_success("All restrictions successfully applied")
 
   # Prepare the list of priors ----
-  cli_h2(
-    "Preparing the list of priors"
-  )
+  cli_h2("Preparing the list of priors")
 
-  priors <- prepare_priors(utility, parsed_utility, opts)
+  priors <- prepare_priors(utility, utility_parsed, draws, R)
 
-  cli_alert_success(
-    "Priors prepared successfully"
-  )
-
-  # Set up the design environment ----
-  design_environment <- new.env()
-  list2env(
-    list(utility_string = parsed_utility[["utility"]]),
-    envir = design_environment
-  )
+  cli_alert_success("Priors prepared successfully")
 
   # Set up parallel ----
-  if (opts$cores > 1) {
-    cli_h2(
-      "Preparing multicore estimation"
-    )
+  if (control$cores > 1) {
+    cli_h2("Preparing multicore estimation")
+
+    stop("Multicore not implmented")
 
     future::plan(
-      future::multicore(workers = opts$cores)
+      future::multicore(workers = control$cores)
     )
 
-    cli_alert_success(
-      "Multicore estimation prepared successfully"
-    )
+    cli_alert_success("Multicore estimation prepared successfully")
+
   }
 
   # Evaluate designs ----
-  cli_h1(
-    "Evaluating designs"
+  cli_h1("Evaluating designs")
+
+  # Create the design object and make sure that the current status of the object
+  # is returned if the program is ended prematurely from clicking "stop"
+  design_object <- list()
+  design_object[["utility"]] <- get_utility_clean(utility_parsed)
+  design_object[["priors"]] <- get_prior_values(utility_parsed)
+  design_object[["time"]] <- list(
+    time_start = Sys.time()
   )
 
-  # Without proper stopping conditions this becomes an infinite loop
-  iter <- 1
-  iter_with_no_imp <- 1
-  current_best <- NULL
-  error_measures_string <- c("a-error", "c-error", "d-error", "s-error")
-  time_start <- Sys.time()
-  best_design_candidate <- NULL
-  design_candidate <- NULL
+  class(design_object) <- "spdesign"
+
+
+  # Make sure that the best design candidate is always return if the loop is
+  # stopped prematurely Can on.exit have a function?
   on.exit(
-    return(best_design_candidate),
+    return(design_object),
     add = TRUE
   )
 
-  # Search for designs until the criteria are met
-  repeat {
-    # Create a design candidate
-    design_candidate <- make_design_candidate(
-      parsed_utility,
-      candidate_set,
-      design_candidate,
-      opts,
-      iter_with_no_imp,
-      type = opts$algorithm$alg
-    )
-
-    # Determine x_j
-    alt_names <- names(utility)
-    x_j <- lapply(seq_along(utility), function(j) {
-      frmla <- parsed_utility$formula_utility[[j]]
-      model.matrix(frmla, design_candidate)
-    })
-    names(x_j) <- alt_names
-
-    # This is not memory efficient, but we can return including interactions
-    current_design_candidate <- do.call(cbind, x_j)
-
-    # Update the column names of x_j
-    for (j in seq_along(x_j)) {
-      colnames(x_j[[j]]) <- str_replace_all(
-        colnames(x_j[[j]]),
-        paste0(alt_names[[j]], "_"),
-        ""
-      )
-    }
-
-    colnames_x_j <- unique(do.call(c, lapply(x_j, colnames)))
-    attr_mat <- matrix(0, nrow(design_candidate), ncol = length(colnames_x_j),
-                       dimnames = list(NULL, colnames_x_j))
-
-    x_j <- lapply(x_j, function(x) {
-      attr_mat[, colnames(x)] <- x
-      attr_mat
-    })
-
-    # Update the design environment
-    list2env(
-      c(
-        as.list(design_candidate),
-        list(x_j = x_j)
-      ),
-      envir = design_environment
-    )
-
-    # Calculate the error measures
-    if (opts$cores > 1) {
-      # The overhead of sending info to the workers is too high
-      # slows everything down (maybe works for larger designs)
-      error_measures <- future.apply::future_lapply(
-        priors,
-        calculate_error_measures,
-        design_environment,
-        error_measures_string,
-        opts
-      )
-
-    } else {
-      error_measures <- lapply(
-        priors,
-        calculate_error_measures,
-        design_environment,
-        error_measures_string,
-        opts
-      )
-    }
-
-    error_measures <- matrixStats::colMeans2(
-      do.call(
-        rbind,
-        error_measures
-      ),
-      na.rm = TRUE
-    )
-
-    names(error_measures) <- error_measures_string
-    current_error <- error_measures[[opts$efficiency_criteria]]
-
-    if (is.na(current_error)) {
-      next
-    }
-
-    # Add the efficiency measures to the design candidate
-    attr(design_candidate, "error_measures") <- error_measures
-
-    # Print update to set new current best (incl. first iteration)
-    if (current_error < current_best || is.null(current_best)) {
-      print_iteration_information(
-        iter,
-        values = error_measures,
-        criteria = error_measures_string,
-        digits = 4,
-        padding = 10,
-        width = 80,
-        opts
-      )
-
-      current_best <- current_error
-      best_design_candidate <- current_design_candidate
-      iter_with_no_imp <- 0
-    }
-
-    # Stopping conditions ----
-    if (iter >= opts$max_iter) {
-      cat(rule(width = 76), "\n")
-      cli_alert_info(
-        "Maximum number of iterations reached."
-      )
-      break
-    }
-
-    if (current_error < opts$eff_threshold) {
-      cat(rule(width = 76), "\n")
-      cli_alert_info(
-        "Efficiency criteria is less than threshhold."
-      )
-      break
-    }
-
-    # Update the iteration counter
-    iter_with_no_imp <- iter_with_no_imp + 1
-    iter <- iter + 1
-  }
-
-  cat("\n")
-  cli_h1(
-    "Cleaning up design environment"
+  # Optmization function!!!!!!!
+  design_object <- switch(
+    algorithm,
+    random = random(design_object,
+                    model,
+                    efficiency_criteria,
+                    utility_parsed,
+                    priors,
+                    didx,
+                    candidate_set,
+                    tasks,
+                    control),
+    federov = federov(design_object,
+                      model,
+                      efficiency_criteria,
+                      utility_parsed,
+                      priors,
+                      didx,
+                      candidate_set,
+                      tasks,
+                      control),
+    rsc = rsc(design_object,
+              model,
+              efficiency_criteria,
+              utility_parsed,
+              priors,
+              didx,
+              candidate_set,
+              tasks,
+              control)
   )
-  cat(
-    "Time spent searching for designs: ",
-    Sys.time() - time_start,
-    "\n"
+
+  design_object[["time"]][["time_end"]] <- Sys.time()
+
+  # Print final closing messages
+  cat("\n\n")
+  cli_h1("Cleaning up design environment")
+  cat("Time spent searching for designs: ", Sys.time() - design_object$time$time_start, "\n")
+
+  return(
+    design_object
   )
 }

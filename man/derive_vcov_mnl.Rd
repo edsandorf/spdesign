@@ -6,6 +6,9 @@
 \usage{
 derive_vcov_mnl()
 }
+\value{
+The variance co-variance matrix
+}
 \description{
-Derive the variance covariance matrix for the MNL model
+The function takes no arguments and is evaluated in context!
 }

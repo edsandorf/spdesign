@@ -4,18 +4,7 @@
 #' \code{\link{derive_vcov_rpl}} and calculates the variance-covariance matrix
 #' of the specified model and design given the priors.
 #'
-#' The function is called inside the \code{repeat}-loop of
-#' \code{\link{generate_design}} and will be called once for each set of priors
-#' (or once if the priors are not Bayesian). This is followed by a call to
-#' \code{\link{calculate_efficiency_criteria}}. In the case of Bayesian priors,
-#' all efficiency criteria are averaged over the prior distribution
-#' before reported in the optimization.
-#'
-#' In the case of multi-core processing, this function is passed along the
-#' parallel, to take advantage of the fact that each calculation on a set of
-#' priors is independent of the calculation on other sets of priors. This does
-#' not change with the model used to optimize the design.
-#'
+#' @param priors A named vector of assumed priors
 #' @param design_environment An environment containing all the elements
 #' necessary to derive the variance-covariance matrix
 #' @param type A string indicating the model for which you wish to derive the
@@ -23,15 +12,36 @@
 #'
 #' @return The variance covariance matrix. If the Fisher information matrix is
 #' singular, then return NULL
-derive_vcov <- function(design_environment, type) {
-  switch(
-    type,
-    mnl = eval(body(derive_vcov_mnl), envir = design_environment),
-    rpl = derive_vcov_rpl()
+derive_vcov <- function(priors, design_environment, type) {
+
+  # Add the priors to the design environment
+  list2env(
+    as.list(priors),
+    envir = design_environment
+  )
+
+  # Calculate the variance-covariance matrix
+  design_vcov <- tryCatch({
+    switch(
+      type,
+      mnl = eval(body(derive_vcov_mnl), envir = design_environment),
+      rpl = derive_vcov_rpl()
+    )
+  },
+  error = function(e) {
+    return(NA)
+  })
+
+  return(
+    design_vcov
   )
 }
 
 #' Derive the variance covariance matrix for the MNL model
+#'
+#' The function takes no arguments and is evaluated in context!
+#'
+#' @return The variance co-variance matrix
 derive_vcov_mnl <- function() {
   # Bind locally within function to avoid CRAN NOTE
   utility_string <- utility_string
@@ -67,6 +77,10 @@ derive_vcov_mnl <- function() {
 }
 
 #' Derive the variance covariance matrix for the RPL model
+#'
+#' The function takes no arguments and is evaluated in context!
+#'
+#' @return The variance co-variance matrix
 derive_vcov_rpl <- function() {
   stop(
     "Designs for the RPL model has not been implemented yet."

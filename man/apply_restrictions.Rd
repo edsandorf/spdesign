@@ -7,7 +7,10 @@
 apply_restrictions(candidate_set, restrictions)
 }
 \arguments{
-\item{candidate_set}{A valid candidate set}
+\item{candidate_set}{A matrix or data frame in the "wide" format containing
+all permitted combinations of attributes. The default is NULL. If no
+candidate set is provided, then the full factorial subject to specified
+restrictions will be used.}
 
 \item{restrictions}{A list of restrictions. Often this list will be pulled
 directly from the list of options or it is a modified list of restrictions

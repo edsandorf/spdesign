@@ -4,25 +4,24 @@
 \alias{parse_utility}
 \title{Parse the utility functions}
 \usage{
-parse_utility(utility, opts)
+parse_utility(utility, tasks)
 }
 \arguments{
-\item{utility}{A list of utility functions}
+\item{utility}{A named list of utility functions}
 
-\item{opts}{A list of design options}
+\item{tasks}{An integer giving the number of tasks (rows) in the final design}
 }
 \value{
-A list with three elements:
-1) The returned cleaned expression of the utility function is ready to be
-evaluated in the design context
-2) A list of parameters
-3) A list of attributes entering each alternative. For example, for two
-alternatives, it will return a list of length, with each list element
-containing the list of attributes entering that alternative's utility
-function. The purpose is to correctly handle alternative specific variables
-and return a list that can be directly passed to create_full_factorial.
+A parsed utility expression of class 'utility'. The object is a list
+with the following list-elements: A cleaned utility expression, a utility
+formula object, a named vector of priors, a named list of attribute levels in
+the wide format, a vector of generic attribute names, and an expanded list of
+attribute levels with attribute level occurences.
 }
 \description{
-The function parses the list of utilities to extract the relevant parameters
-used to create the design.
+Parse the list of utility functions to extract the relevant priors, attribute
+levels and other information.
+}
+\details{
+The function is exported, but should not be used.
 }

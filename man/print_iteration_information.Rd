@@ -11,7 +11,7 @@ print_iteration_information(
   digits = 4,
   padding = 10,
   width = 80,
-  opts
+  efficiency_criteria
 )
 }
 \arguments{
@@ -32,8 +32,7 @@ Default value is 10.}
 \item{width}{An integer giving the width of the horizontal rules. Default
 value is 80}
 
-\item{opts}{The list of design options. The default is NULL, but must be
-specified to print the criteria in color.}
+\item{efficiency_criteria}{The criteria that we optimize over}
 }
 \value{
 Nothing

@@ -1,40 +1,38 @@
 #' Parse the utility functions
 #'
-#' The function parses the list of utilities to extract the relevant parameters
-#' used to create the design.
+#' Parse the list of utility functions to extract the relevant priors, attribute
+#' levels and other information.
 #'
-#' @param utility A list of utility functions
-#' @param opts A list of design options
+#' The function is exported, but should not be used.
+
+#' @inheritParams generate_design
 #'
-#' @return
-#' A list with three elements:
-#' 1) The returned cleaned expression of the utility function is ready to be
-#' evaluated in the design context
-#' 2) A list of parameters
-#' 3) A list of attributes entering each alternative. For example, for two
-#' alternatives, it will return a list of length, with each list element
-#' containing the list of attributes entering that alternative's utility
-#' function. The purpose is to correctly handle alternative specific variables
-#' and return a list that can be directly passed to create_full_factorial.
+#' @return A parsed utility expression of class 'utility'. The object is a list
+#' with the following list-elements: A cleaned utility expression, a utility
+#' formula object, a named vector of priors, a named list of attribute levels in
+#' the wide format, a vector of generic attribute names, and an expanded list of
+#' attribute levels with attribute level occurences.
 #'
-#'@export
-parse_utility <- function(utility, opts) {
-  # Extract useful information ----
-  all_names <- unique(remove_whitespace(extract_all_names(utility, TRUE)))
-  values <- extract_named_values(utility)
-  value_names <- names(values)
-  n_alts <- length(utility)
-  candidate_rows <- opts$tasks
+#' @export
+parse_utility <- function(utility, tasks) {
+  # Extract prior and attribute values
+  prior_and_attr_values <- extract_named_values(utility)
+  prior_and_attr_names <- names(prior_and_attr_values)
 
-  # Dummy coding ----
-  if (any(str_detect(utility, "_dummy"))) {
+  # Check that all priors and attributes have associated values
+  all_prior_and_attr_names <- unique(
+    remove_whitespace(
+      extract_all_names(utility, TRUE)
+    )
+  )
 
-  }
+  if (!all(all_prior_and_attr_names %in% prior_and_attr_names)) {
+    idx_missing <- which((all_prior_and_attr_names %in% prior_and_attr_names) == FALSE)
+    missing_values <- paste0("'",
+                             all_prior_and_attr_names[idx_missing],
+                             "'",
+                             collapse = " ")
 
-  # Checks ----
-  if (!all(all_names %in% value_names)) {
-    missing_idx <- which((all_names %in% value_names) == FALSE)
-    missing_values <- paste0("'", all_names[missing_idx], "'", collapse = " ")
     stop(
       paste0(
         missing_values,
@@ -45,14 +43,17 @@ parse_utility <- function(utility, opts) {
     )
   }
 
-  if (any(duplicated(value_names))) {
-    duplicate_idx <- duplicated(value_names)
+  # Check for duplicate specifications of attribute levels or priors
+  if (any(duplicated(prior_and_attr_names))) {
+    idx_duplicates <- duplicated(prior_and_attr_names)
+
     duplicate_values <- paste0(
       "'",
-      value_names[duplicate_idx],
+      prior_and_attr_names[idx_duplicates],
       "'",
       collapse = " "
     )
+
     warning(
       paste0(
         duplicate_values,
@@ -62,16 +63,20 @@ parse_utility <- function(utility, opts) {
         alternative specific attributes.\n "
       )
     )
-    values <- values[!duplicate_idx]
-    value_names <- value_names[!duplicate_idx]
+
+    prior_and_attr_values <- prior_and_attr_values[!idx_duplicates]
+    prior_and_attr_names <- prior_and_attr_names[!idx_duplicates]
   }
 
-  # Prepare parameters ----
-  param_idx <- value_names %in% grep("b_", value_names, value = TRUE)
-  param <- values[param_idx]
+  # Prepare priors
+  idx_prior <- prior_and_attr_names %in% grep("b_",
+                                              prior_and_attr_names,
+                                              value = TRUE)
+
+  prior_values <- prior_and_attr_values[idx_prior]
 
   # Check degrees of freedom
-  if ((opts$tasks * (n_alts - 1)) < length(param)) {
+  if ((tasks * (length(utility) - 1)) < length(prior_values)) {
     stop(
       "The design is too small to identify all main effects. Not enough degrees
       of freedom. This will be turned into a warning later when we have decided
@@ -79,68 +84,100 @@ parse_utility <- function(utility, opts) {
     )
   }
 
-  # Clean utility ----
-  cleaned_utility <- lapply(seq_along(utility), function(j) {
-    v <- str_replace_all(remove_all_brackets(utility[[j]]), "\\s+", " ")
-    attrs_names <- extract_attribute_names(v)
-    for (i in seq_along(attrs_names)) {
-      v <- str_replace_all(
-        v,
-        paste0("\\b", attrs_names[i]),
-        paste(names(utility[j]), attrs_names[i], sep = "_")
+  # Get a clean utility expression
+  utility_clean <- lapply(seq_along(utility), function(j, utility) {
+    # Remove all brackets and replace multiple spaces with a single space
+    v_j <- str_replace_all(
+      remove_all_brackets(utility[[j]]),
+      "\\s+",
+      " "
+    )
+
+    attribute_names <- extract_attribute_names(v_j)
+    for (i in seq_along(attribute_names)) {
+      v_j <- str_replace_all(
+        v_j,
+        paste0("\\b", attribute_names[i]),
+        paste(names(utility[j]), attribute_names[i], sep = "_")
       )
     }
-    # Return v
-    v
-  })
 
-  # Restore names that were dropped when cleaning utility
-  names(cleaned_utility) <- names(utility)
+    return(
+      v_j
+    )
+  }, utility)
 
-  # Define the formula to get x_j (effectively remove the parameters from U)
-  formula_utility <- lapply(cleaned_utility, function(u, param_names) {
-    for (x in param_names) {
-      u <- remove_param(x, u)
+  # Restore the names that were dropped when cleaning utility
+  names(utility_clean) <- names(utility)
+
+  # Define a utility formula such that we can create the correct model.matrix
+  utility_formula <- lapply(utility_clean, function(u, prior_names) {
+    for (x in prior_names) {
+      u <- remove_prior(x, u)
     }
 
-    as.formula(paste0("~ 0 +", u))
-  }, names(param))
+    return(
+      as.formula(paste0("~ 0 +", u))
+    )
 
-  # Prepare attributes ----
-  attrs <- values[!param_idx]
-  attribute_names <- names(attrs)
+  }, prior_names = names(prior_values))
 
-  # Expand the list of attributes to wide format.
-  attrs <- lapply(seq_along(utility), function(j) {
-    # Set all initial levels to 0
-    attrs_tmp <- lapply(seq_along(attribute_names), function(i) 0)
-    names(attrs_tmp) <- attribute_names
+  # Prepare the attribute levels
+  attribute_levels <- prior_and_attr_values[!idx_prior]
+  attribute_names <- names(attribute_levels)
 
-    # Replace with attribute values
-    attrs_names <- extract_attribute_names(utility[[j]])
-    attrs_tmp[attrs_names] <- attrs[attrs_names]
+  # Expand the list of attributes to the wide format
+  attribute_levels <- lapply(seq_along(utility), function(j,
+                                                          attribute_levels,
+                                                          attribute_names) {
+    # Set all initial levels to 0 because we need square matrices but 0 values
+    # for the alternative specific attributes in alternatives where they are not
+    # included
+    attribute_levels_tmp <- lapply(seq_along(attribute_names), function(i) {
+      return(0)
+    })
 
-    # Name and return
-    names(attrs_tmp) <- paste(names(utility[j]), attribute_names, sep = "_")
-    attrs_tmp
-  })
+    names(attribute_levels_tmp) <- attribute_names
 
-  attrs <- do.call(c, attrs)
+    # Replace with the attribute levels of the alternative. This considers
+    # alternative specific attributes
+    attribute_names <- extract_attribute_names(utility[[j]])
+    attribute_levels_tmp[attribute_names] <- attribute_levels[attribute_names]
 
-  # Determine level occurrence ----
-  level_occurrence <- get_level_occurrence(
+    # Add names and return
+    names(attribute_levels_tmp) <- paste(
+      names(utility[j]),
+      attribute_names,
+      sep = "_"
+    )
+
+    return(
+      attribute_levels_tmp
+    )
+  }, attribute_levels, attribute_names)
+
+  # Reduce to a single list of attribute levels
+  attribute_levels <- do.call(c, attribute_levels)
+
+  # Attribute level occurrence
+  attribute_level_occurrence <- get_level_occurrence(
     utility,
-    attrs,
-    candidate_rows
+    attribute_levels,
+    tasks
   )
 
-# Return a list with cleaned utility, parameters and attributes ----
-  list(
-    utility = cleaned_utility,
-    formula_utility = formula_utility,
-    param = param,
-    attrs = attrs,
-    attr_names = attribute_names,
-    level_occurrence = level_occurrence
+  # Create the utility object, assign the class and return
+  utility <- list(
+    utility_clean = utility_clean,
+    utility_formula = utility_formula,
+    prior_values = prior_values,
+    attribute_levels = attribute_levels,
+    attribute_names = attribute_names,
+    attribute_level_occurrence = attribute_level_occurrence
+  )
+
+  class(utility) <- "utility"
+  return(
+    utility
   )
 }

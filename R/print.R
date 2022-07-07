@@ -17,8 +17,7 @@
 #' Default value is 10.
 #' @param width An integer giving the width of the horizontal rules. Default
 #' value is 80
-#' @param opts The list of design options. The default is NULL, but must be
-#' specified to print the criteria in color.
+#' @param efficiency_criteria The criteria that we optimize over
 #'
 #' @return Nothing
 print_iteration_information <- function(
@@ -28,11 +27,11 @@ print_iteration_information <- function(
   digits = 4,
   padding = 10,
   width = 80,
-  opts
+  efficiency_criteria
 ) {
   # Print the header at the first iteration
   if (iter == 1) {
-    print_initial_header(opts, padding = 10, width = 80)
+    print_initial_header(efficiency_criteria, padding = 10, width = 80)
   }
 
   # Print information on the efficiency criteria
@@ -42,7 +41,7 @@ print_iteration_information <- function(
     criteria,
     digits = 4,
     padding = 10,
-    opts = NULL
+    efficiency_criteria
   )
 
 }
@@ -56,28 +55,28 @@ print_iteration_information <- function(
 #' @inheritParams print_iteration_information
 #'
 #' @return Noting
-print_initial_header <- function(opts, padding = 10, width = 80) {
+print_initial_header <- function(efficiency_criteria, padding = 10, width = 80) {
   cat("\n")
   cat(rule(width = width), "\n")
   cat(
     str_c(
       str_pad("Iteration", padding, "left", " "),
-      if ("a-error" %in% opts$efficiency_criteria) {
+      if ("a-error" %in% efficiency_criteria) {
         col_green(str_pad("A-error", padding, "left"))
       } else {
         str_pad("A-error", padding, "left", " ")
       },
-      if ("c-error" %in% opts$efficiency_criteria) {
+      if ("c-error" %in% efficiency_criteria) {
         col_green(str_pad("C-error", padding, "left"))
       } else {
         str_pad("C-error", padding, "left", " ")
       },
-      if ("d-error" %in% opts$efficiency_criteria) {
+      if ("d-error" %in% efficiency_criteria) {
         col_green(str_pad("D-error", padding, "left"))
       } else {
         str_pad("D-error", padding, "left", " ")
       },
-      if ("s-error" %in% opts$efficiency_criteria) {
+      if ("s-error" %in% efficiency_criteria) {
         col_green(str_pad("S-error", padding, "left"))
       } else {
         str_pad("S-error", padding, "left", " ")
@@ -104,7 +103,7 @@ print_efficiency_criteria <- function(
   criteria,
   digits = 4,
   padding = 10,
-  opts = NULL
+  efficiency_criteria
 ) {
   printable_string <- lapply(seq_along(values), function(i) {
     if (is.na(values[[i]])) {
@@ -113,7 +112,7 @@ print_efficiency_criteria <- function(
       string <- as.character(round(values[[i]], digits))
     }
 
-    if (!is.null(opts) && criteria[[i]] %in% opts$efficiency_criteria) {
+    if (criteria[[i]] %in% efficiency_criteria) {
       col_green(str_pad(string, 10, "left", " "))
     } else {
       str_pad(string, 10, "left", " ")

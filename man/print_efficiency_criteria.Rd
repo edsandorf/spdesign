@@ -10,7 +10,7 @@ print_efficiency_criteria(
   criteria,
   digits = 4,
   padding = 10,
-  opts = NULL
+  efficiency_criteria
 )
 }
 \arguments{
@@ -28,8 +28,7 @@ is 4.}
 \item{padding}{An integer specifying the padding of each column element.
 Default value is 10.}
 
-\item{opts}{The list of design options. The default is NULL, but must be
-specified to print the criteria in color.}
+\item{efficiency_criteria}{The criteria that we optimize over}
 }
 \value{
 A character string.

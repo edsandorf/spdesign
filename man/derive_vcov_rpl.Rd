@@ -6,6 +6,9 @@
 \usage{
 derive_vcov_rpl()
 }
+\value{
+The variance co-variance matrix
+}
 \description{
-Derive the variance covariance matrix for the RPL model
+The function takes no arguments and is evaluated in context!
 }
