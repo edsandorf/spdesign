@@ -1,7 +1,7 @@
 <!-- badges: start -->
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-last-release/spdesign)](https://cran.r-project.org/package=spdesign)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/spdesign)](http://www.r-pkg.org/pkg/spdesign)
-[![R build status](https://github.com/edsandorf/spdesign/workflows/check-standard/badge.svg)](https://github.com/edsandorf/spdesign/actions)
+[![R build status](https://github.com/edsandorf/spdesign/workflows/R-CMD-check/badge.svg)](https://github.com/edsandorf/spdesign/actions?workflow=R-CMD-check)
 [![Coverage Status](https://codecov.io/github/edsandorf/spdesign/coverage.svg?branch=master)](https://codecov.io/github/edsandorf/spdesign?branch=master)
 <!-- badges: end -->
 
