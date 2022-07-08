@@ -124,20 +124,20 @@ parse_utility <- function(utility, tasks) {
 
   # Prepare the attribute levels
   attribute_levels <- prior_and_attr_values[!idx_prior]
-  attribute_names <- names(attribute_levels)
+  attribute_names_all <- names(attribute_levels)
 
   # Expand the list of attributes to the wide format
   attribute_levels <- lapply(seq_along(utility), function(j,
                                                           attribute_levels,
-                                                          attribute_names) {
+                                                          attribute_names_all) {
     # Set all initial levels to 0 because we need square matrices but 0 values
     # for the alternative specific attributes in alternatives where they are not
     # included
-    attribute_levels_tmp <- lapply(seq_along(attribute_names), function(i) {
+    attribute_levels_tmp <- lapply(seq_along(attribute_names_all), function(i) {
       return(0)
     })
 
-    names(attribute_levels_tmp) <- attribute_names
+    names(attribute_levels_tmp) <- attribute_names_all
 
     # Replace with the attribute levels of the alternative. This considers
     # alternative specific attributes
@@ -147,14 +147,14 @@ parse_utility <- function(utility, tasks) {
     # Add names and return
     names(attribute_levels_tmp) <- paste(
       names(utility[j]),
-      attribute_names,
+      attribute_names_all,
       sep = "_"
     )
 
     return(
       attribute_levels_tmp
     )
-  }, attribute_levels, attribute_names)
+  }, attribute_levels, attribute_names_all)
 
   # Reduce to a single list of attribute levels
   attribute_levels <- do.call(c, attribute_levels)
@@ -172,7 +172,7 @@ parse_utility <- function(utility, tasks) {
     utility_formula = utility_formula,
     prior_values = prior_values,
     attribute_levels = attribute_levels,
-    attribute_names = attribute_names,
+    attribute_names = attribute_names_all,
     attribute_level_occurrence = attribute_level_occurrence
   )
 
