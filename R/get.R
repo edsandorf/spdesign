@@ -6,7 +6,7 @@
 #' @return A list of cleaned utility expressions
 get_utility_clean <- function(object, ...) {
   return(
-    object[["utility_clean"]]
+    object[["utility"]]
   )
 }
 
