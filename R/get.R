@@ -28,7 +28,7 @@ get_utility_formula <- function(object, ...) {
 #' @return A list with the prior values
 get_prior_values <- function(object, ...) {
   return(
-    object[["prior_values"]]
+    object[["priors"]]
   )
 }
 

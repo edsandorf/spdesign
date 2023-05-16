@@ -81,7 +81,7 @@ print.utility <- function(x, ...) {
 #' @export
 prior <- function(object, ...) {
   return(
-    object[["prior_values"]]
+    get_prior_values(object)
   )
 }
 
