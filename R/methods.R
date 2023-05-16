@@ -85,6 +85,20 @@ prior <- function(object, ...) {
   )
 }
 
+#' Generic for extracting the vector of priors
+#'
+#' @inheritParams prior
+#'
+#' @return A vector of named priors used in the optimization
+#'
+#' @export
+spdesign.coef <- function(object, ...) {
+  return(
+    get_prior_values(object)
+  )
+}
+
+
 #' Generic for extracting the attributes and levels
 #'
 #' @inheritParams prior.utility
