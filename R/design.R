@@ -111,6 +111,10 @@ generate_design <- function(utility,
   draws <- match.arg(draws)
 
   # Consider a core-check if relevant at a later point.
+  if (control$cores > 1) {
+    warning("Multicore is not implemented yet. Design will be optimized using a single core.")
+    control$cores <- 1
+  }
 
   # Parse utility ----
   cli_h2("Parsing utility")
