@@ -113,7 +113,7 @@ extract_specified <- function(string, simplify = FALSE) {
   # [^\\s\\+\\-\\*\\/] - Negative group not match one in the group.
   # (\\(.*?\\))? - Optional to match the parenthesis with level occurrences
   expr <- "[^\\s\\+\\-\\*\\/]*?\\[.*?\\](\\(.*?\\))?"
-  s <- str_extract_all(string, expr)
+  s <- str_extract_all(remove_whitespace(string), expr)
 
   if (simplify) {
     unlist(s)
