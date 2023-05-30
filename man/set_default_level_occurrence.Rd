@@ -9,10 +9,6 @@ set_default_level_occurrence(n_lvls, candidate_rows)
 \arguments{
 \item{n_lvls}{An integer giving the number of levels for the considered
 attribute}
-
-\item{candidate_rows}{An integer giving the number of rows in each design
-candidate, which is equal to the product of the number of alternatives,
-tasks and blocks.}
 }
 \value{
 A named list of lists where the top level gives the attribute and the
@@ -27,7 +23,4 @@ attribute failing to meet this criteria. Specifically, the code will impose
 a minimum range of how often an attribute level can occur. This will secure
 that the design is near attribute level balanced. In this case a warning is
 issued.
-}
-\details{
-This function is called within \code{\link{get_level_occurrence}}
 }

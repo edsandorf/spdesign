@@ -52,23 +52,23 @@ error prone.
 }
 \section{Functions}{
 \itemize{
-\item \code{normal}: The normal distribution
+\item \code{normal()}: The normal distribution
 
-\item \code{normal_p}: The normal distribution when applied to a prior
+\item \code{normal_p()}: The normal distribution when applied to a prior
 
-\item \code{lognormal}: The log normal distribution
+\item \code{lognormal()}: The log normal distribution
 
-\item \code{lognormal_p}: The log-normal distribution when applied to a prior
+\item \code{lognormal_p()}: The log-normal distribution when applied to a prior
 
-\item \code{triangular}: The triangular distribution
+\item \code{triangular()}: The triangular distribution
 
-\item \code{triangular_p}: The triangular distribution when applied to a prior
+\item \code{triangular_p()}: The triangular distribution when applied to a prior
 
-\item \code{uniform}: The uniform distribution
+\item \code{uniform()}: The uniform distribution
 
-\item \code{uniform_p}: The uniform distribution when applied to a prior
+\item \code{uniform_p()}: The uniform distribution when applied to a prior
+
 }}
-
 \examples{
 \dontrun{
 eval(parse(text = "normal(0, 1)"))
