@@ -159,4 +159,28 @@ too_small <- function(x, rows) {
   }
 }
 
+#' Check whether we can achieve attribute level balance
+#'
+#' @inheritParams too_small
+#'
+#'
+#' @return A boolean equal to TRUE if attribute level balance can be achieved
+#' and FALSE otherwise
+attribute_level_balance <- function(x, rows) {
+  # Test using modulus mathematics
+  if (any(do.call(c, lapply(attribute_levels(x), function(k) rows %% length(k))) != 0)) {
+    cli_alert_warning(
+      "The number of levels specified for one or more attributes are not a
+      multiple of the number of rows in the design. Attribute level
+      balance is not possible."
+    )
+
+    return(FALSE)
+
+  } else {
+    return(TRUE)
+
+  }
+}
+
 
