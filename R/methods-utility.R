@@ -24,6 +24,8 @@ attribute_levels <- function(x) {
 #' @inheritParams attribute_levels
 #'
 #' @return A named vector
+#'
+#' @export
 expand_attribute_levels <- function(x) {
   # Extract the specified attribute levels
   named_attributes <- attribute_levels(x)
@@ -60,6 +62,8 @@ expand_attribute_levels <- function(x) {
 #' @inheritParams attribute_levels
 #'
 #' @return A cleaned utility function as a list
+#'
+#' @export
 clean_utility <- function(x) {
 
   utility <- lapply(seq_along(x), function(j) {
@@ -89,6 +93,8 @@ clean_utility <- function(x) {
 #' @inheritParams attribute_levels
 #'
 #' @return A list of formula expressions for the utility functions
+#'
+#' @export
 utility_formula <- function(x) {
   names_priors <- names(priors(x))
 
