@@ -4,12 +4,10 @@
 \alias{prepare_priors}
 \title{Prepare the list of priors}
 \usage{
-prepare_priors(utility, utility_parsed, draws, R)
+prepare_priors(utility, draws, R)
 }
 \arguments{
 \item{utility}{A named list of utility functions}
-
-\item{utility_parsed}{A parsed utility expression}
 
 \item{draws}{The type of draws to use with Bayesian priors (and rpl, but
 this model is not yet implemented). No default is set and must be specified

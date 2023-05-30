@@ -5,11 +5,10 @@
 #'
 #' @return A list of priors
 prepare_priors <- function(utility,
-                           utility_parsed,
                            draws,
                            R) {
   bayesian_prior <- has_bayesian_prior(utility)
-  priors <- get_prior_values(utility_parsed)
+  prior_values <- priors(utility)
 
   if (bayesian_prior) {
     prior_dists <- extract_distribution(utility, "prior")
@@ -26,7 +25,7 @@ prepare_priors <- function(utility,
 
     for (i in seq_len(ncol(bayesian_priors))) {
       name <- names(prior_dists[i])
-      value <- priors[[name]]
+      value <- prior_values[[name]]
 
       bayesian_priors[, i] <- transform_distribution(
         value$mu,
@@ -37,20 +36,20 @@ prepare_priors <- function(utility,
     }
 
     # Create the matrix of non-Bayesian priors
-    names_bayesian_priors <- names(priors) %in% names(prior_dists)
+    names_bayesian_priors <- names(prior_values) %in% names(prior_dists)
 
     non_bayesian_priors <- do.call(
       cbind,
-      priors[!names_bayesian_priors]
+      prior_values[!names_bayesian_priors]
     )
 
     non_bayesian_priors <- rep_rows(non_bayesian_priors, nrow(bayesian_priors))
 
     # Combine into the matrix of priors
-    priors <- cbind(bayesian_priors, non_bayesian_priors)[, names(priors)]
+    prior_values <- cbind(bayesian_priors, non_bayesian_priors)[, names(prior_values)]
 
     # Priors as a list to allow direct use of lapply()
-    priors <- lapply(seq_len(nrow(priors)), function(i) priors[i, ])
+    prior_values <- lapply(seq_len(nrow(prior_values)), function(i) prior_values[i, ])
 
   } else {
     # if (opts$cores > 1) {
@@ -61,11 +60,11 @@ prepare_priors <- function(utility,
     #   )
     # }
 
-    priors <- list(do.call(c, priors))
+    prior_values <- list(do.call(c, prior_values))
   }
 
   # Return the list of priors
   return(
-    priors
+    prior_values
   )
 }

@@ -178,7 +178,7 @@ generate_design <- function(utility,
   # Prepare the list of priors ----
   cli_h2("Preparing the list of priors")
 
-  priors <- prepare_priors(utility, utility_parsed, draws, R)
+  prior_values <- prepare_priors(utility, draws, R)
 
   cli_alert_success("Priors prepared successfully")
 
