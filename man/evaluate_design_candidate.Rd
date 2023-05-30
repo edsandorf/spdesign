@@ -5,7 +5,7 @@
 \title{Evaluate the design candidate}
 \usage{
 evaluate_design_candidate(
-  utility_parsed,
+  utility,
   design_candidate,
   priors,
   design_environment,
@@ -16,7 +16,7 @@ evaluate_design_candidate(
 )
 }
 \arguments{
-\item{utility_parsed}{A parsed utility expression}
+\item{utility}{A utility function}
 
 \item{design_candidate}{The current design candidate}
 

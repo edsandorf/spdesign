@@ -16,7 +16,7 @@ A matrix containing the full factorial
 \code{make_full_factorial} is a wrapper around \code{\link{expand.grid}} and
 generates the full factorial given the supplied attributes. The attributes
 can either be specified directly by the user or extracted from the list
-of utility functions using \code{\link{parse_utility}}.
+of utility functions using.
 }
 \details{
 The full factorial is often used as the starting point to generate a
@@ -47,7 +47,7 @@ V <- list(
   alt2 = "b_a1      * a1      + b_a2     * a2"
 )
 
-attrs <- parse_utility(V, 10)$attrs
+attrs <- expand_attribute_levels(V)
 full_factorial(attrs)
 
 }

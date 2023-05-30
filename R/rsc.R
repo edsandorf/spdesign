@@ -11,7 +11,7 @@
 rsc <- function(design_object,
                 model,
                 efficiency_criteria,
-                utility_parsed,
+                utility,
                 priors,
                 didx,
                 candidate_set,
@@ -137,15 +137,15 @@ cycle <- function(current_design_candidate) {
 #' a theoretical bottle neck for very large designs, it is still sufficiently
 #' fast. It is only run once every 10 000 iterations of the RSC algorithm.
 #'
-#' @param parsed_utility A named list of the parsed utility expression
+#' @param utility A named list of the parsed utility expression
 #' @param opts A list of options
 #'
 #' @return A matrix with rows equal to the number of choice tasks and columns
 #' equal to the number of attributes in the 'wide' format
 generate_rsc_candidate <- function(parsed_utility, opts) {
   # Define attributes and level occurrence locally
-  attrs <- parsed_utility[["attrs"]]
-  level_occurrence <- parsed_utility[["level_occurrence"]]
+  attrs <- expand_attribute_levels(utility)
+  level_occurrence <- occurrence[["level_occurrence"]]
 
   # Loop over attributes
   design_candidate <- matrix(0, nrow = opts$tasks, ncol = length(attrs))

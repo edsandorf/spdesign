@@ -8,7 +8,7 @@ federov(
   design_object,
   model,
   efficiency_criteria,
-  utility_parsed,
+  utility,
   priors,
   didx,
   candidate_set,
@@ -29,7 +29,7 @@ to optimize for. One of 'a-error', 'c-error', 'd-error' or 's-error'. No
 default is set and argument must be specified. Optimizing for multiple
 criteria is not yet implemented and will result in an error.}
 
-\item{utility_parsed}{A parsed utility expression}
+\item{utility}{A named list of utility functions}
 
 \item{priors}{A list of priors}
 
@@ -44,6 +44,8 @@ restrictions will be used.}
 \item{tasks}{An integer giving the number of tasks (rows) in the final design}
 
 \item{control}{A list of control options}
+
+\item{utility_parsed}{A parsed utility expression}
 }
 \value{
 A list of class 'spdesign'

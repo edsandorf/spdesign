@@ -7,8 +7,8 @@
 #' @param design_candidate The current design candidate under consideration
 #'
 #' @return A base list x_j with model matrices the lenght of J
-define_base_x_j <- function(utility_parsed, design_candidate) {
-  x_j <- lapply(get_utility_formula(utility_parsed), function(x) {
+define_base_x_j <- function(utility, design_candidate) {
+  x_j <- lapply(utility_formula(utility), function(x) {
     return(
       model.matrix(x, design_candidate)
     )
@@ -36,9 +36,9 @@ define_base_x_j <- function(utility_parsed, design_candidate) {
 #' @inheritParams define_base_x_j
 #'
 #' @return The list x_j
-define_x_j <- function(utility_parsed, design_candidate) {
+define_x_j <- function(utility, design_candidate) {
   # Determine x_j (by using model.matrix we automatically handle interactions)
-  x_j <- define_base_x_j(utility_parsed, design_candidate)
+  x_j <- define_base_x_j(utility, design_candidate)
 
   # We need to remove the alternative designation from x_j given long-format
   # model setup

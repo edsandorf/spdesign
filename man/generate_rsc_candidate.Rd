@@ -7,9 +7,9 @@
 generate_rsc_candidate(parsed_utility, opts)
 }
 \arguments{
-\item{parsed_utility}{A named list of the parsed utility expression}
-
 \item{opts}{A list of options}
+
+\item{utility}{A named list of the parsed utility expression}
 }
 \value{
 A matrix with rows equal to the number of choice tasks and columns

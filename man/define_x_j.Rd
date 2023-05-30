@@ -4,10 +4,10 @@
 \alias{define_x_j}
 \title{Define x_j}
 \usage{
-define_x_j(utility_parsed, design_candidate)
+define_x_j(utility, design_candidate)
 }
 \arguments{
-\item{utility_parsed}{A parsed utility expression}
+\item{utility}{A named list of utility functions}
 
 \item{design_candidate}{The current design candidate under consideration}
 }

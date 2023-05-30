@@ -6,7 +6,7 @@
 #' NB! I need to extend this to include the option to choose whether to return
 #' the median error.
 #'
-#' @param utility_parsed A parsed utility expression
+#' @param utility A utility function
 #' @param design_candidate The current design candidate
 #' @inheritParams generate_design
 #' @inheritParams calculate_efficiency
@@ -15,7 +15,7 @@
 #' candidate. If Bayesian priors are used, then it returns the average
 #' error.
 #'
-evaluate_design_candidate <- function(utility_parsed,
+evaluate_design_candidate <- function(utility,
                                       design_candidate,
                                       priors,
                                       design_environment,
@@ -25,7 +25,7 @@ evaluate_design_candidate <- function(utility_parsed,
                                       significance) {
 
   # Define x_j for the analytical derivatives
-  x_j <- define_x_j(utility_parsed, design_candidate)
+  x_j <- define_x_j(utility, design_candidate)
 
   # Update the design environment NB! Using design_candidate because we are
   # evaluating the expression in context and don't need the interaction cols
@@ -36,7 +36,8 @@ evaluate_design_candidate <- function(utility_parsed,
   )
 
   # Over priors to consider bayesian!!!
-  efficiency_measures <- lapply(priors, calculate_efficiency,
+  efficiency_measures <- lapply(priors,
+                                calculate_efficiency,
                                 design_environment,
                                 model,
                                 didx,

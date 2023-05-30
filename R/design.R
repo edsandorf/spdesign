@@ -156,17 +156,17 @@ generate_design <- function(utility,
       "The attribute levels are determined based on the supplied candidate set
       and not the levels specified in the utility functions because levels not
       present in the candidate set cannot be part of the design. Should this be
-      an error?"
+      an error? YES, YES IT SHOULD"
     )
 
-    utility_parsed[["attribute_levels"]] <- lapply(
-      as.list(
-        as.data.frame(
-          candidate_set
-        )
-      ),
-      unique
-    )
+    # utility_parsed[["attribute_levels"]] <- lapply(
+    #   as.list(
+    #     as.data.frame(
+    #       candidate_set
+    #     )
+    #   ),
+    #   unique
+    # )
   }
 
   # Apply the restrictions to the candidate set
@@ -202,14 +202,13 @@ generate_design <- function(utility,
   # Create the design object and make sure that the current status of the object
   # is returned if the program is ended prematurely from clicking "stop"
   design_object <- list()
-  design_object[["utility"]] <- get_utility_clean(utility_parsed)
-  design_object[["priors"]] <- get_prior_values(utility_parsed)
+  class(design_object) <- "spdesign"
+
+  design_object[["utility"]] <- clean_utility(utility)
+  design_object[["priors"]] <- prior_values
   design_object[["time"]] <- list(
     time_start = Sys.time()
   )
-
-  class(design_object) <- "spdesign"
-
 
   # Make sure that the best design candidate is always return if the loop is
   # stopped prematurely Can on.exit have a function?
@@ -224,7 +223,7 @@ generate_design <- function(utility,
     random = random(design_object,
                     model,
                     efficiency_criteria,
-                    utility_parsed,
+                    utility,
                     priors,
                     didx,
                     candidate_set,
@@ -233,7 +232,7 @@ generate_design <- function(utility,
     federov = federov(design_object,
                       model,
                       efficiency_criteria,
-                      utility_parsed,
+                      utility,
                       priors,
                       didx,
                       candidate_set,
@@ -242,7 +241,7 @@ generate_design <- function(utility,
     rsc = rsc(design_object,
               model,
               efficiency_criteria,
-              utility_parsed,
+              utility,
               priors,
               didx,
               candidate_set,

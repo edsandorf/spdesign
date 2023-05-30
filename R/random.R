@@ -10,7 +10,7 @@
 random <- function(design_object,
                    model,
                    efficiency_criteria,
-                   utility_parsed,
+                   utility,
                    priors,
                    didx,
                    candidate_set,
@@ -21,7 +21,7 @@ random <- function(design_object,
   design_environment <- new.env()
 
   list2env(
-    list(utility_string = get_utility_clean(utility_parsed)),
+    list(utility_string = clean_utility(utility)),
     envir = design_environment
   )
 
@@ -43,12 +43,12 @@ random <- function(design_object,
     # Define the current design candidate considering alternative specific
     # attributes and interactions
     design_candidate_current <- do.call(cbind,
-                                        define_base_x_j(utility_parsed,
+                                        define_base_x_j(utility,
                                                         design_candidate))
 
     # Evaluate the design candidate (wrapper function)
     efficiency_measures <- evaluate_design_candidate(
-      utility_parsed,
+      utility,
       design_candidate,
       priors,
       design_environment,
