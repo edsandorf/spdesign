@@ -7,6 +7,9 @@ once}
 \usage{
 any_duplicates(x)
 }
+\arguments{
+\item{x}{An object of class 'utility'}
+}
 \value{
 A boolean equal to TRUE if specified more than once.
 }

@@ -7,7 +7,7 @@
 all_priors_and_levels_specified(x)
 }
 \arguments{
-\item{An}{object of class 'utility'}
+\item{x}{An object of class 'utility'}
 }
 \value{
 A boolean equal to `TRUE` if all are specified and `FALSE` if not

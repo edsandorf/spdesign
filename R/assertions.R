@@ -70,7 +70,7 @@ has_random_parameter <- function(string) {
 
 #' Check whether all priors and attributes have specified levels
 #'
-#' @param An object of class 'utility'
+#' @param x An object of class 'utility'
 #'
 #' @return A boolean equal to `TRUE` if all are specified and `FALSE` if not
 all_priors_and_levels_specified <- function(x) {
@@ -140,9 +140,12 @@ any_duplicates <- function(x) {
 #' Uses the formula of T * (J - 1) to check if the design is large enough to
 #' identify the parameters of the utility function.
 #'
+#' @inheritParams all_priors_and_levels_specified
+#' @param tasks The number of choice tasks in the design
+#'
 #' @return A bollean equal to TRUE if the design is too small
-too_small <- function(utility, tasks) {
-  if ((tasks * (length(utility) - 1)) < length(priors(utility))) {
+too_small <- function(x, tasks) {
+  if ((tasks * (length(x) - 1)) < length(priors(x))) {
     cli_alert_danger(
       "The design is too small to identify all parameters. You need to create
       a larger design."

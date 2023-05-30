@@ -6,6 +6,9 @@
 \usage{
 attribute_levels(x)
 }
+\arguments{
+\item{x}{An object of class utility}
+}
 \description{
 Generic for getting the attributes and levels from the utility
 }

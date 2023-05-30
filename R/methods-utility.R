@@ -37,7 +37,7 @@ attribute_levels <- function(x) {
 #' padded with zeros where alternative specific attributes are present to ensure
 #' that we can work with square matrices.
 #'
-#' @param x An object of class utility
+#' @inheritParams attribute_levels
 #'
 #' @return A named vector
 expand_attribute_levels <- function(x) {
@@ -73,7 +73,7 @@ expand_attribute_levels <- function(x) {
 #' removes brackets and other information to return a clean, easy-to-read
 #' expression
 #'
-#' @param x An object of class utility
+#' @inheritParams attribute_levels
 #'
 #' @return A cleaned utility function as a list
 clean_utility <- function(x) {
@@ -102,6 +102,8 @@ clean_utility <- function(x) {
 #' Create formulas from the utility functions such that we can create correct
 #' model matrices
 #'
+#' @inheritParams attribute_levels
+#'
 #' @return A list of formula expressions for the utility functions
 utility_formula <- function(x) {
   names_priors <- names(priors(x))
@@ -125,8 +127,6 @@ utility_formula <- function(x) {
 #' Generic for extracting the vector of priors
 #'
 #' @param x An object of class 'utility' or 'spdesign'
-#' @param ... Additional parameters passed to the function. These are really
-#' only used internally on objects of class 'utility'ß
 #'
 #' @return A list of named priors used in the optimization
 #'
@@ -156,7 +156,7 @@ priors <- function(x) {
 #'
 #'
 #' @export
-occurrences <- function(x, ...) {
+occurrences <- function(x) {
   # Check the class of 'x' to return early if 'spdesign'
   if ("spdesign" %in% class(x)) {
     return(

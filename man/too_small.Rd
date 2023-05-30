@@ -4,7 +4,12 @@
 \alias{too_small}
 \title{Check if design is too small}
 \usage{
-too_small(utility, tasks)
+too_small(x, tasks)
+}
+\arguments{
+\item{x}{An object of class 'utility'}
+
+\item{tasks}{The number of choice tasks in the design}
 }
 \value{
 A bollean equal to TRUE if the design is too small

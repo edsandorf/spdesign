@@ -8,9 +8,6 @@ priors(x)
 }
 \arguments{
 \item{x}{An object of class 'utility' or 'spdesign'}
-
-\item{...}{Additional parameters passed to the function. These are really
-only used internally on objects of class 'utility'ß}
 }
 \value{
 A list of named priors used in the optimization

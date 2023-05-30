@@ -6,6 +6,9 @@
 \usage{
 utility_formula(x)
 }
+\arguments{
+\item{x}{An object of class utility}
+}
 \value{
 A list of formula expressions for the utility functions
 }
