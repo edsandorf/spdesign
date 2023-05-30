@@ -1,19 +1,3 @@
-#' S3 Generic for printing the utility object
-#'
-#' @param x A 'utility' object
-#' @param ... Other parameters passed to print
-#'
-#' @method print utility
-#'
-#' @export
-print.utility <- function(x, ...) {
-  cat("---------------------------------------------------------------------\n")
-
-  cat("\n\n")
-  cat("---------------------------------------------------------------------\n")
-}
-
-
 #' Generic for getting the attributes and levels from the utility
 #'
 #' @param x An object of class utility
