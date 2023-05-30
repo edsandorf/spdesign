@@ -30,9 +30,9 @@ test_that("Value arguments are extracted correctly", {
 })
 
 test_that("Extract specified only extracts parameters and attributes with specified priors and levels", {
-  expect_true(all(extract_specified("b_x0[0.1] * x + b_x2[normal(0, 1)] * x_3[seq(0, 1, 0.1)] / b_y[1+2]", TRUE) == c("b_x0[0.1]", "b_x2[normal(0, 1)]", "x_3[seq(0, 1, 0.1)]", "b_y[1+2]")))
-  expect_true(all(extract_specified("b_x0[0.1] * x+ b_x2[normal(0, 1)] * x_3[seq(0, 1, 0.1)] / b_y[1+2]", TRUE) == c("b_x0[0.1]", "b_x2[normal(0, 1)]", "x_3[seq(0, 1, 0.1)]", "b_y[1+2]")))
-  expect_true(all(extract_specified("b_x0[0.1]*x+ b_x2[normal(0, 1)] *x_3[seq(0, 1, 0.1)] /b_y[1+2]", TRUE) == c("b_x0[0.1]", "b_x2[normal(0, 1)]", "x_3[seq(0, 1, 0.1)]", "b_y[1+2]")))
+  expect_true(all(extract_specified("b_x0[0.1] * x + b_x2[normal(0, 1)] * x_3[seq(0, 1, 0.1)] / b_y[1+2]", TRUE) == c("b_x0[0.1]", "b_x2[normal(0,1)]", "x_3[seq(0,1,0.1)]", "b_y[1+2]")))
+  expect_true(all(extract_specified("b_x0[0.1] * x+ b_x2[normal(0, 1)] * x_3[seq(0, 1, 0.1)] / b_y[1+2]", TRUE) == c("b_x0[0.1]", "b_x2[normal(0,1)]", "x_3[seq(0,1,0.1)]", "b_y[1+2]")))
+  expect_true(all(extract_specified("b_x0[0.1]*x+ b_x2[normal(0, 1)] *x_3[seq(0, 1, 0.1)] /b_y[1+2]", TRUE) == c("b_x0[0.1]", "b_x2[normal(0,1)]", "x_3[seq(0,1,0.1)]", "b_y[1+2]")))
 })
 
 test_that("Extract named values does that correctly", {
