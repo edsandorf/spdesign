@@ -4,7 +4,7 @@
 #' @param ... Additional parameters passed to the function
 #'
 #' @return A list of cleaned utility expressions
-get_utility_clean <- function(object, ...) {
+get_utility <- function(object, ...) {
   return(
     object[["utility"]]
   )
@@ -12,25 +12,15 @@ get_utility_clean <- function(object, ...) {
 
 #' Get the utility formula
 #'
-#' @inheritParams get_utility_clean
+#' @inheritParams get_utility
 #'
 #' @return A list with the utility formula
-get_utility_formula <- function(object, ...) {
+get_formula <- function(object, ...) {
   return(
-    object[["utility_formula"]]
+    object[["formula"]]
   )
 }
 
-#' Get the prior values
-#'
-#' @inheritParams get_utility_clean
-#'
-#' @return A list with the prior values
-get_prior_values <- function(object, ...) {
-  return(
-    object[["priors"]]
-  )
-}
 
 #' Get the attribute levels
 #'
@@ -39,7 +29,7 @@ get_prior_values <- function(object, ...) {
 #' @return A list with the attribute levels
 get_attribute_levels <- function(object, ...) {
   return(
-    object[["attribute_levels"]]
+    object[["levels"]]
   )
 }
 
@@ -50,7 +40,7 @@ get_attribute_levels <- function(object, ...) {
 #' @return A list with the attribute names
 get_attribute_names <- function(object, ...) {
   return(
-    object[["attribute_names"]]
+    object[["names"]]
   )
 }
 
@@ -61,6 +51,6 @@ get_attribute_names <- function(object, ...) {
 #' @return A list with the attribute level occurrences
 get_attribute_level_occurrence <- function(object, ...) {
   return(
-    object[["attribute_level_occurrence"]]
+    object[["occurrence"]]
   )
 }
