@@ -16,7 +16,7 @@ print.utility <- function(x, ...) {
 
 #' Generic for getting the attributes and levels from the utility
 #'
-#'
+#' @param x An object of class utility
 #'
 #' @export
 attribute_levels <- function(x) {
@@ -37,10 +37,34 @@ attribute_levels <- function(x) {
 #' padded with zeros where alternative specific attributes are present to ensure
 #' that we can work with square matrices.
 #'
-#' @return A nested list where the top level is the alternative and the nested
-#' levels are the attributes and levels.
-expand_attribute_levels <- function() {
+#' @param x An object of class utility
+#'
+#' @return A named vector
+expand_attribute_levels <- function(x) {
+  # Extract the specified attribute levels
+  named_attributes <- attribute_levels(x)
 
+  expanded_attributes <- lapply(seq_along(x), function(j) {
+    # Create a full length list with 0-elements
+    named_attributes_all <- lapply(seq_along(named_attributes), function(y) return(0))
+    names(named_attributes_all) <- names(named_attributes)
+
+    # Replace the attribute levels present in the alternative
+    attribute_names_j <- extract_attribute_names(x[[j]])
+    named_attributes_all[attribute_names_j] <- named_attributes[attribute_names_j]
+
+    # Add alternative to the attribute names
+    names(named_attributes_all) <- paste(names(x[j]), names(named_attributes), sep = "_")
+
+    return(
+      named_attributes_all
+    )
+  })
+
+  # Return a single vector
+  return(
+    do.call(c, expanded_attributes)
+  )
 }
 
 #' Cleans the utility expression
