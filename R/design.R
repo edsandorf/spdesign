@@ -70,6 +70,9 @@ generate_design <- function(utility,
   stopifnot(length(utility) > 1)
   stopifnot(all(do.call(c, lapply(utility, is_balanced, "[", "]"))))
   stopifnot(all(do.call(c, lapply(utility, is_balanced, "(", ")"))))
+  stopifnot(all_priors_and_levels_specified(utility))
+  # This is a bit weird with not any duplicates
+  stopifnot(!any_duplicates(utility))
 
   # Set the default for control and replace the specified values in control
   default_control <- list(
