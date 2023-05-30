@@ -73,6 +73,7 @@ generate_design <- function(utility,
   stopifnot(all_priors_and_levels_specified(utility))
   # This is a bit weird with not any duplicates
   stopifnot(!any_duplicates(utility))
+  stopifnot(!too_small(utility, tasks))
 
   # Set the default for control and replace the specified values in control
   default_control <- list(

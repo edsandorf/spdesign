@@ -133,3 +133,27 @@ any_duplicates <- function(x) {
 
   }
 }
+
+
+#' Check if design is too small
+#'
+#' Uses the formula of T * (J - 1) to check if the design is large enough to
+#' identify the parameters of the utility function.
+#'
+#' @return A bollean equal to TRUE if the design is too small
+too_small <- function(utility, tasks) {
+  if ((tasks * (length(utility) - 1)) < length(priors(utility))) {
+    cli_alert_danger(
+      "The design is too small to identify all parameters. You need to create
+      a larger design."
+    )
+
+    return(TRUE)
+
+  } else {
+    return(FALSE)
+
+  }
+}
+
+
