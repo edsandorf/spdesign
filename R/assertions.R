@@ -141,11 +141,11 @@ any_duplicates <- function(x) {
 #' identify the parameters of the utility function.
 #'
 #' @inheritParams all_priors_and_levels_specified
-#' @param tasks The number of choice tasks in the design
+#' @param rows The number of rows in the design
 #'
 #' @return A bollean equal to TRUE if the design is too small
-too_small <- function(x, tasks) {
-  if ((tasks * (length(x) - 1)) < length(priors(x))) {
+too_small <- function(x, rows) {
+  if ((rows * (length(x) - 1)) < length(priors(x))) {
     cli_alert_danger(
       "The design is too small to identify all parameters. You need to create
       a larger design."
