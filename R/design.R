@@ -132,7 +132,7 @@ generate_design <- function(utility,
   if (is.null(candidate_set)) {
     cli_alert_info("No candidate set supplied. The design will use the full factorial subject to supplied constraints.")
 
-    candidate_set <- full_factorial(get_attribute_levels(utility_parsed))
+    candidate_set <- full_factorial(expand_attribute_levels(utility))
 
     cli_alert_success("Full factorial created")
 
@@ -141,7 +141,7 @@ generate_design <- function(utility,
     stopifnot((is.matrix(candidate_set) || is.data.frame(candidate_set)))
 
     # Check candidate set
-    if (!all(names(candidate_set) %in% names(get_attribute_levels(utility_parsed)))) {
+    if (!all(names(candidate_set) %in% names(expand_attribute_levels(utility)))) {
       stop(
         "Not all attributes specified in the utility functions are specified in
         the candidate set. Make sure that all attributes are specified and that
