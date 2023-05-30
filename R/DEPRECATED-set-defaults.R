@@ -70,7 +70,6 @@ set_default_options <- function(opts_input) {
 #' that the design is near attribute level balanced. In this case a warning is
 #' issued.
 #'
-#' This function is called within \code{\link{get_level_occurrence}}
 #'
 #' @param n_lvls An integer giving the number of levels for the considered
 #' attribute
