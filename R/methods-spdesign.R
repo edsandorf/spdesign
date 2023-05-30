@@ -52,38 +52,6 @@ print.spdesign <- function(x, ...) {
   cat("---------------------------------------------------------------------\n")
 }
 
-#' S3 Generic for printing the utility object
-#'
-#' @param x A 'utility' object
-#' @param ... Other parameters passed to print
-#'
-#' @method print utility
-#'
-#' @export
-print.utility <- function(x, ...) {
-  cat("---------------------------------------------------------------------\n")
-  get_utility_clean(x, ...)
-  cat("\n\n")
-  cat("---------------------------------------------------------------------\n")
-}
-
-
-
-
-
-#' Generic for extracting the vector of priors
-#'
-#' @param object A utility function of class 'utility'
-#' @param ... Additional parameters passed to the function
-#'
-#' @return A vector of named priors used in the optimization
-#'
-#' @export
-prior <- function(object, ...) {
-  return(
-    get_prior_values(object)
-  )
-}
 
 #' Generic for extracting the vector of priors
 #'
@@ -94,9 +62,12 @@ prior <- function(object, ...) {
 #' @export
 spdesign.coef <- function(object, ...) {
   return(
-    get_prior_values(object)
+    prior(object, ...)
   )
 }
+
+
+
 
 
 #' Generic for extracting the attributes and levels
