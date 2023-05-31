@@ -2,11 +2,11 @@
 % Please edit documentation in R/design.R
 \name{generate_design}
 \alias{generate_design}
-\title{Generate the experimental design}
+\title{Generate an efficient experimental design}
 \usage{
 generate_design(
   utility,
-  tasks,
+  rows,
   blocks = 1,
   model = "mnl",
   efficiency_criteria = c("a-error", "c-error", "d-error", "s-error"),
@@ -14,7 +14,7 @@ generate_design(
   draws = c("pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
     "standard-sobol", "scrambled-sobol"),
   R = 100,
-  didx = NULL,
+  dudx = NULL,
   candidate_set = NULL,
   restrictions = NULL,
   level_balance = FALSE,
@@ -23,13 +23,15 @@ generate_design(
 )
 }
 \arguments{
-\item{utility}{A named list of utility functions}
+\item{utility}{A named list of utility functions. See the examples and the
+vignette for examples of how to define these correctly for different types
+of experimental designs.}
 
-\item{tasks}{An integer giving the number of tasks (rows) in the final design}
+\item{rows}{An integer giving the number of rows in the final design}
 
 \item{blocks}{An integer giving the number of blocks to block the design
-into. The default value is 1. 2022-07-07: Blocking functionality is not
-implemented.}
+into. The number of blocks cannot be greater than the number of rows in the
+design and the number of rows per block has to be equal.}
 
 \item{model}{A character string indicating the model to optimize the design
 for. Currently the only model programmed is the 'mnl' model and this is also
@@ -44,14 +46,14 @@ criteria is not yet implemented and will result in an error.}
 No default is set and the argument must be specified to be one of 'federov'
 or 'random'. The 'rsc' algorithm is not implemented yet.}
 
-\item{draws}{The type of draws to use with Bayesian priors (and rpl, but
-this model is not yet implemented). No default is set and must be specified
-as one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
+\item{draws}{The type of draws to use with Bayesian priors. No default is set
+ and must be specified even if you are not creating a Bayesian design. Can be
+one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
 "standard-sobol","scrambled-sobol".}
 
 \item{R}{An integer giving the number of draws to use. The default is 100.}
 
-\item{didx}{A character string giving the name of the parameter in the
+\item{dudx}{A character string giving the name of the parameter in the
 denominator. Must be specified when optimizing for 'c-error'}
 
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
@@ -69,11 +71,10 @@ balance in the design}
 \item{control}{A list of control options}
 }
 \value{
-A design list of valid designs
+An object of class 'spdesign'
 }
 \description{
-Generates the experimental design is the main function of the package. It
-wraps around all other functions and calls them in the correct order to
-generate a design based on the specified utility functions, options and
-candidate set.
+The function generates efficient experimental designs. The function takes
+a set of indirect utility functions and generates efficient experimental
+designs assuming that people are maximizing utility.
 }

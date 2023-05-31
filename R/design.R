@@ -1,15 +1,16 @@
-#' Generate the experimental design
+#' Generate an efficient experimental design
 #'
-#' Generates the experimental design is the main function of the package. It
-#' wraps around all other functions and calls them in the correct order to
-#' generate a design based on the specified utility functions, options and
-#' candidate set.
+#' The function generates efficient experimental designs. The function takes
+#' a set of indirect utility functions and generates efficient experimental
+#' designs assuming that people are maximizing utility.
 #'
-#' @param utility A named list of utility functions
-#' @param tasks An integer giving the number of tasks (rows) in the final design
+#' @param utility A named list of utility functions. See the examples and the
+#' vignette for examples of how to define these correctly for different types
+#' of experimental designs.
+#' @param rows An integer giving the number of rows in the final design
 #' @param blocks An integer giving the number of blocks to block the design
-#' into. The default value is 1. 2022-07-07: Blocking functionality is not
-#' implemented.
+#' into. The number of blocks cannot be greater than the number of rows in the
+#' design and the number of rows per block has to be equal.
 #' @param model A character string indicating the model to optimize the design
 #' for. Currently the only model programmed is the 'mnl' model and this is also
 #' set as the default.
@@ -20,12 +21,12 @@
 #' @param algorithm A character string giving the optimization algorithm to use.
 #' No default is set and the argument must be specified to be one of 'federov'
 #' or 'random'. The 'rsc' algorithm is not implemented yet.
-#' @param draws The type of draws to use with Bayesian priors (and rpl, but
-#' this model is not yet implemented). No default is set and must be specified
-#' as one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
+#' @param draws The type of draws to use with Bayesian priors. No default is set
+#'  and must be specified even if you are not creating a Bayesian design. Can be
+#' one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
 #' "standard-sobol","scrambled-sobol".
 #' @param R An integer giving the number of draws to use. The default is 100.
-#' @param didx A character string giving the name of the parameter in the
+#' @param dudx A character string giving the name of the parameter in the
 #' denominator. Must be specified when optimizing for 'c-error'
 #' @param candidate_set A matrix or data frame in the "wide" format containing
 #' all permitted combinations of attributes. The default is NULL. If no
@@ -38,11 +39,11 @@
 #' balance in the design
 #' @param control A list of control options
 #'
-#' @return A design list of valid designs
+#' @return An object of class 'spdesign'
 #'
 #' @export
 generate_design <- function(utility,
-                            tasks,
+                            rows,
                             blocks = 1,
                             model = "mnl",
                             efficiency_criteria = c("a-error", "c-error",
@@ -52,7 +53,7 @@ generate_design <- function(utility,
                                       "scrambled-halton", "standard-sobol",
                                       "scrambled-sobol"),
                             R = 100,
-                            didx = NULL,
+                            dudx = NULL,
                             candidate_set = NULL,
                             restrictions = NULL,
                             level_balance = FALSE,
@@ -66,7 +67,13 @@ generate_design <- function(utility,
   # Match and check model arguments ----
   cli_h2("Checking function arguments")
 
-  ## Utility ----
+  ## Match arguments ----
+  model <- match.arg(model)
+  efficiency_criteria <- match.arg(efficiency_criteria, several.ok = TRUE)
+  algorithm <- match.arg(algorithm)
+  draws <- match.arg(draws)
+
+  ## Check arguments ----
   stopifnot(is.list(utility) && !is.data.frame(utility))
   stopifnot(length(utility) > 1)
   stopifnot(all(do.call(c, lapply(utility, is_balanced, "[", "]"))))
@@ -83,36 +90,24 @@ generate_design <- function(utility,
     sample_with_replacement = FALSE
   )
 
-  control <- utils::modifyList(default_control, control)
+  control <- modifyList(default_control, control)
 
-  # Blocks and tasks
-  if (blocks > tasks) {
-    stop("You cannot have more blocks than tasks")
+  # Blocks and rows
+  if (blocks > rows) {
+    stop("You cannot have more blocks than rows")
   }
 
-  if (tasks %% blocks != 0)  {
-    stop("You cannot have uneven number of tasks per block")
+  if (rows %% blocks != 0)  {
+    stop("You cannot have uneven number of rows per block")
   }
-
-  # Model
-  model <- match.arg(model)
-
-  # Efficiency criteria
-  efficiency_criteria <- match.arg(efficiency_criteria, several.ok = TRUE)
 
   if (length(efficiency_criteria) > 1) {
     stop("Optimizing over multiple criteria is not implemented")
   }
 
-  if (is.null(didx) && efficiency_criteria == "c-error") {
-    stop("The denominator index 'didx' must be specified for c-error")
+  if (is.null(dudx) && efficiency_criteria == "c-error") {
+    stop("The denominator index 'dudx' must be specified for c-error")
   }
-
-  # Algorithm
-  algorithm <- match.arg(algorithm)
-
-  # Draws
-  draws <- match.arg(draws)
 
   # Consider a core-check if relevant at a later point.
   if (control$cores > 1) {
@@ -120,11 +115,7 @@ generate_design <- function(utility,
     control$cores <- 1
   }
 
-  # Parse utility ----
-  cli_h2("Parsing utility")
-  utility_parsed <- parse_utility(utility, tasks)
-
-  # Candidate set ----
+  ## Candidate set ----
   cli_h2("Checking the candidate set and applying restrictions")
 
   # If no candidate set is supplied generate full factorial if not run simple
@@ -190,62 +181,62 @@ generate_design <- function(utility,
 
   # Create the design object and make sure that the current status of the object
   # is returned if the program is ended prematurely from clicking "stop"
-  design_object <- list()
-  class(design_object) <- "spdesign"
+  design <- list()
+  class(design) <- "spdesign"
 
-  design_object[["utility"]] <- clean_utility(utility)
-  design_object[["priors"]] <- prior_values
-  design_object[["time"]] <- list(
+  design[["utility"]] <- clean_utility(utility)
+  design[["priors"]] <- prior_values
+  design[["time"]] <- list(
     time_start = Sys.time()
   )
 
   # Make sure that the best design candidate is always return if the loop is
   # stopped prematurely Can on.exit have a function?
   on.exit(
-    return(design_object),
+    return(design),
     add = TRUE
   )
 
   # Optmization function!!!!!!!
-  design_object <- switch(
+  design <- switch(
     algorithm,
-    random = random(design_object,
+    random = random(design,
                     model,
                     efficiency_criteria,
                     utility,
                     priors,
-                    didx,
+                    dudx,
                     candidate_set,
-                    tasks,
+                    rows,
                     control),
-    federov = federov(design_object,
+    federov = federov(design,
                       model,
                       efficiency_criteria,
                       utility,
                       priors,
-                      didx,
+                      dudx,
                       candidate_set,
-                      tasks,
+                      rows,
                       control),
-    rsc = rsc(design_object,
+    rsc = rsc(design,
               model,
               efficiency_criteria,
               utility,
               priors,
-              didx,
+              dudx,
               candidate_set,
-              tasks,
+              rows,
               control)
   )
 
-  design_object[["time"]][["time_end"]] <- Sys.time()
+  design[["time"]][["time_end"]] <- Sys.time()
 
   # Print final closing messages
   cat("\n\n")
   cli_h1("Cleaning up design environment")
-  cat("Time spent searching for designs: ", Sys.time() - design_object$time$time_start, "\n")
+  cat("Time spent searching for designs: ", Sys.time() - design$time$time_start, "\n")
 
   return(
-    design_object
+    design
   )
 }
