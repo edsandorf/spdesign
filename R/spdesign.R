@@ -11,4 +11,5 @@
 #' @import cli
 #' @import stringr
 #' @importFrom stats runif qnorm as.formula model.matrix
+#' @importFrom utils modifyList
 NULL
