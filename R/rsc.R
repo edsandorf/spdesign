@@ -1,6 +1,7 @@
 #' Make a design candidate based on the rsc algorithm
 #'
 #'
+#'
 #' Depending on the setting the function calls a combination of
 #' \code{\link{relabel}}, \code{\link{swap}} and \code{\link{cycle}}
 #' to create new design candidates. The code is intentionally written modular
@@ -12,17 +13,17 @@ rsc <- function(design_object,
                 model,
                 efficiency_criteria,
                 utility,
-                priors,
-                didx,
+                prior_values,
+                dudx,
                 candidate_set,
-                tasks,
+                rows,
                 control) {
 
   stop("The RSC algorithm has not been implemented yet")
 
   # # Create a new "random" rsc_candidate each 10 000 iterations
-  # if ((iter_with_no_imp %% opts$algorithm$reset) == 1) {
-  #   current_design_candidate <- generate_rsc_candidate(parsed_utility, opts)
+  # if ((iter_with_no_imp %% control$algorithm$reset) == 1) {
+  #   current_design_candidate <- generate_rsc_candidate(parsed_utility, control)
   # }
   #
   # # Relabel
@@ -138,17 +139,17 @@ cycle <- function(current_design_candidate) {
 #' fast. It is only run once every 10 000 iterations of the RSC algorithm.
 #'
 #' @param utility A named list of the parsed utility expression
-#' @param opts A list of options
+#' @param control A list of options
 #'
 #' @return A matrix with rows equal to the number of choice tasks and columns
 #' equal to the number of attributes in the 'wide' format
-generate_rsc_candidate <- function(parsed_utility, opts) {
+generate_rsc_candidate <- function(utility, control) {
   # Define attributes and level occurrence locally
   attrs <- expand_attribute_levels(utility)
-  level_occurrence <- occurrence[["level_occurrence"]]
+  level_occurrence <- occurrences(utility)
 
   # Loop over attributes
-  design_candidate <- matrix(0, nrow = opts$tasks, ncol = length(attrs))
+  design_candidate <- matrix(0, nrow = control$rows, ncol = length(attrs))
   colnames(design_candidate) <- names(attrs)
 
   for (i in seq_along(attrs)) {
@@ -156,7 +157,7 @@ generate_rsc_candidate <- function(parsed_utility, opts) {
     # number of tasks
     constraints <- level_occurrence[[i]]
     sum_implied_tasks <- 1
-    while (sum_implied_tasks != opts$tasks) {
+    while (sum_implied_tasks != control$rows) {
       sample_level <- lapply(constraints, sample, 1L)
       sum_implied_tasks <- do.call(sum, sample_level)
     }

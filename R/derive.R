@@ -4,27 +4,27 @@
 #' \code{\link{derive_vcov_rpl}} and calculates the variance-covariance matrix
 #' of the specified model and design given the priors.
 #'
-#' @param priors A named vector of assumed priors
-#' @param design_environment An environment containing all the elements
+#' @param prior_values A named vector of assumed prior_values
+#' @param design_env An environment containing all the elements
 #' necessary to derive the variance-covariance matrix
-#' @param type A string indicating the model for which you wish to derive the
+#' @param model A string indicating the model for which you wish to derive the
 #' variance covariance matrix. Can be either "mnl" or "rpl"
 #'
 #' @return The variance covariance matrix. If the Fisher information matrix is
 #' singular, then return NULL
-derive_vcov <- function(priors, design_environment, type) {
+derive_vcov <- function(prior_values, design_env, model) {
 
   # Add the priors to the design environment
   list2env(
-    as.list(priors),
-    envir = design_environment
+    as.list(prior_values),
+    envir = design_env
   )
 
   # Calculate the variance-covariance matrix
   design_vcov <- tryCatch({
     switch(
-      type,
-      mnl = eval(body(derive_vcov_mnl), envir = design_environment),
+      model,
+      mnl = eval(body(derive_vcov_mnl), envir = design_env),
       rpl = derive_vcov_rpl()
     )
   },
@@ -73,7 +73,9 @@ derive_vcov_mnl <- function() {
   fisher <- crossprod(tmp)
 
   # Return the variance-covariance matrix
-  solve(fisher)
+  return(
+    solve(fisher)
+  )
 }
 
 #' Derive the variance covariance matrix for the RPL model

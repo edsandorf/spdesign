@@ -7,10 +7,10 @@
 evaluate_design_candidate(
   utility,
   design_candidate,
-  priors,
-  design_environment,
+  prior_values,
+  design_env,
   model,
-  didx,
+  dudx,
   return_all,
   significance
 )
@@ -20,16 +20,16 @@ evaluate_design_candidate(
 
 \item{design_candidate}{The current design candidate}
 
-\item{priors}{a list or vector of assumed priors}
+\item{prior_values}{a list or vector of assumed priors}
 
-\item{design_environment}{A design environment in which to evaluate the
+\item{design_env}{A design environment in which to evaluate the
 the function to derive the variance-covariance matrix.}
 
 \item{model}{A character string indicating the model to optimize the design
 for. Currently the only model programmed is the 'mnl' model and this is also
 set as the default.}
 
-\item{didx}{A character string giving the name of the parameter in the
+\item{dudx}{A character string giving the name of the parameter in the
 denominator. Must be specified when optimizing for 'c-error'}
 
 \item{return_all}{If `TRUE` return a K or K-1 vector with parameter specific error
@@ -41,14 +41,10 @@ t-value of 1.96.}
 }
 \value{
 A named vector with efficiency criteria of the current design
-candidate. If Bayesian priors are used, then it returns the average
+candidate. If Bayesian prior_values are used, then it returns the average
 error.
 }
 \description{
 The evaluation of the design candidate is independent of the optimization
 algorithm used.
-}
-\details{
-NB! I need to extend this to include the option to choose whether to return
-the median error.
 }

@@ -6,7 +6,6 @@
 #' @param pkgname Package name
 #'
 #' @return Nothing
-
 .onAttach <- function(libname, pkgname) {
   installed_version <- utils::packageDescription("spdesign", fields = "Version")
 

@@ -7,7 +7,7 @@
 all_priors_and_levels_specified(x)
 }
 \arguments{
-\item{x}{An object of class 'utility'}
+\item{x}{A list of utility expressions}
 }
 \value{
 A boolean equal to `TRUE` if all are specified and `FALSE` if not

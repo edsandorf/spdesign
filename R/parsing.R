@@ -142,8 +142,7 @@ priors <- function(x) {
 
 #' Generic for extracting the attribute occurrence
 #'
-#' The function is called from within \code{\link{parse_utility}} with the
-#' purpose of getting the list of attributes, levels and occurrences within the
+#' The function gets the list of attributes, levels and occurrences within the
 #' design. This is necessary to impose attribute level balance or near attribute
 #' level balance. This is also necessary to correctly populate the candidate
 #' matrix used for the RSC algorithm.

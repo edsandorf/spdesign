@@ -6,6 +6,11 @@
 \usage{
 get_attribute_level_occurrence(object, ...)
 }
+\arguments{
+\item{object}{A utility function of class 'utility'}
+
+\item{...}{Additional parameters passed to the function}
+}
 \value{
 A list with the attribute level occurrences
 }

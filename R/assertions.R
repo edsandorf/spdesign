@@ -5,9 +5,9 @@
 #'
 #' @param string A character string
 #' @param open An opening bracket ( [ or <
-#' @param clos A closing bracket ) ] or >
+#' @param close A closing bracket ) ] or >
 #'
-#' @noRd
+#' @return A boolean equal to `TRUE` if the utility expression is balanced
 is_balanced <- function(string, open, close) {
   opening <- c("(", "[", "<", "{")
   closing <- c(")", "]", ">", "}")
@@ -36,41 +36,45 @@ is_balanced <- function(string, open, close) {
 
   opened <- str_count(string, paste0("\\", open))
   closed <- str_count(string, paste0("\\", close))
+
   if (opened != closed) {
-    FALSE
+    return(FALSE)
+
   } else {
-    TRUE
+    return(TRUE)
+
   }
 }
 
-
 #' Tests whether the utility expression contains Bayesian priors
 #'
-#' This is useful to create a boolean for flow-control inside
-#' \code{\link{generate_design}}
+#' This is particularly useful for flow-control
 #'
 #' @param string A string or list of strings
 #'
-#' @return A boolean
+#' @return A boolean equal to `TRUE` if we have Bayesian priors
 has_bayesian_prior <- function(string) {
-  any(str_detect(string, "(normal_p|lognormal_p|uniform_p|triangular_p)\\("))
+  return(
+    any(str_detect(string, "(normal_p|lognormal_p|uniform_p|triangular_p)\\("))
+  )
 }
 
 #' Tests whether the utility expression contains random parameters
 #'
-#' This is useful to create a boolean for flow-control inside
-#' \code{\link{generate_design}}
+#' This is particularly useful for flow-control
 #'
 #' @param string A string or list of strings
 #'
-#' @return A boolean
+#' @return A boolean equal to `TRUE` if we have random parameters
 has_random_parameter <- function(string) {
-  any(str_detect(string, "(normal|lognormal|uniform|triangular)\\("))
+  return(
+    any(str_detect(string, "(normal|lognormal|uniform|triangular)\\("))
+  )
 }
 
 #' Check whether all priors and attributes have specified levels
 #'
-#' @param x An object of class 'utility'
+#' @param x A list of utility expressions
 #'
 #' @return A boolean equal to `TRUE` if all are specified and `FALSE` if not
 all_priors_and_levels_specified <- function(x) {
@@ -106,7 +110,7 @@ all_priors_and_levels_specified <- function(x) {
 #'
 #' @inheritParams all_priors_and_levels_specified
 #'
-#' @return A boolean equal to TRUE if specified more than once.
+#' @return A boolean equal to `TRUE` if specified more than once.
 any_duplicates <- function(x) {
   # Extract all named values from the utility expression returned as a list
   named_values <- extract_named_values(x)
@@ -134,8 +138,7 @@ any_duplicates <- function(x) {
   }
 }
 
-
-#' Check if design is too small
+#' Check if the design is too small
 #'
 #' Uses the formula of T * (J - 1) to check if the design is large enough to
 #' identify the parameters of the utility function.
@@ -143,7 +146,7 @@ any_duplicates <- function(x) {
 #' @inheritParams all_priors_and_levels_specified
 #' @param rows The number of rows in the design
 #'
-#' @return A bollean equal to TRUE if the design is too small
+#' @return A boolean equal to `TRUE` if the design is too small
 too_small <- function(x, rows) {
   if ((rows * (length(x) - 1)) < length(priors(x))) {
     cli_alert_danger(
@@ -163,9 +166,8 @@ too_small <- function(x, rows) {
 #'
 #' @inheritParams too_small
 #'
-#'
-#' @return A boolean equal to TRUE if attribute level balance can be achieved
-#' and FALSE otherwise
+#' @return A boolean equal to `TRUE` if attribute level balance can be achieved
+#' and `FALSE` otherwise
 attribute_level_balance <- function(x, rows) {
   # Test using modulus mathematics
   if (any(do.call(c, lapply(attribute_levels(x), function(k) rows %% length(k))) != 0)) {
@@ -182,5 +184,3 @@ attribute_level_balance <- function(x, rows) {
 
   }
 }
-
-

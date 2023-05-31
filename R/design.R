@@ -181,62 +181,62 @@ generate_design <- function(utility,
 
   # Create the design object and make sure that the current status of the object
   # is returned if the program is ended prematurely from clicking "stop"
-  design <- list()
-  class(design) <- "spdesign"
+  design_object <- list()
+  class(design_object) <- "spdesign"
 
-  design[["utility"]] <- clean_utility(utility)
-  design[["priors"]] <- prior_values
-  design[["time"]] <- list(
+  design_object[["utility"]] <- clean_utility(utility)
+  design_object[["prior_values"]] <- prior_values
+  design_object[["time"]] <- list(
     time_start = Sys.time()
   )
 
   # Make sure that the best design candidate is always return if the loop is
   # stopped prematurely Can on.exit have a function?
   on.exit(
-    return(design),
+    return(design_object),
     add = TRUE
   )
 
   # Optmization function!!!!!!!
-  design <- switch(
+  design_object <- switch(
     algorithm,
-    random = random(design,
+    random = random(design_object,
                     model,
                     efficiency_criteria,
                     utility,
-                    priors,
+                    prior_values,
                     dudx,
                     candidate_set,
                     rows,
                     control),
-    federov = federov(design,
+    federov = federov(design_object,
                       model,
                       efficiency_criteria,
                       utility,
-                      priors,
+                      prior_values,
                       dudx,
                       candidate_set,
                       rows,
                       control),
-    rsc = rsc(design,
+    rsc = rsc(design_object,
               model,
               efficiency_criteria,
               utility,
-              priors,
+              prior_values,
               dudx,
               candidate_set,
               rows,
               control)
   )
 
-  design[["time"]][["time_end"]] <- Sys.time()
+  design_object[["time"]][["time_end"]] <- Sys.time()
 
   # Print final closing messages
   cat("\n\n")
   cli_h1("Cleaning up design environment")
-  cat("Time spent searching for designs: ", Sys.time() - design$time$time_start, "\n")
+  cat("Time spent searching for designs: ", Sys.time() - design_object$time$time_start, "\n")
 
   return(
-    design
+    design_object
   )
 }

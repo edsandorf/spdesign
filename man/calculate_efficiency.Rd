@@ -5,25 +5,25 @@
 \title{Calculate efficiency}
 \usage{
 calculate_efficiency(
-  priors,
-  design_environment,
+  prior_values,
+  design_env,
   model,
-  didx,
+  dudx,
   return_all = FALSE,
   significance = 1.96
 )
 }
 \arguments{
-\item{priors}{a list or vector of assumed priors}
+\item{prior_values}{a list or vector of assumed priors}
 
-\item{design_environment}{A design environment in which to evaluate the
+\item{design_env}{A design environment in which to evaluate the
 the function to derive the variance-covariance matrix.}
 
 \item{model}{A character string indicating the model to optimize the design
 for. Currently the only model programmed is the 'mnl' model and this is also
 set as the default.}
 
-\item{didx}{A character string giving the name of the parameter in the
+\item{dudx}{A character string giving the name of the parameter in the
 denominator. Must be specified when optimizing for 'c-error'}
 
 \item{return_all}{If `TRUE` return a K or K-1 vector with parameter specific error
@@ -34,7 +34,8 @@ significance. The default is significance at the 5% level with an associated
 t-value of 1.96.}
 }
 \value{
-A named vector of efficiency criteria
+A list with a named vector of efficiency criteria and the
+variance-covariance matrix
 }
 \description{
 The function is called inside \code{\link{evaluate_design_candidate}}

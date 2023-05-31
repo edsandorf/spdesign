@@ -9,10 +9,10 @@ rsc(
   model,
   efficiency_criteria,
   utility,
-  priors,
-  didx,
+  prior_values,
+  dudx,
   candidate_set,
-  tasks,
+  rows,
   control
 )
 }
@@ -29,11 +29,13 @@ to optimize for. One of 'a-error', 'c-error', 'd-error' or 's-error'. No
 default is set and argument must be specified. Optimizing for multiple
 criteria is not yet implemented and will result in an error.}
 
-\item{utility}{A named list of utility functions}
+\item{utility}{A named list of utility functions. See the examples and the
+vignette for examples of how to define these correctly for different types
+of experimental designs.}
 
-\item{priors}{A list of priors}
+\item{prior_values}{A list of priors}
 
-\item{didx}{A character string giving the name of the parameter in the
+\item{dudx}{A character string giving the name of the parameter in the
 denominator. Must be specified when optimizing for 'c-error'}
 
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
@@ -41,11 +43,14 @@ all permitted combinations of attributes. The default is NULL. If no
 candidate set is provided, then the full factorial subject to specified
 restrictions will be used.}
 
-\item{tasks}{An integer giving the number of tasks (rows) in the final design}
+\item{rows}{An integer giving the number of rows in the final design}
 
 \item{control}{A list of control options}
 }
 \description{
+Make a design candidate based on the rsc algorithm
+}
+\details{
 Depending on the setting the function calls a combination of
 \code{\link{relabel}}, \code{\link{swap}} and \code{\link{cycle}}
 to create new design candidates. The code is intentionally written modular

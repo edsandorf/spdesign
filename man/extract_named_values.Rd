@@ -15,6 +15,5 @@ named and can contain a single prior, a list with a mean and sd, or a vector
 with attribute levels
 }
 \description{
-The function extracts the named values of the supplied utility function. This
-function is called from within \code{\link{parse_utility}}
+The function extracts the named values of the supplied utility function.
 }

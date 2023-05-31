@@ -4,11 +4,13 @@
 \alias{set_default_level_occurrence}
 \title{Sets the default level occurrence in an attribute level balanced design}
 \usage{
-set_default_level_occurrence(n_lvls, candidate_rows)
+set_default_level_occurrence(n_lvls, rows)
 }
 \arguments{
 \item{n_lvls}{An integer giving the number of levels for the considered
 attribute}
+
+\item{rows}{Number of rows in the design}
 }
 \value{
 A named list of lists where the top level gives the attribute and the

@@ -4,7 +4,7 @@
 \alias{calculate_c_error}
 \title{C-error}
 \usage{
-calculate_c_error(design_vcov, p, didx, return_all)
+calculate_c_error(design_vcov, p, dudx, return_all)
 }
 \arguments{
 \item{design_vcov}{A variance-covariance matrix returned by
@@ -13,7 +13,7 @@ should be symmetrical and K-by-K}
 
 \item{p}{Prior values}
 
-\item{didx}{A character string giving the name of the parameter in the
+\item{dudx}{A character string giving the name of the parameter in the
 denominator. Must be specified when optimizing for 'c-error'}
 
 \item{return_all}{If `TRUE` return a K or K-1 vector with parameter specific error

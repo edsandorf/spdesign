@@ -10,9 +10,8 @@ has_random_parameter(string)
 \item{string}{A string or list of strings}
 }
 \value{
-A boolean
+A boolean equal to `TRUE` if we have random parameters
 }
 \description{
-This is useful to create a boolean for flow-control inside
-\code{\link{generate_design}}
+This is particularly useful for flow-control
 }

@@ -7,7 +7,9 @@
 define_x_j(utility, design_candidate)
 }
 \arguments{
-\item{utility}{A named list of utility functions}
+\item{utility}{A named list of utility functions. See the examples and the
+vignette for examples of how to define these correctly for different types
+of experimental designs.}
 
 \item{design_candidate}{The current design candidate under consideration}
 }

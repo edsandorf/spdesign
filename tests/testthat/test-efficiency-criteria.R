@@ -27,7 +27,7 @@ test_that(
       calculate_efficiency_criteria(
         design_vcov = x,
         p = p,
-        didx = 2,
+        dudx = 2,
         type = "c-error"
       ),
       0.936113,

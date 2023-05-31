@@ -7,11 +7,13 @@
 prepare_priors(utility, draws, R)
 }
 \arguments{
-\item{utility}{A named list of utility functions}
+\item{utility}{A named list of utility functions. See the examples and the
+vignette for examples of how to define these correctly for different types
+of experimental designs.}
 
-\item{draws}{The type of draws to use with Bayesian priors (and rpl, but
-this model is not yet implemented). No default is set and must be specified
-as one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
+\item{draws}{The type of draws to use with Bayesian priors. No default is set
+ and must be specified even if you are not creating a Bayesian design. Can be
+one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
 "standard-sobol","scrambled-sobol".}
 
 \item{R}{An integer giving the number of draws to use. The default is 100.}

@@ -19,16 +19,15 @@
 #'    when a pre-determined efficiency threshold has been found.
 #'
 #' NOTE: I have not yet implemented a duplicate check! That is, I do not check
-#'       whether the "same" choice tasks are included but with the order of
+#'       whether the "same" choice rows are included but with the order of
 #'       alternatives swapped. This can be achieved by further restricting the
 #'       candidate set prior to searching for designs. That said, "identical"
-#'       choice tasks will not provide much additional information and should
+#'       choice rows will not provide much additional information and should
 #'       be excluded by default in the search process.
 #'
 #' @param design_object A list of class 'spdesign' created within the
 #' \code{\link{generate_design}} function
-#' @param utility_parsed A parsed utility expression
-#' @param priors A list of priors
+#' @param prior_values A list of priors
 #'
 #' @inheritParams generate_design
 #'
@@ -37,20 +36,20 @@ federov <- function(design_object,
                     model,
                     efficiency_criteria,
                     utility,
-                    priors,
-                    didx,
+                    prior_values,
+                    dudx,
                     candidate_set,
-                    tasks,
+                    rows,
                     control) {
   # Reorder the rows of the candidate set to create more randomness
   candidate_set <- candidate_set[sample(seq_len(nrow(candidate_set))), ]
 
   # Set up the design environment
-  design_environment <- new.env()
+  design_env <- new.env()
 
   list2env(
     list(utility_string = clean_utility(utility)),
-    envir = design_environment
+    envir = design_env
   )
 
   # Set defaults
@@ -68,7 +67,7 @@ federov <- function(design_object,
     if (iter == 1) {
       # Create an initial random design candidate
       design_candidate <- random_design_candidate(candidate_set,
-                                                  tasks,
+                                                  rows,
                                                   control$sample_with_replacement)
 
     } else {
@@ -84,19 +83,19 @@ federov <- function(design_object,
                                                         design_candidate))
 
     # Evaluate the design candidate (wrapper function)
-    efficiency_measures <- evaluate_design_candidate(
+    efficiency_outputs <- evaluate_design_candidate(
       utility,
       design_candidate,
-      priors,
-      design_environment,
+      prior_values,
+      design_env,
       model,
-      didx,
+      dudx,
       return_all = FALSE,
       significance = 1.96
     )
 
     # Get the current efficiency measure
-    efficiency_current <- efficiency_measures[efficiency_criteria]
+    efficiency_current <- efficiency_outputs[["efficiency_measures"]][efficiency_criteria]
     if (iter == 1) efficiency_current_best <- efficiency_current
 
     # If the efficiency criteria we optimize for is NA, try a new candidate
@@ -111,7 +110,7 @@ federov <- function(design_object,
     if (efficiency_current < efficiency_current_best || iter == 1) {
       print_iteration_information(
         iter,
-        values = efficiency_measures,
+        values = efficiency_outputs[["efficiency_measures"]],
         criteria = c("a-error", "c-error", "d-error", "s-error"),
         digits = 4,
         padding = 10,
@@ -121,14 +120,15 @@ federov <- function(design_object,
 
       # Update current best criteria
       design_object[["design"]] <- design_candidate_current
-      design_object[["efficiency_criteria"]] <- efficiency_measures
+      design_object[["efficiency_criteria"]] <- efficiency_outputs[["efficiency_measures"]]
+      design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
       efficiency_current_best <- efficiency_current
 
       # Reset the iterator over candidate set and add to the iterator over the
       # design candidate. If iter_design_candidate is greater than the number of
       # rows in the design, then reset to 1.
       iter_candidate_set <- 1
-      iter_design_candidate <- ifelse(iter_design_candidate == tasks,
+      iter_design_candidate <- ifelse(iter_design_candidate == rows,
                                       1, iter_design_candidate + 1)
 
     } else {
@@ -137,7 +137,7 @@ federov <- function(design_object,
       # the design candidate counter by 1
       if (iter_candidate_set == nrow(candidate_set)) {
         iter_candidate_set <- 1
-        iter_design_candidate <- ifelse(iter_design_candidate == tasks,
+        iter_design_candidate <- ifelse(iter_design_candidate == rows,
                                         1, iter_design_candidate + 1)
 
       } else {
@@ -154,7 +154,7 @@ federov <- function(design_object,
       break
     }
 
-    if (efficiency_measures[efficiency_criteria] < control$efficiency_threshold) {
+    if (efficiency_outputs[["efficiency_measures"]][efficiency_criteria]  < control$efficiency_threshold) {
       cat(rule(width = 76), "\n")
       cli_alert_info("Efficiency criteria is less than threshhold.")
 

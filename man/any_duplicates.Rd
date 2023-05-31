@@ -8,10 +8,10 @@ once}
 any_duplicates(x)
 }
 \arguments{
-\item{x}{An object of class 'utility'}
+\item{x}{A list of utility expressions}
 }
 \value{
-A boolean equal to TRUE if specified more than once.
+A boolean equal to `TRUE` if specified more than once.
 }
 \description{
 Check whether any priors or attributes are specified with a value more than

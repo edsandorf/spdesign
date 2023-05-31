@@ -10,9 +10,8 @@ has_bayesian_prior(string)
 \item{string}{A string or list of strings}
 }
 \value{
-A boolean
+A boolean equal to `TRUE` if we have Bayesian priors
 }
 \description{
-This is useful to create a boolean for flow-control inside
-\code{\link{generate_design}}
+This is particularly useful for flow-control
 }

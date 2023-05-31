@@ -24,7 +24,7 @@ get_formula <- function(object, ...) {
 
 #' Get the attribute levels
 #'
-#' @inheritParams get_utility_clean
+#' @inheritParams get_utility
 #'
 #' @return A list with the attribute levels
 get_attribute_levels <- function(object, ...) {
@@ -35,7 +35,7 @@ get_attribute_levels <- function(object, ...) {
 
 #' Get the attribute names
 #'
-#' @inheritParams get_utility_clean
+#' @inheritParams get_utility
 #'
 #' @return A list with the attribute names
 get_attribute_names <- function(object, ...) {
@@ -46,7 +46,7 @@ get_attribute_names <- function(object, ...) {
 
 #' Get the attribute level occurrence
 #'
-#' @inheritParams get_utility_clean
+#' @inheritParams get_utility
 #'
 #' @return A list with the attribute level occurrences
 get_attribute_level_occurrence <- function(object, ...) {

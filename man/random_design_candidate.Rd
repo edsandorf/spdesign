@@ -2,9 +2,9 @@
 % Please edit documentation in R/random.R
 \name{random_design_candidate}
 \alias{random_design_candidate}
-\title{Create a random design candidate}
+\title{Create a random design_object candidate}
 \usage{
-random_design_candidate(candidate_set, tasks, sample_with_replacement)
+random_design_candidate(candidate_set, rows, sample_with_replacement)
 }
 \arguments{
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
@@ -12,11 +12,11 @@ all permitted combinations of attributes. The default is NULL. If no
 candidate set is provided, then the full factorial subject to specified
 restrictions will be used.}
 
-\item{tasks}{An integer giving the number of tasks (rows) in the final design}
+\item{rows}{An integer giving the number of rows in the final design}
 
 \item{sample_with_replacement}{A boolean equal to TRUE if we sample from the
 candidate set with replacement. The default is FALSE}
 }
 \description{
-Sample from the candidate set to create a random design.
+Sample from the candidate set to create a random design_object.
 }

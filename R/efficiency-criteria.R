@@ -2,8 +2,8 @@
 #'
 #' The function is called inside \code{\link{evaluate_design_candidate}}
 #'
-#' @param priors a list or vector of assumed priors
-#' @param design_environment A design environment in which to evaluate the
+#' @param prior_values a list or vector of assumed priors
+#' @param design_env A design environment in which to evaluate the
 #' the function to derive the variance-covariance matrix.
 #' @param return_all If `TRUE` return a K or K-1 vector with parameter specific error
 #' measures. Default is `FALSE`.
@@ -12,34 +12,36 @@
 #' t-value of 1.96.
 #' @inheritParams generate_design
 #'
-#' @return A named vector of efficiency criteria
-calculate_efficiency <- function(priors,
-                                 design_environment,
+#' @return A list with a named vector of efficiency criteria and the
+#' variance-covariance matrix
+calculate_efficiency <- function(prior_values,
+                                 design_env,
                                  model,
-                                 didx,
+                                 dudx,
                                  return_all = FALSE,
                                  significance = 1.96) {
   # Define the string of possible efficiency criteria
   efficiency_criteria_string <- c("a-error", "c-error", "d-error", "s-error")
 
   # Derive the variance-covariance matrix
-  design_vcov <- derive_vcov(priors, design_environment, type = model)
+  design_vcov <- derive_vcov(prior_values, design_env, model = model)
 
   # Check if we have NA in the variance-covariance matrix. If so, return vecor
   # of NA
   if (any(is.na(design_vcov))) {
     return(
-      rep(NA, length(efficiency_criteria_string))
+      list(
+        efficiency_criteria = rep(NA, length(efficiency_criteria_string)),
+        vcov = design_vcov
+      )
     )
   }
-
-
 
   efficiency_criteria <- lapply(efficiency_criteria_string, function(x) {
     return(
       calculate_efficiency_criteria(design_vcov,
-                                    priors,
-                                    didx,
+                                    prior_values,
+                                    dudx,
                                     return_all,
                                     significance,
                                     type = x)
@@ -47,10 +49,12 @@ calculate_efficiency <- function(priors,
   })
 
   return(
-    do.call(c, efficiency_criteria)
+    list(
+      efficiency_criteria = do.call(c, efficiency_criteria),
+      vcov = design_vcov
+    )
   )
 }
-
 
 #' Calculate efficiency criteria
 #'
@@ -91,7 +95,7 @@ calculate_efficiency <- function(priors,
 calculate_efficiency_criteria <- function(
   design_vcov,
   p = NULL,
-  didx = NULL,
+  dudx = NULL,
   return_all = FALSE,
   significance = 1.96,
   type
@@ -99,7 +103,7 @@ calculate_efficiency_criteria <- function(
   switch(
     type,
     `a-error` = calculate_a_error(design_vcov),
-    `c-error` = calculate_c_error(design_vcov, p, didx, return_all),
+    `c-error` = calculate_c_error(design_vcov, p, dudx, return_all),
     `d-error` = calculate_d_error(design_vcov),
     `s-error` = calculate_s_error(design_vcov, p, return_all, significance)
   )
@@ -127,16 +131,16 @@ calculate_a_error <- function(design_vcov) {
 #' @return A vector giving the variance of the ratio for each K-1 parameter or a
 #' single number with the sum of the variances used for optimization
 #'
-calculate_c_error <- function(design_vcov, p, didx, return_all) {
+calculate_c_error <- function(design_vcov, p, dudx, return_all) {
   # Undefined if the denominator is not specified
-  if (is.null(didx)) {
+  if (is.null(dudx)) {
     NA
   } else {
-    c_eff <- p[-didx]^-2 *
-      (diag(design_vcov)[didx] - 2 *
-         p[didx] * p[-didx]^-1 *
-         design_vcov[didx, seq_len(nrow(design_vcov))[-didx]] +
-         (p[didx] / p[-didx])^2 * diag(design_vcov)[-didx])
+    c_eff <- p[-dudx]^-2 *
+      (diag(design_vcov)[dudx] - 2 *
+         p[dudx] * p[-dudx]^-1 *
+         design_vcov[dudx, seq_len(nrow(design_vcov))[-dudx]] +
+         (p[dudx] / p[-dudx])^2 * diag(design_vcov)[-dudx])
 
     # Check if all are to be returned
     if (return_all) {

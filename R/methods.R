@@ -16,7 +16,9 @@ stats::vcov
 #'
 #' @export
 vcov.spdesign <- function(object, ...) {
-
+  return(
+    object[["vcov"]]
+  )
 }
 
 #' Create a summary of the experimental design
@@ -55,14 +57,14 @@ print.spdesign <- function(x, ...) {
 
 #' Generic for extracting the vector of priors
 #'
-#' @inheritParams prior
+#' @inheritParams vcov.spdesign
 #'
 #' @return A vector of named priors used in the optimization
 #'
 #' @export
-spdesign.coef <- function(object, ...) {
+coef.spdesign <- function(object, ...) {
   return(
-    prior(object, ...)
+    object[["priors"]]
   )
 }
 
@@ -70,24 +72,3 @@ spdesign.coef <- function(object, ...) {
 
 
 
-#' Generic for extracting the attributes and levels
-#'
-#' @inheritParams prior.utility
-#'
-#' @export
-# attribute.utility <- function(x) {
-#   return(
-#     x[["attribute_levels"]]
-#   )
-# }
-
-#' Generic for extracting the number of utility functions
-#'
-#' @inheritParams prior.utility
-#'
-#' @export
-# nalts.utility <- function(x) {
-#   return(
-#     length(x[[""]])
-#   )
-# }

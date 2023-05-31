@@ -2,17 +2,17 @@
 % Please edit documentation in R/assertions.R
 \name{too_small}
 \alias{too_small}
-\title{Check if design is too small}
+\title{Check if the design is too small}
 \usage{
 too_small(x, rows)
 }
 \arguments{
-\item{x}{An object of class 'utility'}
+\item{x}{A list of utility expressions}
 
 \item{rows}{The number of rows in the design}
 }
 \value{
-A bollean equal to TRUE if the design is too small
+A boolean equal to `TRUE` if the design is too small
 }
 \description{
 Uses the formula of T * (J - 1) to check if the design is large enough to

@@ -26,7 +26,7 @@ candidate_set <- candidate_set[!(candidate_set$alt1_x1 == 2 & candidate_set$alt1
 candidate_set <- candidate_set[!(candidate_set$alt2_x2 == 1 & candidate_set$alt2_x3 == 1), ]
 
 # Generate designs ----
-design <- generate_design(utility, tasks = 20,
+design <- generate_design(utility, rows = 20,
                           model = "mnl", efficiency_criteria = "d-error",
                           algorithm = "federov", draws = "scrambled-sobol",
                           candidate_set = candidate_set)

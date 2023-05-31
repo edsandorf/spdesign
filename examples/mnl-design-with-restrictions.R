@@ -11,7 +11,7 @@ utility <- list(
 )
 
 # Generate designs ----
-design <- generate_design(utility, tasks = 20,
+design <- generate_design(utility, rows = 20,
                           model = "mnl", efficiency_criteria = "d-error",
                           algorithm = "federov", draws = "scrambled-sobol",
                           restrictions = list(

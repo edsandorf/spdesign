@@ -73,18 +73,18 @@ set_default_options <- function(opts_input) {
 #'
 #' @param n_lvls An integer giving the number of levels for the considered
 #' attribute
-#' @inheritParams get_level_occurrence
+#' @inheritParams occurrences
 #'
 #' @return A named list of lists where the top level gives the attribute and the
 #' lower level gives the times or range each attribute level should occur in
 #' the design
-set_default_level_occurrence <- function(n_lvls, candidate_rows) {
+set_default_level_occurrence <- function(n_lvls, rows) {
   # Check if attribute level balance can be achieved
-  if ((candidate_rows %% n_lvls) == 0) {
-    lvl <- candidate_rows / n_lvls
+  if ((rows %% n_lvls) == 0) {
+    lvl <- rows / n_lvls
 
   } else {
-    minimum <- floor(candidate_rows / n_lvls)
+    minimum <- floor(rows / n_lvls)
     lvl <- minimum:(minimum + 1)
 
   }

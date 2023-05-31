@@ -82,8 +82,7 @@ extract_values <- function(string, simplify = FALSE) {
 
 #' Extracts the named values of the utility function
 #'
-#' The function extracts the named values of the supplied utility function. This
-#' function is called from within \code{\link{parse_utility}}
+#' The function extracts the named values of the supplied utility function.
 #'
 #' @inheritParams extract_all_names
 #'
@@ -148,9 +147,7 @@ extract_level_occurrence <- function(string, simplify = FALSE) {
 #' priors and random parameters as specified in the design. The output is used
 #' to create the matrix of correct draws for priors and parameters.
 #'
-#' IMPORTANT: The function will silently drop duplicates. This is because it is
-#' called after \code{\link{parse_utility}} inside
-#' \code{\link{generate_design}}.
+#' IMPORTANT: The function will silently drop duplicates.
 #'
 #' @param string A single character string or list of character strings with a
 #' single or multiple utility functions

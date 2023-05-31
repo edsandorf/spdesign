@@ -7,13 +7,13 @@
 attribute_level_balance(x, rows)
 }
 \arguments{
-\item{x}{An object of class 'utility'}
+\item{x}{A list of utility expressions}
 
 \item{rows}{The number of rows in the design}
 }
 \value{
-A boolean equal to TRUE if attribute level balance can be achieved
-and FALSE otherwise
+A boolean equal to `TRUE` if attribute level balance can be achieved
+and `FALSE` otherwise
 }
 \description{
 Check whether we can achieve attribute level balance

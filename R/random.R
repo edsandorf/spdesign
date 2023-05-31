@@ -1,4 +1,4 @@
-#' Make a random design candidate
+#' Make a random design
 #'
 #' Generates a random design by sampling from the candidate set each update of
 #' the algorithm.
@@ -11,18 +11,18 @@ random <- function(design_object,
                    model,
                    efficiency_criteria,
                    utility,
-                   priors,
-                   didx,
+                   prior_values,
+                   dudx,
                    candidate_set,
-                   tasks,
+                   rows,
                    control) {
 
-  # Set up the design environment
-  design_environment <- new.env()
+  # Set up the design_object environment
+  design_env <- new.env()
 
   list2env(
     list(utility_string = clean_utility(utility)),
-    envir = design_environment
+    envir = design_env
   )
 
   # Set defaults
@@ -35,31 +35,31 @@ random <- function(design_object,
   )
 
   repeat{
-    # Create a random design candidate
+    # Create a random design_object candidate
     design_candidate <- random_design_candidate(candidate_set,
-                                                tasks,
+                                                rows,
                                                 control$sample_with_replacement)
 
-    # Define the current design candidate considering alternative specific
+    # Define the current design_object candidate considering alternative specific
     # attributes and interactions
     design_candidate_current <- do.call(cbind,
                                         define_base_x_j(utility,
                                                         design_candidate))
 
-    # Evaluate the design candidate (wrapper function)
-    efficiency_measures <- evaluate_design_candidate(
+    # Evaluate the design_object candidate (wrapper function)
+    efficiency_outputs <- evaluate_design_candidate(
       utility,
       design_candidate,
-      priors,
-      design_environment,
+      prior_values,
+      design_env,
       model,
-      didx,
+      dudx,
       return_all = FALSE,
       significance = 1.96
     )
 
     # Get the current efficiency measure
-    efficiency_current <- efficiency_measures[efficiency_criteria]
+    efficiency_current <- efficiency_outputs[["efficiency_measures"]][efficiency_criteria]
     if (iter == 1) efficiency_current_best <- efficiency_current
 
     # If the efficiency criteria we optimize for is NA, try a new candidate
@@ -73,7 +73,7 @@ random <- function(design_object,
     if (efficiency_current < efficiency_current_best || iter == 1) {
       print_iteration_information(
         iter,
-        values = efficiency_measures,
+        values = efficiency_outputs[["efficiency_measures"]],
         criteria = c("a-error", "c-error", "d-error", "s-error"),
         digits = 4,
         padding = 10,
@@ -83,7 +83,8 @@ random <- function(design_object,
 
       # Update current best criteria
       design_object[["design"]] <- design_candidate_current
-      design_object[["efficiency_criteria"]] <- efficiency_measures
+      design_object[["efficiency_criteria"]] <- efficiency_outputs[["efficiency_measures"]]
+      design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
       efficiency_current_best <- efficiency_current
 
     }
@@ -96,7 +97,7 @@ random <- function(design_object,
       break
     }
 
-    if (efficiency_measures[efficiency_criteria] < control$efficiency_threshold) {
+    if (efficiency_outputs[["efficiency_measures"]][efficiency_criteria] < control$efficiency_threshold) {
       cat(rule(width = 76), "\n")
       cli_alert_info("Efficiency criteria is less than threshhold.")
 
@@ -106,30 +107,29 @@ random <- function(design_object,
     # Add to the iteration
     iter <- iter + 1
 
-
   }
 
-  # Return the design candidate
+  # Return the design_object candidate
   return(
     design_object
   )
 
 }
 
-#' Create a random design candidate
+#' Create a random design_object candidate
 #'
-#' Sample from the candidate set to create a random design.
+#' Sample from the candidate set to create a random design_object.
 #'
 #' @param sample_with_replacement A boolean equal to TRUE if we sample from the
 #' candidate set with replacement. The default is FALSE
 #' @inheritParams generate_design
 random_design_candidate <- function(candidate_set,
-                                    tasks,
+                                    rows,
                                     sample_with_replacement) {
 
   idx_rows <- sample(
     seq_len(nrow(candidate_set)),
-    tasks,
+    rows,
     replace = sample_with_replacement
   )
 

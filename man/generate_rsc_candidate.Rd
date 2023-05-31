@@ -4,12 +4,12 @@
 \alias{generate_rsc_candidate}
 \title{Generates a candidate for the RSC algorithm}
 \usage{
-generate_rsc_candidate(parsed_utility, opts)
+generate_rsc_candidate(utility, control)
 }
 \arguments{
-\item{opts}{A list of options}
-
 \item{utility}{A named list of the parsed utility expression}
+
+\item{control}{A list of options}
 }
 \value{
 A matrix with rows equal to the number of choice tasks and columns
