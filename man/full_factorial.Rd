@@ -13,7 +13,7 @@ full_factorial(attrs)
 A matrix containing the full factorial
 }
 \description{
-\code{make_full_factorial} is a wrapper around \code{\link{expand.grid}} and
+The function is a wrapper around \code{\link{expand.grid}} and
 generates the full factorial given the supplied attributes. The attributes
 can either be specified directly by the user or extracted from the list
 of utility functions using.
@@ -23,12 +23,9 @@ The full factorial is often used as the starting point to generate a
 candidate set. Note that the full factorial will include unrealistic and
 completely dominated alternatives. It is therefore advised to use a subset
 of the full factorial as a candidate set. The user can call
-\code{generate_full_factorial} and create a subset that is passed to
+\code{full_factorial} and create a subset that is passed to
 \code{\link{generate_design}} using the `candidate_set` parameter, or supply
-a set of restrictions through the list of design options `design_opt`.
-
-The function is mainly used inside \code{\link{generate_design}} and
- appropriate restrictions are then put in place.
+a set of restrictions through the `restrictions` argument.
 }
 \examples{
 opts <- list(
