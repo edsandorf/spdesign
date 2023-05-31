@@ -137,36 +137,25 @@ generate_design <- function(utility,
     cli_alert_success("Full factorial created")
 
   } else {
-    # Check that it is a matrix
     stopifnot((is.matrix(candidate_set) || is.data.frame(candidate_set)))
 
-    # Check candidate set
     if (!all(names(candidate_set) %in% names(expand_attribute_levels(utility)))) {
       stop(
         "Not all attributes specified in the utility functions are specified in
         the candidate set. Make sure that all attributes are specified and that
         the names used in the utility functions correspond to the column names
-        of the supplied candidate set. Note the candidate set must be supplied
+        of the supplied candidate set. The candidate set must be supplied
         in 'wide' format."
       )
     }
 
-    # Print information about attribute levels.
-    cli_alert_info(
-      "The attribute levels are determined based on the supplied candidate set
-      and not the levels specified in the utility functions because levels not
-      present in the candidate set cannot be part of the design. Should this be
-      an error? YES, YES IT SHOULD"
-    )
-
-    # utility_parsed[["attribute_levels"]] <- lapply(
-    #   as.list(
-    #     as.data.frame(
-    #       candidate_set
-    #     )
-    #   ),
-    #   unique
-    # )
+    if (!identical(apply(candidate_set, 2, unique), lapply(expand_attribute_levels(utility), as.numeric))) {
+      stop(
+        "The attribute levels determined by the supplied candidate set differs
+        from those supplied in the utility function. Please ensure that all
+        specified levels are present in the candidate set. "
+      )
+    }
   }
 
   # Apply the restrictions to the candidate set
