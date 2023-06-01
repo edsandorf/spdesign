@@ -52,16 +52,16 @@ federov <- function(design_object,
     envir = design_env
   )
 
-  # Set defaults
-  iter <- 1
-  iter_design_candidate <- 1
-  iter_candidate_set <- 1
-
   # Make sure that design_object is returned on exit
   on.exit(
     return(design_object),
     add = TRUE
   )
+
+  # Set iterations defaults
+  iter <- 1
+  iter_design_candidate <- 1
+  iter_candidate_set <- 1
 
   repeat {
     if (iter == 1) {
@@ -78,9 +78,7 @@ federov <- function(design_object,
 
     # Define the current design candidate considering alternative specific
     # attributes and interactions
-    design_candidate_current <- do.call(cbind,
-                                        define_base_x_j(utility,
-                                                        design_candidate))
+    design_candidate_current <- do.call(cbind, define_base_x_j(utility, design_candidate))
 
     # Evaluate the design candidate (wrapper function)
     efficiency_outputs <- evaluate_design_candidate(

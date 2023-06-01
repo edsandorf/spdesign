@@ -25,16 +25,16 @@ random <- function(design_object,
     envir = design_env
   )
 
-  # Set defaults
-  iter <- 1
-
   # Make sure that design_object is returned on exit
   on.exit(
     return(design_object),
     add = TRUE
   )
 
-  repeat{
+  # Set iteration defaults
+  iter <- 1
+
+  repeat {
     # Create a random design_object candidate
     design_candidate <- random_design_candidate(candidate_set,
                                                 rows,
@@ -42,9 +42,7 @@ random <- function(design_object,
 
     # Define the current design_object candidate considering alternative specific
     # attributes and interactions
-    design_candidate_current <- do.call(cbind,
-                                        define_base_x_j(utility,
-                                                        design_candidate))
+    design_candidate_current <- do.call(cbind, define_base_x_j(utility, design_candidate))
 
     # Evaluate the design_object candidate (wrapper function)
     efficiency_outputs <- evaluate_design_candidate(
