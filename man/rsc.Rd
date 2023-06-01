@@ -48,9 +48,6 @@ restrictions will be used.}
 \item{control}{A list of control options}
 }
 \description{
-Make a design candidate based on the rsc algorithm
-}
-\details{
 Depending on the setting the function calls a combination of
 \code{\link{relabel}}, \code{\link{swap}} and \code{\link{cycle}}
 to create new design candidates. The code is intentionally written modular

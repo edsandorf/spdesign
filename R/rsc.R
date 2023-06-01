@@ -1,7 +1,5 @@
 #' Make a design candidate based on the rsc algorithm
 #'
-#'
-#'
 #' Depending on the setting the function calls a combination of
 #' \code{\link{relabel}}, \code{\link{swap}} and \code{\link{cycle}}
 #' to create new design candidates. The code is intentionally written modular
@@ -18,25 +16,116 @@ rsc <- function(design_object,
                 candidate_set,
                 rows,
                 control) {
+  # Create a level balanced design candidate or near level balanced candidate
+  design_candidate <- generate_rsc_candidate(utility, rows)
 
-  stop("The RSC algorithm has not been implemented yet")
+  # Set up the design environment
+  design_env <- new.env()
 
-  # # Create a new "random" rsc_candidate each 10 000 iterations
-  # if ((iter_with_no_imp %% control$algorithm$reset) == 1) {
-  #   current_design_candidate <- generate_rsc_candidate(parsed_utility, control)
-  # }
-  #
-  # # Relabel
-  # current_design_candidate <- relabel(current_design_candidate)
-  #
-  # # Swap
-  # current_design_candidate <- swap(current_design_candidate)
-  #
-  # # Cycle
-  #
-  #
-  # # Return
-  # as.data.frame(current_design_candidate)
+  list2env(
+    list(utility_string = clean_utility(utility)),
+    envir = design_env
+  )
+
+  # Make sure that design_object is returned on exit
+  on.exit(
+    return(design_object),
+    add = TRUE
+  )
+
+  # Set iteration defaults
+  iter <- 1
+  alg <- "relabel"
+
+  repeat {
+
+    # Swith algorithm every 10 000 iterations
+    if (iter %% control$max_relabel == 0) {
+      alg <- ifelse(alg == "relabel", "swap", "relabel")
+    }
+
+    # Get the design candidate
+    design_candidate <- switch(
+      alg,
+      relabel = apply(design_candidate, 2, relabel),
+      swap = apply(design_candidate, 2, swap)
+    )
+
+    # Apply returns matrix, I need a data.frame. This can slow down code. Will
+    # need to see about changing the apply above.
+    design_candidate <- as.data.frame(design_candidate)
+
+    # Define the current design candidate considering alternative specific
+    # attributes and interactions
+    design_candidate_current <- do.call(cbind, define_base_x_j(utility, design_candidate))
+
+    # Evaluate the design candidate (wrapper function)
+    efficiency_outputs <- evaluate_design_candidate(
+      utility,
+      design_candidate,
+      prior_values,
+      design_env,
+      model,
+      dudx,
+      return_all = FALSE,
+      significance = 1.96
+    )
+
+    # Get the current efficiency measure
+    efficiency_current <- efficiency_outputs[["efficiency_measures"]][efficiency_criteria]
+    if (iter == 1) efficiency_current_best <- efficiency_current
+
+    # If the efficiency criteria we optimize for is NA, try a new candidate
+    if (is.na(efficiency_current)) {
+      iter <- iter + 1
+      next
+
+    }
+
+    # Print information to console and update ----
+    if (efficiency_current < efficiency_current_best || iter == 1) {
+      print_iteration_information(
+        iter,
+        values = efficiency_outputs[["efficiency_measures"]],
+        criteria = c("a-error", "c-error", "d-error", "s-error"),
+        digits = 4,
+        padding = 10,
+        width = 80,
+        efficiency_criteria
+      )
+
+      # Update current best criteria
+      design_object[["design"]] <- design_candidate_current
+      design_object[["efficiency_criteria"]] <- efficiency_outputs[["efficiency_measures"]]
+      design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
+      efficiency_current_best <- efficiency_current
+
+    }
+
+    # Check stopping conditions ----
+    if (iter > control$max_iter) {
+      cat(rule(width = 76), "\n")
+      cli_alert_info("Maximum number of iterations reached.")
+
+      break
+    }
+
+    if (efficiency_outputs[["efficiency_measures"]][efficiency_criteria]  < control$efficiency_threshold) {
+      cat(rule(width = 76), "\n")
+      cli_alert_info("Efficiency criteria is less than threshhold.")
+
+      break
+    }
+
+    # Add to the iteration
+    iter <- iter + 1
+
+  }
+
+  # Return the design candidate
+  return(
+    design_object
+  )
 }
 
 #' Relabeling of attribute levels
@@ -112,7 +201,7 @@ swap <- function(x) {
 #' 2nd ed., Cambridge University Press
 #'
 #' @return A cycled design candidate
-cycle <- function(current_design_candidate) {
+cycle <- function(x) {
 
 }
 
@@ -163,6 +252,8 @@ generate_rsc_candidate <- function(utility, rows) {
 
     design_candidate[, i] <- shuffle(levels_tmp)
   }
+  return(
+    as.data.frame(design_candidate)
+  )
 
-  design_candidate
 }

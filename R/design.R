@@ -48,7 +48,7 @@ generate_design <- function(utility,
                             model = "mnl",
                             efficiency_criteria = c("a-error", "c-error",
                                                     "d-error", "s-error"),
-                            algorithm = c("federov", "random"),
+                            algorithm = c("federov", "rsc", "random"),
                             draws = c("pseudo-random", "mlhs", "standard-halton",
                                       "scrambled-halton", "standard-sobol",
                                       "scrambled-sobol"),
@@ -60,6 +60,7 @@ generate_design <- function(utility,
                             control = list(
                               cores = 1,
                               max_iter = 10000,
+                              max_relabel = 10000,
                               efficiency_threshold = 0.1,
                               sample_with_replacement = FALSE
                             )) {
@@ -86,19 +87,28 @@ generate_design <- function(utility,
   default_control <- list(
     cores = 1,
     max_iter = 10000,
+    max_relabel = 10000,
+    max_swap = 10000,
     efficiency_threshold = 0.1,
     sample_with_replacement = FALSE
   )
 
   control <- modifyList(default_control, control)
 
-  # Blocks and rows
   if (blocks > rows) {
     stop("You cannot have more blocks than rows")
   }
 
   if (rows %% blocks != 0)  {
     stop("You cannot have uneven number of rows per block")
+  }
+
+  if (algorithm == "rsc") {
+    cli_alert_info(
+      "The cycling part of the algorithm is not used. It only applies to a
+      small subset of designs. The algorithm swithes between relabeling of
+      attribute levels and swapping of attributes."
+    )
   }
 
   if (length(efficiency_criteria) > 1) {

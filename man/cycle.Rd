@@ -4,17 +4,17 @@
 \alias{cycle}
 \title{Cycling of attribute levels}
 \usage{
-cycle(current_design_candidate)
+cycle(x)
 }
 \arguments{
-\item{current_design_candidate}{The current design candidate}
+\item{x}{A vector of attribute levels}
 }
 \value{
 A cycled design candidate
 }
 \description{
 Cycles the attribute levels to create a new design candidate. "Cycling
-replaces all attribute levels in each choice situation at the tiem by
+replaces all attribute levels in each choice situation at the time by
 replacing the first level with the second level, second level with the third
 etc. Since this change affects all columns, cycling can only be performed if
 all attributes have exactly the same sets of feasible levels,

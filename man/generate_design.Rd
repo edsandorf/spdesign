@@ -10,7 +10,7 @@ generate_design(
   blocks = 1,
   model = "mnl",
   efficiency_criteria = c("a-error", "c-error", "d-error", "s-error"),
-  algorithm = c("federov", "random"),
+  algorithm = c("federov", "rsc", "random"),
   draws = c("pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
     "standard-sobol", "scrambled-sobol"),
   R = 100,
@@ -18,8 +18,8 @@ generate_design(
   candidate_set = NULL,
   restrictions = NULL,
   level_balance = FALSE,
-  control = list(cores = 1, max_iter = 10000, efficiency_threshold = 0.1,
-    sample_with_replacement = FALSE)
+  control = list(cores = 1, max_iter = 10000, max_relabel = 10000, efficiency_threshold =
+    0.1, sample_with_replacement = FALSE)
 )
 }
 \arguments{
