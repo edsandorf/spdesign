@@ -4,12 +4,14 @@
 \alias{generate_rsc_candidate}
 \title{Generates a candidate for the RSC algorithm}
 \usage{
-generate_rsc_candidate(utility, control)
+generate_rsc_candidate(utility, rows)
 }
 \arguments{
-\item{utility}{A named list of the parsed utility expression}
+\item{utility}{A named list of utility functions. See the examples and the
+vignette for examples of how to define these correctly for different types
+of experimental designs.}
 
-\item{control}{A list of options}
+\item{rows}{An integer giving the number of rows in the final design}
 }
 \value{
 A matrix with rows equal to the number of choice tasks and columns

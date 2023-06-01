@@ -130,26 +130,26 @@ cycle <- function(current_design_candidate) {
 #' a theoretical bottle neck for very large designs, it is still sufficiently
 #' fast. It is only run once every 10 000 iterations of the RSC algorithm.
 #'
-#' @param utility A named list of the parsed utility expression
-#' @param control A list of options
+#' @inheritParams federov
 #'
 #' @return A matrix with rows equal to the number of choice tasks and columns
 #' equal to the number of attributes in the 'wide' format
-generate_rsc_candidate <- function(utility, control) {
+generate_rsc_candidate <- function(utility, rows) {
   # Define attributes and level occurrence locally
-  attrs <- expand_attribute_levels(utility)
-  level_occurrence <- occurrences(utility)
+  attribute_lvls <- expand_attribute_levels(utility)
+  level_occurrence <- occurrences(utility, rows)
 
   # Loop over attributes
-  design_candidate <- matrix(0, nrow = control$rows, ncol = length(attrs))
-  colnames(design_candidate) <- names(attrs)
+  design_candidate <- matrix(0, nrow = rows, ncol = length(attribute_lvls))
+  colnames(design_candidate) <- names(attribute_lvls)
 
-  for (i in seq_along(attrs)) {
+  for (i in seq_along(attribute_lvls)) {
     # Determine how many times to sample each level suject to summing to the
     # number of tasks
     constraints <- level_occurrence[[i]]
     sum_implied_tasks <- 1
-    while (sum_implied_tasks != control$rows) {
+
+    while (sum_implied_tasks != rows) {
       sample_level <- lapply(constraints, sample, 1L)
       sum_implied_tasks <- do.call(sum, sample_level)
     }
@@ -158,7 +158,7 @@ generate_rsc_candidate <- function(utility, control) {
     levels_tmp <- do.call(
       c,
       lapply(seq_along(sample_level), function(k) {
-        rep(attrs[[i]][[k]], sample_level[[k]])
+        rep(attribute_lvls[[i]][[k]], sample_level[[k]])
       })
     )
 
