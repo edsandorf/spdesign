@@ -21,10 +21,3 @@ test_that("Repeat columns correctly repeats the columns of a matrix", {
     )
   )
 })
-
-test_that("Swap values", {
-  expect_equal(
-    swap_values(1:5, c(1, 5)),
-    c(5, 2, 3, 4, 1)
-  )
-})

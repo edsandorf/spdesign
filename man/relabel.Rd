@@ -4,10 +4,10 @@
 \alias{relabel}
 \title{Relabeling of attribute levels}
 \usage{
-relabel(current_design_candidate)
+relabel(x)
 }
 \arguments{
-\item{current_design_candidate}{The current design candidate}
+\item{x}{A vector of attribute levels}
 }
 \description{
 Relabels the attribute levels to create a new design candidate. For example,
@@ -16,7 +16,8 @@ relabeled, then the column becomes (3, 2, 3, 1, 2, 1), i.e. 1 becomes 3 and
 3 becomes 1.
 }
 \details{
-The relabeling is done independently for each column, which implies that
+Will randomly sample 2 attribute levels that will be relabeled and the
+relabeling is done independently for each column, which implies that
 the same attribute will be relabeled differently depending on which
 alternative it belongs to.
 }

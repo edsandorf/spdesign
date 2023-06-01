@@ -46,33 +46,25 @@ rsc <- function(design_object,
 #' relabeled, then the column becomes (3, 2, 3, 1, 2, 1), i.e. 1 becomes 3 and
 #' 3 becomes 1.
 #'
-#' The relabeling is done independently for each column, which implies that
+#' Will randomly sample 2 attribute levels that will be relabeled and the
+#' relabeling is done independently for each column, which implies that
 #' the same attribute will be relabeled differently depending on which
 #' alternative it belongs to.
 #'
-#' @param current_design_candidate The current design candidate
+#' @param x A vector of attribute levels
 #'
 #' @references
 #' Hensher, D. A., Rose, J. M. & Greene, W., 2005, Applied Choice Analysis,
 #' 2nd ed., Cambridge University Press
-relabel <- function(current_design_candidate) {
-  # Loop over columns
-  for (i in seq_len(ncol(current_design_candidate))) {
-    column <- current_design_candidate[, i]
-    unique_lvls <- unique(column)
+relabel <- function(x) {
+  lvls <- sample(unique(x), 2, replace = FALSE)
+  idx_first <- x == lvls[[1]]
+  idx_second <- x == lvls[[2]]
 
-    # We only need to relabel if the attribute in question has more than two
-    # levels
-    if (length(unique_lvls) > 1) {
-      lvls_to_relabel <- sample(unique_lvls, 2L)
-      column <- swap_values(column, lvls_to_relabel)
-    }
+  x[idx_first] <- lvls[[2]]
+  x[idx_second] <- lvls[[1]]
 
-    current_design_candidate[, i] <- column
-  }
-
-  # Return the new and relabeled design candidate
-  current_design_candidate
+  return(x)
 }
 
 #' Swapping of attribute
