@@ -4,10 +4,10 @@
 \alias{swap}
 \title{Swapping of attribute}
 \usage{
-swap(current_design_candidate)
+swap(x)
 }
 \arguments{
-\item{current_design_candidate}{The current design candidate}
+\item{x}{A vector of attribute levels}
 }
 \description{
 Swaps the order of the attributes to create a new design candidate. For
@@ -15,8 +15,8 @@ example, if the attributes in the first and fourth choice situation (row)
 are swapped, then (1, 2, 1, 3, 2, 3) becomes( 3, 2, 1, 1, 2, 3).
 }
 \details{
-To increase the variation in the designs created, the swaps are independent
-across attributes and alternatives
+The algorithm randomly samples 2 row positions that are swapped and
+the swaps are independent across attributes and alternatives
 }
 \references{
 Hensher, D. A., Rose, J. M. & Greene, W., 2005, Applied Choice Analysis,

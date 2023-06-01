@@ -58,6 +58,7 @@ rsc <- function(design_object,
 #' 2nd ed., Cambridge University Press
 relabel <- function(x) {
   lvls <- sample(unique(x), 2, replace = FALSE)
+
   idx_first <- x == lvls[[1]]
   idx_second <- x == lvls[[2]]
 
@@ -73,32 +74,30 @@ relabel <- function(x) {
 #' example, if the attributes in the first and fourth choice situation (row)
 #' are swapped, then (1, 2, 1, 3, 2, 3) becomes( 3, 2, 1, 1, 2, 3).
 #'
-#' To increase the variation in the designs created, the swaps are independent
-#' across attributes and alternatives
+#' The algorithm randomly samples 2 row positions that are swapped and
+#' the swaps are independent across attributes and alternatives
 #'
 #' @inheritParams relabel
 #'
 #' @references
 #' Hensher, D. A., Rose, J. M. & Greene, W., 2005, Applied Choice Analysis,
 #' 2nd ed., Cambridge University Press
-swap <- function(current_design_candidate) {
-  rows <- seq_len(nrow(current_design_candidate))
+swap <- function(x) {
+  pos <- sample(seq_len(length(x)), 2, replace = FALSE)
 
-  # Loop over columns
-  for (i in seq_len(ncol(current_design_candidate))) {
-    swap_lvls <- sample(rows, 2L)
-    order_idx <- swap_values(rows, swap_lvls)
-    current_design_candidate[, i] <- current_design_candidate[order_idx, i]
-  }
+  pos_one_lvl <- x[[pos[[1]]]]
+  pos_two_lvl <- x[[pos[[2]]]]
 
-  # Return the row-swapped current design candidate
-  current_design_candidate
+  x[[pos[[1]]]] <- pos_two_lvl
+  x[[pos[[2]]]] <- pos_one_lvl
+
+  return(x)
 }
 
 #' Cycling of attribute levels
 #'
 #' Cycles the attribute levels to create a new design candidate. "Cycling
-#' replaces all attribute levels in each choice situation at the tiem by
+#' replaces all attribute levels in each choice situation at the time by
 #' replacing the first level with the second level, second level with the third
 #' etc. Since this change affects all columns, cycling can only be performed if
 #' all attributes have exactly the same sets of feasible levels,
