@@ -10,6 +10,6 @@
 #'
 #' @import cli
 #' @import stringr
-#' @importFrom stats runif qnorm as.formula model.matrix
+#' @importFrom stats runif qnorm as.formula model.matrix cor
 #' @importFrom utils modifyList
 NULL

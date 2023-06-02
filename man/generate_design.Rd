@@ -7,7 +7,6 @@
 generate_design(
   utility,
   rows,
-  blocks = 1,
   model = "mnl",
   efficiency_criteria = c("a-error", "c-error", "d-error", "s-error"),
   algorithm = c("federov", "rsc", "random"),
@@ -28,10 +27,6 @@ vignette for examples of how to define these correctly for different types
 of experimental designs.}
 
 \item{rows}{An integer giving the number of rows in the final design}
-
-\item{blocks}{An integer giving the number of blocks to block the design
-into. The number of blocks cannot be greater than the number of rows in the
-design and the number of rows per block has to be equal.}
 
 \item{model}{A character string indicating the model to optimize the design
 for. Currently the only model programmed is the 'mnl' model and this is also

@@ -8,9 +8,6 @@
 #' vignette for examples of how to define these correctly for different types
 #' of experimental designs.
 #' @param rows An integer giving the number of rows in the final design
-#' @param blocks An integer giving the number of blocks to block the design
-#' into. The number of blocks cannot be greater than the number of rows in the
-#' design and the number of rows per block has to be equal.
 #' @param model A character string indicating the model to optimize the design
 #' for. Currently the only model programmed is the 'mnl' model and this is also
 #' set as the default.
@@ -44,7 +41,6 @@
 #' @export
 generate_design <- function(utility,
                             rows,
-                            blocks = 1,
                             model = "mnl",
                             efficiency_criteria = c("a-error", "c-error",
                                                     "d-error", "s-error"),
@@ -94,14 +90,6 @@ generate_design <- function(utility,
   )
 
   control <- modifyList(default_control, control)
-
-  if (blocks > rows) {
-    stop("You cannot have more blocks than rows")
-  }
-
-  if (rows %% blocks != 0)  {
-    stop("You cannot have uneven number of rows per block")
-  }
 
   if (algorithm == "rsc") {
     cli_alert_info(
