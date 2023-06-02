@@ -15,6 +15,15 @@ attribute_levels <- function(x) {
   )
 }
 
+#' Generic for getting the attribute names
+#'
+#' @inheritParams attribute_levels
+#'
+#' @export
+attribute_names <- function(x) {
+  return(names(attribute_levels(x)))
+}
+
 #' Expand the list of attributes and levels to the "wide" format
 #'
 #' Expands the attributes and levels to the wide format. The nested list is
