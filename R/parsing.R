@@ -164,14 +164,7 @@ priors <- function(x) {
 #' they can occur
 #'
 #' @export
-occurrences <- function(x, rows = NULL) {
-  # Check the class of 'x' to return early if 'spdesign'
-  if ("spdesign" %in% class(x)) {
-    return(
-      x[["occurrence"]]
-    )
-  }
-
+occurrences <- function(x, rows) {
   # Extract level occurrence
   attribute_lvls <- expand_attribute_levels(x)
   n_lvls <- lapply(attribute_lvls, length)

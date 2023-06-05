@@ -4,7 +4,7 @@
 \alias{occurrences}
 \title{Generic for extracting the attribute occurrence}
 \usage{
-occurrences(x, rows = NULL)
+occurrences(x, rows)
 }
 \arguments{
 \item{x}{An object of class 'utility' or 'spdesign'}
