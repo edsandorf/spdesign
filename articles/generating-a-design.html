@@ -81,7 +81,7 @@
 
       
 
-      </header><script src="generating-a-design_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Generating a design</h1>
@@ -102,7 +102,8 @@
 <div class="section level2">
 <h2 id="the-list-of-design-options">The list of design options<a class="anchor" aria-label="anchor" href="#the-list-of-design-options"></a>
 </h2>
-<p>The first step in generating a design is to specify the design options</p>
+<p>The first step in generating a design is to specify the design
+options</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design_opts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  optimization_algorithm <span class="op">=</span> <span class="st">"random"</span>,</span>
@@ -115,87 +116,214 @@
 <div class="section level3">
 <h3 id="optimization-algorithms">Optimization algorithms<a class="anchor" aria-label="anchor" href="#optimization-algorithms"></a>
 </h3>
-<p>The choice of which algorithm to use depends on the design you are trying to find.</p>
+<p>The choice of which algorithm to use depends on the design you are
+trying to find.</p>
 <div class="section level4">
 <h4 id="modified-federov-algorithm">Modified Federov Algorithm<a class="anchor" aria-label="anchor" href="#modified-federov-algorithm"></a>
 </h4>
-<p>The Modified Federov Algorithm is a row based algorithm <span class="citation">(Hensher, Rose, and Greene <a href="#ref-hensher_applied_2005" role="doc-biblioref">2005</a>; Cook and Nachtrheim <a href="#ref-cook_comparison_1980" role="doc-biblioref">1980</a>)</span>. This means that it samples rows (choice situations) from a candidate set. The candidate set can be the full factorial, indeed this is the default unless a candidate set is supplied or restrictions are specified through <code>opts$restrictions</code>, or a fractional factorial. Defining the allowed set of candidate choice tasks up front means that it is easy to remove bad alternatives and choice tasks prior to searching for design candidates and it is easy to implement constraints, for example that certain attribute levels cannot occur simultaneously within an alternative or choice task. However, it is very difficult to satisfy attribute level balance since it is necessary to check for balance each time a design candidate is selected from the candidate set. It is also important to note that using the MFA with large designs may be impossible due to memory constraints. Since it is necessary to specify the full factorial over all alternatives, the initial candidate set may become very large. So if the design is very large, it may be necessary to use the RSC algorithm to find a design (see below).</p>
+<p>The Modified Federov Algorithm is a row based algorithm <span class="citation">(<a href="#ref-hensher_applied_2005" role="doc-biblioref">Hensher, Rose, and Greene 2005</a>; <a href="#ref-cook_comparison_1980" role="doc-biblioref">Cook and
+Nachtrheim 1980</a>)</span>. This means that it samples rows (choice
+situations) from a candidate set. The candidate set can be the full
+factorial, indeed this is the default unless a candidate set is supplied
+or restrictions are specified through <code>opts$restrictions</code>, or
+a fractional factorial. Defining the allowed set of candidate choice
+tasks up front means that it is easy to remove bad alternatives and
+choice tasks prior to searching for design candidates and it is easy to
+implement constraints, for example that certain attribute levels cannot
+occur simultaneously within an alternative or choice task. However, it
+is very difficult to satisfy attribute level balance since it is
+necessary to check for balance each time a design candidate is selected
+from the candidate set. It is also important to note that using the MFA
+with large designs may be impossible due to memory constraints. Since it
+is necessary to specify the full factorial over all alternatives, the
+initial candidate set may become very large. So if the design is very
+large, it may be necessary to use the RSC algorithm to find a design
+(see below).</p>
 <p>Steps involved in the algorithm</p>
 <ol style="list-style-type: decimal">
-<li>Determine the candidate set. In this package, the default is the full factorial and we remove all candidates implied by the restrictions passed through <code>opts$restrictions</code>.</li>
-<li>Select alternatives from the candidate set, combine into choice tasks and design candidate. Checks for attribute level balance if necessary. The default is to sample alternatives without replacement, which ensures that no choice task will contain identical alternatives nor will any given alternative be repeated across the design. The latter effect may lead to a less efficient design. Setting <code>opts$sample_with_replacement = TRUE</code> will sample with replacement from the candidate set.</li>
+<li>Determine the candidate set. In this package, the default is the
+full factorial and we remove all candidates implied by the restrictions
+passed through <code>opts$restrictions</code>.</li>
+<li>Select alternatives from the candidate set, combine into choice
+tasks and design candidate. Checks for attribute level balance if
+necessary. The default is to sample alternatives without replacement,
+which ensures that no choice task will contain identical alternatives
+nor will any given alternative be repeated across the design. The latter
+effect may lead to a less efficient design. Setting
+<code>opts$sample_with_replacement = TRUE</code> will sample with
+replacement from the candidate set.</li>
 <li>Calculate the specified error measures (see below).</li>
 <li>Check if the current design is better than a previous design.</li>
 </ol>
-<p>Steps 2-4 are repeated until a specified efficiency threshold is met, the maximum number of iterations is reached or the user stops the search manually.</p>
+<p>Steps 2-4 are repeated until a specified efficiency threshold is met,
+the maximum number of iterations is reached or the user stops the search
+manually.</p>
 </div>
 <div class="section level4">
 <h4 id="relabeling-swapping-and-cycling-rsc">Relabeling, Swapping and Cycling (RSC)<a class="anchor" aria-label="anchor" href="#relabeling-swapping-and-cycling-rsc"></a>
 </h4>
-<p>The RSC algorithm is a column based algorithm <span class="citation">(Hensher, Rose, and Greene <a href="#ref-hensher_applied_2005" role="doc-biblioref">2005</a>; Huber and Zwerina <a href="#ref-huber_importance_1996" role="doc-biblioref">1996</a>; Sándor and Wedel <a href="#ref-sandor_profile_2002" role="doc-biblioref">2002</a>)</span>.</p>
+<p>The RSC algorithm is a column based algorithm <span class="citation">(<a href="#ref-hensher_applied_2005" role="doc-biblioref">Hensher, Rose, and Greene 2005</a>; <a href="#ref-huber_importance_1996" role="doc-biblioref">Huber and Zwerina
+1996</a>; <a href="#ref-sandor_profile_2002" role="doc-biblioref">Sándor
+and Wedel 2002</a>)</span>.</p>
 <ol style="list-style-type: decimal">
 <li>Better for very large designs</li>
 <li>Easy to satisfy attribute level balance</li>
-<li>Harder to implement constraints, e.g. attribute levels cannot co-occur, because the constraints have to be checked after each relabeling, swapping and cycling iteration.</li>
+<li>Harder to implement constraints, e.g. attribute levels cannot
+co-occur, because the constraints have to be checked after each
+relabeling, swapping and cycling iteration.</li>
 </ol>
 </div>
 </div>
 <div class="section level3">
 <h3 id="efficiency-criteria">Efficiency criteria<a class="anchor" aria-label="anchor" href="#efficiency-criteria"></a>
 </h3>
-<p>When creating an efficient design, it is important to select the criteria used to measure efficiency. In <code>spdesign</code> you can specify one of the following:</p>
+<p>When creating an efficient design, it is important to select the
+criteria used to measure efficiency. In <code>spdesign</code> you can
+specify one of the following:</p>
 <div class="section level4">
 <h4 id="a-efficiency">A-efficiency<a class="anchor" aria-label="anchor" href="#a-efficiency"></a>
 </h4>
-<p>The A-efficiency criteria, or A-error, seeks to minimize the trace of the variance covariance matrix. Effectively minimizing the sum of variances. This measure is not commonly used, likely because it tends to ignore covariances and is heavily influenced by the variance of one or a few parameters.</p>
+<p>The A-efficiency criteria, or A-error, seeks to minimize the trace of
+the variance covariance matrix. Effectively minimizing the sum of
+variances. This measure is not commonly used, likely because it tends to
+ignore covariances and is heavily influenced by the variance of one or a
+few parameters.</p>
 <p><span class="math display">\[
 \mathrm{A} = \frac{\mathrm{tr}(\Omega)}{K}
-\]</span> To use A-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "a-error"</code>.</p>
+\]</span> To use A-efficiency as the criteria to optimize the design
+simply specify: <code>efficiency_criteria = "a-error"</code>.</p>
 </div>
 <div class="section level4">
 <h4 id="c-efficiency">C-efficiency<a class="anchor" aria-label="anchor" href="#c-efficiency"></a>
 </h4>
-<p>The C-efficiency criteria, or C-error, seeks to minimize the variance of the ratio of two parameters, e.g. willingness-to-pay, which is the ratio of the non-cost to the negative of the cost (or price) parameter when the utility function is separable, additive and linear in the parameters <span class="citation">(Scarpa and Rose <a href="#ref-scarpa_design_2008" role="doc-biblioref">2008</a>)</span>. Optimizing a design for the outcome of interest may in some cases be more useful than optimizing for smaller standard errors of the estimates themselves (which is the case of the D-error discussed below).</p>
-<p>This is specified as: <code>efficiency_criteria = "c-error"</code>.</p>
+<p>The C-efficiency criteria, or C-error, seeks to minimize the variance
+of the ratio of two parameters, e.g. willingness-to-pay, which is the
+ratio of the non-cost to the negative of the cost (or price) parameter
+when the utility function is separable, additive and linear in the
+parameters <span class="citation">(<a href="#ref-scarpa_design_2008" role="doc-biblioref">Scarpa and Rose 2008</a>)</span>. Optimizing a
+design for the outcome of interest may in some cases be more useful than
+optimizing for smaller standard errors of the estimates themselves
+(which is the case of the D-error discussed below).</p>
+<p>This is specified as:
+<code>efficiency_criteria = "c-error"</code>.</p>
 <p><span class="math display">\[
-\mathrm{C} = \mathrm{Var}\left(\frac{\beta_k}{-\beta_j}\right)\approx\beta_j^{-2}\left[\mathrm{Var}(\beta_k)-2\beta_k\beta_j^{-1}\mathrm{Cov}(\beta_k,\beta_j)+(\beta_k/\beta_j)^2\mathrm{Var}(\beta_j)\right]
+\mathrm{C} =
+\mathrm{Var}\left(\frac{\beta_k}{-\beta_j}\right)\approx\beta_j^{-2}\left[\mathrm{Var}(\beta_k)-2\beta_k\beta_j^{-1}\mathrm{Cov}(\beta_k,\beta_j)+(\beta_k/\beta_j)^2\mathrm{Var}(\beta_j)\right]
 \]</span></p>
-<p>Where <span class="math inline">\(\beta_j\)</span> is the “cost”-parameter and <span class="math inline">\(\beta_k\)</span> a vector of non-cost parameters. It is important to note that if the prior for either the numerator or denominator is zero, the ratio is either 0 or <span class="math inline">\(+\infty\)</span> and the standard errors cannot be calculated. To use C-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "c-error"</code>.</p>
+<p>Where <span class="math inline">\(\beta_j\)</span> is the
+“cost”-parameter and <span class="math inline">\(\beta_k\)</span> a
+vector of non-cost parameters. It is important to note that if the prior
+for either the numerator or denominator is zero, the ratio is either 0
+or <span class="math inline">\(+\infty\)</span> and the standard errors
+cannot be calculated. To use C-efficiency as the criteria to optimize
+the design simply specify:
+<code>efficiency_criteria = "c-error"</code>.</p>
 </div>
 <div class="section level4">
 <h4 id="d-efficiency">D-efficiency<a class="anchor" aria-label="anchor" href="#d-efficiency"></a>
 </h4>
-<p>The D-efficiency criteria, or D-error, seeks to minimize the determinant of the variance-covariance matrix, which all else equal, leads to smaller standard errors. The idea being that you can get significance with a samller sample size if your design contains more information, i.e. more informative trade-offs. Unlike the A-error, the D-error considers the covariances as well as the only the variances and is less affected by very large variances for single parameters.</p>
+<p>The D-efficiency criteria, or D-error, seeks to minimize the
+determinant of the variance-covariance matrix, which all else equal,
+leads to smaller standard errors. The idea being that you can get
+significance with a samller sample size if your design contains more
+information, i.e. more informative trade-offs. Unlike the A-error, the
+D-error considers the covariances as well as the only the variances and
+is less affected by very large variances for single parameters.</p>
 <p><span class="math display">\[
 \mathrm{D} = \det\left(\Omega\left(\beta, X\right)\right)^{1/K}
-\]</span> To use D-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "d-error"</code>.</p>
+\]</span> To use D-efficiency as the criteria to optimize the design
+simply specify: <code>efficiency_criteria = "d-error"</code>.</p>
 </div>
 <div class="section level4">
 <h4 id="s-efficiency">S-efficiency<a class="anchor" aria-label="anchor" href="#s-efficiency"></a>
 </h4>
-<p>The S-efficiency measure, or S-error, calculates the theoretical lower-bound sample size necessary to obtain significant estimates for each parameter under the assumption that the priors are correct. The minimum required sample size is equal to the smallest sample size required for all parameters to be theoretically significant. However, it is strongly advised not to rely on these measures as an absolute because sampling issues and measurement errors could mean that larger sample sizes are needed.</p>
+<p>The S-efficiency measure, or S-error, calculates the theoretical
+lower-bound sample size necessary to obtain significant estimates for
+each parameter under the assumption that the priors are correct. The
+minimum required sample size is equal to the smallest sample size
+required for all parameters to be theoretically significant. However, it
+is strongly advised not to rely on these measures as an absolute because
+sampling issues and measurement errors could mean that larger sample
+sizes are needed.</p>
 <p><span class="math display">\[
-\mathrm{N} \geq \left(\frac{\mathrm{s.e.}_{j,k}(\beta, X)t_\alpha}{\beta_k}\right)^2
-\]</span> where <span class="math inline">\(N\)</span> is the theoretical minimum sample size and <span class="math inline">\(t_\alpha\)</span> is the t-value corresponding to significance level <span class="math inline">\(\alpha\)</span> and is set by the researcher. It is important to note that in the case of zero priors, the S-error cannot be calculated and will return <span class="math inline">\(+\infty\)</span>. To use S-efficiency as the criteria to optimize the design simply specify: <code>efficiency_criteria = "s-error"</code>.</p>
+\mathrm{N} \geq \left(\frac{\mathrm{s.e.}_{j,k}(\beta,
+X)t_\alpha}{\beta_k}\right)^2
+\]</span> where <span class="math inline">\(N\)</span> is the
+theoretical minimum sample size and <span class="math inline">\(t_\alpha\)</span> is the t-value corresponding to
+significance level <span class="math inline">\(\alpha\)</span> and is
+set by the researcher. It is important to note that in the case of zero
+priors, the S-error cannot be calculated and will return <span class="math inline">\(+\infty\)</span>. To use S-efficiency as the
+criteria to optimize the design simply specify:
+<code>efficiency_criteria = "s-error"</code>.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="draws">Draws<a class="anchor" aria-label="anchor" href="#draws"></a>
 </h3>
-<p>When creating a design using Bayesian priors, with random parameters or both, it is necessary to specify the type of draws to use and how many. While researchers agree that scrambled low-discrepancy sequences, e.g. Halton, Sobol or MLHS, perform better than non-scrambled and pseudo-random sequences <span class="citation">(Train <a href="#ref-train_discrete_2009" role="doc-biblioref">2009</a>; Hess, Train, and Polak <a href="#ref-hess_use_2006" role="doc-biblioref">2006</a>; Bhat <a href="#ref-bhat_simulation_2003" role="doc-biblioref">2003</a>)</span>, some simulation evidence suggest that scrambled Sobol sequences perform best in simulation, especially as the number of random parameters increase <span class="citation">(Czajkowski and Budziński <a href="#ref-czajkowski_simulation_2019" role="doc-biblioref">2019</a>)</span>. For this reason, we have set scrambled Sobol as the default choice. The complete list of options is: <code>pseudo-random</code>, <code>mlhs</code>, <code>standard-halton</code>, <code>scrambled-halton</code>, <code>standard-sobol</code> and <code>scrambled-sobol</code>. The option is passed the list of options using <code>draws_type</code>. Note that if you use Halton or scrambled Halton draws, the same draws will be used for both the priors and the parameters. This is not advised and if you are optimizing a random parameter logit model with Bayesian priors, use a different set of draws! This issue is noted and can be tracked through the package’s <a href="https://github.com/edsandorf/spdesign/issues/16" class="external-link">GitHub repository</a>, but is low priority to be fixed.</p>
-<p>The next step is to specify the the number of draws to use. While we are using the same type of draws for both priors and parameters, we do allow the user to specify different number of draws for each. This is to allow the user to tweak the design optimization process between assumptions about how good their priors are and how precicesly they want to approximate the integral of the random parameter logit model. The number of draws are specified through the options <code>draws_priors</code> and <code>draws_params</code>, for priors and parameters respectively. The default values of both are set to 100 draws.</p>
+<p>When creating a design using Bayesian priors, with random parameters
+or both, it is necessary to specify the type of draws to use and how
+many. While researchers agree that scrambled low-discrepancy sequences,
+e.g. Halton, Sobol or MLHS, perform better than non-scrambled and
+pseudo-random sequences <span class="citation">(<a href="#ref-train_discrete_2009" role="doc-biblioref">Train 2009</a>; <a href="#ref-hess_use_2006" role="doc-biblioref">Hess, Train, and Polak
+2006</a>; <a href="#ref-bhat_simulation_2003" role="doc-biblioref">Bhat
+2003</a>)</span>, some simulation evidence suggest that scrambled Sobol
+sequences perform best in simulation, especially as the number of random
+parameters increase <span class="citation">(<a href="#ref-czajkowski_simulation_2019" role="doc-biblioref">Czajkowski
+and Budziński 2019</a>)</span>. For this reason, we have set scrambled
+Sobol as the default choice. The complete list of options is:
+<code>pseudo-random</code>, <code>mlhs</code>,
+<code>standard-halton</code>, <code>scrambled-halton</code>,
+<code>standard-sobol</code> and <code>scrambled-sobol</code>. The option
+is passed the list of options using <code>draws_type</code>. Note that
+if you use Halton or scrambled Halton draws, the same draws will be used
+for both the priors and the parameters. This is not advised and if you
+are optimizing a random parameter logit model with Bayesian priors, use
+a different set of draws! This issue is noted and can be tracked through
+the package’s <a href="https://github.com/edsandorf/spdesign/issues/16" class="external-link">GitHub
+repository</a>, but is low priority to be fixed.</p>
+<p>The next step is to specify the the number of draws to use. While we
+are using the same type of draws for both priors and parameters, we do
+allow the user to specify different number of draws for each. This is to
+allow the user to tweak the design optimization process between
+assumptions about how good their priors are and how precicesly they want
+to approximate the integral of the random parameter logit model. The
+number of draws are specified through the options
+<code>draws_priors</code> and <code>draws_params</code>, for priors and
+parameters respectively. The default values of both are set to 100
+draws.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="the-candidate-set">The candidate set<a class="anchor" aria-label="anchor" href="#the-candidate-set"></a>
 </h2>
-<p>When we use the Modified Federov Algorithm to find design candidates, we begin by defining the candidate set. The candidate set can be the full factorial or a fractional factorial design. Often, we find that not all combinations of the full factorial makes sense. For example, it could be that if the level of an attribute occurs in alternative one, then it has to take a different level in alternative 2 or that attribute levels within an alternative cannot occur simultaneously. To avoid this, it is important to exclude these choice tasks. There are two ways we can do this:</p>
+<p>When we use the Modified Federov Algorithm to find design candidates,
+we begin by defining the candidate set. The candidate set can be the
+full factorial or a fractional factorial design. Often, we find that not
+all combinations of the full factorial makes sense. For example, it
+could be that if the level of an attribute occurs in alternative one,
+then it has to take a different level in alternative 2 or that attribute
+levels within an alternative cannot occur simultaneously. To avoid this,
+it is important to exclude these choice tasks. There are two ways we can
+do this:</p>
 <ol style="list-style-type: decimal">
-<li>We supply a restricted candidate set using the option <code>candidate_set</code> in <code>generate_design</code>. Supplying a candidate set is only possible if you are using a Modified Federov Algorithm.</li>
-<li>We specify restrictions in the list of options through <code>opts$restrictions</code>. These are either applied to the candidate set before searching for design candidates (in the case of the MFA) or after each relabeling, swapping or cycling step (in the case of the RSC algorithm).</li>
+<li>We supply a restricted candidate set using the option
+<code>candidate_set</code> in <code>generate_design</code>. Supplying a
+candidate set is only possible if you are using a Modified Federov
+Algorithm.</li>
+<li>We specify restrictions in the list of options through
+<code>opts$restrictions</code>. These are either applied to the
+candidate set before searching for design candidates (in the case of the
+MFA) or after each relabeling, swapping or cycling step (in the case of
+the RSC algorithm).</li>
 </ol>
-<p>To illustrate how restrictions are applied, we will use the case of the candidate set. Consider the following full factorial generated from two attributes taking on two levels in a design with two alternatives.</p>
-<p>Restrictions are specified as a list of the form of a list. To make it clear, let us illustrate with a simple example. Consider the following full factorial generated from two attributes taking on two levels:</p>
+<p>To illustrate how restrictions are applied, we will use the case of
+the candidate set. Consider the following full factorial generated from
+two attributes taking on two levels in a design with two
+alternatives.</p>
+<p>Restrictions are specified as a list of the form of a list. To make
+it clear, let us illustrate with a simple example. Consider the
+following full factorial generated from two attributes taking on two
+levels:</p>
 <pre><code>   alt1_x1 alt1_x2 alt2_x1 alt2_x2
 1        0       0       0       0
 2        1       0       0       0
@@ -213,21 +341,34 @@
 14       1       0       1       1
 15       0       1       1       1
 16       1       1       1       1</code></pre>
-<p>Notice that this candidate set is in the ‘wide’ format with a prefix corresponding to the alternative. The name of the prefix is determined based on the names of the alternatives in the list of utilities. Furthermore, let us assume that both attributes cannot simultaneously take on the value of 1. To implement this restriction, we would specify:</p>
+<p>Notice that this candidate set is in the ‘wide’ format with a prefix
+corresponding to the alternative. The name of the prefix is determined
+based on the names of the alternatives in the list of utilities.
+Furthermore, let us assume that both attributes cannot simultaneously
+take on the value of 1. To implement this restriction, we would
+specify:</p>
 <pre><code><span><span class="va">opts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  restrictions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="st">"alt1_x1 == 1 &amp; alt1_x2 == 1"</span>,</span>
 <span>    <span class="st">"alt2_x1 == 1 &amp; alt2_x2 == 1"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre>
-<p>We specify a separate list element for each alternative. If we had specified all in a single character string, then we would only exclude alternatives where all attributes in all alternatives were equal to 1. In this case, we did not want that. It is similarly possible to specify restrictions that work across alternatives, for example that <code>alt1_x1</code> and <code>alt2_x2</code> cannot be 1 at the same time:</p>
-<p>and if they both couldn’t be 0 at the same time as well, we would specify:</p>
+<p>We specify a separate list element for each alternative. If we had
+specified all in a single character string, then we would only exclude
+alternatives where all attributes in all alternatives were equal to 1.
+In this case, we did not want that. It is similarly possible to specify
+restrictions that work across alternatives, for example that
+<code>alt1_x1</code> and <code>alt2_x2</code> cannot be 1 at the same
+time:</p>
+<p>and if they both couldn’t be 0 at the same time as well, we would
+specify:</p>
 <pre><code><span><span class="va">opts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  restrictions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="st">"alt1_x1 == 1 &amp; alt2_x2 == 1"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre>
-<p>The user familiar with R will notice that this is the exact same syntax we would use to subset a matrix.</p>
+<p>The user familiar with R will notice that this is the exact same
+syntax we would use to subset a matrix.</p>
 </div>
 <div class="section level2">
 <h2 id="the-list-of-utility-functions">The list of utility functions<a class="anchor" aria-label="anchor" href="#the-list-of-utility-functions"></a>
@@ -235,12 +376,16 @@
 <div class="section level3">
 <h3 id="a-no-choice-or-opt-out-alternative">A no choice or opt out alternative<a class="anchor" aria-label="anchor" href="#a-no-choice-or-opt-out-alternative"></a>
 </h3>
-<p>The ‘no choice’ or ‘opt out’ alternative has to be explicitly included with a utility of zero. This is to ensure correct estimation of the variance-covariance matrix.</p>
+<p>The ‘no choice’ or ‘opt out’ alternative has to be explicitly
+included with a utility of zero. This is to ensure correct estimation of
+the variance-covariance matrix.</p>
 </div>
 <div class="section level3">
 <h3 id="selecting-priors">Selecting priors<a class="anchor" aria-label="anchor" href="#selecting-priors"></a>
 </h3>
-<p>In the case of of zero priors and attribute level balance, then the most efficient design will be an orthogonal design <span class="citation">(Hensher, Rose, and Greene <a href="#ref-hensher_applied_2005" role="doc-biblioref">2005</a>, 268)</span>.</p>
+<p>In the case of of zero priors and attribute level balance, then the
+most efficient design will be an orthogonal design <span class="citation">(<a href="#ref-hensher_applied_2005" role="doc-biblioref">Hensher, Rose, and Greene 2005,
+268</a>)</span>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -249,39 +394,73 @@
 <div class="section level3">
 <h3 id="dominantdominated-alternatives">Dominant/dominated alternatives<a class="anchor" aria-label="anchor" href="#dominantdominated-alternatives"></a>
 </h3>
-<p>Dominant or dominated alternatives should be avoided at all cost. The inclusion of such alternatives in the design and by extension the data will lead to bias in the estimated parameters <span class="citation">(Hensher, Rose, and Greene <a href="#ref-hensher_applied_2005" role="doc-biblioref">2005</a>)</span>. It is important to manually inspect all designs for potential dominating alternatives by considering the sign of the priors and the levels of the attributes in each alternative and choice task.</p>
+<p>Dominant or dominated alternatives should be avoided at all cost. The
+inclusion of such alternatives in the design and by extension the data
+will lead to bias in the estimated parameters <span class="citation">(<a href="#ref-hensher_applied_2005" role="doc-biblioref">Hensher, Rose, and
+Greene 2005</a>)</span>. It is important to manually inspect all designs
+for potential dominating alternatives by considering the sign of the
+priors and the levels of the attributes in each alternative and choice
+task.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-bhat_simulation_2003">
-<p>Bhat, Chandra R. 2003. “Simulation Estimation of Mixed Discrete Choice Models Using Randomized and Scrambled Halton Sequences.” <em>Transportation Research Part B: Methodological</em> 37 (9): 837–55. <a href="https://doi.org/10.1016/S0191-2615(02)00090-5" class="external-link">https://doi.org/10.1016/S0191-2615(02)00090-5</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bhat_simulation_2003" class="csl-entry">
+Bhat, Chandra R. 2003. <span>“Simulation Estimation of Mixed Discrete
+Choice Models Using Randomized and Scrambled <span>Halton</span>
+Sequences.”</span> <em>Transportation Research Part B:
+Methodological</em> 37 (9): 837–55. <a href="https://doi.org/10.1016/S0191-2615(02)00090-5" class="external-link">https://doi.org/10.1016/S0191-2615(02)00090-5</a>.
 </div>
-<div id="ref-cook_comparison_1980">
-<p>Cook, R. Dennis, and Christopher J. Nachtrheim. 1980. “A Comparison of Algorithms for Constructing Exact D-Optimal Designs.” <em>Technometrics</em> 22 (3): 315–24. <a href="https://doi.org/10.1080/00401706.1980.10486162" class="external-link">https://doi.org/10.1080/00401706.1980.10486162</a>.</p>
+<div id="ref-cook_comparison_1980" class="csl-entry">
+Cook, R. Dennis, and Christopher J. Nachtrheim. 1980. <span>“A
+<span>Comparison</span> of <span>Algorithms</span> for
+<span>Constructing</span> <span>Exact</span>
+<span>D</span>-<span>Optimal</span> <span>Designs</span>.”</span>
+<em>Technometrics</em> 22 (3): 315–24. <a href="https://doi.org/10.1080/00401706.1980.10486162" class="external-link">https://doi.org/10.1080/00401706.1980.10486162</a>.
 </div>
-<div id="ref-czajkowski_simulation_2019">
-<p>Czajkowski, Mikołaj, and Wiktor Budziński. 2019. “Simulation Error in Maximum Likelihood Estimation of Discrete Choice Models.” <em>Journal of Choice Modelling</em> 31 (June): 73–85. <a href="https://doi.org/10.1016/j.jocm.2019.04.003" class="external-link">https://doi.org/10.1016/j.jocm.2019.04.003</a>.</p>
+<div id="ref-czajkowski_simulation_2019" class="csl-entry">
+Czajkowski, Mikołaj, and Wiktor Budziński. 2019. <span>“Simulation Error
+in Maximum Likelihood Estimation of Discrete Choice Models.”</span>
+<em>Journal of Choice Modelling</em> 31 (June): 73–85. <a href="https://doi.org/10.1016/j.jocm.2019.04.003" class="external-link">https://doi.org/10.1016/j.jocm.2019.04.003</a>.
 </div>
-<div id="ref-hensher_applied_2005">
-<p>Hensher, David A., John M. Rose, and William H. Greene. 2005. <em>Applied Choice Analysis: A Primer</em>. Cambridge University Press.</p>
+<div id="ref-hensher_applied_2005" class="csl-entry">
+Hensher, David A., John M. Rose, and William H. Greene. 2005.
+<em>Applied <span>Choice</span> <span>Analysis</span>: <span>A</span>
+<span>Primer</span></em>. Cambridge University Press.
 </div>
-<div id="ref-hess_use_2006">
-<p>Hess, Stephane, Kenneth E. Train, and John W. Polak. 2006. “On the Use of a Modified Latin Hypercube Sampling (MLHS) Method in the Estimation of a Mixed Logit Model for Vehicle Choice.” <em>Transportation Research Part B: Methodological</em> 40 (2): 147–63. <a href="https://doi.org/10.1016/j.trb.2004.10.005" class="external-link">https://doi.org/10.1016/j.trb.2004.10.005</a>.</p>
+<div id="ref-hess_use_2006" class="csl-entry">
+Hess, Stephane, Kenneth E. Train, and John W. Polak. 2006. <span>“On the
+Use of a <span>Modified</span> <span>Latin</span> <span>Hypercube</span>
+<span>Sampling</span> (<span>MLHS</span>) Method in the Estimation of a
+<span>Mixed</span> <span>Logit</span> <span>Model</span> for Vehicle
+Choice.”</span> <em>Transportation Research Part B: Methodological</em>
+40 (2): 147–63. <a href="https://doi.org/10.1016/j.trb.2004.10.005" class="external-link">https://doi.org/10.1016/j.trb.2004.10.005</a>.
 </div>
-<div id="ref-huber_importance_1996">
-<p>Huber, Joel, and Klaus Zwerina. 1996. “The Importance of Utility Balance in Efficient Choice Designs.” <em>Journal of Marketing Research</em> 33 (3): 307–17. <a href="https://doi.org/10.1177/002224379603300305" class="external-link">https://doi.org/10.1177/002224379603300305</a>.</p>
+<div id="ref-huber_importance_1996" class="csl-entry">
+Huber, Joel, and Klaus Zwerina. 1996. <span>“The <span>Importance</span>
+of <span>Utility</span> <span>Balance</span> in <span>Efficient</span>
+<span>Choice</span> <span>Designs</span>.”</span> <em>Journal of
+Marketing Research</em> 33 (3): 307–17. <a href="https://doi.org/10.1177/002224379603300305" class="external-link">https://doi.org/10.1177/002224379603300305</a>.
 </div>
-<div id="ref-sandor_profile_2002">
-<p>Sándor, Zsolt, and Michel Wedel. 2002. “Profile Construction in Experimental Choice Designs for Mixed Logit Models.” <em>Marketing Science</em> 21 (4): 455–75. <a href="https://doi.org/10.1287/mksc.21.4.455.131" class="external-link">https://doi.org/10.1287/mksc.21.4.455.131</a>.</p>
+<div id="ref-sandor_profile_2002" class="csl-entry">
+Sándor, Zsolt, and Michel Wedel. 2002. <span>“Profile
+<span>Construction</span> in <span>Experimental</span>
+<span>Choice</span> <span>Designs</span> for <span>Mixed</span>
+<span>Logit</span> <span>Models</span>.”</span> <em>Marketing
+Science</em> 21 (4): 455–75. <a href="https://doi.org/10.1287/mksc.21.4.455.131" class="external-link">https://doi.org/10.1287/mksc.21.4.455.131</a>.
 </div>
-<div id="ref-scarpa_design_2008">
-<p>Scarpa, Riccardo, and John M. Rose. 2008. “Design Efficiency for Non-Market Valuation with Choice Modelling: How to Measure It, What to Report and Why*.” <em>Australian Journal of Agricultural and Resource Economics</em> 52 (3): 253–82. <a href="https://doi.org/10.1111/j.1467-8489.2007.00436.x" class="external-link">https://doi.org/10.1111/j.1467-8489.2007.00436.x</a>.</p>
+<div id="ref-scarpa_design_2008" class="csl-entry">
+Scarpa, Riccardo, and John M. Rose. 2008. <span>“Design Efficiency for
+Non-Market Valuation with Choice Modelling: How to Measure It, What to
+Report and Why*.”</span> <em>Australian Journal of Agricultural and
+Resource Economics</em> 52 (3): 253–82. <a href="https://doi.org/10.1111/j.1467-8489.2007.00436.x" class="external-link">https://doi.org/10.1111/j.1467-8489.2007.00436.x</a>.
 </div>
-<div id="ref-train_discrete_2009">
-<p>Train, Kenneth E. 2009. <em>Discrete Choice Methods with Simulation</em>. 2nd ed. Cambridge University Press.</p>
+<div id="ref-train_discrete_2009" class="csl-entry">
+Train, Kenneth E. 2009. <em>Discrete <span>Choice</span>
+<span>Methods</span> with <span>Simulation</span></em>. 2nd ed.
+Cambridge University Press.
 </div>
 </div>
 </div>
@@ -304,7 +483,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

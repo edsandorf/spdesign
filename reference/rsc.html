@@ -79,11 +79,11 @@ to allow for all special cases of the algorithm.</p>
 <span>  <span class="va">design_object</span>,</span>
 <span>  <span class="va">model</span>,</span>
 <span>  <span class="va">efficiency_criteria</span>,</span>
-<span>  <span class="va">utility_parsed</span>,</span>
-<span>  <span class="va">priors</span>,</span>
-<span>  <span class="va">didx</span>,</span>
+<span>  <span class="va">utility</span>,</span>
+<span>  <span class="va">prior_values</span>,</span>
+<span>  <span class="va">dudx</span>,</span>
 <span>  <span class="va">candidate_set</span>,</span>
-<span>  <span class="va">tasks</span>,</span>
+<span>  <span class="va">rows</span>,</span>
 <span>  <span class="va">control</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -108,15 +108,17 @@ default is set and argument must be specified. Optimizing for multiple
 criteria is not yet implemented and will result in an error.</p></dd>
 
 
-<dt>utility_parsed</dt>
-<dd><p>A parsed utility expression</p></dd>
+<dt>utility</dt>
+<dd><p>A named list of utility functions. See the examples and the
+vignette for examples of how to define these correctly for different types
+of experimental designs.</p></dd>
 
 
-<dt>priors</dt>
+<dt>prior_values</dt>
 <dd><p>A list of priors</p></dd>
 
 
-<dt>didx</dt>
+<dt>dudx</dt>
 <dd><p>A character string giving the name of the parameter in the
 denominator. Must be specified when optimizing for 'c-error'</p></dd>
 
@@ -128,8 +130,8 @@ candidate set is provided, then the full factorial subject to specified
 restrictions will be used.</p></dd>
 
 
-<dt>tasks</dt>
-<dd><p>An integer giving the number of tasks (rows) in the final design</p></dd>
+<dt>rows</dt>
+<dd><p>An integer giving the number of rows in the final design</p></dd>
 
 
 <dt>control</dt>
@@ -149,7 +151,7 @@ restrictions will be used.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

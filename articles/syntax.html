@@ -81,7 +81,7 @@
 
       
 
-      </header><script src="syntax_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Syntax</h1>
@@ -97,26 +97,56 @@
 <div class="section level2">
 <h2 id="syntax">Syntax<a class="anchor" aria-label="anchor" href="#syntax"></a>
 </h2>
-<p>The syntax of <code>spdesign</code> is made to be intuitive and easy, while at the same time very flexible. To achieve this, we use a combination of regular expressions and R’s powerful expression parser “under the hood” to translate the user-specified utility functions into objects that can be manipulated by the package.</p>
+<p>The syntax of <code>spdesign</code> is made to be intuitive and easy,
+while at the same time very flexible. To achieve this, we use a
+combination of regular expressions and R’s powerful expression parser
+“under the hood” to translate the user-specified utility functions into
+objects that can be manipulated by the package.</p>
 <div class="section level3">
 <h3 id="specifying-a-parameter-with-a-prior">Specifying a parameter with a prior<a class="anchor" aria-label="anchor" href="#specifying-a-parameter-with-a-prior"></a>
 </h3>
 <div class="section level4">
 <h4 id="a-fixed-prior">A fixed prior<a class="anchor" aria-label="anchor" href="#a-fixed-prior"></a>
 </h4>
-<p>In <code>spdesign</code>, all parameters <em>must</em> have a prior. This is a deliberate design choice to make it clear that using a 0 prior is also an assumption in our design. The name of the parameter is followed by a square bracket, which contains the prior. All parameters have to start with <code>b_</code>. This is to separate them from attributes and to easily allow for non-linear utility functions. If no prior is specified for a given parameter, an error is returned. If the parameter is generic, i.e. it enters multiple utility expressions, then you only need to specify the prior once. If you specify more than one prior, only the first will be used and a warning is issued. It is strongly recommended that priors for generic parameters are specified the first time they are used (this is a good tip for attributes as well!).</p>
-<p>For example, to specify a parameter <code>b_x1</code> with a prior of <code>0</code>, we would write:</p>
+<p>In <code>spdesign</code>, all parameters <em>must</em> have a prior.
+This is a deliberate design choice to make it clear that using a 0 prior
+is also an assumption in our design. The name of the parameter is
+followed by a square bracket, which contains the prior. All parameters
+have to start with <code>b_</code>. This is to separate them from
+attributes and to easily allow for non-linear utility functions. If no
+prior is specified for a given parameter, an error is returned. If the
+parameter is generic, i.e. it enters multiple utility expressions, then
+you only need to specify the prior once. If you specify more than one
+prior, only the first will be used and a warning is issued. It is
+strongly recommended that priors for generic parameters are specified
+the first time they are used (this is a good tip for attributes as
+well!).</p>
+<p>For example, to specify a parameter <code>b_x1</code> with a prior of
+<code>0</code>, we would write:</p>
 <pre><code><span><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span></span></code></pre>
-<p>Because we are leveraging R’s built-in parser, we can use basic mathematical operators to manipulate the values of our priors. For example, using the basic functions <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and <code>^</code>:</p>
+<p>Because we are leveraging R’s built-in parser, we can use basic
+mathematical operators to manipulate the values of our priors. For
+example, using the basic functions <code>+</code>, <code>-</code>,
+<code>*</code>, <code>/</code> and <code>^</code>:</p>
 <pre><code><span><span class="va">b_x1</span><span class="op">[</span><span class="fl">2</span> <span class="op">*</span> <span class="fl">0.4</span><span class="op">]</span></span></code></pre>
-<p>It is even possible to specify parameter priors as functions of earlier parameters. The only requirement is that the earlier parameter has been specified with a prior. In the example below, the prior value of <code>b_x2</code> is specified as half of <code>b_x1</code>.</p>
+<p>It is even possible to specify parameter priors as functions of
+earlier parameters. The only requirement is that the earlier parameter
+has been specified with a prior. In the example below, the prior value
+of <code>b_x2</code> is specified as half of <code>b_x1</code>.</p>
 <pre><code><span><span class="va">b_x1</span><span class="op">[</span><span class="fl">0.5</span><span class="op">]</span> <span class="op">*</span> <span class="va">x_1</span> <span class="op">+</span> <span class="va">b_x2</span><span class="op">[</span><span class="va">b_x1</span> <span class="op">/</span> <span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="va">x_2</span></span></code></pre>
-<p>If you try to specify multiple priors for a single parameter, e.g. <code>b_x1[c(0.1, 0.2)]</code>, a warning will be issued and only the first parameter value will be used. Specifying multiple priors for a single parameter is only valid if you are using the <code>_dummy</code> or <code>_effect</code> syntax to create dummy coded or effects coded variables, respectively.</p>
+<p>If you try to specify multiple priors for a single parameter,
+e.g. <code>b_x1[c(0.1, 0.2)]</code>, a warning will be issued and only
+the first parameter value will be used. Specifying multiple priors for a
+single parameter is only valid if you are using the <code>_dummy</code>
+or <code>_effect</code> syntax to create dummy coded or effects coded
+variables, respectively.</p>
 </div>
 <div class="section level4">
 <h4 id="a-bayesian-prior">A Bayesian prior<a class="anchor" aria-label="anchor" href="#a-bayesian-prior"></a>
 </h4>
-<p>We can specify a Bayesian prior by specifying the distribution of the prior. For example, <code>uniform_p(-1, 1)</code> means that we allow the prior to follow a uniform distribution between -1 and 1.</p>
+<p>We can specify a Bayesian prior by specifying the distribution of the
+prior. For example, <code>uniform_p(-1, 1)</code> means that we allow
+the prior to follow a uniform distribution between -1 and 1.</p>
 <pre><code><span><span class="va">b_x1</span><span class="op">[</span><span class="fu"><a href="../reference/normal.html">uniform_p</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span></span></code></pre>
 <p>We can use the following distributions:</p>
 <ul>
@@ -129,7 +159,14 @@
 <li>Uniform - <code>uniform_p(location, spread)</code>
 </li>
 </ul>
-<p>All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Notice that the name of the distribution is in capital letters followed by a lower case <code>p</code> indicating that it is a prior. This is to distinguish it from a random parameter in an RPL model. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs.</p>
+<p>All distributions are specified with a mean (location) or standard
+deviation (spread). In the case of the log-normal distribution we are
+specifying the mean and standard deviation of the underlying normal
+distribution. Notice that the name of the distribution is in capital
+letters followed by a lower case <code>p</code> indicating that it is a
+prior. This is to distinguish it from a random parameter in an RPL
+model. Bayesian priors are discussed in detail in the tutorial on
+advanced experimental designs.</p>
 </div>
 </div>
 <div class="section level3">
@@ -138,9 +175,14 @@
 <div class="section level4">
 <h4 id="linear-attributes">Linear attributes<a class="anchor" aria-label="anchor" href="#linear-attributes"></a>
 </h4>
-<p>The syntax for specifying attributes and levels is similar to how we specify parameters and priors. The attribute name is specified to the left and levels are specified inside <code>[]</code>. Below, the attribute <code>x_1</code> can take on the levels 1, 2, 3, 4 and 5.</p>
+<p>The syntax for specifying attributes and levels is similar to how we
+specify parameters and priors. The attribute name is specified to the
+left and levels are specified inside <code>[]</code>. Below, the
+attribute <code>x_1</code> can take on the levels 1, 2, 3, 4 and 5.</p>
 <pre><code><span><span class="va">x_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code></pre>
-<p>When we specify the levels, we can make use of R’s built in functions for generating sequences and vectors. For example, the following three specifications are identical:</p>
+<p>When we specify the levels, we can make use of R’s built in functions
+for generating sequences and vectors. For example, the following three
+specifications are identical:</p>
 <pre><code><span><span class="co"># Specification 1</span></span>
 <span><span class="va">x_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
 <span></span>
@@ -151,17 +193,32 @@
 <span><span class="va">x_1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span></span></code></pre>
 <p>However,</p>
 <pre><code><span><span class="va">x_1</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">]</span></span></code></pre>
-<p>is not a valid specification and will throw an error. The error will most likely be of the form:</p>
+<p>is not a valid specification and will throw an error. The error will
+most likely be of the form:</p>
 <pre><code>Error in parse(text = x) : &lt;text&gt;:1:2: unexpected ','
 1: 1,
      ^ </code></pre>
-<p>While we have not written a new intuitive error message for this misspecification, it will be caught by R’s parser and we feel that this is sufficient. As a compromise, we state the most likely error here to help users catch why their specifications fail.</p>
+<p>While we have not written a new intuitive error message for this
+misspecification, it will be caught by R’s parser and we feel that this
+is sufficient. As a compromise, we state the most likely error here to
+help users catch why their specifications fail.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="combining-parameters-priors-attributes-and-levels-to-form-a-utility-function">Combining parameters, priors, attributes and levels to form a utility function<a class="anchor" aria-label="anchor" href="#combining-parameters-priors-attributes-and-levels-to-form-a-utility-function"></a>
+<h3 id="combining-parameters-priors-attributes-and-levels-to-form-a-utility-function">Combining parameters, priors, attributes and levels to form a
+utility function<a class="anchor" aria-label="anchor" href="#combining-parameters-priors-attributes-and-levels-to-form-a-utility-function"></a>
 </h3>
-<p>We combine the parameter and attribute as in the example below to start building our utility expression. We recommend that people use the naming convention <code>b_x1</code> being the parameter for the attribute <code>x1</code>. It has no practical implication for how the code works or interprets the utility function, but it makes it much easier for the user to see which parameter goes with which attribute. It is also important that the parameter <code>b_x1</code> preceeds the attribute <code>x1</code>. There is currently no checks written to ensure this, but failing to do so may cause unintended errors in certain instances. For example, if you are using the dummy- or effects-coding shorthand detailed below.</p>
+<p>We combine the parameter and attribute as in the example below to
+start building our utility expression. We recommend that people use the
+naming convention <code>b_x1</code> being the parameter for the
+attribute <code>x1</code>. It has no practical implication for how the
+code works or interprets the utility function, but it makes it much
+easier for the user to see which parameter goes with which attribute. It
+is also important that the parameter <code>b_x1</code> preceeds the
+attribute <code>x1</code>. There is currently no checks written to
+ensure this, but failing to do so may cause unintended errors in certain
+instances. For example, if you are using the dummy- or effects-coding
+shorthand detailed below.</p>
 <pre><code><span><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -170,51 +227,122 @@
 <div class="section level4">
 <h4 id="attribute-level-balance">Attribute level balance<a class="anchor" aria-label="anchor" href="#attribute-level-balance"></a>
 </h4>
-<p>Attribute level balance is controlled with the option <code>opts$level_balance</code>. The default value is <code>FALSE</code>. It is possible to impose attribute level balance setting this option to <code>TRUE</code>. While it is known that level balanced designs are less efficient, it may be desirable to ensure that all attribute levels occur with equal frequency. However, it is only possible to obtain attribute level balance if the number of levels an attribute can take is a multiple of the number of rows in the design candidate. The number of rows is equal to the product of the number of alternatives per choice task and number of choice tasks. For example, if we have a dummy attribute and our design candidate has 12 rows, then each attribute level occurs exactly 6 times. If we have an attribute with three levels, then each level occurs exactly 4 times across the design.</p>
-<p>However, if the number of levels for any attribute is not a multiple of the number of rows in the design candidate, then we cannot achieve attribute level balance. In this case, the package will print a warning that attribute level balance cannot be assured, but that it will strive to get as close as possible. The way it does this is by letting go of attribute level balance only for the attributes whose levels are not multiples of the number of rows in the design candidate. Furthermore, it will try to have each attribute level occur a number of times that is as close to attribute level balance as possible. For example, if we have an attribute with 3 levels and a design candidate with 10 rows, then each attribute level will occur a minimum of 3 times with one attribute level occuring 4 times. That said, the package does provide the user with some flexibility in how this is specified.</p>
-<p>It is possible for the user to specify that each level of our three-level attribute occurs a minimum of 3 times. To do this, we would need <code>level_balance = TRUE</code> and specify the minimum number of times each level would occur in a rounded parenthesis behind the attribute level specification.</p>
+<p>Attribute level balance is controlled with the option
+<code>opts$level_balance</code>. The default value is
+<code>FALSE</code>. It is possible to impose attribute level balance
+setting this option to <code>TRUE</code>. While it is known that level
+balanced designs are less efficient, it may be desirable to ensure that
+all attribute levels occur with equal frequency. However, it is only
+possible to obtain attribute level balance if the number of levels an
+attribute can take is a multiple of the number of rows in the design
+candidate. The number of rows is equal to the product of the number of
+alternatives per choice task and number of choice tasks. For example, if
+we have a dummy attribute and our design candidate has 12 rows, then
+each attribute level occurs exactly 6 times. If we have an attribute
+with three levels, then each level occurs exactly 4 times across the
+design.</p>
+<p>However, if the number of levels for any attribute is not a multiple
+of the number of rows in the design candidate, then we cannot achieve
+attribute level balance. In this case, the package will print a warning
+that attribute level balance cannot be assured, but that it will strive
+to get as close as possible. The way it does this is by letting go of
+attribute level balance only for the attributes whose levels are not
+multiples of the number of rows in the design candidate. Furthermore, it
+will try to have each attribute level occur a number of times that is as
+close to attribute level balance as possible. For example, if we have an
+attribute with 3 levels and a design candidate with 10 rows, then each
+attribute level will occur a minimum of 3 times with one attribute level
+occuring 4 times. That said, the package does provide the user with some
+flexibility in how this is specified.</p>
+<p>It is possible for the user to specify that each level of our
+three-level attribute occurs a minimum of 3 times. To do this, we would
+need <code>level_balance = TRUE</code> and specify the minimum number of
+times each level would occur in a rounded parenthesis behind the
+attribute level specification.</p>
 <pre><code><span><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span></code></pre>
-<p>In the specification above, 0 would occur a minimum of 3 times, 1 would occur a minimum of 2 times and 3 would occur a minimum of 3 times. If all levels could occure at a minimum an equal number of times, we can write this more succinctly as:</p>
+<p>In the specification above, 0 would occur a minimum of 3 times, 1
+would occur a minimum of 2 times and 3 would occur a minimum of 3 times.
+If all levels could occure at a minimum an equal number of times, we can
+write this more succinctly as:</p>
 <pre><code><span><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></code></pre>
-<p>Two important things to note about the above specification: 1) You can only specify the number of times an attribute should occur in the design at the same time as you specify the number of levels, and 2) the number of comma-separated elements inside the parenthesis has to be equal to 1 (all take the same minimum/maximum number) or equal to the number of levels. Any number of elements inbetween will lead to an error and no design will be produced. In some cases it might be desirable to specify a range indicating an acceptable number of times an attribute level can occur. We do this using the standard range-operator <code>:</code> in R. In the example below, each attribute level can occur 3, 4 or 5 times.</p>
+<p>Two important things to note about the above specification: 1) You
+can only specify the number of times an attribute should occur in the
+design at the same time as you specify the number of levels, and 2) the
+number of comma-separated elements inside the parenthesis has to be
+equal to 1 (all take the same minimum/maximum number) or equal to the
+number of levels. Any number of elements inbetween will lead to an error
+and no design will be produced. In some cases it might be desirable to
+specify a range indicating an acceptable number of times an attribute
+level can occur. We do this using the standard range-operator
+<code>:</code> in R. In the example below, each attribute level can
+occur 3, 4 or 5 times.</p>
 <pre><code><span><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre>
-<p>It may be desirable to not use a continuous range. For example, you can specify that an attribute level should only occur 2, 4 or 6 times using either of the two following specifications:</p>
+<p>It may be desirable to not use a continuous range. For example, you
+can specify that an attribute level should only occur 2, 4 or 6 times
+using either of the two following specifications:</p>
 <pre><code><span><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># OR</span></span>
 <span></span>
 <span><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-<p>The same restrictions outlined above with respect to what is specified inside the parenthesis apply.</p>
+<p>The same restrictions outlined above with respect to what is
+specified inside the parenthesis apply.</p>
 </div>
 <div class="section level4">
 <h4 id="interactions">Interactions<a class="anchor" aria-label="anchor" href="#interactions"></a>
 </h4>
-<p>If you believe that there are interaction effects between attributes in your model, then these will have to be considered at the design stage. Any design that is not a full factorial assumes that some higher order interaction effects are insignificant. To ensure that you are able to identify the effect of an interaction in your data, this will have to be included in the design. To inclde an interaction term in the design, we can use the following syntax.</p>
+<p>If you believe that there are interaction effects between attributes
+in your model, then these will have to be considered at the design
+stage. Any design that is not a full factorial assumes that some higher
+order interaction effects are insignificant. To ensure that you are able
+to identify the effect of an interaction in your data, this will have to
+be included in the design. To inclde an interaction term in the design,
+we can use the following syntax.</p>
 <pre><code><span><span class="va">b_x1</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">+</span> <span class="va">b_x2</span> <span class="op">*</span> <span class="va">x2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">+</span> <span class="va">b_x1x2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">x1</span> <span class="op">*</span> <span class="va">x2</span><span class="op">)</span></span></code></pre>
-<p>Two things to note about the specification of the utility function with interactions. First, the levels of the attributes are specified when the attribute is first introduced and not in the interaction term itself, and two, for the parser to correctly interpret an interaction term, it needs to be wrapped in R’s internal function for handling interactions <code><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I()</a></code>.</p>
-<p>We have included more examples of how this works in the excamples folder on Github.</p>
+<p>Two things to note about the specification of the utility function
+with interactions. First, the levels of the attributes are specified
+when the attribute is first introduced and not in the interaction term
+itself, and two, for the parser to correctly interpret an interaction
+term, it needs to be wrapped in R’s internal function for handling
+interactions <code><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I()</a></code>.</p>
+<p>We have included more examples of how this works in the excamples
+folder on Github.</p>
 </div>
 <div class="section level4">
 <h4 id="dummy-coded-attributes">Dummy-coded attributes<a class="anchor" aria-label="anchor" href="#dummy-coded-attributes"></a>
 </h4>
-<p>We can specify an attribute to be dummy coded using the <code>_dummy</code> syntax.</p>
+<p>We can specify an attribute to be dummy coded using the
+<code>_dummy</code> syntax.</p>
 <pre><code><span><span class="va">V</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  alt1 <span class="op">=</span> <span class="va">b_x1_dummy</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  alt2 <span class="op">=</span> <span class="va">b_x1</span> <span class="op">*</span> <span class="va">x1</span></span>
 <span><span class="op">)</span></span></code></pre>
-<p>A few things to note about using the <code>_dummy</code> syntax (this is also true for <code>_effect</code> sytax, described below): 1) The priors and levels must be specified simultaneously. 2) You only need to use the <code>_dummy</code> syntax the when the prior is first specified. Importantly, this means that <code>b_x1_dummy</code> is used when the prior is specified and <code>b_x1</code> is used when referencing the parameters for the dummy coded attributes in the other utility functions. 3) You must specify one more level for the attribute than priors for the parameter.</p>
+<p>A few things to note about using the <code>_dummy</code> syntax (this
+is also true for <code>_effect</code> sytax, described below): 1) The
+priors and levels must be specified simultaneously. 2) You only need to
+use the <code>_dummy</code> syntax the when the prior is first
+specified. Importantly, this means that <code>b_x1_dummy</code> is used
+when the prior is specified and <code>b_x1</code> is used when
+referencing the parameters for the dummy coded attributes in the other
+utility functions. 3) You must specify one more level for the attribute
+than priors for the parameter.</p>
 <p>In the case of the example above, it is identical to specifying:</p>
 <pre><code><span><span class="va">V</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  alt1 <span class="op">=</span> <span class="va">b_x1_1</span><span class="op">[</span><span class="fl">0.2</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1_1</span><span class="op">[</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">b_x1_2</span><span class="op">[</span><span class="fl">0.5</span><span class="op">]</span> <span class="op">*</span> <span class="va">x1_2</span><span class="op">[</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">]</span>,</span>
 <span>  alt2 <span class="op">=</span> <span class="va">b_x1_1</span> <span class="op">*</span> <span class="va">x1_1</span> <span class="op">+</span> <span class="va">b_x1_2</span> <span class="op">*</span> <span class="va">x1_2</span></span>
 <span><span class="op">)</span></span></code></pre>
-<p>and implement the restriction that <code>x1_1</code> and <code>x1_2</code> cannot simultaneously be equal to 1. Under both specifications, estimates are relative to <code>x1 = 0</code>.</p>
+<p>and implement the restriction that <code>x1_1</code> and
+<code>x1_2</code> cannot simultaneously be equal to 1. Under both
+specifications, estimates are relative to <code>x1 = 0</code>.</p>
 </div>
 <div class="section level4">
 <h4 id="effects-coded-attributes">Effects-coded attributes<a class="anchor" aria-label="anchor" href="#effects-coded-attributes"></a>
 </h4>
-<p>We can specify an attribute to be effects coded using the <code>_effect</code> syntax.</p>
-<p>It is important to note that effects and dummy coding are theoretically equivalent <span class="citation">(Daly, Dekker, and Hess <a href="#ref-daly_dummy_2016" role="doc-biblioref">2016</a>)</span>.</p>
+<p>We can specify an attribute to be effects coded using the
+<code>_effect</code> syntax.</p>
+<p>It is important to note that effects and dummy coding are
+theoretically equivalent <span class="citation">(<a href="#ref-daly_dummy_2016" role="doc-biblioref">Daly, Dekker, and Hess
+2016</a>)</span>.</p>
 </div>
 </div>
 </div>
@@ -231,11 +359,14 @@
 </div>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-daly_dummy_2016">
-<p>Daly, Andrew, Thijs Dekker, and Stephane Hess. 2016. “Dummy Coding Vs Effects Coding for Categorical Variables: Clarifications and Extensions.” <em>Journal of Choice Modelling</em>, Standalone technical contributions in choice modelling, 21 (December): 36–41. <a href="https://doi.org/10.1016/j.jocm.2016.09.005" class="external-link">https://doi.org/10.1016/j.jocm.2016.09.005</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-daly_dummy_2016" class="csl-entry">
+Daly, Andrew, Thijs Dekker, and Stephane Hess. 2016. <span>“Dummy Coding
+Vs Effects Coding for Categorical Variables: <span>Clarifications</span>
+and Extensions.”</span> <em>Journal of Choice Modelling</em>, Standalone
+technical contributions in choice modelling, 21 (December): 36–41. <a href="https://doi.org/10.1016/j.jocm.2016.09.005" class="external-link">https://doi.org/10.1016/j.jocm.2016.09.005</a>.
 </div>
 </div>
 </div>
@@ -258,7 +389,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

@@ -28,7 +28,25 @@
     <loc>https://spdesignr.edsandorf.me/news/index.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/all_priors_and_levels_specified.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/any_duplicates.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/apply_restrictions.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/attribute_level_balance.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/attribute_levels.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/attribute_names.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/block.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/calculate_a_error.html</loc>
@@ -47,6 +65,12 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/calculate_s_error.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/clean_utility.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/coef.spdesign.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/cycle.html</loc>
@@ -74,6 +98,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/evaluate_design_candidate.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/expand_attribute_levels.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/extract_all_names.html</loc>
@@ -118,27 +145,6 @@
     <loc>https://spdesignr.edsandorf.me/reference/generate_rsc_candidate.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/get_attribute_level_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/reference/get_attribute_levels.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/reference/get_attribute_names.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/reference/get_level_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/reference/get_prior_values.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/reference/get_utility_clean.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/reference/get_utility_formula.html</loc>
-  </url>
-  <url>
     <loc>https://spdesignr.edsandorf.me/reference/has_bayesian_prior.html</loc>
   </url>
   <url>
@@ -146,6 +152,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/is_balanced.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/make_draws.html</loc>
@@ -172,16 +181,13 @@
     <loc>https://spdesignr.edsandorf.me/reference/normal.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/parse_utility.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/occurrences.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/prepare_priors.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/print.spdesign.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/reference/print.utility.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/print_efficiency_criteria.html</loc>
@@ -193,7 +199,7 @@
     <loc>https://spdesignr.edsandorf.me/reference/print_iteration_information.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/prior.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/priors.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/radical_inverse.html</loc>
@@ -253,7 +259,7 @@
     <loc>https://spdesignr.edsandorf.me/reference/swap.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/reference/swap_values.html</loc>
+    <loc>https://spdesignr.edsandorf.me/reference/too_small.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/transform_distribution.html</loc>
@@ -269,6 +275,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/transform_uniform.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/utility_formula.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/vcov.spdesign.html</loc>

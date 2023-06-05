@@ -1,11 +1,11 @@
-pandoc: 2.7.3
-pkgdown: 2.0.5
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   generating-a-design: generating-a-design.html
   introduction: introduction.html
   syntax: syntax.html
-last_built: 2022-07-08T08:41Z
+last_built: 2023-06-05T05:44Z
 urls:
   reference: https://spdesignr.edsandorf.me/reference
   article: https://spdesignr.edsandorf.me/articles

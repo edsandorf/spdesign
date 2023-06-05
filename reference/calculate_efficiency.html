@@ -70,10 +70,10 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculate_efficiency</span><span class="op">(</span></span>
-<span>  <span class="va">priors</span>,</span>
-<span>  <span class="va">design_environment</span>,</span>
+<span>  <span class="va">prior_values</span>,</span>
+<span>  <span class="va">design_env</span>,</span>
 <span>  <span class="va">model</span>,</span>
-<span>  <span class="va">didx</span>,</span>
+<span>  <span class="va">dudx</span>,</span>
 <span>  return_all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  significance <span class="op">=</span> <span class="fl">1.96</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -81,11 +81,11 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>priors</dt>
+    <dl><dt>prior_values</dt>
 <dd><p>a list or vector of assumed priors</p></dd>
 
 
-<dt>design_environment</dt>
+<dt>design_env</dt>
 <dd><p>A design environment in which to evaluate the
 the function to derive the variance-covariance matrix.</p></dd>
 
@@ -96,7 +96,7 @@ for. Currently the only model programmed is the 'mnl' model and this is also
 set as the default.</p></dd>
 
 
-<dt>didx</dt>
+<dt>dudx</dt>
 <dd><p>A character string giving the name of the parameter in the
 denominator. Must be specified when optimizing for 'c-error'</p></dd>
 
@@ -116,7 +116,8 @@ t-value of 1.96.</p></dd>
     <h2>Value</h2>
     
 
-<p>A named vector of efficiency criteria</p>
+<p>A list with a named vector of efficiency criteria and the
+variance-covariance matrix</p>
     </div>
 
   </div>
@@ -131,7 +132,7 @@ t-value of 1.96.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

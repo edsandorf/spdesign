@@ -73,21 +73,21 @@ of the specified model and design given the priors.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">derive_vcov</span><span class="op">(</span><span class="va">priors</span>, <span class="va">design_environment</span>, <span class="va">type</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">derive_vcov</span><span class="op">(</span><span class="va">prior_values</span>, <span class="va">design_env</span>, <span class="va">model</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>priors</dt>
-<dd><p>A named vector of assumed priors</p></dd>
+    <dl><dt>prior_values</dt>
+<dd><p>A named vector of assumed prior_values</p></dd>
 
 
-<dt>design_environment</dt>
+<dt>design_env</dt>
 <dd><p>An environment containing all the elements
 necessary to derive the variance-covariance matrix</p></dd>
 
 
-<dt>type</dt>
+<dt>model</dt>
 <dd><p>A string indicating the model for which you wish to derive the
 variance covariance matrix. Can be either "mnl" or "rpl"</p></dd>
 
@@ -112,7 +112,7 @@ singular, then return NULL</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

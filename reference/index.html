@@ -67,9 +67,34 @@
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
+          <p><code><a href="all_priors_and_levels_specified.html">all_priors_and_levels_specified()</a></code> </p>
+        </td>
+        <td><p>Check whether all priors and attributes have specified levels</p></td>
+      </tr><tr><td>
+          <p><code><a href="any_duplicates.html">any_duplicates()</a></code> </p>
+        </td>
+        <td><p>Check whether any priors or attributes are specified with a value more than
+once</p></td>
+      </tr><tr><td>
           <p><code><a href="apply_restrictions.html">apply_restrictions()</a></code> </p>
         </td>
         <td><p>Apply restrictions to the candidate set</p></td>
+      </tr><tr><td>
+          <p><code><a href="attribute_level_balance.html">attribute_level_balance()</a></code> </p>
+        </td>
+        <td><p>Check whether we can achieve attribute level balance</p></td>
+      </tr><tr><td>
+          <p><code><a href="attribute_levels.html">attribute_levels()</a></code> </p>
+        </td>
+        <td><p>Generic for getting the attributes and levels from the utility</p></td>
+      </tr><tr><td>
+          <p><code><a href="attribute_names.html">attribute_names()</a></code> </p>
+        </td>
+        <td><p>Generic for getting the attribute names</p></td>
+      </tr><tr><td>
+          <p><code><a href="block.html">block()</a></code> </p>
+        </td>
+        <td><p>Block the design</p></td>
       </tr><tr><td>
           <p><code><a href="calculate_a_error.html">calculate_a_error()</a></code> </p>
         </td>
@@ -94,6 +119,14 @@
           <p><code><a href="calculate_s_error.html">calculate_s_error()</a></code> </p>
         </td>
         <td><p>S-error</p></td>
+      </tr><tr><td>
+          <p><code><a href="clean_utility.html">clean_utility()</a></code> </p>
+        </td>
+        <td><p>Cleans the utility expression</p></td>
+      </tr><tr><td>
+          <p><code><a href="coef.spdesign.html">coef(<i>&lt;spdesign&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Generic for extracting the vector of priors</p></td>
       </tr><tr><td>
           <p><code><a href="cycle.html">cycle()</a></code> </p>
         </td>
@@ -130,6 +163,10 @@
           <p><code><a href="evaluate_design_candidate.html">evaluate_design_candidate()</a></code> </p>
         </td>
         <td><p>Evaluate the design candidate</p></td>
+      </tr><tr><td>
+          <p><code><a href="expand_attribute_levels.html">expand_attribute_levels()</a></code> </p>
+        </td>
+        <td><p>Expand the list of attributes and levels to the "wide" format</p></td>
       </tr><tr><td>
           <p><code><a href="extract_all_names.html">extract_all_names()</a></code> </p>
         </td>
@@ -181,39 +218,11 @@
       </tr><tr><td>
           <p><code><a href="generate_design.html">generate_design()</a></code> </p>
         </td>
-        <td><p>Generate the experimental design</p></td>
+        <td><p>Generate an efficient experimental design</p></td>
       </tr><tr><td>
           <p><code><a href="generate_rsc_candidate.html">generate_rsc_candidate()</a></code> </p>
         </td>
         <td><p>Generates a candidate for the RSC algorithm</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_attribute_level_occurrence.html">get_attribute_level_occurrence()</a></code> </p>
-        </td>
-        <td><p>Get the attribute level occurrence</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_attribute_levels.html">get_attribute_levels()</a></code> </p>
-        </td>
-        <td><p>Get the attribute levels</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_attribute_names.html">get_attribute_names()</a></code> </p>
-        </td>
-        <td><p>Get the attribute names</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_level_occurrence.html">get_level_occurrence()</a></code> </p>
-        </td>
-        <td><p>Function for getting and setting up the list of level occurrences</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_prior_values.html">get_prior_values()</a></code> </p>
-        </td>
-        <td><p>Get the prior values</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_utility_clean.html">get_utility_clean()</a></code> </p>
-        </td>
-        <td><p>Get the cleaned utility functions</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_utility_formula.html">get_utility_formula()</a></code> </p>
-        </td>
-        <td><p>Get the utility formula</p></td>
       </tr><tr><td>
           <p><code><a href="has_bayesian_prior.html">has_bayesian_prior()</a></code> </p>
         </td>
@@ -222,6 +231,10 @@
           <p><code><a href="has_random_parameter.html">has_random_parameter()</a></code> </p>
         </td>
         <td><p>Tests whether the utility expression contains random parameters</p></td>
+      </tr><tr><td>
+          <p><code><a href="is_balanced.html">is_balanced()</a></code> </p>
+        </td>
+        <td><p>Tests whether a utility function is balanced</p></td>
       </tr><tr><td>
           <p><code><a href="make_draws.html">make_draws()</a></code> </p>
         </td>
@@ -255,9 +268,9 @@
         </td>
         <td><p>Evaluating a distribution</p></td>
       </tr><tr><td>
-          <p><code><a href="parse_utility.html">parse_utility()</a></code> </p>
+          <p><code><a href="occurrences.html">occurrences()</a></code> </p>
         </td>
-        <td><p>Parse the utility functions</p></td>
+        <td><p>Generic for extracting the attribute occurrence</p></td>
       </tr><tr><td>
           <p><code><a href="prepare_priors.html">prepare_priors()</a></code> </p>
         </td>
@@ -266,10 +279,6 @@
           <p><code><a href="print.spdesign.html">print(<i>&lt;spdesign&gt;</i>)</a></code> </p>
         </td>
         <td><p>A generic function for printing an 'spdesign' object</p></td>
-      </tr><tr><td>
-          <p><code><a href="print.utility.html">print(<i>&lt;utility&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>S3 Generic for printing the utility object</p></td>
       </tr><tr><td>
           <p><code><a href="print_efficiency_criteria.html">print_efficiency_criteria()</a></code> </p>
         </td>
@@ -283,7 +292,7 @@
         </td>
         <td><p>Prints iteration information</p></td>
       </tr><tr><td>
-          <p><code><a href="prior.html">prior()</a></code> </p>
+          <p><code><a href="priors.html">priors()</a></code> </p>
         </td>
         <td><p>Generic for extracting the vector of priors</p></td>
       </tr><tr><td>
@@ -293,11 +302,11 @@
       </tr><tr><td>
           <p><code><a href="random.html">random()</a></code> </p>
         </td>
-        <td><p>Make a random design candidate</p></td>
+        <td><p>Make a random design</p></td>
       </tr><tr><td>
           <p><code><a href="random_design_candidate.html">random_design_candidate()</a></code> </p>
         </td>
-        <td><p>Create a random design candidate</p></td>
+        <td><p>Create a random design_object candidate</p></td>
       </tr><tr><td>
           <p><code><a href="relabel.html">relabel()</a></code> </p>
         </td>
@@ -359,9 +368,9 @@
         </td>
         <td><p>Swapping of attribute</p></td>
       </tr><tr><td>
-          <p><code><a href="swap_values.html">swap_values()</a></code> </p>
+          <p><code><a href="too_small.html">too_small()</a></code> </p>
         </td>
-        <td><p>Swaps the values</p></td>
+        <td><p>Check if the design is too small</p></td>
       </tr><tr><td>
           <p><code><a href="transform_distribution.html">transform_distribution()</a></code> </p>
         </td>
@@ -383,6 +392,10 @@
         </td>
         <td><p>Transform to the uniform distribution</p></td>
       </tr><tr><td>
+          <p><code><a href="utility_formula.html">utility_formula()</a></code> </p>
+        </td>
+        <td><p>Create formulas from the utility functions</p></td>
+      </tr><tr><td>
           <p><code><a href="vcov.spdesign.html">vcov(<i>&lt;spdesign&gt;</i>)</a></code> </p>
         </td>
         <td><p>Extract the variance co-variance matrix</p></td>
@@ -399,7 +412,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

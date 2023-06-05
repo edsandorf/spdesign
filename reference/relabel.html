@@ -75,18 +75,19 @@ relabeled, then the column becomes (3, 2, 3, 1, 2, 1), i.e. 1 becomes 3 and
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">relabel</span><span class="op">(</span><span class="va">current_design_candidate</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">relabel</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>current_design_candidate</dt>
-<dd><p>The current design candidate</p></dd>
+    <dl><dt>x</dt>
+<dd><p>A vector of attribute levels</p></dd>
 
 </dl></div>
     <div id="details">
     <h2>Details</h2>
-    <p>The relabeling is done independently for each column, which implies that
+    <p>Will randomly sample 2 attribute levels that will be relabeled and the
+relabeling is done independently for each column, which implies that
 the same attribute will be relabeled differently depending on which
 alternative it belongs to.</p>
     </div>
@@ -108,7 +109,7 @@ alternative it belongs to.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

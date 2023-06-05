@@ -72,12 +72,12 @@ algorithm used.</p>
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">evaluate_design_candidate</span><span class="op">(</span></span>
-<span>  <span class="va">utility_parsed</span>,</span>
+<span>  <span class="va">utility</span>,</span>
 <span>  <span class="va">design_candidate</span>,</span>
-<span>  <span class="va">priors</span>,</span>
-<span>  <span class="va">design_environment</span>,</span>
+<span>  <span class="va">prior_values</span>,</span>
+<span>  <span class="va">design_env</span>,</span>
 <span>  <span class="va">model</span>,</span>
-<span>  <span class="va">didx</span>,</span>
+<span>  <span class="va">dudx</span>,</span>
 <span>  <span class="va">return_all</span>,</span>
 <span>  <span class="va">significance</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -85,19 +85,19 @@ algorithm used.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>utility_parsed</dt>
-<dd><p>A parsed utility expression</p></dd>
+    <dl><dt>utility</dt>
+<dd><p>A utility function</p></dd>
 
 
 <dt>design_candidate</dt>
 <dd><p>The current design candidate</p></dd>
 
 
-<dt>priors</dt>
+<dt>prior_values</dt>
 <dd><p>a list or vector of assumed priors</p></dd>
 
 
-<dt>design_environment</dt>
+<dt>design_env</dt>
 <dd><p>A design environment in which to evaluate the
 the function to derive the variance-covariance matrix.</p></dd>
 
@@ -108,7 +108,7 @@ for. Currently the only model programmed is the 'mnl' model and this is also
 set as the default.</p></dd>
 
 
-<dt>didx</dt>
+<dt>dudx</dt>
 <dd><p>A character string giving the name of the parameter in the
 denominator. Must be specified when optimizing for 'c-error'</p></dd>
 
@@ -129,13 +129,8 @@ t-value of 1.96.</p></dd>
     
 
 <p>A named vector with efficiency criteria of the current design
-candidate. If Bayesian priors are used, then it returns the average
+candidate. If Bayesian prior_values are used, then it returns the average
 error.</p>
-    </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>NB! I need to extend this to include the option to choose whether to return
-the median error.</p>
     </div>
 
   </div>
@@ -150,7 +145,7 @@ the median error.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

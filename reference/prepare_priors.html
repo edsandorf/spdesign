@@ -69,23 +69,21 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">prepare_priors</span><span class="op">(</span><span class="va">utility</span>, <span class="va">utility_parsed</span>, <span class="va">draws</span>, <span class="va">R</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">prepare_priors</span><span class="op">(</span><span class="va">utility</span>, <span class="va">draws</span>, <span class="va">R</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>utility</dt>
-<dd><p>A named list of utility functions</p></dd>
-
-
-<dt>utility_parsed</dt>
-<dd><p>A parsed utility expression</p></dd>
+<dd><p>A named list of utility functions. See the examples and the
+vignette for examples of how to define these correctly for different types
+of experimental designs.</p></dd>
 
 
 <dt>draws</dt>
-<dd><p>The type of draws to use with Bayesian priors (and rpl, but
-this model is not yet implemented). No default is set and must be specified
-as one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
+<dd><p>The type of draws to use with Bayesian priors. No default is set
+ and must be specified even if you are not creating a Bayesian design. Can be
+one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
 "standard-sobol","scrambled-sobol".</p></dd>
 
 
@@ -112,7 +110,7 @@ as one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -71,17 +71,19 @@ algorithm.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">generate_rsc_candidate</span><span class="op">(</span><span class="va">parsed_utility</span>, <span class="va">opts</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">generate_rsc_candidate</span><span class="op">(</span><span class="va">utility</span>, <span class="va">rows</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>parsed_utility</dt>
-<dd><p>A named list of the parsed utility expression</p></dd>
+    <dl><dt>utility</dt>
+<dd><p>A named list of utility functions. See the examples and the
+vignette for examples of how to define these correctly for different types
+of experimental designs.</p></dd>
 
 
-<dt>opts</dt>
-<dd><p>A list of options</p></dd>
+<dt>rows</dt>
+<dd><p>An integer giving the number of rows in the final design</p></dd>
 
 </dl></div>
     <div id="value">
@@ -113,7 +115,7 @@ fast. It is only run once every 10 000 iterations of the RSC algorithm.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
