@@ -31,12 +31,6 @@ designs assuming that people are maximizing utility."><!-- mathjax --><script sr
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/generating-a-design.html">Generating a design</a>
-    </li>
-    <li>
-      <a href="../articles/introduction.html">Introduction</a>
-    </li>
-    <li>
       <a href="../articles/syntax.html">Syntax</a>
     </li>
   </ul></li>
@@ -84,7 +78,7 @@ designs assuming that people are maximizing utility.</p>
 <span>  R <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  dudx <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  candidate_set <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  restrictions <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  exclusions <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  level_balance <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cores <span class="op">=</span> <span class="fl">1</span>, max_iter <span class="op">=</span> <span class="fl">10000</span>, max_relabel <span class="op">=</span> <span class="fl">10000</span>, efficiency_threshold <span class="op">=</span></span>
 <span>    <span class="fl">0.1</span>, sample_with_replacement <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -142,18 +136,18 @@ denominator. Must be specified when optimizing for 'c-error'</p></dd>
 <dd><p>A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
 candidate set is provided, then the full factorial subject to specified
-restrictions will be used.</p></dd>
+exclusions will be used.</p></dd>
 
 
-<dt>restrictions</dt>
-<dd><p>A list of restrictions. Often this list will be pulled
-directly from the list of options or it is a modified list of restrictions
-following calls to _dummy or _effects coding.</p></dd>
+<dt>exclusions</dt>
+<dd><p>A list of exclusions Often this list will be pulled
+directly from the list of options or it is a modified list of exclusions</p></dd>
 
 
 <dt>level_balance</dt>
-<dd><p>A placeholder boolean for whether to impose level
-balance in the design</p></dd>
+<dd><p>A boolean equal to `TRUE` if attribute level balance
+should be imposed. This only matters if the estimation algorithm is specified
+as `federov` or `random`.</p></dd>
 
 
 <dt>control</dt>

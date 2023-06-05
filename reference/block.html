@@ -33,12 +33,6 @@ minimization procedure is the mean squared correlation."><!-- mathjax --><script
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/generating-a-design.html">Generating a design</a>
-    </li>
-    <li>
-      <a href="../articles/introduction.html">Introduction</a>
-    </li>
-    <li>
       <a href="../articles/syntax.html">Syntax</a>
     </li>
   </ul></li>
@@ -87,7 +81,9 @@ minimization procedure is the mean squared correlation.</p>
 
 
 <dt>blocks</dt>
-<dd><p>An integer giving the number of blocks. The</p></dd>
+<dd><p>An integer giving the number of blocks. The number of blocks
+must be a multiple of the number of rows to ensure equal number of choices
+within a block.</p></dd>
 
 
 <dt>target</dt>
@@ -106,16 +102,17 @@ the best blocking candidate. The default value is 1000000.</p></dd>
     
 
 <p>A modified 'spdesign' object where the design is replaced with the
-same design and a blocking column. In addition a corelation vector, number
-of iterations and the target value are returned.</p>
+same design and a blocking column. In addition a correlation vector, number
+of iterations and the target value are returned as part of the modified
+'spdesign' object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
     <p>The function uses a random permutation so every time you run the function
-you will get a slightly different blocking vectors. You can set a seed prior
+you will get a slightly different blocking column. You can set a seed prior
 to calling the function to always return the same blocking vector.</p>
 <p>If you pass in a design that already contains a blocking column, then this
-blocking column will be replaced.</p>
+blocking column will be replaced without warning.</p>
     </div>
 
   </div>

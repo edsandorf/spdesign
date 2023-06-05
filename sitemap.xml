@@ -7,13 +7,7 @@
     <loc>https://spdesignr.edsandorf.me/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://spdesignr.edsandorf.me/articles/generating-a-design.html</loc>
-  </url>
-  <url>
     <loc>https://spdesignr.edsandorf.me/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/articles/introduction.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/articles/syntax.html</loc>
@@ -32,9 +26,6 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/any_duplicates.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesignr.edsandorf.me/reference/apply_restrictions.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/attribute_level_balance.html</loc>
@@ -98,6 +89,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/evaluate_design_candidate.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/exclude.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/expand_attribute_levels.html</loc>
