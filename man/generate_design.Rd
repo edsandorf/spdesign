@@ -15,7 +15,7 @@ generate_design(
   R = 100,
   dudx = NULL,
   candidate_set = NULL,
-  restrictions = NULL,
+  exclusions = NULL,
   level_balance = FALSE,
   control = list(cores = 1, max_iter = 10000, max_relabel = 10000, efficiency_threshold =
     0.1, sample_with_replacement = FALSE)
@@ -54,14 +54,14 @@ denominator. Must be specified when optimizing for 'c-error'}
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
 candidate set is provided, then the full factorial subject to specified
-restrictions will be used.}
+exclusions will be used.}
 
-\item{restrictions}{A list of restrictions. Often this list will be pulled
-directly from the list of options or it is a modified list of restrictions
-following calls to _dummy or _effects coding.}
+\item{exclusions}{A list of exclusions Often this list will be pulled
+directly from the list of options or it is a modified list of exclusions}
 
-\item{level_balance}{A placeholder boolean for whether to impose level
-balance in the design}
+\item{level_balance}{A boolean equal to `TRUE` if attribute level balance
+should be imposed. This only matters if the estimation algorithm is specified
+as `federov` or `random`.}
 
 \item{control}{A list of control options}
 }

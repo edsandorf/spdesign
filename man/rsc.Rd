@@ -41,7 +41,7 @@ denominator. Must be specified when optimizing for 'c-error'}
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
 candidate set is provided, then the full factorial subject to specified
-restrictions will be used.}
+exclusions will be used.}
 
 \item{rows}{An integer giving the number of rows in the final design}
 

@@ -16,8 +16,8 @@
 #' default is set and argument must be specified. Optimizing for multiple
 #' criteria is not yet implemented and will result in an error.
 #' @param algorithm A character string giving the optimization algorithm to use.
-#' No default is set and the argument must be specified to be one of 'federov'
-#' or 'random'. The 'rsc' algorithm is not implemented yet.
+#' No default is set and the argument must be specified to be one of 'rsc',
+#' 'federov' or 'random'.
 #' @param draws The type of draws to use with Bayesian priors. No default is set
 #'  and must be specified even if you are not creating a Bayesian design. Can be
 #' one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
@@ -28,12 +28,12 @@
 #' @param candidate_set A matrix or data frame in the "wide" format containing
 #' all permitted combinations of attributes. The default is NULL. If no
 #' candidate set is provided, then the full factorial subject to specified
-#' restrictions will be used.
-#' @param restrictions A list of restrictions. Often this list will be pulled
-#' directly from the list of options or it is a modified list of restrictions
-#' following calls to _dummy or _effects coding.
-#' @param level_balance A placeholder boolean for whether to impose level
-#' balance in the design
+#' exclusions will be used.
+#' @param exclusions A list of exclusions Often this list will be pulled
+#' directly from the list of options or it is a modified list of exclusions
+#' @param level_balance A boolean equal to `TRUE` if attribute level balance
+#' should be imposed. This only matters if the estimation algorithm is specified
+#' as `federov` or `random`.
 #' @param control A list of control options
 #'
 #' @return An object of class 'spdesign'
@@ -51,7 +51,7 @@ generate_design <- function(utility,
                             R = 100,
                             dudx = NULL,
                             candidate_set = NULL,
-                            restrictions = NULL,
+                            exclusions = NULL,
                             level_balance = FALSE,
                             control = list(
                               cores = 1,
@@ -114,7 +114,7 @@ generate_design <- function(utility,
   }
 
   ## Candidate set ----
-  cli_h2("Checking the candidate set and applying restrictions")
+  cli_h2("Checking the candidate set and applying exclusions")
 
   # If no candidate set is supplied generate full factorial if not run simple
   # checks
@@ -147,11 +147,11 @@ generate_design <- function(utility,
     }
   }
 
-  # Apply the restrictions to the candidate set
-  candidate_set <- apply_restrictions(candidate_set, restrictions)
+  # Apply the exclusions to the candidate set
+  candidate_set <- exclude(candidate_set, exclusions)
   candidate_set <- as.matrix(candidate_set)
 
-  cli_alert_success("All restrictions successfully applied")
+  cli_alert_success("All exclusions successfully applied")
 
   # Prepare the list of priors ----
   cli_h2("Preparing the list of priors")

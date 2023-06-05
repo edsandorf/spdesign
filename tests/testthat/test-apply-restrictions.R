@@ -1,14 +1,14 @@
-context("That restrictions are correctly applied to the candidate set")
+context("That exclusions are correctly applied to the candidate set")
 
 candidate_set <- full_factorial(list(x1 = c(0, 1), x2 = c(0, 1)))
 
 test_that("Restriction pattern one", {
-  restrictions <- list(
+  exclusions <- list(
     "x1 == 1 & x2 == 1"
   )
 
   expect_equal(
-    apply_restrictions(candidate_set, restrictions),
+    exclude(candidate_set, exclusions),
     structure(
       list(
         x1 = c(0, 1, 0),
@@ -27,13 +27,13 @@ test_that("Restriction pattern one", {
 
 
 test_that("Restriction pattern two", {
-  restrictions <- list(
+  exclusions <- list(
     "x1 == 1 & x2 == 1",
     "x1 == 0"
   )
 
   expect_equal(
-    apply_restrictions(candidate_set, restrictions),
+    exclude(candidate_set, exclusions),
     structure(
       list(
         x1 = 1,
