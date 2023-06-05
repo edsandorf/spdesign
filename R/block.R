@@ -7,14 +7,16 @@
 #' minimization procedure is the mean squared correlation.
 #'
 #' The function uses a random permutation so every time you run the function
-#' you will get a slightly different blocking vectors. You can set a seed prior
+#' you will get a slightly different blocking column. You can set a seed prior
 #' to calling the function to always return the same blocking vector.
 #'
 #' If you pass in a design that already contains a blocking column, then this
-#' blocking column will be replaced.
+#' blocking column will be replaced without warning.
 #'
 #' @param x An object of class 'spdesign'
-#' @param blocks An integer giving the number of blocks. The
+#' @param blocks An integer giving the number of blocks. The number of blocks
+#' must be a multiple of the number of rows to ensure equal number of choices
+#' within a block.
 #' @param target A target value for the mean squared correlation. The default
 #' value is 0.0005. Setting the target to 0 forces the function to search all
 #' `max_iter` blocking candidates
@@ -22,8 +24,9 @@
 #' the best blocking candidate. The default value is 1000000.
 #'
 #' @return A modified 'spdesign' object where the design is replaced with the
-#' same design and a blocking column. In addition a corelation vector, number
-#' of iterations and the target value are returned.
+#' same design and a blocking column. In addition a correlation vector, number
+#' of iterations and the target value are returned as part of the modified
+#' 'spdesign' object.
 #'
 #' @export
 block <- function(x, blocks, target = 0.0005, max_iter = 1000000) {
