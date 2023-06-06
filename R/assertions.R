@@ -72,6 +72,18 @@ has_random_parameter <- function(string) {
   )
 }
 
+#' Check whether the utility function contains dummy coded variables
+#'
+#' @inheritParams has_bayesian_prior
+#'
+#' @return A boolean equal to `TRUE` if the utility function contains dummy
+#' coded attributes and `FALSE` otherwise
+contains_dummies <- function(string) {
+  return(
+    any(str_detect(string, "(dummy)\\["))
+  )
+}
+
 #' Check whether all priors and attributes have specified levels
 #'
 #' @param x A list of utility expressions

@@ -67,3 +67,28 @@ test_that("Correctly identifies whether a random parameter is present", {
     )
   )
 })
+
+test_that("Correctly identifies whether dummy codingsi  present", {
+  expect_true(
+    contains_dummies("b_x1[c(0.1, 0.2)] * x1_dummy[c(1, 2, 3)]")
+  )
+  expect_false(
+    contains_dummies("b_x1[c(0.1, 0.2] * dummy_x1[1:3]")
+  )
+  expect_true(
+    contains_dummies(
+      list(
+        "b_x1 * x2[c(1, 2, 3)]",
+        "b_x1[c(0.1, 0.2)] * x1_dummy[c(1, 2, 3)]"
+      )
+    )
+  )
+  expect_true(
+    contains_dummies(
+      list(
+        "b_x1[c(0.1, 0.2)] * x1_dummy[c(1, 2, 3)]",
+        "b_x2[c(0.1, 0.2)] * x2_dummy[c(1, 2, 3)]"
+      )
+    )
+  )
+})
