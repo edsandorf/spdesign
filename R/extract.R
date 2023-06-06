@@ -82,6 +82,10 @@ extract_values <- function(string, simplify = FALSE) {
 
 #' Extract unparsed named values of the utilitiy function
 #'
+#' If the utility function contains parameters that are dummy coded, the
+#' dummy coding is handled here. By expanding the dummy coding prior to parsing
+#' we can directly consider Bayesian priors for each level.
+#'
 #' @inheritParams extract_all_names
 #'
 #' @return A named list of parameter and attribute values. Each list element is
@@ -116,9 +120,6 @@ extract_unparsed_values <- function(string) {
 #'
 #' The function extracts the named values of the supplied utility function.
 #'
-#' If the utility function contains parameters that are dummy coded, the
-#' dummy coding is handled here. By expanding the dummy coding prior to parsing
-#' we can directly consider Bayesian priors for each level.
 #'
 #' @inheritParams extract_all_names
 #'
