@@ -64,6 +64,9 @@
     <loc>https://spdesignr.edsandorf.me/reference/coef.spdesign.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/contains_dummies.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/cycle.html</loc>
   </url>
   <url>
@@ -122,6 +125,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/extract_specified.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/extract_unparsed_values.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/extract_values.html</loc>
