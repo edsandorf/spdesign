@@ -80,9 +80,45 @@ extract_values <- function(string, simplify = FALSE) {
   }
 }
 
+#' Extract unparsed named values of the utilitiy function
+#'
+#' @inheritParams extract_all_names
+#'
+#' @return A named list of parameter and attribute values. Each list element is
+#' named and contains a numeric value or expression to be parsed
+extract_unparsed_values <- function(string) {
+  # Extracting the specified parameters and attributes
+  string_elements <- extract_specified(string, TRUE)
+
+  values <- extract_values(string_elements)
+  names(values) <- remove_all_brackets(string_elements)
+
+  if (contains_dummies(string)) {
+
+    # This is the expression that handles the prior distributions
+    expr <- "(\\d+\\.?\\d*|(normal|uniform|lognormal|triangular)_p\\(.*?\\))"
+
+    for (i in which(str_detect(string_elements, "_dummy\\["))){
+      expanded <- as.list(unlist(str_extract_all(values[i], expr)))
+      names(expanded) <- paste0(str_extract(names(values[i]), "^.*(?=_dummy$)"), seq_along(expanded) + 1)
+
+      # Order doesn´t matter, so we can do
+      values <- c(values[-i], expanded)
+    }
+  }
+
+  return(
+    values
+  )
+}
+
 #' Extracts the named values of the utility function
 #'
 #' The function extracts the named values of the supplied utility function.
+#'
+#' If the utility function contains parameters that are dummy coded, the
+#' dummy coding is handled here. By expanding the dummy coding prior to parsing
+#' we can directly consider Bayesian priors for each level.
 #'
 #' @inheritParams extract_all_names
 #'
@@ -90,15 +126,16 @@ extract_values <- function(string, simplify = FALSE) {
 #' named and can contain a single prior, a list with a mean and sd, or a vector
 #' with attribute levels
 extract_named_values <- function(string) {
-  # Extracting the specified parameters and attributes
-  string_elements <- extract_specified(string, TRUE)
 
-  values <- lapply(extract_values(string_elements), function(x) {
+  values <- extract_unparsed_values(string)
+
+  values <- lapply(values, function(x) {
     eval(parse(text = x))
   })
 
-  names(values) <- remove_all_brackets(string_elements)
-  values
+  return(
+    values
+  )
 }
 
 #' Extract specified

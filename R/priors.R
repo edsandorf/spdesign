@@ -7,11 +7,16 @@
 prepare_priors <- function(utility,
                            draws,
                            R) {
+
   bayesian_prior <- has_bayesian_prior(utility)
   prior_values <- priors(utility)
 
   if (bayesian_prior) {
-    prior_dists <- extract_distribution(utility, "prior")
+    # This is somewhat more cumbersome, but it can handle the dummy coding
+    unparsed <- extract_unparsed_values(utility)
+    prior_dists <- str_extract(unparsed, "(normal|uniform|lognormal|triangular)")
+    names(prior_dists) <- names(unparsed)
+    prior_dists <- prior_dists[!is.na(prior_dists)]
 
     # Create the matrix of Bayesian priors
     bayesian_priors <- make_draws(
