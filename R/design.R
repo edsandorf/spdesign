@@ -4,6 +4,10 @@
 #' a set of indirect utility functions and generates efficient experimental
 #' designs assuming that people are maximizing utility.
 #'
+#' No assumptions are made with respect to default values and it is up to the
+#' user to specify optimization criteria, optmization routines, draws to use for
+#' Bayesian priors and more.
+#'
 #' @param utility A named list of utility functions. See the examples and the
 #' vignette for examples of how to define these correctly for different types
 #' of experimental designs.
