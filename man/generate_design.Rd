@@ -38,8 +38,8 @@ default is set and argument must be specified. Optimizing for multiple
 criteria is not yet implemented and will result in an error.}
 
 \item{algorithm}{A character string giving the optimization algorithm to use.
-No default is set and the argument must be specified to be one of 'federov'
-or 'random'. The 'rsc' algorithm is not implemented yet.}
+No default is set and the argument must be specified to be one of 'rsc',
+'federov' or 'random'.}
 
 \item{draws}{The type of draws to use with Bayesian priors. No default is set
  and must be specified even if you are not creating a Bayesian design. Can be
@@ -73,3 +73,7 @@ The function generates efficient experimental designs. The function takes
 a set of indirect utility functions and generates efficient experimental
 designs assuming that people are maximizing utility.
 }
+\details{
+No assumptions are made with respect to default values and it is up to the
+user to specify optimization criteria, optmization routines, draws to use for
+Bayesian priors and more.

@@ -149,7 +149,14 @@ generate_design <- function(utility,
 
   # Apply the exclusions to the candidate set
   candidate_set <- exclude(candidate_set, exclusions)
-  candidate_set <- as.matrix(candidate_set)
+
+  # Transform the candiate set such that attributes that are dummy coded
+  # are turned into factors. This ensures that we can use the model.matrix()
+  for (i in which(dummy_position(utility))) {
+    candidate_set[, i] <- as.factor(candidate_set[, i])
+  }
+
+  # candidate_set <- as.matrix(candidate_set)
 
   cli_alert_success("All exclusions successfully applied")
 

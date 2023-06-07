@@ -40,6 +40,7 @@ federov <- function(design_object,
                     dudx,
                     candidate_set,
                     rows,
+                    level_balance,
                     control) {
   # Reorder the rows of the candidate set to create more randomness
   candidate_set <- candidate_set[sample(seq_len(nrow(candidate_set))), ]
@@ -48,7 +49,7 @@ federov <- function(design_object,
   design_env <- new.env()
 
   list2env(
-    list(utility_string = clean_utility(utility)),
+    list(utility_string = update_utility(utility)),
     envir = design_env
   )
 

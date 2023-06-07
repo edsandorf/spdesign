@@ -19,11 +19,17 @@ rsc <- function(design_object,
   # Create a level balanced design candidate or near level balanced candidate
   design_candidate <- generate_rsc_candidate(utility, rows)
 
+  # Transform the candiate set such that attributes that are dummy coded
+  # are turned into factors. This ensures that we can use the model.matrix()
+  for (i in which(dummy_position(utility))) {
+    design_candidate[, i] <- as.factor(design_candidate[, i])
+  }
+
   # Set up the design environment
   design_env <- new.env()
 
   list2env(
-    list(utility_string = clean_utility(utility)),
+    list(utility_string = update_utility(utility)),
     envir = design_env
   )
 

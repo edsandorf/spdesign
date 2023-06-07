@@ -11,10 +11,10 @@ extract_unparsed_values(string)
 }
 \value{
 A named list of parameter and attribute values. Each list element is
-named and contains a numeric value or expression to be parsed
+  named and contains a numeric value or expression to be parsed
 }
 \description{
-If the utility function contains parameters that are dummy coded, the
-dummy coding is handled here. By expanding the dummy coding prior to parsing
-we can directly consider Bayesian priors for each level.
+If the utility function contains parameters that are dummy coded, the dummy
+coding is handled here. By expanding the dummy coding prior to parsing we can
+directly consider Bayesian priors for each level.
 }

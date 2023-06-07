@@ -82,14 +82,14 @@ extract_values <- function(string, simplify = FALSE) {
 
 #' Extract unparsed named values of the utilitiy function
 #'
-#' If the utility function contains parameters that are dummy coded, the
-#' dummy coding is handled here. By expanding the dummy coding prior to parsing
-#' we can directly consider Bayesian priors for each level.
+#' If the utility function contains parameters that are dummy coded, the dummy
+#' coding is handled here. By expanding the dummy coding prior to parsing we can
+#' directly consider Bayesian priors for each level.
 #'
 #' @inheritParams extract_all_names
 #'
 #' @return A named list of parameter and attribute values. Each list element is
-#' named and contains a numeric value or expression to be parsed
+#'   named and contains a numeric value or expression to be parsed
 extract_unparsed_values <- function(string) {
   # Extracting the specified parameters and attributes
   string_elements <- extract_specified(string, TRUE)
@@ -104,6 +104,10 @@ extract_unparsed_values <- function(string) {
 
     for (i in which(str_detect(string_elements, "_dummy\\["))){
       expanded <- as.list(unlist(str_extract_all(values[i], expr)))
+
+      # Get the corresponding attribute by remove "b_" and "_dummy"
+      # grep(str_extract(names(values[i]), "(?<=b_).*(?=_dummy)")
+
       names(expanded) <- paste0(str_extract(names(values[i]), "^.*(?=_dummy$)"), seq_along(expanded) + 1)
 
       # Order doesn´t matter, so we can do

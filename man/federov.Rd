@@ -13,6 +13,7 @@ federov(
   dudx,
   candidate_set,
   rows,
+  level_balance,
   control
 )
 }

@@ -13,6 +13,7 @@ random(
   dudx,
   candidate_set,
   rows,
+  level_balance,
   control
 )
 }
@@ -58,3 +59,8 @@ A list of class 'spdesign'
 Generates a random design by sampling from the candidate set each update of
 the algorithm.
 }
+\details{
+With no restrictions placed, this type of design will only consider efficiency.
+There is no guarantee that you will achieve attribute level balance, nor that
+all attribute levels will be present. More efficient designs tend to have
+more extreme trade-offs.
