@@ -26,7 +26,7 @@ evaluate_design_candidate <- function(utility,
   # Update the design environment NB! Using design_candidate because we are
   # evaluating the expression in context and don't need the interaction cols
   list2env(
-    c(as.list(design_candidate),
+    c(as.list(as.data.frame(do.call(cbind, define_base_x_j(utility, design_candidate)))),
       list(x_j = x_j)),
     envir = design_env
   )
