@@ -194,6 +194,29 @@ utility_formula <- function(x) {
 }
 
 
+#' Find the position of the dummy coded attributes
+#'
+#' The function will find the position of the dummy coded attributes in the
+#' candidate set (in the case of the Modified Federov or Random algorithms) or
+#' the design candidate (in the case of the RSC algorithm). This will let us
+#' know which columns to coerce to factors prior to defining x_j.
+#'
+#' @inheritParams attribute_levels
+#'
+#' @return A boolean vector matching the expanded utility expression
+dummy_position <- function(x) {
+  return(
+    str_detect(
+      unlist(
+        str_split(
+          paste(unlist(clean_utility(x)), collapse = " + "),
+          "\\+")
+      ),
+      "_dummy\\s"
+    )
+  )
+}
+
 #' Generic for extracting the vector of priors
 #'
 #' @param x An object of class 'utility' or 'spdesign'
