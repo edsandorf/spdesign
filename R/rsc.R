@@ -51,15 +51,13 @@ rsc <- function(design_object,
     }
 
     # Get the design candidate
-    design_candidate <- switch(
-      alg,
-      relabel = apply(design_candidate, 2, relabel),
-      swap = apply(design_candidate, 2, swap)
-    )
-
-    # Apply returns matrix, I need a data.frame. This can slow down code. Will
-    # need to see about changing the apply above.
-    design_candidate <- as.data.frame(design_candidate)
+    for (i in seq_len(ncol(design_candidate))) {
+      design_candidate[, i] <- switch(
+        alg,
+        relabel = relabel(design_candidate[, i]),
+        swap = swap(design_candidate[, i])
+      )
+    }
 
     # Define the current design candidate considering alternative specific
     # attributes and interactions
