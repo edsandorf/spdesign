@@ -91,6 +91,9 @@
     <loc>https://spdesignr.edsandorf.me/reference/dot-onAttach.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/dummy_position.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/evaluate_design_candidate.html</loc>
   </url>
   <url>
@@ -275,6 +278,9 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/transform_uniform.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/update_utility.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/utility_formula.html</loc>
