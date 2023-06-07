@@ -23,8 +23,14 @@ calculate_efficiency <- function(prior_values,
   # Define the string of possible efficiency criteria
   efficiency_criteria_string <- c("a-error", "c-error", "d-error", "s-error")
 
+  # Add the priors to the design environment
+  list2env(
+    as.list(prior_values),
+    envir = design_env
+  )
+
   # Derive the variance-covariance matrix
-  design_vcov <- derive_vcov(prior_values, design_env, model = model)
+  design_vcov <- derive_vcov(design_env, model = model)
 
   # Check if we have NA in the variance-covariance matrix. If so, return vecor
   # of NA

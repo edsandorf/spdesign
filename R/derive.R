@@ -4,7 +4,6 @@
 #' \code{\link{derive_vcov_rpl}} and calculates the variance-covariance matrix
 #' of the specified model and design given the priors.
 #'
-#' @param prior_values A named vector of assumed prior_values
 #' @param design_env An environment containing all the elements
 #' necessary to derive the variance-covariance matrix
 #' @param model A string indicating the model for which you wish to derive the
@@ -12,13 +11,7 @@
 #'
 #' @return The variance covariance matrix. If the Fisher information matrix is
 #' singular, then return NULL
-derive_vcov <- function(prior_values, design_env, model) {
-
-  # Add the priors to the design environment
-  list2env(
-    as.list(prior_values),
-    envir = design_env
-  )
+derive_vcov <- function(design_env, model) {
 
   # Calculate the variance-covariance matrix
   design_vcov <- tryCatch({

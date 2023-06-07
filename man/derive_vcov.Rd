@@ -4,11 +4,9 @@
 \alias{derive_vcov}
 \title{Derive the variance covariance matrix of the design}
 \usage{
-derive_vcov(prior_values, design_env, model)
+derive_vcov(design_env, model)
 }
 \arguments{
-\item{prior_values}{A named vector of assumed prior_values}
-
 \item{design_env}{An environment containing all the elements
 necessary to derive the variance-covariance matrix}
 
