@@ -14,5 +14,12 @@ A list of formula expressions for the utility functions
 }
 \description{
 Create formulas from the utility functions such that we can create correct
-model matrices
+model matrices.
+}
+\details{
+Note that this function should be used on a cleaned utility expression and
+**not** an updated utility expression. This is because we are converting
+dummy coded attributes to factors prior to calling \code{\link{model.matrix}}.
+This ensures that dummy coded attributes are correctly returned with the
+model matrix.
 }

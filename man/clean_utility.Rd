@@ -15,5 +15,16 @@ A cleaned utility function as a list
 \description{
 The function cleans the utility expression by removing extra white spaces,
 removes brackets and other information to return a clean, easy-to-read
-expression
+expression.
+}
+\details{
+We can also use the side-effect of the function on a list of utility
+expressions that do not contain brackets to return a an updated utility
+expression with alternative specific attribute names.
+
+Warning: The function does not check if the utility expression *is* clean,
+which means that running the function multiple times will result in
+duplicate alternative names for the attributes. You need to pay particular
+attention to this fact when using the formula \code{\link{update_utility}}
+because this function calls \code{clean_utility}.
 }

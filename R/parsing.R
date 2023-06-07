@@ -66,7 +66,17 @@ expand_attribute_levels <- function(x) {
 #'
 #' The function cleans the utility expression by removing extra white spaces,
 #' removes brackets and other information to return a clean, easy-to-read
-#' expression
+#' expression.
+#'
+#' We can also use the side-effect of the function on a list of utility
+#' expressions that do not contain brackets to return a an updated utility
+#' expression with alternative specific attribute names.
+#'
+#' Warning: The function does not check if the utility expression *is* clean,
+#' which means that running the function multiple times will result in
+#' duplicate alternative names for the attributes. You need to pay particular
+#' attention to this fact when using the formula \code{\link{update_utility}}
+#' because this function calls \code{clean_utility}.
 #'
 #' @inheritParams attribute_levels
 #'
@@ -74,16 +84,18 @@ expand_attribute_levels <- function(x) {
 #'
 #' @export
 clean_utility <- function(x) {
+  # Create a cleaned utility expression
+  v <- as.list(as.list(str_replace_all(remove_all_brackets(x), "\\s+", " ")))
+  names(v) <- names(x)
 
-  utility <- lapply(seq_along(x), function(j) {
-    v_j <- remove_all_brackets(x[[j]])
-    v_j <- str_replace_all(v_j, "\\s+", " ")
+  utility <- lapply(seq_along(v), function(j) {
+    v_j <- v[[j]]
 
     attribute_names <- extract_attribute_names(v_j)
     for (i in seq_along(attribute_names)) {
       v_j <- str_replace_all(v_j,
                              paste0("\\b", attribute_names[[i]]),
-                             paste(names(x[j]), attribute_names[i], sep = "_"))
+                             paste(names(v[j]), attribute_names[i], sep = "_"))
     }
 
     return(v_j)
@@ -94,10 +106,63 @@ clean_utility <- function(x) {
   return(utility)
 }
 
+#' Update the utility function
+#'
+#' Updates the utility function to consider dummy coded attributes. It will
+#' expand the dummy-coding to K-1 dropping the lowest level. This is consistent
+#' with standard practice.
+#'
+#' The function is called prior to evaluating designs if dummy-coded attributes
+#' are present in the utility function. This is because the utility function
+#' is evaluated in the context of the design environment and must be added there
+#'
+#' @inheritParams attribute_levels
+#'
+#' @return An updated cleaned utility expression
+#'
+#' @export
+update_utility <- function(x) {
+  # Create a cleaned utility expression
+  v <- as.list(as.list(str_replace_all(remove_all_brackets(x), "\\s+", " ")))
+
+  # Extract the utility components and subset them to
+  utility_components <- unlist(str_split(paste(unlist(x), collapse = " + "), "\\+"))
+  expr_spec <- "[^\\s\\+\\-\\*\\/]*?\\[.*?\\](\\(.*?\\))?"
+  expr_dumm <- "_dummy\\["
+  utility_components <- utility_components[str_detect(utility_components, expr_spec) & str_detect(utility_components, expr_dumm)]
+
+  # Expand the utility components
+  for (u in utility_components) {
+    lvls <- length(unlist(attribute_levels(u)))
+    prior <- str_extract(extract_param_names(u, TRUE), "^.*(?=(\\_dummy))")
+    attr <- extract_attribute_names(u, TRUE)
+
+    v_pattern <- str_trim(str_replace_all(remove_all_brackets(u), "\\s+", " "))
+    v_pattern <- str_replace(v_pattern, "\\*", "\\\\*")
+    v_replacement <- paste(paste(paste0(prior, 2:lvls), paste0(attr, 2:lvls), sep = " * "), collapse = " + ")
+
+    v <- str_replace_all(v, v_pattern, v_replacement)
+  }
+
+  v <- as.list(v)
+  names(v) <- names(x)
+
+  return(
+    clean_utility(v)
+  )
+
+}
+
 #' Create formulas from the utility functions
 #'
 #' Create formulas from the utility functions such that we can create correct
-#' model matrices
+#' model matrices.
+#'
+#' Note that this function should be used on a cleaned utility expression and
+#' **not** an updated utility expression. This is because we are converting
+#' dummy coded attributes to factors prior to calling \code{\link{model.matrix}}.
+#' This ensures that dummy coded attributes are correctly returned with the
+#' model matrix.
 #'
 #' @inheritParams attribute_levels
 #'
@@ -105,7 +170,7 @@ clean_utility <- function(x) {
 #'
 #' @export
 utility_formula <- function(x) {
-  names_priors <- names(priors(x))
+  names_priors <- unique(extract_param_names(x, TRUE))
 
   # Remove the prior from the cleaned utility expression
   return(
