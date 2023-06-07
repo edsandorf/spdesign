@@ -1,9 +1,5 @@
 context("Clean and update utility works as expected")
 
-draws <- "standard-halton"
-R <- 5
-seed <- 123
-
 test_that("When nothing is dummy-coded both functions return the same utility functions ", {
 
   utility <- list(
@@ -78,8 +74,8 @@ test_that("Updates correctly with a single dummy coded attribute", {
 
   expect_equal(
     update_utility(utility),
-    list(alt1 = "b_x12 * alt1_x_12 + b_x13 * alt1_x_13 + b_x2 * alt1_x_2 + b_x3 * alt1_x_3",
-         alt2 = "b_x12 * alt2_x_12 + b_x13 * alt2_x_13 + b_x2 * alt2_x_2 + b_x3 * alt2_x_3")
+    list(alt1 = "b_x12 * alt1_x_13 + b_x13 * alt1_x_15 + b_x2 * alt1_x_2 + b_x3 * alt1_x_3",
+         alt2 = "b_x12 * alt2_x_13 + b_x13 * alt2_x_15 + b_x2 * alt2_x_2 + b_x3 * alt2_x_3")
   )
 
 })
@@ -98,8 +94,8 @@ test_that("When we have bayesian priors on dummy coded attributes with only 2 le
 
   expect_equal(
     update_utility(utility),
-    list(alt1 = "b_x1 * alt1_x_1 + b_x22 * alt1_x_22 + b_x3 * alt1_x_3",
-         alt2 = "b_x1 * alt2_x_1 + b_x22 * alt2_x_22 + b_x3 * alt2_x_3")
+    list(alt1 = "b_x1 * alt1_x_1 + b_x22 * alt1_x_21 + b_x3 * alt1_x_3",
+         alt2 = "b_x1 * alt2_x_1 + b_x22 * alt2_x_21 + b_x3 * alt2_x_3")
   )
 })
 
@@ -117,8 +113,8 @@ test_that("Updates correctly with multiple dummy coded attributes", {
 
   expect_equal(
     update_utility(utility),
-    list(alt1 = "b_x12 * alt1_x_12 + b_x13 * alt1_x_13 + b_x2 * alt1_x_2 + b_x32 * alt1_x_32 + b_x33 * alt1_x_33 + b_x34 * alt1_x_34 + b_x35 * alt1_x_35",
-         alt2 = "b_x12 * alt2_x_12 + b_x13 * alt2_x_13 + b_x2 * alt2_x_2 + b_x32 * alt2_x_32 + b_x33 * alt2_x_33 + b_x34 * alt2_x_34 + b_x35 * alt2_x_35")
+    list(alt1 = "b_x12 * alt1_x_13 + b_x13 * alt1_x_15 + b_x2 * alt1_x_2 + b_x32 * alt1_x_30alt1_.alt1_.5 + b_x33 * alt1_x_30alt1_.5 + b_x34 * alt1_x_30.alt1_.5 + b_x35 * alt1_x_31",
+         alt2 = "b_x12 * alt2_x_13 + b_x13 * alt2_x_15 + b_x2 * alt2_x_2 + b_x32 * alt2_x_30alt2_.alt2_.5 + b_x33 * alt2_x_30alt2_.5 + b_x34 * alt2_x_30.alt2_.5 + b_x35 * alt2_x_31")
   )
 
 })

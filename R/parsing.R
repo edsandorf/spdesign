@@ -116,6 +116,12 @@ clean_utility <- function(x) {
 #' are present in the utility function. This is because the utility function
 #' is evaluated in the context of the design environment and must be added there
 #'
+#' Important to note about the naming of the expanded priors and attributes:
+#' The names for the attributes will be attached with the level of the factor,
+#' whereas the prior will be named corresponding to the level, e.g., 2, 3, 4.
+#' This is simply the result of the difference between how it's extracted from
+#' the utility functions and how model.matrix creates names.
+#'
 #' @inheritParams attribute_levels
 #'
 #' @return An updated cleaned utility expression
@@ -133,13 +139,13 @@ update_utility <- function(x) {
 
   # Expand the utility components
   for (u in utility_components) {
-    lvls <- length(unlist(attribute_levels(u)))
+    lvls <- unlist(attribute_levels(u))[-1]
     prior <- str_extract(extract_param_names(u, TRUE), "^.*(?=(\\_dummy))")
     attr <- extract_attribute_names(u, TRUE)
 
     v_pattern <- str_trim(str_replace_all(remove_all_brackets(u), "\\s+", " "))
     v_pattern <- str_replace(v_pattern, "\\*", "\\\\*")
-    v_replacement <- paste(paste(paste0(prior, 2:lvls), paste0(attr, 2:lvls), sep = " * "), collapse = " + ")
+    v_replacement <- paste(paste(paste0(prior, 2:(length(lvls) + 1)), paste0(attr, lvls), sep = " * "), collapse = " + ")
 
     v <- str_replace_all(v, v_pattern, v_replacement)
   }

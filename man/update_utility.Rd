@@ -21,4 +21,10 @@ with standard practice.
 The function is called prior to evaluating designs if dummy-coded attributes
 are present in the utility function. This is because the utility function
 is evaluated in the context of the design environment and must be added there
+
+Important to note about the naming of the expanded priors and attributes:
+The names for the attributes will be attached with the level of the factor,
+whereas the prior will be named corresponding to the level, e.g., 2, 3, 4.
+This is simply the result of the difference between how it's extracted from
+the utility functions and how model.matrix creates names.
 }
