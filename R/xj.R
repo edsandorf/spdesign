@@ -14,6 +14,11 @@ define_base_x_j <- function(utility, design_candidate) {
     )
   })
 
+  # Subset to exclude base dummylevel
+  x_j <- lapply(x_j, function(x) {
+    x[, colnames(x) %in% extract_attribute_names(update_utility(utility))]
+  })
+
   return(x_j)
 }
 
