@@ -79,7 +79,6 @@ designs assuming that people are maximizing utility.</p>
 <span>  dudx <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  candidate_set <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  exclusions <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  level_balance <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cores <span class="op">=</span> <span class="fl">1</span>, max_iter <span class="op">=</span> <span class="fl">10000</span>, max_relabel <span class="op">=</span> <span class="fl">10000</span>, efficiency_threshold <span class="op">=</span></span>
 <span>    <span class="fl">0.1</span>, sample_with_replacement <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -142,12 +141,6 @@ exclusions will be used.</p></dd>
 <dt>exclusions</dt>
 <dd><p>A list of exclusions Often this list will be pulled
 directly from the list of options or it is a modified list of exclusions</p></dd>
-
-
-<dt>level_balance</dt>
-<dd><p>A boolean equal to `TRUE` if attribute level balance
-should be imposed. This only matters if the estimation algorithm is specified
-as `federov` or `random`.</p></dd>
 
 
 <dt>control</dt>

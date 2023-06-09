@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   syntax: syntax.html
-last_built: 2023-06-07T13:09Z
+last_built: 2023-06-09T12:15Z
 urls:
   reference: https://spdesignr.edsandorf.me/reference
   article: https://spdesignr.edsandorf.me/articles

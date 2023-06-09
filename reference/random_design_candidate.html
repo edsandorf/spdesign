@@ -63,12 +63,18 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">random_design_candidate</span><span class="op">(</span><span class="va">candidate_set</span>, <span class="va">rows</span>, <span class="va">sample_with_replacement</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">random_design_candidate</span><span class="op">(</span><span class="va">utility</span>, <span class="va">candidate_set</span>, <span class="va">rows</span>, <span class="va">sample_with_replacement</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>candidate_set</dt>
+    <dl><dt>utility</dt>
+<dd><p>A named list of utility functions. See the examples and the
+vignette for examples of how to define these correctly for different types
+of experimental designs.</p></dd>
+
+
+<dt>candidate_set</dt>
 <dd><p>A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
 candidate set is provided, then the full factorial subject to specified
