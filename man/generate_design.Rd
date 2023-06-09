@@ -16,7 +16,6 @@ generate_design(
   dudx = NULL,
   candidate_set = NULL,
   exclusions = NULL,
-  level_balance = FALSE,
   control = list(cores = 1, max_iter = 10000, max_relabel = 10000, efficiency_threshold =
     0.1, sample_with_replacement = FALSE)
 )
@@ -58,10 +57,6 @@ exclusions will be used.}
 
 \item{exclusions}{A list of exclusions Often this list will be pulled
 directly from the list of options or it is a modified list of exclusions}
-
-\item{level_balance}{A boolean equal to `TRUE` if attribute level balance
-should be imposed. This only matters if the estimation algorithm is specified
-as `federov` or `random`.}
 
 \item{control}{A list of control options}
 }

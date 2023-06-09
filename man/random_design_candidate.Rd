@@ -4,9 +4,13 @@
 \alias{random_design_candidate}
 \title{Create a random design_object candidate}
 \usage{
-random_design_candidate(candidate_set, rows, sample_with_replacement)
+random_design_candidate(utility, candidate_set, rows, sample_with_replacement)
 }
 \arguments{
+\item{utility}{A named list of utility functions. See the examples and the
+vignette for examples of how to define these correctly for different types
+of experimental designs.}
+
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
 candidate set is provided, then the full factorial subject to specified

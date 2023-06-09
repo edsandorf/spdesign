@@ -13,7 +13,6 @@ random(
   dudx,
   candidate_set,
   rows,
-  level_balance,
   control
 )
 }
@@ -46,10 +45,6 @@ exclusions will be used.}
 
 \item{rows}{An integer giving the number of rows in the final design}
 
-\item{level_balance}{A boolean equal to `TRUE` if attribute level balance
-should be imposed. This only matters if the estimation algorithm is specified
-as `federov` or `random`.}
-
 \item{control}{A list of control options}
 }
 \value{
@@ -64,3 +59,4 @@ With no restrictions placed, this type of design will only consider efficiency.
 There is no guarantee that you will achieve attribute level balance, nor that
 all attribute levels will be present. More efficient designs tend to have
 more extreme trade-offs.
+}

@@ -13,7 +13,6 @@ federov(
   dudx,
   candidate_set,
   rows,
-  level_balance,
   control
 )
 }
@@ -45,10 +44,6 @@ candidate set is provided, then the full factorial subject to specified
 exclusions will be used.}
 
 \item{rows}{An integer giving the number of rows in the final design}
-
-\item{level_balance}{A boolean equal to `TRUE` if attribute level balance
-should be imposed. This only matters if the estimation algorithm is specified
-as `federov` or `random`.}
 
 \item{control}{A list of control options}
 }

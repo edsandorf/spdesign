@@ -35,9 +35,6 @@
 #' exclusions will be used.
 #' @param exclusions A list of exclusions Often this list will be pulled
 #' directly from the list of options or it is a modified list of exclusions
-#' @param level_balance A boolean equal to `TRUE` if attribute level balance
-#' should be imposed. This only matters if the estimation algorithm is specified
-#' as `federov` or `random`.
 #' @param control A list of control options
 #'
 #' @return An object of class 'spdesign'
@@ -56,7 +53,6 @@ generate_design <- function(utility,
                             dudx = NULL,
                             candidate_set = NULL,
                             exclusions = NULL,
-                            level_balance = FALSE,
                             control = list(
                               cores = 1,
                               max_iter = 10000,
@@ -79,7 +75,7 @@ generate_design <- function(utility,
   stopifnot(length(utility) > 1)
   stopifnot(all(do.call(c, lapply(utility, is_balanced, "[", "]"))))
   stopifnot(all(do.call(c, lapply(utility, is_balanced, "(", ")"))))
-  stopifnot(all_priors_and_levels_specified(utility))
+  # stopifnot(all_priors_and_levels_specified(utility))
   stopifnot(!any_duplicates(utility))
   stopifnot(!too_small(utility, rows))
 

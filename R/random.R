@@ -20,7 +20,6 @@ random <- function(design_object,
                    dudx,
                    candidate_set,
                    rows,
-                   level_balance,
                    control) {
 
   # Set up the design_object environment
@@ -42,7 +41,8 @@ random <- function(design_object,
 
   repeat {
     # Create a random design_object candidate
-    design_candidate <- random_design_candidate(candidate_set,
+    design_candidate <- random_design_candidate(utility,
+                                                candidate_set,
                                                 rows,
                                                 control$sample_with_replacement)
 
@@ -127,18 +127,49 @@ random <- function(design_object,
 #' @param sample_with_replacement A boolean equal to TRUE if we sample from the
 #' candidate set with replacement. The default is FALSE
 #' @inheritParams generate_design
-random_design_candidate <- function(candidate_set,
+random_design_candidate <- function(utility,
+                                    candidate_set,
                                     rows,
                                     sample_with_replacement) {
 
-  idx_rows <- sample(
-    seq_len(nrow(candidate_set)),
-    rows,
-    replace = sample_with_replacement
-  )
+  fits <- FALSE
+  show_warning <- TRUE
+  time_start <- Sys.time()
+
+  while (fits == FALSE) {
+    idx_rows <- sample(
+      seq_len(nrow(candidate_set)),
+      rows,
+      replace = sample_with_replacement
+    )
+
+    design_candidate <- candidate_set[idx_rows, ]
+
+    fits <- fits_lvl_occurrences(utility, design_candidate, rows)
+
+    if (show_warning && difftime(Sys.time(), time_start, units = "secs") > 60) {
+      cli_alert_info("No design candidate has been found that can achieve attribute level balance or that satisfies the constraints. You may want to let go of attribute level balance, reduce the number of constraints or increase the size of your design.")
+      show_warning <- FALSE
+    }
+  }
 
   return(
-    as.data.frame(candidate_set[idx_rows, ])
+    design_candidate
   )
 
 }
+
+# table(design_candidate[, 1])
+# table(design_candidate[, 2])
+# table(design_candidate[, 3])
+# table(design_candidate[, 4])
+# table(design_candidate[, 5])
+# table(design_candidate[, 6])
+#
+#
+# table(candidate_set[, 1])
+# table(candidate_set[, 2])
+# table(candidate_set[, 3])
+# table(candidate_set[, 4])
+# table(candidate_set[, 5])
+# table(candidate_set[, 6])
