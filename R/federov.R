@@ -63,19 +63,39 @@ federov <- function(design_object,
   iter_design_candidate <- 1
   iter_candidate_set <- 1
 
+  # Create an initial random design candidate. The design_candidate is a
+  # data.frame()
+  design_candidate <- random_design_candidate(utility,
+                                              candidate_set,
+                                              rows,
+                                              control$sample_with_replacement)
+
   repeat {
-    if (iter == 1) {
-      # Create an initial random design candidate
-      design_candidate <- random_design_candidate(candidate_set,
-                                                  rows,
-                                                  control$sample_with_replacement)
+    # Update the design candidate.
+    design_candidate[iter_design_candidate, ] <- candidate_set[iter_candidate_set, ]
 
-    } else {
-      # Update the design candidate.
+    # Full attribute level balance for the federov but include ranges.
+    fits <- fits_lvl_occurrences(utility, design_candidate, rows)
+
+    while (fits == FALSE) {
       design_candidate[iter_design_candidate, ] <- candidate_set[iter_candidate_set, ]
+      balanced <- fits_lvl_occurrences(utility, design_candidate, rows)
 
+      iter_candidate_set <- iter_candidate_set + 1
+
+      if (iter_candidate_set == nrow(candidate_set)) {
+        iter_candidate_set <- 1
+        iter_design_candidate <- ifelse(iter_design_candidate == rows,
+                                        1, iter_design_candidate + 1)
+
+      } else {
+        iter_candidate_set <- iter_candidate_set + 1
+
+      }
     }
 
+    # Check occurrences before calling the model.matrix() this ensures that
+    # dummies are correctly handled
     # Define the current design candidate considering alternative specific
     # attributes and interactions
     design_candidate_current <- do.call(cbind, define_base_x_j(utility, design_candidate))
