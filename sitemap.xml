@@ -163,6 +163,9 @@
     <loc>https://spdesignr.edsandorf.me/reference/is_balanced.html</loc>
   </url>
   <url>
+    <loc>https://spdesignr.edsandorf.me/reference/lvl_occurrences.html</loc>
+  </url>
+  <url>
     <loc>https://spdesignr.edsandorf.me/reference/make_draws.html</loc>
   </url>
   <url>
@@ -182,6 +185,12 @@
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/make_standard_sobol.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/min_lvl_occurrence.html</loc>
+  </url>
+  <url>
+    <loc>https://spdesignr.edsandorf.me/reference/nlvls.html</loc>
   </url>
   <url>
     <loc>https://spdesignr.edsandorf.me/reference/normal.html</loc>
