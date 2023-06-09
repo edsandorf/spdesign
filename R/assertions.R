@@ -196,3 +196,37 @@ attribute_level_balance <- function(x, rows) {
 
   }
 }
+
+#' Test whether a design candidate fits the constraints imposed by the level
+#' occurrences
+#'
+#' @inheritParams occurrences
+#' @inheritParams generate_design
+#'
+#' @return A boolean equal to TRUE if attribute level balanced
+fits_lvl_occurrences <- function(utility, x, rows) {
+
+  ranges <- occurrences(utility, rows)
+
+  test <- rep(FALSE, length(ranges))
+
+  for (i in seq_along(ranges)) {
+    tbl <- table(x[, i])
+    occs <- ranges[[i]]
+
+    # Skip the test if not all attribute levels are present
+    if (length(tbl) < length(occs)) next
+
+    local_test <- rep(FALSE, length(occs))
+
+    for (j in seq_along(occs)) {
+      local_test[j] <- tbl[j] %in% occs[[j]]
+    }
+
+    test[i] <- all(local_test)
+  }
+
+  return(
+    all(test)
+  )
+}
