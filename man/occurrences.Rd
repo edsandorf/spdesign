@@ -2,7 +2,7 @@
 % Please edit documentation in R/parsing.R
 \name{occurrences}
 \alias{occurrences}
-\title{Generic for extracting the attribute occurrence}
+\title{Extract or set attribute level occurrences}
 \usage{
 occurrences(x, rows)
 }
@@ -17,8 +17,16 @@ the inner list, the levels of each attribute and the number or range of times
 they can occur
 }
 \description{
-The function gets the list of attributes, levels and occurrences within the
-design. This is necessary to impose attribute level balance or near attribute
-level balance. This is also necessary to correctly populate the candidate
-matrix used for the RSC algorithm.
+This function will set the range of attribute level occurrences equal to to
+the size of the design. This is equivalent to fully letting go of attribute
+level balance. Letting go of attribute level balance is the default behavior
+for the Modified Federov algorithm and the Random algorithm.
+}
+\details{
+If restrictions are placed on attribute level occurrence in the utility
+function, then this function will extract these and add them to the output.
+
+Notice that specifying restrictions in the utility function only matters for
+the Modified Federov and Random algorithms and will in general result in a
+less efficient design.
 }
