@@ -2,7 +2,7 @@
 % Please edit documentation in R/parsing.R
 \name{attribute_levels}
 \alias{attribute_levels}
-\title{Generic for getting the attributes and levels from the utility}
+\title{Generic#' Generic for getting the attributes and levels from the utility}
 \usage{
 attribute_levels(x)
 }
@@ -10,5 +10,5 @@ attribute_levels(x)
 \item{x}{An object of class utility}
 }
 \description{
-Generic for getting the attributes and levels from the utility
+Generic#' Generic for getting the attributes and levels from the utility
 }

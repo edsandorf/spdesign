@@ -1,4 +1,4 @@
-#' Generic for getting the attributes and levels from the utility
+#' Generic#' Generic for getting the attributes and levels from the utility
 #'
 #' @param x An object of class utility
 #'
@@ -243,12 +243,19 @@ priors <- function(x) {
   )
 }
 
-#' Generic for extracting the attribute occurrence
+#' Extract or set attribute level occurrences
 #'
-#' The function gets the list of attributes, levels and occurrences within the
-#' design. This is necessary to impose attribute level balance or near attribute
-#' level balance. This is also necessary to correctly populate the candidate
-#' matrix used for the RSC algorithm.
+#' This function will set the range of attribute level occurrences equal to to
+#' the size of the design. This is equivalent to fully letting go of attribute
+#' level balance. Letting go of attribute level balance is the default behavior
+#' for the Modified Federov algorithm and the Random algorithm.
+#'
+#' If restrictions are placed on attribute level occurrence in the utility
+#' function, then this function will extract these and add them to the output.
+#'
+#' Notice that specifying restrictions in the utility function only matters for
+#' the Modified Federov and Random algorithms and will in general result in a
+#' less efficient design.
 #'
 #' @inheritParams priors
 #' @param rows Number of rows in the design
@@ -263,19 +270,20 @@ occurrences <- function(x, rows) {
   attribute_lvls <- expand_attribute_levels(x)
   n_lvls <- lapply(attribute_lvls, length)
 
-  # Set the default level occurrence assuming utility balance.
+  # Set the default level occurrence such that each level can occur a minimum of
+  # 0 times and a maximum of row number of times.
   level_occurrences <- lapply(n_lvls, function(n) {
     # If unbalanced and unspecified, set minimum range for occurrence
-    if (rows %% n == 0) {
-      lvl <- rows / n
+    # if (rows %% n == 0) {
+    #   lvl <- rows / n
+    #
+    # } else {
+    #   minimum <- floor(rows / n)
+    #   lvl <- minimum:(minimum + 1)
+    #
+    # }
 
-    } else {
-      minimum <- floor(rows / n)
-      lvl <- minimum:(minimum + 1)
-
-    }
-
-    lvls <- lapply(seq_len(n), function(i) lvl)
+    lvls <- lapply(seq_len(n), function(i) c(0, seq_len(rows)))
     names(lvls) <- paste0("lvl", seq_along(lvls))
 
     return(lvls)
@@ -333,6 +341,61 @@ occurrences <- function(x, rows) {
 
 }
 
+#' Find minimum level occurrences
+#'
+#' Find minimium level occurrences. This is useful to ensure/approximate attribute
+#' level balance in designs using the Modified Federov Algorithm or the
+#' Random design algorithms.
+#'
+#' @inheritParams occurrences
+#'
+#' @return A list of minimum level occurrences for the attribute levels
+min_lvl_occurrence <- function(x, rows) {
+  return(
+    lapply(expand_attribute_levels(x), function(y) floor(rows / length(y)))
+  )
+}
+
+#' Find the number of levels
+#'
+#' Find the number of levels for each attribute
+#'
+#' @inheritParams occurrences
+#'
+#' @return A list with the number of levels for each attribute
+nlvls <- function(x) {
+  return(
+    lapply(expand_attribute_levels(x), length)
+  )
+}
+
+#' Attribute level occurrence lookup tables
+#'
+#' Creates a list of lookup tables for attribute level occurrence.
+#'
+#' @inheritParams generate_design
+#' @param level_balance Boolean equal to TRUE if level balance. This is not used
+#'
+#' @return A list the length of the expanced attribute levels. Each list element
+#' is a lookup table where the names of the table is the attribute level and the
+#' element the number of times the minimum number of times the level occurs.
+lvl_occurrences <- function(utility, rows, level_balance) {
+  return(
+    mapply(function(x, y, level_balance) {
+      # Check if we are enforcing level balance.
+      if (level_balance) {
+        z <- rep(x, length(y))
+
+      } else {
+        z <- rep(1, length(y))
+
+      }
+
+      names(z) <- y
+      return(z)
+    }, min_lvl_occurrence(utility, rows), expand_attribute_levels(utility), level_balance)
+  )
+}
 
 # Checks within the old level-occurrence function
 # # Test that occurrence is specified once or equal to the number of levels
