@@ -14,18 +14,12 @@ of experimental designs.}
 \item{rows}{An integer giving the number of rows in the final design}
 }
 \value{
-A matrix with rows equal to the number of choice tasks and columns
+A data.frame with rows equal to the number of choice tasks and columns
 equal to the number of attributes in the 'wide' format
 }
 \description{
-The function will populate the design candidate matrix used for the RSC
-algorithm.
-}
-\details{
-To ensure attribute level balance or that the number of times an attribute
-level occurs is within the range specified in the list level_occurrence,
-we sample from the list of occurrences subject to the constraint that the
-sum has to be equal to the number of rows, i.e. choice tasks. While this is
-a theoretical bottle neck for very large designs, it is still sufficiently
-fast. It is only run once every 10 000 iterations of the RSC algorithm.
+Creates a design candidate by assuming attribute level balance. Will work
+out the minimum level of times an attribute must occur for level balance. If
+level balance cannot be achieved the function will systematically add level
+occurrences to get as close as possible to attribute level balance.
 }

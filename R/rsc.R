@@ -217,52 +217,45 @@ cycle <- function(x) {
 
 #' Generates a candidate for the RSC algorithm
 #'
-#' The function will populate the design candidate matrix used for the RSC
-#' algorithm.
-#'
-#' To ensure attribute level balance or that the number of times an attribute
-#' level occurs is within the range specified in the list level_occurrence,
-#' we sample from the list of occurrences subject to the constraint that the
-#' sum has to be equal to the number of rows, i.e. choice tasks. While this is
-#' a theoretical bottle neck for very large designs, it is still sufficiently
-#' fast. It is only run once every 10 000 iterations of the RSC algorithm.
+#' Creates a design candidate by assuming attribute level balance. Will work
+#' out the minimum level of times an attribute must occur for level balance. If
+#' level balance cannot be achieved the function will systematically add level
+#' occurrences to get as close as possible to attribute level balance.
 #'
 #' @inheritParams federov
 #'
-#' @return A matrix with rows equal to the number of choice tasks and columns
+#' @return A data.frame with rows equal to the number of choice tasks and columns
 #' equal to the number of attributes in the 'wide' format
 generate_rsc_candidate <- function(utility, rows) {
-  # Define attributes and level occurrence locally
-  attribute_lvls <- expand_attribute_levels(utility)
-  level_occurrence <- occurrences(utility, rows)
+  # Level occurrences will now systematically add to minimum occurrences such
+  # that occurrences sum to 1
+  level_occurrences <- lapply(lvl_occurrences(utility, rows, TRUE), function(x) {
+    diff <- rows - sum(x)
+    add <- rep(0, length(x))
+    pos <- 1
 
-  # Loop over attributes
-  design_candidate <- matrix(0, nrow = rows, ncol = length(attribute_lvls))
-  colnames(design_candidate) <- names(attribute_lvls)
+    while (diff > 0) {
+      if (pos == (length(x) + 1)) pos <- 1
 
-  for (i in seq_along(attribute_lvls)) {
-    # Determine how many times to sample each level suject to summing to the
-    # number of tasks
-    constraints <- level_occurrence[[i]]
-    sum_implied_tasks <- 1
-
-    while (sum_implied_tasks != rows) {
-      sample_level <- lapply(constraints, sample, 1L)
-      sum_implied_tasks <- do.call(sum, sample_level)
+      add[pos] <- add[pos] + 1
+      pos <- pos + 1
+      diff <- diff - 1
     }
 
-    # Sample each attribute level according to occurrence
-    levels_tmp <- do.call(
-      c,
-      lapply(seq_along(sample_level), function(k) {
-        rep(attribute_lvls[[i]][[k]], sample_level[[k]])
-      })
+    return(
+      x + add
     )
+  })
 
-    design_candidate[, i] <- shuffle(levels_tmp)
-  }
+  lvls <- lapply(level_occurrences, function(x) {
+    return(
+      shuffle(rep(as.numeric(names(x)), x))
+    )
+  })
+
   return(
-    as.data.frame(design_candidate)
+    as.data.frame(do.call(cbind, lvls))
   )
+
 
 }
