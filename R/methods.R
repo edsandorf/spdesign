@@ -29,7 +29,24 @@ vcov.spdesign <- function(object, ...) {
 #'
 #' @export
 summary.spdesign <- function(object, ...) {
+  print(object, ...)
+  print(object[["design"]])
+  cat("\n")
+  cat("---------------------------------------------------------------------\n")
+}
 
+#' Correlation
+#'
+#' Calculate the correlation of the design. This is a wrapper around
+#' \code{\link{cor}}.
+#'
+#' @inheritParams print.spdesign
+#'
+#' @export
+cor <- function(x, ...) {
+  return(
+    stats::cor(x[["design"]], y = NULL, use = "everything", method = c("pearson", "kendall", "spearman"))
+  )
 }
 
 #' A generic function for printing an 'spdesign' object
