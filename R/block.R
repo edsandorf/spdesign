@@ -57,7 +57,7 @@ block <- function(x, blocks, target = 0.0005, max_iter = 1000000) {
 
   blocked_design[["blocks_value"]] <- 1
   blocked_design[["design"]] <- cbind(design, block)
-  blocked_design[["blocks_correlation"]] <- cor(design, block)
+  blocked_design[["blocks_correlation"]] <- stats::cor(design, block)
   blocked_design[["blocks_iter"]] <- 1
 
   # Return the blocked design object when the function exits prematurely.
@@ -74,8 +74,8 @@ block <- function(x, blocks, target = 0.0005, max_iter = 1000000) {
     # Calculate the correlation between the attributes and a random permutation
     # of the blocking variable.
     block <- sample(block)
-    correlation <- cor(design, block)
-    current <- mean(correlation ^ 2)
+    correlation <- stats::cor(design, block)
+    current <- mean(correlation ^ 2, na.rm = TRUE)
 
     if (current < blocked_design[["blocks_value"]]) {
       blocked_design[["blocks_value"]] <- current
