@@ -150,7 +150,12 @@ rsc <- function(design_object,
 #' Hensher, D. A., Rose, J. M. & Greene, W., 2005, Applied Choice Analysis,
 #' 2nd ed., Cambridge University Press
 relabel <- function(x) {
-  lvls <- sample(unique(x), 2, replace = FALSE)
+  unique_lvls <- unique(x)
+
+  # If we have a constant, the easiest is to sample with replacement. Adds a
+  # tiny amount of overhead.
+  replace <- length(unique_lvls) == 1
+  lvls <- sample(unique_lvls, 2, replace = replace)
 
   idx_first <- x == lvls[[1]]
   idx_second <- x == lvls[[2]]
