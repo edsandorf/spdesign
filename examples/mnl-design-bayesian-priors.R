@@ -5,15 +5,18 @@ rm(list = ls(all = TRUE))
 # library(spdesign)
 
 # Define the list of utility functions ----
+#' Generating a design with Bayesian priors.
 utility <- list(
-  alt1 = "b_x1[0.1] * x_1[2:5] + b_x2[uniform_p(-1, 1)] * x_2[c(0, 1)] + b_x3[normal_p(0, 1)] * x_3[seq(0, 1, 0.25)]",
-  alt2 = "b_x1      * x_1      + b_x2      * x_2          + b_x3          * x_3"
+  alt1 = "b_x1[0.1] * x1[2:5] + b_x2[uniform_p(-1, 1)] * x2[c(0, 1)] + b_x3[normal_p(0, 1)] * x3[seq(0, 1, 0.25)]",
+  alt2 = "b_x1      * x1      + b_x2                   * x2          + b_x3                 * x3"
 )
 
 # Generate designs ----
-design <- generate_design(utility, rows = 6,
+design <- generate_design(utility, rows = 20,
                           model = "mnl", efficiency_criteria = "d-error",
-                          algorithm = "federov", draws = "scrambled-sobol",
+                          algorithm = "rsc", draws = "scrambled-sobol",
                           control = list(
-                            max_iter = 100
+                            max_iter = 10000
                           ))
+
+summary(design)

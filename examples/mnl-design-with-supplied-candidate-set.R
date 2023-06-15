@@ -13,10 +13,10 @@ utility <- list(
 # Use the full factorial as the candidate set
 candidate_set <- full_factorial(
   list(
-    alt1_x1 = 1:5,
+    alt1_x1 = 2:5,
     alt1_x2 = c(0, 1),
     alt1_x3 = seq(0, 1, 0.25),
-    alt2_x1 = 1:5,
+    alt2_x1 = 2:5,
     alt2_x2 = c(0, 1),
     alt2_x3 = seq(0, 1, 0.25)
   )
@@ -30,3 +30,6 @@ design <- generate_design(utility, rows = 20,
                           model = "mnl", efficiency_criteria = "d-error",
                           algorithm = "federov", draws = "scrambled-sobol",
                           candidate_set = candidate_set)
+
+
+summary(design)

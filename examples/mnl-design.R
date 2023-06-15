@@ -23,3 +23,6 @@ design <- generate_design(utility, rows = 20,
 
 # Add a blocking variable to the design with 4 blocks.
 design <- block(design, 4)
+
+
+summary(design)
