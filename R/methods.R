@@ -30,9 +30,17 @@ vcov.spdesign <- function(object, ...) {
 #' @export
 summary.spdesign <- function(object, ...) {
   print(object, ...)
+  cat("\n")
   print(object[["design"]])
   cat("\n")
   cat("---------------------------------------------------------------------\n")
+
+  if ("blocks_correlation" %in% names(object)) {
+    cat("Correlation between the blocking vector and attributes: \n \n")
+    print(round(t(object$blocks_correlation), 3))
+    cat("\n")
+    cat("---------------------------------------------------------------------\n")
+  }
 }
 
 #' Correlation
