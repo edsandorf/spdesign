@@ -158,18 +158,3 @@ random_design_candidate <- function(utility,
   )
 
 }
-
-# table(design_candidate[, 1])
-# table(design_candidate[, 2])
-# table(design_candidate[, 3])
-# table(design_candidate[, 4])
-# table(design_candidate[, 5])
-# table(design_candidate[, 6])
-#
-#
-# table(candidate_set[, 1])
-# table(candidate_set[, 2])
-# table(candidate_set[, 3])
-# table(candidate_set[, 4])
-# table(candidate_set[, 5])
-# table(candidate_set[, 6])
