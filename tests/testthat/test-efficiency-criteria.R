@@ -6,7 +6,7 @@ x <- matrix(
     0.0124575011460146, 0.0195733876561729
   ),
   nrow = 2)
-p <- c(0.2, -0.1)
+p <- c("b_x1" = 0.2, "b_x2" = -0.1)
 
 test_that(
   "A-efficiency calculates correctly", {
@@ -27,7 +27,7 @@ test_that(
       calculate_efficiency_criteria(
         design_vcov = x,
         p = p,
-        dudx = 2,
+        dudx = "b_x2",
         type = "c-error"
       ),
       0.936113,

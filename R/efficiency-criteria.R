@@ -142,6 +142,9 @@ calculate_c_error <- function(design_vcov, p, dudx, return_all) {
   if (is.null(dudx)) {
     NA
   } else {
+    # Local overwrite with respect to the actual position for correct subsetting
+    dudx <- which(names(p) == dudx)
+
     c_eff <- p[-dudx]^-2 *
       (diag(design_vcov)[dudx] - 2 *
          p[dudx] * p[-dudx]^-1 *
