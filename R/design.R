@@ -138,7 +138,7 @@ generate_design <- function(utility,
       )
     }
 
-    if (!identical(apply(candidate_set, 2, unique), lapply(expand_attribute_levels(utility), as.numeric))) {
+    if (!identical(apply(candidate_set, 2, function(x) unique(sort(x))), lapply(expand_attribute_levels(utility), as.numeric))) {
       stop(
         "The attribute levels determined by the supplied candidate set differs
         from those supplied in the utility function. Please ensure that all
