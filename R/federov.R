@@ -60,6 +60,9 @@ federov <- function(design_object,
 
   # Set iterations defaults
   iter <- 1
+  iter_break <- 1
+  iter_break_max <- nrow(candidate_set) * rows
+  iter_new_candidates <- 1
   iter_design_candidate <- 1
   iter_candidate_set <- 1
 
@@ -77,9 +80,10 @@ federov <- function(design_object,
     # Full attribute level balance for the federov but include ranges.
     fits <- fits_lvl_occurrences(utility, design_candidate, rows)
 
+    # This becomes an infinite loop at some point. Why?
     while (fits == FALSE) {
       design_candidate[iter_design_candidate, ] <- candidate_set[iter_candidate_set, ]
-      balanced <- fits_lvl_occurrences(utility, design_candidate, rows)
+      fits <- fits_lvl_occurrences(utility, design_candidate, rows)
 
       iter_candidate_set <- iter_candidate_set + 1
 
@@ -91,6 +95,30 @@ federov <- function(design_object,
       } else {
         iter_candidate_set <- iter_candidate_set + 1
 
+      }
+
+      # Add iteration here to avoid an infinite loop
+      iter_break <- iter_break + 1
+
+      if (iter_break > iter_break_max) {
+        # Try with a new random design candidate to check if we are truly stuck.
+        design_candidate <- random_design_candidate(utility,
+                                                    candidate_set,
+                                                    rows,
+                                                    control$sample_with_replacement)
+
+        # Reset counters
+        iter_candidate_set <- iter_design_candidate <- iter_break <- 1
+
+        # Add to the new candidate counter
+        iter_new_candidates <- iter_new_candidates + 1
+
+        # After we have tried five new candidates
+        if (iter_new_candidates > 5) {
+          cli_alert_warning("We are struggeling to find a better design candidate that fits all level restrictions. You may want to stop here and try with looser restrictions. Alternatively, you can see if you get better results using the 'random' algorithm.")
+        }
+
+        break
       }
     }
 
