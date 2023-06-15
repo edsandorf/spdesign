@@ -7,7 +7,7 @@ navbar:
   structure:
     left:  [home, intro, articles, tutorials, news, reference]
     right: [github]
-url: https://spdesignr.edsandorf.me
+url: https://spdesign.edsandorf.me
 template:
   params:
     bootswatch: cerulean
