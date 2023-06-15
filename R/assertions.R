@@ -208,18 +208,27 @@ fits_lvl_occurrences <- function(utility, x, rows) {
 
   ranges <- occurrences(utility, rows)
 
+  # Define a base table/vector with 0 occurrences to avoid errors if a single
+  # level is dropped when sampling/iterating through the candidate set.
+  base_tbl <- lapply(expand_attribute_levels(utility), function(x) {
+    vec <- rep(0, length(x))
+    names(vec) <- x
+
+    return(vec)
+  })
+
   test <- rep(FALSE, length(ranges))
 
   for (i in seq_along(ranges)) {
-    tbl <- table(x[, i])
+    # I might need to expand this to explicitly include zero occurrences (A simple replace would do.)
+    tbl_occs <- table(x[, i])
+    tbl <- base_tbl[[i]][names(tbl_occs)] <- tbl_occs
+
     occs <- ranges[[i]]
 
-    # Skip the test if not all attribute levels are present
-    if (length(tbl) < length(occs)) next
+    local_test <- rep(FALSE, length(tbl))
 
-    local_test <- rep(FALSE, length(occs))
-
-    for (j in seq_along(occs)) {
+    for (j in seq_along(tbl)) {
       local_test[j] <- tbl[j] %in% occs[[j]]
     }
 
