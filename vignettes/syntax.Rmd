@@ -11,12 +11,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Syntax
+# Creating a design
 The syntax of `spdesign` is made to be intuitive and easy, while at the same time very flexible. To achieve this, we use a combination of regular expressions and R's powerful expression parser "under the hood" to translate the user-specified utility functions into objects that can be manipulated by the package. 
 
-## Specifying a parameter with a prior
+It is impossible to write checks for all possible edge cases of inputs. Therefore, you are strongly encouraged to follow the recommendations in this manual carefully when defining your utility functions. 
+
+## Specifying a prior
 ### A fixed prior
-In `spdesign`, all parameters *must* have a prior. This is a deliberate design choice to make it clear that using a 0 prior is also an assumption in our design. The name of the parameter is followed by a square bracket, which contains the prior. All parameters have to start with `b_`. This is to separate them from attributes and to easily allow for non-linear utility functions. If no prior is specified for a given parameter, an error is returned. If the parameter is generic, i.e. it enters multiple utility expressions, then you only need to specify the prior once. If you specify more than one prior, only the first will be used and a warning is issued. It is strongly recommended that priors for generic parameters are specified the first time they are used (this is a good tip for attributes as well!). 
+In `spdesign`, all parameters *must* have a prior. This is a deliberate design choice to make it clear that using a 0 prior is also an assumption in our design. The name of the prior is followed by a square bracket, which contains the assumed value of the prior. All priors have to start with `b_`. This is to separate them from attributes and to easily allow for non-linear utility functions. 
+
+If no prior is specified for a given parameter, an error is returned. If the parameter is generic, i.e. it enters multiple utility expressions, then you only need to specify the prior once. It is strongly recommended that priors for generic parameters are specified the first time they are used (this is a good tip for attributes as well!). 
 
 For example, to specify a parameter `b_x1` with a prior of `0`, we would write: 
 
@@ -24,26 +28,12 @@ For example, to specify a parameter `b_x1` with a prior of `0`, we would write:
 b_x1[0]
 ```
 
-Because we are leveraging R's built-in parser, we can use basic mathematical operators to manipulate the values of our priors. For example, using the basic functions `+`, `-`, `*`, `/` and `^`:
-
-```
-b_x1[2 * 0.4]
-```
-
-It is even possible to specify parameter priors as functions of earlier parameters. The only requirement is that the earlier parameter has been specified with a prior. In the example below, the prior value of `b_x2` is specified as half of `b_x1`.
-
-```
-b_x1[0.5] * x_1 + b_x2[b_x1 / 2] * x_2
-```
-
-If you try to specify multiple priors for a single parameter, e.g. `b_x1[c(0.1, 0.2)]`, a warning will be issued and only the first parameter value will be used. Specifying multiple priors for a single parameter is only valid if you are using the `_dummy` or `_effect` syntax to create dummy coded or effects coded variables, respectively.
-
 ### A Bayesian prior
 
 We can specify a Bayesian prior by specifying the distribution of the prior. For example, `uniform_p(-1, 1)` means that we allow the prior to follow a uniform distribution between -1 and 1. 
 
 ```
-b_x1[uniform_p(-1, 1)]
+"b_x1[uniform_p(-1, 1)]"
 ```
 
 We can use the following distributions:
@@ -53,33 +43,33 @@ We can use the following distributions:
 * Triangular - `triangular_p(location, spread)`
 * Uniform - `uniform_p(location, spread)`
 
-All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Notice that the name of the distribution is in capital letters followed by a lower case `p` indicating that it is a prior. This is to distinguish it from a random parameter in an RPL model. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs. 
+All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs. 
 
 ## Specifying a parameter with levels
 ### Linear attributes
 The syntax for specifying attributes and levels is similar to how we specify parameters and priors. The attribute name is specified to the left and levels are specified inside `[]`. Below, the attribute `x_1` can take on the levels 1, 2, 3, 4 and 5. 
 
 ```
-x_1[1:5]
+"x1[1:5]"
 ```
 
 When we specify the levels, we can make use of R's built in functions for generating sequences and vectors. For example, the following three specifications are identical:
 
 ```
 # Specification 1
-x_1[1:5]
+"x1[1:5]"
 
 # Specification 2
-x_1[seq(1, 5, 1)]
+"x1[seq(1, 5, 1)]"
 
 # Specification 3
-x_1[c(1, 2, 3, 4, 5)]
+"x1[c(1, 2, 3, 4, 5)]"
 ```
 
 However, 
 
 ```
-x_1[1, 2, 3, 4, 5]
+"x1[1, 2, 3, 4, 5]"
 ```
 
 is not a valid specification and will throw an error. The error will most likely be of the form:
@@ -92,103 +82,170 @@ Error in parse(text = x) : <text>:1:2: unexpected ','
 
 While we have not written a new intuitive error message for this misspecification, it will be caught by R's parser and we feel that this is sufficient. As a compromise, we state the most likely error here to help users catch why their specifications fail. 
 
+*Important:* Make sure that all attribute levels are numeric. Even in the cases where you use the `_dummy` coding syntax it is **always** safer to use numeric values for the levels. 
 
 
 ## Combining parameters, priors, attributes and levels to form a utility function
 
-We combine the parameter and attribute as in the example below to start building our utility expression. We recommend that people use the naming convention `b_x1` being the parameter for the attribute `x1`. It has no practical implication for how the code works or interprets the utility function, but it makes it much easier for the user to see which parameter goes with which attribute. It is also important that the parameter `b_x1` preceeds the attribute `x1`. There is currently no checks written to ensure this, but failing to do so may cause unintended errors in certain instances. For example, if you are using the dummy- or effects-coding shorthand detailed below. 
+We combine the parameter and attribute as in the example below to start building our utility expression. We recommend that people use the naming convention `b_x1` being the parameter for the attribute `x1`. It has no practical implication for how the code works or interprets the utility function, but it makes it much easier for the user to see which parameter goes with which attribute. It is also important that the parameter `b_x1` precedes the attribute `x1`. There is currently no checks written to ensure this, but failing to do so may cause unintended errors in certain instances. For example, if you are using the dummy-coding shorthand detailed below. 
 
- ```
-b_x1[0] * x1[1:5]
-```
-
-## Advanced syntax 
-
-### Attribute level balance
-
-Attribute level balance is controlled with the option `opts$level_balance`. The default value is `FALSE`. It is possible to impose attribute level balance setting this option to `TRUE`. While it is known that level balanced designs are less efficient, it may be desirable to ensure that all attribute levels occur with equal frequency. However, it is only possible to obtain attribute level balance if the number of levels an attribute can take is a multiple of the number of rows in the design candidate. The number of rows is equal to the product of the number of alternatives per choice task and number of choice tasks. For example, if we have a dummy attribute and our design candidate has 12 rows, then each attribute level occurs exactly 6 times. If we have an attribute with three levels, then each level occurs exactly 4 times across the design. 
-
-However, if the number of levels for any attribute is not a multiple of the number of rows in the design candidate, then we cannot achieve attribute level balance. In this case, the package will print a warning that attribute level balance cannot be assured, but that it will strive to get as close as possible. The way it does this is by letting go of attribute level balance only for the attributes whose levels are not multiples of the number of rows in the design candidate. Furthermore, it will try to have each attribute level occur a number of times that is as close to attribute level balance as possible. For example, if we have an attribute with 3 levels and a design candidate with 10 rows, then each attribute level will occur a minimum of 3 times with one attribute level occuring 4 times. That said, the package does provide the user with some flexibility in how this is specified. 
-
-It is possible for the user to specify that each level of our three-level attribute occurs a minimum of 3 times. To do this, we would need `level_balance = TRUE` and specify the minimum number of times each level would occur in a rounded parenthesis behind the attribute level specification.
+Below is an example:
 
 ```
-b_x1[0] * x1[c(0, 1, 2)](3, 2, 3)
+"b_x1[0] * x1[1:5]"
 ```
 
-In the specification above, 0 would occur a minimum of 3 times, 1 would occur a minimum of 2 times and 3 would occur a minimum of 3 times. If all levels could occure at a minimum an equal number of times, we can write this more succinctly as:
+
+It is **strongly** recommended to use identical names for priors and attributes, with the exception of "b_" for priors. This makes reading of the code easier. 
+
+
+## Building a set of utility functions
+The utility functions take the form of named lists. Let's say that we would like to create a design comprising two alternatives with three attributes each and a status quo. We want our first attribute to take on the five levels 1, 2, 3, 4, and 5; our second attribute to take on the levels 0 and 1; and our third attribute to take on the values betwween 0 and 1 in .25 increments. One way to specify this would be the following: 
 
 ```
-b_x1[0] * x1[c(0, 1, 2)](3)
+utility <- list(
+  alt1 = "b_x1[0.1]  * x1[1:5] + b_x2[0.4] * x2[c(0, 1)] + b_x3[-0.2] * x3[seq(0, 1, 0.25)]",
+  alt2 = "b_x1       * x1      + b_x2      * x2          + b_x3       * x3",
+  alt3 = "b_sq[0.15] * sq[1]"
+)
 ```
 
-Two important things to note about the above specification: 1) You can only specify the number of times an attribute should occur in the design at the same time as you specify the number of levels, and 2) the number of comma-separated elements inside the parenthesis has to be equal to 1 (all take the same minimum/maximum number) or equal to the number of levels. Any number of elements inbetween will lead to an error and no design will be produced. In some cases it might be desirable to specify a range indicating an acceptable number of times an attribute level can occur. We do this using the standard range-operator `:` in R. In the example below, each attribute level can occur 3, 4 or 5 times.
+Where the status quo or opt out alternative has a single constant. 
+
+## Generating a design
+To generate a design, we need to pass the utility function along with other options to the `generate_design` function. Currently, we can only generate designs for the MNL model. To see the full set of options for the function: `?generate_design`. 
 
 ```
-b_x1[0] * x1[c(0, 1, 2)](3:5, 3:5, 3:5)
+design <- generate_design(utility, rows = 20,
+                          model = "mnl", efficiency_criteria = "d-error",
+                          algorithm = "rsc", draws = "scrambled-sobol",
+                          control = list(
+                            max_iter = 21000
+                          ))
 ```
 
-It may be desirable to not use a continuous range. For example, you can specify that an attribute level should only occur 2, 4 or 6 times using either of the two following specifications: 
+The list `control` contains options that can be passed along to the function to change default values. The default values and options are: 
 
 ```
-b_x1[0] * x1[c(0, 1, 2)](seq(2, 6, 2))
-
-# OR
-
-b_x1[0] * x1[c(0, 1, 2)](c(2, 4, 6))
+  default_control <- list(
+    cores = 1,
+    max_iter = 10000,
+    max_relabel = 10000,
+    max_swap = 10000,
+    efficiency_threshold = 0.1,
+    sample_with_replacement = FALSE
+  )
 ```
 
-The same restrictions outlined above with respect to what is specified inside the parenthesis apply. 
+### Algorithms and attribute level balance
+No default algorithm for generating a design is implemented because they have different properties with respect to how easy it is to achieve attribute level balance (see more details below) and how easy it is to include restrictions/exclusions in the design (see more details below). Three algorithms are implemented: `rsc`, `federov`, and `random`. 
 
-### Interactions
-If you believe that there are interaction effects between attributes in your model, then these will have to be considered at the design stage. Any design that is not a full factorial assumes that some higher order interaction effects are insignificant. To ensure that you are able to identify the effect of an interaction in your data, this will have to be included in the design. To inclde an interaction term in the design, we can use the following syntax.
+The `rsc` algorithm creates an initial design candidate based on the provided attributes, levels and number of rows. This design candidate is attribute level balanced by default (if the number of attribute levels for all attributes are a multiple of the number of rows) or near attribute level balanced. It will not deviate from this. It finds new candidates by relabling or swapping attribute levels. The default is to cycle between relabling and swapping each 10000 candidates. The cycling part of the algorithm is not included because it is rarely used in practice. You cannot include restrictions or exclusions in your design when using the `rsc` algorithm. For details: `?rsc`
+
+The `federov` and `random` algorithms will systematically or randomly select potential design candidates from the candidate set. The candidate set can be either supplied or assumed to be the full factorial. These algorithms completely lets go of attribute level balance and you do run the risk of some attribute levels not showing up in the final design. We show syntax below to include level occurrence restrictions below. You can easily include restrictions in your design using these to algorithms by excluding attribute level combinations from the candidate set. That way, they will never be part of the design. Note that in general, both restrictions and attribute level balance may lead to less efficient designs and that if your restrictions are too tight and you are trying to force attribute level balance, no designs may be found. Few checks are made to notify the user of this. 
+
+
+## Blocking the design
+
+Blocking the design is done after the design has been generate and will add a blocking column to the design. The following will block the design into 4 trying to minimize the average squared correlation between the blocking column and each of the design columns. More information: `?block`
 
 ```
-b_x1[0] * x1[c(0, 1)] + b_x2 * x2[c(0, 1)] + b_x1x2 * I(x1 * x2)
+design <- block(design, 4)
+```
+
+## Summary of the design.
+
+The design object is stored as a list of class `spdesign`. Individual parts can be accessed using the `$` operator. Functions such as `summary`, `coef`, `print`, `vcov` and `cor` all work as expected. 
+
+
+# Advanced syntax 
+
+## Attribute level balance
+
+As stated above, the `rsc` algorithm wil ensure attribute level balance, whereas the `federov` and `random` algorithms will not. However, there is some flexibility in how this is specified. The following will only work for the `federov` and `random` algorithms and will be ignored without warning if the `rsc` algorithm is used. 
+
+The implicit restriction in the package is that each attribute level can occur between 0 and `rows` number of times. For example, if you have a design with 20 rows, then the attribute level can occur between 0 and 20 times. In practice, anywhere between never and always. The package does provide the user with the ability to specify a narrower range. 
+
+To do this, we would specify a parenthesis behind the attribute levels where we give the range that the attribute levels can take. Assume that our design has 18 rows. The following specification would force attribute level balance by saying that each level has to occur exactly 6 times. 
+
+```
+"b_x1[0] * x1[c(0, 1, 2)](6)"
+```
+
+As stated, it is not always possible to get attribute level balance and indeed it can be quite hard with the `federov` and `random` algorithms. Specifying a range may be better. For example, we could specify that all attribute levels should occur between 5 and 7 times. 
+
+```
+"b_x1[0] * x1[c(0, 1, 2)](5:7)"
+```
+
+In very special cases, it may be desirable to let some attribute levels occur more frequently than others and we could specify: 
+
+```
+"b_x1[0] * x1[c(0, 1, 2)](3:5, 5:7, 6:9)"
+```
+
+which would mean that 0 occurs between 3 and 5 times, 1 between 5 and 7, and 2 between 6 and 9 times. Indeed, in the case where we only specify a single range, it is expanded to be equal to the number of attribute levels such that: 
+
+```
+"b_x1[0] * x1[c(0, 1, 2)](5:7)"
+```
+
+is equivalent to 
+
+```
+"b_x1[0] * x1[c(0, 1, 2)](5:7, 5:7, 5:7)"
+```
+
+
+A few important things to note:
+
+1. The sum of minimum level occurrences must be less than `rows` and the sum of maximum level occurrences must be larger than `rows`. Otherwise, no design can be found. *No checks* are implemented for this.
+1. You can only specify either a single number or range, or number or ranges equal to the number of levels. Deviating from this may have unintended consequences and *no checks* are implemented. 
+1. You can only specify the number of times an attribute should occur in the design at the same time as you specify the number of levels, 
+
+
+## Interactions
+If you believe that there are interaction effects between attributes in your model, then these will have to be considered at the design stage. Any design that is not a full factorial assumes that some higher order interaction effects are insignificant. To ensure that you are able to identify the effect of an interaction in your data, this will have to be included in the design. To include an interaction term in the design, we can use the following syntax.
+
+```
+"b_x1[0] * x1[c(0, 1)] + b_x2 * x2[c(0, 1)] + b_x1x2 * I(x1 * x2)"
 ```
 
 Two things to note about the specification of the utility function with interactions. First, the levels of the attributes are specified when the attribute is first introduced and not in the interaction term itself, and two, for the parser to correctly interpret an interaction term, it needs to be wrapped in R's internal function for handling interactions `I()`. 
 
-We have included more examples of how this works in the excamples folder on Github. 
+## Dummy-coded attributes
 
-### Dummy-coded attributes
-We can specify an attribute to be dummy coded using the `_dummy` syntax.
-
-```
-V = list(
-  alt1 = b_x1_dummy[c(0.2, 0.5)] * x1[c(0, 1, 2)],
-  alt2 = b_x1 * x1
-)
-```
-
-A few things to note about using the `_dummy` syntax (this is also true for `_effect` sytax, described below): 
-1) The priors and levels must be specified simultaneously. 
-2) You only need to use the `_dummy` syntax the when the prior is first specified. Importantly, this means that `b_x1_dummy` is used when the prior is specified and `b_x1` is used when referencing the parameters for the dummy coded attributes in the other utility functions. 
-3) You must specify one more level for the attribute than priors for the parameter.
-
-In the case of the example above, it is identical to specifying:
+Often we have attributes in mind that are categorical in nature, e.g., comfort or environmental quality. In the design, it is often desirable to let these be dummy-coded. We can easily specify an attribute to dummy-coded using the `_dummy` syntax. Assume that we have a single categorical attribute that can take on three levels. We would then specify the utility functions as follows:
 
 ```
 V = list(
-  alt1 = b_x1_1[0.2] * x1_1[0, 1] + b_x1_2[0.5] * x1_2[0, 1],
-  alt2 = b_x1_1 * x1_1 + b_x1_2 * x1_2
+  alt1 = "b_x1_dummy[c(0.2, 0.5)] * x1[c(1, 2, 3)]",
+  alt2 = "b_x1_dummy * x1"
+)
+```
+
+Here we have specified 2 priors and 3 levels. The dummy coding expands the attribute levels by transforming the attribute into a factor and expanding it using a formula and the model.matrix. The first level is chosen as the baseline and dropped. Similarly, the priors are expanded into separate priors for each level. This also works with Bayesian priors. 
+
+It is recommended to use 1, 2, 3, 4 for the levels of a dummy-coded attribute. Note that the levels don't matter, but this naming convention secures that there is a correspondence between the names for the priors and attributes. 
+
+A few things to note about using the `_dummy` syntax
+1. The priors and levels must be specified simultaneously. 
+1. You must specify one more level for the attribute than priors for the parameter.
+
+
+
+## Constrained designs
+When using the `federov` or `random` algorithms, we can pass along a list of exclusions to `generate_design`. The exclusions will exclude the specified combinations from the full factorial prior to generating design candidates. The exclusions take the form of an unamed list. 
+
+For example: 
+
+```
+exclusions = list(
+  "alt1_x1 == 2 & alt1_x2 == 0 & alt1_x3 == 0",
+  "alt2_x2 == 1 & alt2_x3 == 1"
 )
 
 ```
 
-and implement the restriction that `x1_1` and `x1_2` cannot simultaneously be equal to 1. Under both specifications, estimates are relative to `x1 = 0`.
-
-### Effects-coded attributes
-We can specify an attribute to be effects coded using the `_effect` syntax.
-
-
-It is important to note that effects and dummy coding are theoretically equivalent [@daly_dummy_2016]. 
-
-# MNL
-
-## MNL with fixed priors
-
-## MNL with Bayesian priors
-
-
-# References
+# Examples
+Many examples are provided along with the package documentation and on Github to showcase different syntaxes. 
