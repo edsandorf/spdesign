@@ -136,7 +136,7 @@ any_duplicates <- function(x) {
       paste0(
         duplicates,
         " are specified with priors or levels more than once. Only the first
-        occurance of the value is used. If you intended to use different levels
+        occurrence of the value is used. If you intended to use different levels
         for different attributes in each utility function, please specify
         alternative specific attributes.\n "
       )
