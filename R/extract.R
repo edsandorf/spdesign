@@ -100,7 +100,7 @@ extract_unparsed_values <- function(string) {
   if (contains_dummies(string)) {
 
     # This is the expression that handles the prior distributions
-    expr <- "(\\d+\\.?\\d*|(normal|uniform|lognormal|triangular)_p\\(.*?\\))"
+    expr <- "-?(\\d+\\.?\\d*|(normal|uniform|lognormal|triangular)_p\\(.*?\\))"
 
     for (i in which(str_detect(string_elements, "_dummy\\["))){
       expanded <- as.list(unlist(str_extract_all(values[i], expr)))
