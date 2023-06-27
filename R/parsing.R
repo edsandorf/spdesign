@@ -204,16 +204,17 @@ utility_formula <- function(x) {
 #' @inheritParams attribute_levels
 #'
 #' @return A boolean vector matching the expanded utility expression
-dummy_position <- function(x) {
+dummy_names <- function(x) {
+  # Get the elements assuming that the function is additive
+  elements <- unlist(
+    str_split(paste(unlist(clean_utility(x)), collapse = " + "), "\\+")
+  )
+
+  pos <- str_detect(elements, "_dummy\\s")
+
+
   return(
-    str_detect(
-      unlist(
-        str_split(
-          paste(unlist(clean_utility(x)), collapse = " + "),
-          "\\+")
-      ),
-      "_dummy\\s"
-    )
+    remove_whitespace(str_extract(elements[pos], "(?<=(\\*|\\+)).*\\b"))
   )
 }
 
