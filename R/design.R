@@ -152,7 +152,7 @@ generate_design <- function(utility,
 
   # Transform the candiate set such that attributes that are dummy coded
   # are turned into factors. This ensures that we can use the model.matrix()
-  for (i in which(dummy_position(utility))) {
+  for (i in which(names(candidate_set) %in% dummy_names(utility))) {
     candidate_set[, i] <- as.factor(candidate_set[, i])
   }
 

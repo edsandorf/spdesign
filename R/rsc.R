@@ -21,7 +21,7 @@ rsc <- function(design_object,
 
   # Transform the candiate set such that attributes that are dummy coded
   # are turned into factors. This ensures that we can use the model.matrix()
-  for (i in which(dummy_position(utility))) {
+  for (i in which(names(design_candidate) %in% dummy_names(utility))) {
     design_candidate[, i] <- as.factor(design_candidate[, i])
   }
 
