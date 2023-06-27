@@ -229,8 +229,11 @@ Here we have specified 2 priors and 3 levels. The dummy coding expands the attri
 It is recommended to use 1, 2, 3, 4 for the levels of a dummy-coded attribute. Note that the levels don't matter, but this naming convention secures that there is a correspondence between the names for the priors and attributes. 
 
 A few things to note about using the `_dummy` syntax
+
 1. The priors and levels must be specified simultaneously. 
 1. You must specify one more level for the attribute than priors for the parameter.
+1. You cannot use `_dummy` as an extension for your attribute name. 
+1. If you are using specified levels for the status-quo or opt out alternative, make sure that this corresponds to the base level and is coded as a 0. See more details below. 
 
 
 
