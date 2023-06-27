@@ -41,7 +41,9 @@ rsc <- function(design_object,
 
   # Set iteration defaults
   iter <- 1
+  iter_na <- 1
   alg <- "relabel"
+  efficiency_current_best <- NA
 
   repeat {
 
@@ -77,17 +79,23 @@ rsc <- function(design_object,
 
     # Get the current efficiency measure
     efficiency_current <- efficiency_outputs[["efficiency_measures"]][efficiency_criteria]
-    if (iter == 1) efficiency_current_best <- efficiency_current
+    if (iter == 1 || is.na(efficiency_current_best)) efficiency_current_best <- efficiency_current
 
     # If the efficiency criteria we optimize for is NA, try a new candidate
     if (is.na(efficiency_current)) {
       iter <- iter + 1
+      iter_na <- iter_na + 1
       next
 
     }
 
+    if (iter_na > 1000) {
+      cli_alert_info("You have tried 1000 design candidates all of which have produced a computationally singular Hessian matrix. Check yor design for identification problems.")
+      iter_na <- 0
+    }
+
     # Print information to console and update ----
-    if (efficiency_current < efficiency_current_best || iter == 1) {
+    if (efficiency_current <= efficiency_current_best || iter == 1) {
       print_iteration_information(
         iter,
         values = efficiency_outputs[["efficiency_measures"]],
