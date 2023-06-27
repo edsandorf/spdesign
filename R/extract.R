@@ -102,7 +102,7 @@ extract_unparsed_values <- function(string) {
     # This is the expression that handles the prior distributions
     expr <- "-?(\\d+\\.?\\d*|(normal|uniform|lognormal|triangular)_p\\(.*?\\))"
 
-    for (i in which(str_detect(string_elements, "_dummy\\["))){
+    for (i in which(str_detect(string_elements, "b_.*_dummy\\["))){
       expanded <- as.list(unlist(str_extract_all(values[i], expr)))
 
       # Get the corresponding attribute by remove "b_" and "_dummy"

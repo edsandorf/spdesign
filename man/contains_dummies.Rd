@@ -14,5 +14,7 @@ A boolean equal to `TRUE` if the utility function contains dummy
 coded attributes and `FALSE` otherwise
 }
 \description{
-Check whether the utility function contains dummy coded variables
+We are splitting on all separators first before detecting whether we have
+dummy coded attributes to allow for people reusing the _dummy name for the
+attribute.
 }

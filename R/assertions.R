@@ -74,13 +74,17 @@ has_random_parameter <- function(string) {
 
 #' Check whether the utility function contains dummy coded variables
 #'
+#' We are splitting on all separators first before detecting whether we have
+#' dummy coded attributes to allow for people reusing the _dummy name for the
+#' attribute.
+#'
 #' @inheritParams has_bayesian_prior
 #'
 #' @return A boolean equal to `TRUE` if the utility function contains dummy
 #' coded attributes and `FALSE` otherwise
 contains_dummies <- function(string) {
   return(
-    any(str_detect(string, "(dummy)\\["))
+    any(str_detect(unlist(str_split(string, "(\\+|\\-|\\*|\\/)")), "b_.*_dummy"))
   )
 }
 
