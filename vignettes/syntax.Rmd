@@ -110,7 +110,7 @@ utility <- list(
 )
 ```
 
-Where the status quo or opt out alternative has a single constant. 
+Where the status quo or opt out alternative has a single constant. It is important that when you add constants the level is 1. You cannot currently specify specific levels of the attributes for the SQ. Since these do not vary, this is equivalent to a constant (which can be calculated beforehand, see more details below). 
 
 ## Generating a design
 To generate a design, we need to pass the utility function along with other options to the `generate_design` function. Currently, we can only generate designs for the MNL model. To see the full set of options for the function: `?generate_design`. 
@@ -249,6 +249,17 @@ exclusions = list(
 )
 
 ```
+
+## Specifying constants and levels of the SQ alternative
+You cannot currently specify fixed SQ levels. Specifying new attributes that can only take on a single level for the SQ leads to a computationally singular Hessian matrix. To get around this, you can calculate what the size of the SQ constant would be given the defined attribute levels for the SQ and the assumed prior and include this as a single constant for the SQ alternative. This will ensure that the correct utility differences are used in the design. 
+
+A fix with additional level restrictions will be included in a future version of the package.
+
+Remember, that when you specify fixed levels for the SQ, you cannot also specify alternative specific constants for the non-SQ alternatives. This is a violation of the J-1 'rule' and will result in a singular Fisher information matrix. 
+
+There is no point specifying SQ levels that only take on the value of 0. These have no bearing on the design and may be problematic when inverting the Fisher information matrix. 
+
+Related to the above point, in the case where your attribute is dummy-coded the easiest is to define it such that the base level of your dummy-coded attribute corresponds to the level of the SQ. Remember, that in your design, these only take on the values of 1 and 0 with the base level being zero for all non-base-level levels. Defining the base level to be equal to the SQ obviates the need to explicitly specify the SQ beyond a constant. 
 
 # Examples
 Many examples are provided along with the package documentation and on Github to showcase different syntaxes. 
