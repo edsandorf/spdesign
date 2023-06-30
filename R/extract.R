@@ -102,16 +102,17 @@ extract_unparsed_values <- function(string) {
     # This is the expression that handles the prior distributions
     expr <- "-?(\\d+\\.?\\d*|(normal|uniform|lognormal|triangular)_p\\(.*?\\))"
 
-    for (i in which(str_detect(string_elements, "b_.*_dummy\\["))){
-      expanded <- as.list(unlist(str_extract_all(values[i], expr)))
+    for (dummy in names(values)[str_detect(names(values), "b_.*_dummy")]) {
+      expanded <- as.list(unlist(str_extract_all(values[dummy], expr)))
 
       # Get the corresponding attribute by remove "b_" and "_dummy"
       # grep(str_extract(names(values[i]), "(?<=b_).*(?=_dummy)")
 
-      names(expanded) <- paste0(str_extract(names(values[i]), "^.*(?=_dummy$)"), seq_along(expanded) + 1)
+      names(expanded) <- paste0(str_extract(dummy, "^.*(?=_dummy$)"), seq_along(expanded) + 1)
 
       # Order doesn´t matter, so we can do
-      values <- c(values[-i], expanded)
+      values <- c(values[names(values) != dummy], expanded)
+      # values <- c(values[-i], expanded)
     }
   }
 
