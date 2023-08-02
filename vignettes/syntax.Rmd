@@ -41,9 +41,9 @@ We can use the following distributions:
 * Normal - `normal_p(mean, sd)`
 * Log-normal - `lognormal_p(mean, sd)`
 * Triangular - `triangular_p(location, spread)`
-* Uniform - `uniform_p(location, spread)`
+* Uniform - `uniform_p(min, max)`
 
-All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. Bayesian priors are discussed in detail in the tutorial on advanced experimental designs. 
+All distributions are specified with a mean (location) or standard deviation (spread). In the case of the log-normal distribution we are specifying the mean and standard deviation of the underlying normal distribution. 
 
 ## Specifying a parameter with levels
 ### Linear attributes
@@ -110,7 +110,7 @@ utility <- list(
 )
 ```
 
-Where the status quo or opt out alternative has a single constant. It is important that when you add constants the level is 1. You cannot currently specify specific levels of the attributes for the SQ. Since these do not vary, this is equivalent to a constant (which can be calculated beforehand, see more details below). 
+Where the status quo or opt out alternative has a single constant. It is important that when you add constants the level is 1. You cannot currently specify specific levels of the attributes for the SQ. Since these do not vary, this is equivalent to a constant (which can be calculated beforehand, see more details below) because only differences in utility matter for the model.
 
 ## Generating a design
 To generate a design, we need to pass the utility function along with other options to the `generate_design` function. Currently, we can only generate designs for the MNL model. To see the full set of options for the function: `?generate_design`. 
@@ -142,7 +142,9 @@ No default algorithm for generating a design is implemented because they have di
 
 The `rsc` algorithm creates an initial design candidate based on the provided attributes, levels and number of rows. This design candidate is attribute level balanced by default (if the number of attribute levels for all attributes are a multiple of the number of rows) or near attribute level balanced. It will not deviate from this. It finds new candidates by relabling or swapping attribute levels. The default is to cycle between relabling and swapping each 10000 candidates. The cycling part of the algorithm is not included because it is rarely used in practice. You cannot include restrictions or exclusions in your design when using the `rsc` algorithm. For details: `?rsc`
 
-The `federov` and `random` algorithms will systematically or randomly select potential design candidates from the candidate set. The candidate set can be either supplied or assumed to be the full factorial. These algorithms completely lets go of attribute level balance and you do run the risk of some attribute levels not showing up in the final design. We show syntax below to include level occurrence restrictions below. You can easily include restrictions in your design using these to algorithms by excluding attribute level combinations from the candidate set. That way, they will never be part of the design. Note that in general, both restrictions and attribute level balance may lead to less efficient designs and that if your restrictions are too tight and you are trying to force attribute level balance, no designs may be found. Few checks are made to notify the user of this. 
+The `federov` and `random` algorithms will systematically or randomly select potential design candidates from the candidate set. The candidate set can be either supplied or assumed to be the full factorial. These algorithms completely lets go of attribute level balance and you do run the risk of some attribute levels not showing up in the final design. We show syntax below to include level occurrence restrictions below. You can easily include restrictions in your design using these to algorithms by excluding attribute level combinations from the candidate set. That way, they will never be part of the design. 
+
+Note that in general, both restrictions and attribute level balance may lead to less efficient designs and that if your restrictions are too tight and you are trying to force attribute level balance, no designs may be found. Few checks are made to notify the user of this. 
 
 
 ## Blocking the design
@@ -238,7 +240,7 @@ A few things to note about using the `_dummy` syntax
 
 
 ## Constrained designs
-When using the `federov` or `random` algorithms, we can pass along a list of exclusions to `generate_design`. The exclusions will exclude the specified combinations from the full factorial prior to generating design candidates. The exclusions take the form of an unamed list. 
+When using the `federov` or `random` algorithms, we can pass along a list of exclusions to `generate_design`. The exclusions will exclude the specified combinations from the full factorial prior to generating design candidates. The exclusions take the form of an unamed list of strings. You must ensure that the names of the list corresponds to the names of the expanded attribute levels (see `?expand_attribute_levels`). 
 
 For example: 
 
@@ -251,7 +253,7 @@ exclusions = list(
 ```
 
 ## Specifying constants and levels of the SQ alternative
-You cannot currently specify fixed SQ levels. Specifying new attributes that can only take on a single level for the SQ leads to a computationally singular Hessian matrix. To get around this, you can calculate what the size of the SQ constant would be given the defined attribute levels for the SQ and the assumed prior and include this as a single constant for the SQ alternative. This will ensure that the correct utility differences are used in the design. 
+You cannot currently specify fixed SQ levels. Specifying new attributes that can only take on a single level for the SQ leads to a computationally singular Hessian matrix (because there is no variation). To get around this, you can calculate what the size of the SQ constant would be given the defined attribute levels for the SQ and the assumed prior and include this as a single constant for the SQ alternative. This will ensure that the correct utility differences are used in the design. 
 
 A fix with additional level restrictions will be included in a future version of the package.
 
