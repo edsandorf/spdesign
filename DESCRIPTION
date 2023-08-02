@@ -7,7 +7,7 @@ Authors@R: c(
   person("Danny", "Campbell", email = "danny.campbell@stir.ac.uk", role = c("aut")))
 Maintainer: Erlend Dancke Sandorf <erlend.dancke.sandorf@nmbu.no>
 Description: Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. spdesign is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods.
-License: GPL-3
+License: CC BY-SA 4.0
 Encoding: UTF-8
 LazyData: true
 URL: https://spdesign.edsandorf.me, https://github.com/edsandorf/spdesign
