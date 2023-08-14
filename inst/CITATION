@@ -1,12 +1,12 @@
-year <- 2021
+year <- 2023
 note <- sprintf("R package version %s", meta$Version)
 
 bibentry(bibtype = "Manual",
-         title = "{spdesign: Designing Stated Preference Experiments",
+         title = "{spdesign: Designing Stated Preference Experiments}",
          author = c(
            person(c("Erlend", "Dancke"), "Sandorf"),
            person("Danny", "Campbell")
          ),
          year = year,
          note = note,
-         url = "https://CRAN.R-project.org/package = spdesign")
+         url = "https://CRAN.R-project.org/package=spdesign")
