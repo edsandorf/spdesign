@@ -137,14 +137,13 @@ the prior to follow a uniform distribution between -1 and 1.</p>
 </li>
 <li>Triangular - <code>triangular_p(location, spread)</code>
 </li>
-<li>Uniform - <code>uniform_p(location, spread)</code>
+<li>Uniform - <code>uniform_p(min, max)</code>
 </li>
 </ul>
 <p>All distributions are specified with a mean (location) or standard
 deviation (spread). In the case of the log-normal distribution we are
 specifying the mean and standard deviation of the underlying normal
-distribution. Bayesian priors are discussed in detail in the tutorial on
-advanced experimental designs.</p>
+distribution.</p>
 </div>
 </div>
 <div class="section level3">
@@ -226,7 +225,8 @@ following:</p>
 is important that when you add constants the level is 1. You cannot
 currently specify specific levels of the attributes for the SQ. Since
 these do not vary, this is equivalent to a constant (which can be
-calculated beforehand, see more details below).</p>
+calculated beforehand, see more details below) because only differences
+in utility matter for the model.</p>
 </div>
 <div class="section level3">
 <h3 id="generating-a-design">Generating a design<a class="anchor" aria-label="anchor" href="#generating-a-design"></a>
@@ -281,11 +281,11 @@ showing up in the final design. We show syntax below to include level
 occurrence restrictions below. You can easily include restrictions in
 your design using these to algorithms by excluding attribute level
 combinations from the candidate set. That way, they will never be part
-of the design. Note that in general, both restrictions and attribute
-level balance may lead to less efficient designs and that if your
-restrictions are too tight and you are trying to force attribute level
-balance, no designs may be found. Few checks are made to notify the user
-of this.</p>
+of the design.</p>
+<p>Note that in general, both restrictions and attribute level balance
+may lead to less efficient designs and that if your restrictions are too
+tight and you are trying to force attribute level balance, no designs
+may be found. Few checks are made to notify the user of this.</p>
 </div>
 </div>
 <div class="section level3">
@@ -421,7 +421,10 @@ coded as a 0. See more details below.</li>
 algorithms, we can pass along a list of exclusions to
 <code>generate_design</code>. The exclusions will exclude the specified
 combinations from the full factorial prior to generating design
-candidates. The exclusions take the form of an unamed list.</p>
+candidates. The exclusions take the form of an unamed list of strings.
+You must ensure that the names of the list corresponds to the names of
+the expanded attribute levels (see
+<code><a href="../reference/expand_attribute_levels.html">?expand_attribute_levels</a></code>).</p>
 <p>For example:</p>
 <pre><code><span><span class="va">exclusions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"alt1_x1 == 2 &amp; alt1_x2 == 0 &amp; alt1_x3 == 0"</span>,</span>
@@ -433,11 +436,12 @@ candidates. The exclusions take the form of an unamed list.</p>
 </h3>
 <p>You cannot currently specify fixed SQ levels. Specifying new
 attributes that can only take on a single level for the SQ leads to a
-computationally singular Hessian matrix. To get around this, you can
-calculate what the size of the SQ constant would be given the defined
-attribute levels for the SQ and the assumed prior and include this as a
-single constant for the SQ alternative. This will ensure that the
-correct utility differences are used in the design.</p>
+computationally singular Hessian matrix (because there is no variation).
+To get around this, you can calculate what the size of the SQ constant
+would be given the defined attribute levels for the SQ and the assumed
+prior and include this as a single constant for the SQ alternative. This
+will ensure that the correct utility differences are used in the
+design.</p>
 <p>A fix with additional level restrictions will be included in a future
 version of the package.</p>
 <p>Remember, that when you specify fixed levels for the SQ, you cannot
