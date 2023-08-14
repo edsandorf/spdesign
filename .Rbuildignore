@@ -10,3 +10,4 @@
 ^examples$
 ^\.github$
 ^test.R$
+^.DS_Store$
