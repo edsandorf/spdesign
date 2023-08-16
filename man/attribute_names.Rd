@@ -9,6 +9,9 @@ attribute_names(x)
 \arguments{
 \item{x}{An object of class utility}
 }
+\value{
+A character vector of attribute names
+}
 \description{
 Generic for getting the attribute names
 }

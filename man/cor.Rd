@@ -11,7 +11,15 @@ cor(x, ...)
 
 \item{...}{Additional parameters passed to the function}
 }
+\value{
+A matrix with correlations
+}
 \description{
-Calculate the correlation of the design. This is a wrapper around
-\code{\link{cor}}.
+Calculate the correlation of the design. The function gets the design from
+the design object before passing it to \code{\link{cor}} from stats.
+This is a wrapper around \code{\link{cor}}.
+}
+\details{
+Note that when your design includes constants, the function will print a
+ warning because the standard deviation of a constant is 0.
 }

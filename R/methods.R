@@ -27,6 +27,9 @@ vcov.spdesign <- function(object, ...) {
 #'
 #' @method summary spdesign
 #'
+#' @return No return value. Prints a summary of the 'spdesign' object to the
+#' console
+#'
 #' @export
 summary.spdesign <- function(object, ...) {
   print(object, ...)
@@ -45,10 +48,16 @@ summary.spdesign <- function(object, ...) {
 
 #' Correlation
 #'
-#' Calculate the correlation of the design. This is a wrapper around
-#' \code{\link{cor}}.
+#' Calculate the correlation of the design. The function gets the design from
+#' the design object before passing it to \code{\link{cor}} from stats.
+#' This is a wrapper around \code{\link{cor}}.
+#'
+#'  Note that when your design includes constants, the function will print a
+#'  warning because the standard deviation of a constant is 0.
 #'
 #' @inheritParams print.spdesign
+#'
+#' @return A matrix with correlations
 #'
 #' @export
 cor <- function(x, ...) {
@@ -63,6 +72,8 @@ cor <- function(x, ...) {
 #' @param ... Additional parameters passed to the function
 #'
 #' @method print spdesign
+#'
+#' @return No return value. Prints the 'spdesign' object.
 #'
 #' @export
 print.spdesign <- function(x, ...) {

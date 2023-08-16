@@ -11,6 +11,10 @@
 
 \item{...}{Additional arguments passed to the function}
 }
+\value{
+No return value. Prints a summary of the 'spdesign' object to the
+console
+}
 \description{
 Create a summary of the experimental design
 }

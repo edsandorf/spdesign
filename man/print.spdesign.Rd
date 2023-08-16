@@ -11,6 +11,9 @@
 
 \item{...}{Additional parameters passed to the function}
 }
+\value{
+No return value. Prints the 'spdesign' object.
+}
 \description{
 A generic function for printing an 'spdesign' object
 }

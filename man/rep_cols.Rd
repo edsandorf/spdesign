@@ -12,6 +12,9 @@ rep_cols(x, times)
 \item{times}{An integer indicating the number of times to repeat the
 row/column}
 }
+\value{
+A matrix or data.frame depending on the type of the input
+}
 \description{
 Repeats each column of the matrix or data frame 'x' a number of times equal
 to 'times'.

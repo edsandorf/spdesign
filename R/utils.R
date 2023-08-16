@@ -7,6 +7,8 @@
 #' @param times An integer indicating the number of times to repeat the
 #' row/column
 #'
+#' @returns A matrix or data.frame depending on type of the input
+#'
 #' @examples
 #' test_matrix <- matrix(runif(12), 4)
 #' rep_rows(test_matrix, 2)
@@ -17,7 +19,9 @@ rep_rows <- function(x, times) {
     stop("'x' must be a data.frame or matrix")
   }
 
-  x[rep(seq_len(nrow(x)), each = times), , drop = FALSE]
+  return(
+    x[rep(seq_len(nrow(x)), each = times), , drop = FALSE]
+  )
 }
 
 #' Repeat columns
@@ -26,6 +30,8 @@ rep_rows <- function(x, times) {
 #' to 'times'.
 #'
 #' @inheritParams rep_rows
+#'
+#' @returns A matrix or data.frame depending on the type of the input
 #'
 #' @examples
 #' test_matrix <- matrix(runif(12), 4)
@@ -37,5 +43,7 @@ rep_cols <- function(x, times) {
     stop("'x' must be a data.frame or matrix")
   }
 
-  x[, rep(seq_len(ncol(x)), each = times), drop = FALSE]
+  return(
+    x[, rep(seq_len(ncol(x)), each = times), drop = FALSE]
+  )
 }

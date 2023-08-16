@@ -1,6 +1,8 @@
-#' Generic#' Generic for getting the attributes and levels from the utility
+#' Generic for getting the attributes and levels from the utility function
 #'
 #' @param x An object of class utility
+#'
+#' @return A named list of attribute levels
 #'
 #' @export
 attribute_levels <- function(x) {
@@ -18,6 +20,8 @@ attribute_levels <- function(x) {
 #' Generic for getting the attribute names
 #'
 #' @inheritParams attribute_levels
+#'
+#' @return A character vector of attribute names
 #'
 #' @export
 attribute_names <- function(x) {
