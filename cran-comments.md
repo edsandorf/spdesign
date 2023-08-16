@@ -1,6 +1,5 @@
 ##  Test environments
-* local Ubuntu 18.04.2 LTS, R 3.6.1
-* ubuntu 16.04 (on travis-ci), R. 3.6.0
+* local MacOS Ventura 13.5, R 4.3.1
 * win-builder (devel and release)
 
 ## R CMD check results
