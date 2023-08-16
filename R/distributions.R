@@ -21,13 +21,6 @@
 #'
 #' @describeIn normal The normal distribution
 #'
-#' @examples
-#' \dontrun{
-#' eval(parse(text = "normal(0, 1)"))
-#' eval(parse(text = "lognormal(0, 1)"))
-#' eval(parse(text = "triangular(0, 1)"))
-#' eval(parse(text = "uniform(0, 1)"))
-#' }
 normal <- function(mu, sigma) {
   list(
     mu = mu,

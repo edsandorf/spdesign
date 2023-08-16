@@ -69,11 +69,3 @@ error prone.
 \item \code{uniform_p()}: The uniform distribution when applied to a prior
 
 }}
-\examples{
-\dontrun{
-eval(parse(text = "normal(0, 1)"))
-eval(parse(text = "lognormal(0, 1)"))
-eval(parse(text = "triangular(0, 1)"))
-eval(parse(text = "uniform(0, 1)"))
-}
-}
