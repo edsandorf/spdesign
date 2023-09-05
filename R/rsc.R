@@ -16,14 +16,6 @@ rsc <- function(design_object,
                 candidate_set,
                 rows,
                 control) {
-  # Create a level balanced design candidate or near level balanced candidate
-  design_candidate <- generate_rsc_candidate(utility, rows)
-
-  # Transform the candiate set such that attributes that are dummy coded
-  # are turned into factors. This ensures that we can use the model.matrix()
-  for (i in which(names(design_candidate) %in% dummy_names(utility))) {
-    design_candidate[, i] <- as.factor(design_candidate[, i])
-  }
 
   # Set up the design environment
   design_env <- new.env()
@@ -42,12 +34,31 @@ rsc <- function(design_object,
   # Set iteration defaults
   iter <- 1
   iter_na <- 1
+  iter_no_improve <- 1
   alg <- "relabel"
   efficiency_current_best <- NA
 
   repeat {
+    # Create an initial design candidate OR a new candidate when a sufficient
+    # number of attempts have been made without any improvement.
+    if (iter == 1 || iter_no_improve > control$max_no_improve) {
+      # Create a level balanced design candidate or near level balanced candidate
+      design_candidate <- generate_rsc_candidate(utility, rows)
 
-    # Swith algorithm every 10 000 iterations
+      # Transform the candiate set such that attributes that are dummy coded
+      # are turned into factors. This ensures that we can use the model.matrix()
+      for (i in which(names(design_candidate) %in% dummy_names(utility))) {
+        design_candidate[, i] <- as.factor(design_candidate[, i])
+      }
+
+      iter_no_improve <- 1
+
+      if (iter > 1) {
+        cli_alert_info(paste0("We've tried ", control$max_no_improve, " candidates without improvement. Trying new base design candidate."))
+      }
+    }
+
+    # Swith algorithm every max_relabel iterations
     if (iter %% control$max_relabel == 0) {
       alg <- ifelse(alg == "relabel", "swap", "relabel")
     }
@@ -112,6 +123,9 @@ rsc <- function(design_object,
       design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
       efficiency_current_best <- efficiency_current
 
+      # Reset iter_no_improve when we have an improvement.
+      iter_no_improve <- 1
+
     }
 
     # Check stopping conditions ----
@@ -131,6 +145,9 @@ rsc <- function(design_object,
 
     # Add to the iteration
     iter <- iter + 1
+
+    # Add to the no improvement iterator. It's reset upon improvement
+    iter_no_improve <- iter_no_improve + 1
 
   }
 

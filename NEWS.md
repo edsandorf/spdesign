@@ -1,4 +1,5 @@
 ## spdesign v0.0.2
+* After a number of candidates without improvement try a new design candidate when using the RSC algorithm
 * Updated package load message
 * Fixed roxygen @docType issue
 
