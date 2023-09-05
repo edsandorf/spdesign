@@ -1,4 +1,5 @@
 ## spdesign v0.0.2
+* Suppress warnings when calculating the correlation between the blocking column and the attributes to avoid warning when calculating correlation with respect to a constant.
 * After a number of candidates without improvement try a new design candidate when using the RSC algorithm
 * Updated package load message
 * Fixed roxygen @docType issue
