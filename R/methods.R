@@ -81,7 +81,7 @@ print.spdesign <- function(x, ...) {
   cat("An 'spdesign' object\n\n")
   cat("Utility functions:\n")
   for (i in seq_along(x$utility)) {
-    cat(names(x$utility)[[i]], ":", x$utility[[i]], "\n")
+    cat(names(x$utility)[[i]], ":", clean_utility(x$utility)[[i]], "\n")
   }
 
   cat("\n\n")
