@@ -20,4 +20,4 @@ A development version of the package can be installed from Github.
 All software contains bugs and we would very much like to find these and root them out. If you find a bug or get an error message, please reach out so that we can try and improve the software. 
 
 # Acknowledgements
-We are grateful to Petr Mariel, Jürgen Meyerhoff and Ainhoa Vega for providing feedback and extensive testing of the package. The package comes with no warranty and the authors cannot be held liable for erros or mistakes resulting from use. 
+We are grateful to Petr Mariel, Jürgen Meyerhoff and Ainhoa Vega for providing feedback and extensive testing of the package. The package comes with no warranty and the authors cannot be held liable for erros or mistakes resulting from use. The authors acknowledge funding from the European Union’s Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant INSPiRE (Grant agreement ID: 793163).
