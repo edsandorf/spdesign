@@ -74,7 +74,10 @@ block <- function(x, blocks, target = 0.0005, max_iter = 1000000) {
     # Calculate the correlation between the attributes and a random permutation
     # of the blocking variable.
     block <- sample(block)
-    correlation <- stats::cor(design, block)
+
+    # Suppress warnings when trying to calculate the correlation with respect to
+    # a constant.
+    correlation <- suppressWarnings(stats::cor(design, block))
     current <- mean(correlation ^ 2, na.rm = TRUE)
 
     if (current < blocked_design[["blocks_value"]]) {

@@ -58,12 +58,12 @@
         paste0(
           col_green(
             str_pad(
-              "Access development version: ",
+              "Package website with documentation and examples: ",
               pad_width,
               "right",
               " ")
           ),
-          col_white("devtools::install_github('edsandorf/spdesign')")
+          col_white("https://spdesign.edsandorf.me")
         ),
         paste0(
           col_green(

@@ -18,7 +18,8 @@ design <- generate_design(utility, rows = 20,
                           model = "mnl", efficiency_criteria = "d-error",
                           algorithm = "rsc", draws = "scrambled-sobol",
                           control = list(
-                            max_iter = 21000
+                            max_iter = 21000,
+                            max_no_improve = 5000
                           ))
 
 # Add a blocking variable to the design with 4 blocks.

@@ -57,6 +57,7 @@ generate_design <- function(utility,
                               cores = 1,
                               max_iter = 10000,
                               max_relabel = 10000,
+                              max_no_improve = 100000,
                               efficiency_threshold = 0.1,
                               sample_with_replacement = FALSE
                             )) {
@@ -64,8 +65,23 @@ generate_design <- function(utility,
   # Match and check model arguments ----
   cli_h2("Checking function arguments")
 
+  ## Create the design object ----
+  design_object <- list()
+  class(design_object) <- "spdesign"
+
+  design_object[["utility"]] <- utility
+  design_object[["time"]] <- list(
+    time_start = Sys.time()
+  )
+
+  # Make sure that the best design candidate is always return if the loop is
+  # stopped prematurely Can on.exit have a function?
+  on.exit(
+    return(design_object),
+    add = TRUE
+  )
   ## Match arguments ----
-  model <- match.arg(model)
+  design_object[["model"]] <- model <- match.arg(model)
   efficiency_criteria <- match.arg(efficiency_criteria, several.ok = TRUE)
   algorithm <- match.arg(algorithm)
   draws <- match.arg(draws)
@@ -85,6 +101,7 @@ generate_design <- function(utility,
     max_iter = 10000,
     max_relabel = 10000,
     max_swap = 10000,
+    max_no_improve = 100000,
     efficiency_threshold = 0.1,
     sample_with_replacement = FALSE
   )
@@ -163,7 +180,7 @@ generate_design <- function(utility,
   # Prepare the list of priors ----
   cli_h2("Preparing the list of priors")
 
-  prior_values <- prepare_priors(utility, draws, R)
+  design_object[["prior_values"]] <- prior_values <- prepare_priors(utility, draws, R)
 
   cli_alert_success("Priors prepared successfully")
 
@@ -183,24 +200,6 @@ generate_design <- function(utility,
 
   # Evaluate designs ----
   cli_h1("Evaluating designs")
-
-  # Create the design object and make sure that the current status of the object
-  # is returned if the program is ended prematurely from clicking "stop"
-  design_object <- list()
-  class(design_object) <- "spdesign"
-
-  design_object[["utility"]] <- clean_utility(utility)
-  design_object[["prior_values"]] <- prior_values
-  design_object[["time"]] <- list(
-    time_start = Sys.time()
-  )
-
-  # Make sure that the best design candidate is always return if the loop is
-  # stopped prematurely Can on.exit have a function?
-  on.exit(
-    return(design_object),
-    add = TRUE
-  )
 
   # Optmization function!!!!!!!
   design_object <- switch(
