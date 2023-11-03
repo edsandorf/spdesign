@@ -100,7 +100,7 @@ print.spdesign <- function(x, ...) {
 #' @export
 coef.spdesign <- function(object, ...) {
   return(
-    object[["priors"]]
+    object[["prior_values"]]
   )
 }
 
