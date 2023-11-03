@@ -16,7 +16,9 @@ Imports:
   cli,
   future,
   randtoolbox,
-  matrixStats
+  matrixStats,
+  dplyr,
+  tibble
 Suggests: 
   knitr,
   rmarkdown,

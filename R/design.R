@@ -235,6 +235,9 @@ generate_design <- function(utility,
 
   design_object[["time"]][["time_end"]] <- Sys.time()
 
+  # Turn the design object into a tibble to be tidyverse compatible
+  design_object[["design"]] <- tibble::as_tibble(design_object[["design"]])
+
   # Print final closing messages
   cat("\n\n")
   cli_h1("Cleaning up design environment")
