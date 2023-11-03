@@ -263,5 +263,3 @@ There is no point specifying SQ levels that only take on the value of 0. These h
 
 Related to the above point, in the case where your attribute is dummy-coded the easiest is to define it such that the base level of your dummy-coded attribute corresponds to the level of the SQ. Remember, that in your design, these only take on the values of 1 and 0 with the base level being zero for all non-base-level levels. Defining the base level to be equal to the SQ obviates the need to explicitly specify the SQ beyond a constant. 
 
-# Examples
-Many examples are provided along with the package documentation and on Github to showcase different syntaxes. 
