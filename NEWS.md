@@ -1,5 +1,6 @@
 # spdesign v0.0.3
-
+* Fixed an issue where the full factorial would be generated even when the "rsc" algorithm was used, which caused memory issues for large designs. It is now only generated for the "random" and "federov" algorithms. A small section is added to the syntax vignette to clarify this. 
+* Minor bug fixes
 
 # spdesign v0.0.2
 * New function ´probabilities()´ will now return the choice probabilities by choice task. 

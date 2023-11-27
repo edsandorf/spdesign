@@ -80,6 +80,7 @@ generate_design <- function(utility,
     return(design_object),
     add = TRUE
   )
+
   ## Match arguments ----
   design_object[["model"]] <- model <- match.arg(model)
   efficiency_criteria <- match.arg(efficiency_criteria, several.ok = TRUE)
@@ -131,51 +132,54 @@ generate_design <- function(utility,
   }
 
   ## Candidate set ----
-  cli_h2("Checking the candidate set and applying exclusions")
+  # We are only creating the candidate set if we are using a random or modified federov algorithm
+  if (algorithm %in% c("random", "federov")) {
+    cli_h2("Checking the candidate set and applying exclusions")
 
-  # If no candidate set is supplied generate full factorial if not run simple
-  # checks
-  if (is.null(candidate_set)) {
-    cli_alert_info("No candidate set supplied. The design will use the full factorial subject to supplied constraints.")
+    # If no candidate set is supplied generate full factorial if not run simple
+    # checks
+    if (is.null(candidate_set)) {
+      cli_alert_info("No candidate set supplied. The design will use the full factorial subject to supplied constraints.")
 
-    candidate_set <- full_factorial(expand_attribute_levels(utility))
+      candidate_set <- full_factorial(expand_attribute_levels(utility))
 
-    cli_alert_success("Full factorial created")
+      cli_alert_success("Full factorial created")
 
-  } else {
-    stopifnot((is.matrix(candidate_set) || is.data.frame(candidate_set)))
+    } else {
+      stopifnot((is.matrix(candidate_set) || is.data.frame(candidate_set)))
 
-    if (!all(names(candidate_set) %in% names(expand_attribute_levels(utility)))) {
-      stop(
-        "Not all attributes specified in the utility functions are specified in
+      if (!all(names(candidate_set) %in% names(expand_attribute_levels(utility)))) {
+        stop(
+          "Not all attributes specified in the utility functions are specified in
         the candidate set. Make sure that all attributes are specified and that
         the names used in the utility functions correspond to the column names
         of the supplied candidate set. The candidate set must be supplied
         in 'wide' format."
-      )
-    }
+        )
+      }
 
-    if (!identical(apply(candidate_set, 2, function(x) unique(sort(x))), lapply(expand_attribute_levels(utility), as.numeric))) {
-      stop(
-        "The attribute levels determined by the supplied candidate set differs
+      if (!identical(apply(candidate_set, 2, function(x) unique(sort(x))), lapply(expand_attribute_levels(utility), as.numeric))) {
+        stop(
+          "The attribute levels determined by the supplied candidate set differs
         from those supplied in the utility function. Please ensure that all
         specified levels are present in the candidate set. "
-      )
+        )
+      }
     }
+
+    # Apply the exclusions to the candidate set
+    candidate_set <- exclude(candidate_set, exclusions)
+
+    # Transform the candiate set such that attributes that are dummy coded
+    # are turned into factors. This ensures that we can use the model.matrix()
+    for (i in which(names(candidate_set) %in% dummy_names(utility))) {
+      candidate_set[, i] <- as.factor(candidate_set[, i])
+    }
+
+    # candidate_set <- as.matrix(candidate_set)
+
+    cli_alert_success("All exclusions successfully applied")
   }
-
-  # Apply the exclusions to the candidate set
-  candidate_set <- exclude(candidate_set, exclusions)
-
-  # Transform the candiate set such that attributes that are dummy coded
-  # are turned into factors. This ensures that we can use the model.matrix()
-  for (i in which(names(candidate_set) %in% dummy_names(utility))) {
-    candidate_set[, i] <- as.factor(candidate_set[, i])
-  }
-
-  # candidate_set <- as.matrix(candidate_set)
-
-  cli_alert_success("All exclusions successfully applied")
 
   # Prepare the list of priors ----
   cli_h2("Preparing the list of priors")

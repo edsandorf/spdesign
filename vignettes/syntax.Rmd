@@ -263,3 +263,8 @@ There is no point specifying SQ levels that only take on the value of 0. These h
 
 Related to the above point, in the case where your attribute is dummy-coded the easiest is to define it such that the base level of your dummy-coded attribute corresponds to the level of the SQ. Remember, that in your design, these only take on the values of 1 and 0 with the base level being zero for all non-base-level levels. Defining the base level to be equal to the SQ obviates the need to explicitly specify the SQ beyond a constant. 
 
+## Large designs
+Creating large designs can be beneficial, however, if you have many attributes and levels, the size of the full factorial can be too large to hold in memory leading to an error of the type: "Error: vector memory exhausted (limit reached)". There are two possible solutions to fix this:
+
+1. You can supply a candidate set that is of a sufficient size
+2. You can use the `rsc` algorithm instead, which will obviate the need to have the full factorial present. 
