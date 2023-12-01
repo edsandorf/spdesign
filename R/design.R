@@ -148,21 +148,30 @@ generate_design <- function(utility,
     } else {
       stopifnot((is.matrix(candidate_set) || is.data.frame(candidate_set)))
 
-      if (!all(names(candidate_set) %in% names(expand_attribute_levels(utility)))) {
+      candidate_names_idx <- names(candidate_set) %in% names(expand_attribute_levels(utility))
+
+      if (!all(candidate_names_idx)) {
+        problem <- paste(names(candidate_set)[!candidate_names_idx], collapse = ", ")
+
         stop(
-          "Not all attributes specified in the utility functions are specified in
-        the candidate set. Make sure that all attributes are specified and that
-        the names used in the utility functions correspond to the column names
-        of the supplied candidate set. The candidate set must be supplied
-        in 'wide' format."
+          paste0("There are more attributes specified in the candidate set than are present in the utility functions. ", problem, " are not specified in the utility function. This could also be caused by a mismatch in the names. The names should be of the form <utility list element name>_<attribute name>. For example, in your case, they should correspond to: '" , paste(names(expand_attribute_levels(utility)), collapse = ", "), "' The candidate set must be supplied in 'wide' format.")
         )
       }
 
-      if (!identical(apply(candidate_set, 2, function(x) unique(sort(x))), lapply(expand_attribute_levels(utility), as.numeric))) {
+      if (!all(names(expand_attribute_levels(utility)) %in% names(candidate_set))) {
         stop(
-          "The attribute levels determined by the supplied candidate set differs
-        from those supplied in the utility function. Please ensure that all
-        specified levels are present in the candidate set. "
+          paste0("Not all attributes specified in the utility functions are specified in the candidate set. This could be caused by a mismatch in the names. The names should be of the form <utility list element name>_<attribute name>. For example, in your case, they should correspond to: '" , paste(names(expand_attribute_levels(utility)), collapse = ", "), "' The candidate set must be supplied in 'wide' format.")
+        )
+      }
+
+      candidate_levels <- apply(candidate_set, 2, function(x) unique(sort(x)))
+      utility_levels <- lapply(expand_attribute_levels(utility), as.numeric)
+
+      if (!identical(candidate_levels, utility_levels)) {
+        problem <- paste(names(which(mapply(function(x, y) length(x) - length(y), candidate_levels, utility_levels) != 0)), collapse = ", ")
+
+        stop(
+          paste0("The attribute levels determined by the supplied candidate set differs from those supplied in the utility function. Please ensure that all specified levels are present in the candidate set. The error occurs because there are too few/many levels for: ", problem, " in the candidate set")
         )
       }
     }

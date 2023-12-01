@@ -1,4 +1,5 @@
 # spdesign v0.0.3
+* Fixed an issue where it failed to catch a mismatch in naming between the supplied candidate set and the utilty functions which caused hard to debug situations. Error messages should now catch this and provide additional information to help find the cause. Syntax is updated to reflect this as well. 
 * Fixed an issue where the full factorial would be generated even when the "rsc" algorithm was used, which caused memory issues for large designs. It is now only generated for the "random" and "federov" algorithms. A small section is added to the syntax vignette to clarify this. 
 * Minor bug fixes
 
