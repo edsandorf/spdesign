@@ -32,7 +32,9 @@
 #' @param candidate_set A matrix or data frame in the "wide" format containing
 #' all permitted combinations of attributes. The default is NULL. If no
 #' candidate set is provided, then the full factorial subject to specified
-#' exclusions will be used.
+#' exclusions will be used. This is passed in as an object and not a character
+#' string. The candidate set will be expanded to include zero columns to
+#' consider alternative specific attributes.
 #' @param exclusions A list of exclusions Often this list will be pulled
 #' directly from the list of options or it is a modified list of exclusions
 #' @param control A list of control options
@@ -133,6 +135,8 @@ generate_design <- function(utility,
 
   ## Candidate set ----
   # We are only creating the candidate set if we are using a random or modified federov algorithm
+  if (!is.null(candidate_set) & algorithm == "rsc") stop("To use your supplied candidate set you must use either the 'random' or 'federov' algorithms.")
+
   if (algorithm %in% c("random", "federov")) {
     cli_h2("Checking the candidate set and applying exclusions")
 
@@ -158,22 +162,42 @@ generate_design <- function(utility,
         )
       }
 
-      if (!all(names(expand_attribute_levels(utility)) %in% names(candidate_set))) {
+      # Extract only the specified in the utility function to check
+      regex <- paste0("\\b", attribute_names(utility))
+      utility_attributes <- vector(mode = "list", length = length(utility))
+      for (i in seq_along(utility)) {
+        idx <- str_detect(utility[[i]], regex)
+        utility_attributes[[i]] <- paste(names(utility[i]), attribute_names(utility)[idx], sep = "_")
+      }
+
+      utility_attributes <- do.call(c, utility_attributes)
+
+      if (!all(utility_attributes %in% names(candidate_set))) {
         stop(
-          paste0("Not all attributes specified in the utility functions are specified in the candidate set. This could be caused by a mismatch in the names. The names should be of the form <utility list element name>_<attribute name>. For example, in your case, they should correspond to: '" , paste(names(expand_attribute_levels(utility)), collapse = ", "), "' The candidate set must be supplied in 'wide' format.")
+          paste0("Not all attributes specified in the utility functions are specified in the candidate set. This could be caused by a mismatch in the names. The names should be of the form <utility list element name>_<attribute name>. For example, in your case, they should correspond to: '" , paste(utility_attributes, collapse = ", "), "' The candidate set must be supplied in 'wide' format.")
         )
       }
 
       candidate_levels <- apply(candidate_set, 2, function(x) unique(sort(x)))
       utility_levels <- lapply(expand_attribute_levels(utility), as.numeric)
 
-      if (!identical(candidate_levels, utility_levels)) {
+      # Subset utility levels to only correspond to the ones specified
+      utility_levels <- utility_levels[utility_attributes]
+
+      if (!identical(candidate_levels[sort(names(candidate_levels))], utility_levels[sort(names(utility_levels))])) {
         problem <- paste(names(which(mapply(function(x, y) length(x) - length(y), candidate_levels, utility_levels) != 0)), collapse = ", ")
 
         stop(
           paste0("The attribute levels determined by the supplied candidate set differs from those supplied in the utility function. Please ensure that all specified levels are present in the candidate set. The error occurs because there are too few/many levels for: ", problem, " in the candidate set")
         )
       }
+
+      # Expand candidate set to be square, i.e., fill in zero columns, for non-specified
+      expanded_names <- names(expand_attribute_levels(utility))
+      expr <- paste("cbind(candidate_set, ", paste(paste(expanded_names[!(expanded_names %in% utility_attributes)], 0, sep = " = "), collapse = ", "), ")")
+      candidate_set <- eval(parse(text = expr))
+      candidate_set <- candidate_set[, expanded_names]
+
     }
 
     # Apply the exclusions to the candidate set

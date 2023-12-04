@@ -7,7 +7,8 @@ rm(list = ls(all = TRUE))
 # Define the list of utility functions ----
 utility <- list(
   alt1 = "b_x1[0.1] * x1[2:5] + b_x2[0.4] * x2[c(0, 1)] + b_x3[-0.2] * x3[seq(0, 1, 0.25)]",
-  alt2 = "b_x1      * x1      + b_x2      * x2          + b_x3       * x3"
+  alt2 = "b_x1      * x1      + b_x2      * x2          + b_x3       * x3",
+  alt3 = "b_sq[0]   * sq[1]"
 )
 
 # Use the full factorial as the candidate set
@@ -18,7 +19,8 @@ candidate_set <- full_factorial(
     alt1_x3 = seq(0, 1, 0.25),
     alt2_x1 = 2:5,
     alt2_x2 = c(0, 1),
-    alt2_x3 = seq(0, 1, 0.25)
+    alt2_x3 = seq(0, 1, 0.25),
+    alt3_sq = 1
   )
 )
 

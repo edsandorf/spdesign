@@ -281,7 +281,9 @@ V = list(
 )
 ```
 
-Then the column names of the candidate set would be: `alt1_x1` and `alt2_x2`. 
+Then the column names of the candidate set would be: `alt1_x1` and `alt2_x1`. 
 
 2. That all attribute levels specified in the utility functions are in the candidate set. A mismatch here will result in an error.
 3. That there are not more (unneccesasry) columns in the candidate set that are not used by the utility expression. This is caught by an error message. 
+
+The candidate set is passed in as a `data.frame` using the `candidate_set` argument to the function `generate_design`. 
