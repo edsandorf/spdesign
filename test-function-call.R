@@ -1,11 +1,11 @@
-rows <- 100
+rows <- 20
 model <- "mnl"
 efficiency_criteria <- "d-error"
-algorithm <- "federov"
+algorithm <- "rsc"
 draws <- "pseudo-random"
 R <- 100
-dudx <- NULL
-candidate_set <- candidate.set.final
+dudx <- "x3"
+candidate_set <- NULL
 exclusions <- NULL
 control <- list(
   cores = 1,
@@ -15,3 +15,5 @@ control <- list(
   efficiency_threshold = 0.1,
   sample_with_replacement = FALSE
 )
+return_all <- FALSE
+significance <- 1.96
