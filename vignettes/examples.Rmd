@@ -58,3 +58,7 @@ knitr::opts_chunk$set(
 # An MNL design with specified explusions applied to the candidate set
 ```{r eval = FALSE, file='examples/mnl-design-with-exclusions.R'}
 ```
+
+# An MNL design optimized for c-efficiency
+```{r eval = FALSE, file='examples/mnl-c-efficiency.R'}
+```

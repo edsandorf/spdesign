@@ -27,7 +27,7 @@
 #' one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
 #' "standard-sobol","scrambled-sobol".
 #' @param R An integer giving the number of draws to use. The default is 100.
-#' @param dudx A character string giving the name of the parameter in the
+#' @param dudx A character string giving the name of the prior in the
 #' denominator. Must be specified when optimizing for 'c-error'
 #' @param candidate_set A matrix or data frame in the "wide" format containing
 #' all permitted combinations of attributes. The default is NULL. If no

@@ -20,7 +20,7 @@ should be symmetrical and K-by-K}
 
 \item{p}{Prior values}
 
-\item{dudx}{A character string giving the name of the parameter in the
+\item{dudx}{A character string giving the name of the prior in the
 denominator. Must be specified when optimizing for 'c-error'}
 
 \item{return_all}{If `TRUE` return a K or K-1 vector with parameter specific error

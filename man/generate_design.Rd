@@ -47,7 +47,7 @@ one of "pseudo-random", "mlhs", "standard-halton", "scrambled-halton",
 
 \item{R}{An integer giving the number of draws to use. The default is 100.}
 
-\item{dudx}{A character string giving the name of the parameter in the
+\item{dudx}{A character string giving the name of the prior in the
 denominator. Must be specified when optimizing for 'c-error'}
 
 \item{candidate_set}{A matrix or data frame in the "wide" format containing

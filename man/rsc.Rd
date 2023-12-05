@@ -35,7 +35,7 @@ of experimental designs.}
 
 \item{prior_values}{A list of priors}
 
-\item{dudx}{A character string giving the name of the parameter in the
+\item{dudx}{A character string giving the name of the prior in the
 denominator. Must be specified when optimizing for 'c-error'}
 
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
