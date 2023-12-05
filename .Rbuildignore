@@ -12,3 +12,4 @@
 ^test.R$
 ^.DS_Store$
 ^README\.Rmd$
+^test-function-call.R
