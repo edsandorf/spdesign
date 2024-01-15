@@ -66,6 +66,12 @@ design <- block(design, 2)
 summary(design)
 ```
 
+## Bugs and error reporting
+
+All software contains bugs and we would very much like to find these and
+root them out. If you find a bug or get an error message, please reach
+out so that we can try and improve the software.
+
 ## Acknowledgements
 
 We are grateful to Petr Mariel, Jürgen Meyerhoff and Ainhoa Vega for
