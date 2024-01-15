@@ -29,13 +29,13 @@ Contemporary software commonly used to design stated preference experiments are 
 
 The package can be installed from CRAN. 
 
-``` r
+```{r install, eval=FALSE}
 install.packages("spdesign")
 ```
 
 A development version of the package can be installed from Github.
 
-``` r
+```{r install_github, eval=FALSE}
 devtools::install_github("edsandorf/spdesign")
 ```
 
