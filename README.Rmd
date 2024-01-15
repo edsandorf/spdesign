@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 # spdesign: Designing Stated Preference Experiments
+# spdesign <a href="https://spdesign.edsandorf.me"><img src="man/figures/logo.svg" align="right" height="139" alt="spdesign website" /></a>
 
 <!-- badges: start -->
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version-last-release/spdesign)](https://cran.r-project.org/package=spdesign)
