@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Syntax • spdesign</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -13,6 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Syntax">
 <meta property="og:description" content="spdesign">
+<meta property="og:image" content="https://spdesign.edsandorf.me/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -33,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3.9004</span>
       </span>
     </div>
 
@@ -47,6 +54,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/examples.html">Examples</a>
+    </li>
+    <li>
       <a href="../articles/syntax.html">Syntax</a>
     </li>
   </ul>
@@ -459,12 +469,54 @@ level being zero for all non-base-level levels. Defining the base level
 to be equal to the SQ obviates the need to explicitly specify the SQ
 beyond a constant.</p>
 </div>
+<div class="section level3">
+<h3 id="large-designs">Large designs<a class="anchor" aria-label="anchor" href="#large-designs"></a>
+</h3>
+<p>Creating large designs can be beneficial, however, if you have many
+attributes and levels, the size of the full factorial can be too large
+to hold in memory leading to an error of the type: “Error: vector memory
+exhausted (limit reached)”. There are two possible solutions to fix
+this:</p>
+<ol style="list-style-type: decimal">
+<li>You can supply a candidate set that is of a sufficient size</li>
+<li>You can use the <code>rsc</code> algorithm instead, which will
+obviate the need to have the full factorial present.</li>
+</ol>
 </div>
-<div class="section level2">
-<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
-</h2>
-<p>Many examples are provided along with the package documentation and
-on Github to showcase different syntaxes.</p>
+<div class="section level3">
+<h3 id="supplying-a-candidate-set">Supplying a candidate set<a class="anchor" aria-label="anchor" href="#supplying-a-candidate-set"></a>
+</h3>
+<p>You can supply a candidate set to use with the modified federov and
+random design algorithms. There are 2 important things with respect to
+the candidate set that <code>spdesign</code> will check for:</p>
+<ol style="list-style-type: decimal">
+<li>That the names are compliant with the package. This means that the
+names of the variables in the supplied candidate set must follow a
+specific naming convention. The name consists of two parts: i) the name
+of the utility function, which are the names given to each utility
+function element in the list of utility functions, and ii) the name of
+the attribute. These are combined using an underscore giving the
+following format: <utility func>_<attr>. For example, if you have the
+following set of utility functions:</attr></utility>
+</li>
+</ol>
+<pre><code><span><span class="va">V</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  alt1 <span class="op">=</span> <span class="st">"b_x1_dummy[c(0.2, 0.5)] * x1[c(1, 2, 3)]"</span>,</span>
+<span>  alt2 <span class="op">=</span> <span class="st">"b_x1_dummy * x1"</span></span>
+<span><span class="op">)</span></span></code></pre>
+<p>Then the column names of the candidate set would be:
+<code>alt1_x1</code> and <code>alt2_x1</code>.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>That all attribute levels specified in the utility functions are in
+the candidate set. A mismatch here will result in an error.</li>
+<li>That there are not more (unneccesasry) columns in the candidate set
+that are not used by the utility expression. This is caught by an error
+message.</li>
+</ol>
+<p>The candidate set is passed in as a <code>data.frame</code> using the
+<code>candidate_set</code> argument to the function
+<code>generate_design</code>.</p>
+</div>
 </div>
   </div>
 

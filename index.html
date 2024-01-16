@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Designing Stated Preference Experiments • spdesign</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -13,6 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Designing Stated Preference Experiments">
 <meta property="og:description" content="Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. This is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods. For an overview of stated choice experimental design theory, see e.g., Rose, J. M. &amp; Bliemer, M. C. J. (2014) in Hess S. &amp; Daly. A. &lt;doi:10.4337/9781781003152&gt;. The package website can be accessed at &lt;https://spdesign.edsandorf.me&gt;. We acknowledge funding from the European Union’s Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant INSPiRE (Grant agreement ID: 793163).">
+<meta property="og:image" content="https://spdesign.edsandorf.me/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -33,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3.9004</span>
       </span>
     </div>
 
@@ -47,6 +54,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/examples.html">Examples</a>
+    </li>
+    <li>
       <a href="articles/syntax.html">Syntax</a>
     </li>
   </ul>
@@ -78,28 +88,65 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-
 <div class="section level1">
 <div class="page-header"><h1 id="spdesign-designing-stated-preference-experiments">spdesign: Designing Stated Preference Experiments<a class="anchor" aria-label="anchor" href="#spdesign-designing-stated-preference-experiments"></a>
 </h1></div>
+</div>
+<div class="section level1">
+<h1 id="spdesign-">spdesign <a href="https://spdesign.edsandorf.me"><img src="reference/figures/logo.svg" align="right" height="139" alt="spdesign website"></a>
+<a class="anchor" aria-label="anchor" href="#spdesign-"></a>
+</h1>
+<!-- badges: start -->
+
 <p>Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. <code>spdesign</code> is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods.</p>
-</div>
-<div class="section level1">
-<h1 id="installing-spdesign">Installing spdesign<a class="anchor" aria-label="anchor" href="#installing-spdesign"></a>
-</h1>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>The package can be installed from CRAN.</p>
-<p>A development version of the package can be installed from Github.</p>
-<p><code>devtools::install_github("edsandorf/spdesign")</code></p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"spdesign"</span><span class="op">)</span></span></code></pre></div>
+<p>A development version of the package can be installed from Github. Remember to select the most recent development version (check the available branches).</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"edsandorf/spdesign"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level1">
-<h1 id="bugs-and-error-reporting">Bugs and error reporting<a class="anchor" aria-label="anchor" href="#bugs-and-error-reporting"></a>
-</h1>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>This is a basic example which shows you how to solve a common problem:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://spdesign.edsandorf.me">spdesign</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' Specifying a utility function with 3 attributes and a constant for the</span></span>
+<span><span class="co">#' SQ alternative. The design has 20 rows.</span></span>
+<span><span class="va">utility</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  alt1 <span class="op">=</span> <span class="st">"b_x1[0.1]  * x1[1:5] + b_x2[0.4] * x2[c(0, 1)] + b_x3[-0.2] * x3[seq(0, 1, 0.25)]"</span>,</span>
+<span>  alt2 <span class="op">=</span> <span class="st">"b_x1       * x1      + b_x2      * x2          + b_x3       * x3"</span>,</span>
+<span>  alt3 <span class="op">=</span> <span class="st">"b_sq[0.15] * sq[1]"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Generate designs ----</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>,</span>
+<span>                          rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>, </span>
+<span>                          efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
+<span>                          algorithm <span class="op">=</span> <span class="st">"rsc"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add a blocking variable to the design with 4 blocks.</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/block.html">block</a></span><span class="op">(</span><span class="va">design</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="bugs-and-error-reporting">Bugs and error reporting<a class="anchor" aria-label="anchor" href="#bugs-and-error-reporting"></a>
+</h2>
 <p>All software contains bugs and we would very much like to find these and root them out. If you find a bug or get an error message, please reach out so that we can try and improve the software.</p>
 </div>
-<div class="section level1">
-<h1 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
-</h1>
-<p>We are grateful to Petr Mariel, Jürgen Meyerhoff and Ainhoa Vega for providing feedback and extensive testing of the package. The package comes with no warranty and the authors cannot be held liable for erros or mistakes resulting from use. The authors acknowledge funding from the European Union’s Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant INSPiRE (Grant agreement ID: 793163).</p>
+<div class="section level2">
+<h2 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
+</h2>
+<p>We are grateful to Petr Mariel, Jürgen Meyerhoff and Ainhoa Vega for providing feedback and extensive testing of the package. We also thank participants in the 2022 Summer School “Valuing options of adaption to climate change using choice experiments” at the University of Cape Town for valuable feedback on a beta version of the package. The package comes with no warranty and the authors cannot be held liable for errors or mistakes resulting from use. The authors acknowledge funding from the European Union’s Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant INSPiRE (Grant agreement ID: 793163).</p>
+</div>
 </div>
 
   </div>
