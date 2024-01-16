@@ -263,5 +263,27 @@ There is no point specifying SQ levels that only take on the value of 0. These h
 
 Related to the above point, in the case where your attribute is dummy-coded the easiest is to define it such that the base level of your dummy-coded attribute corresponds to the level of the SQ. Remember, that in your design, these only take on the values of 1 and 0 with the base level being zero for all non-base-level levels. Defining the base level to be equal to the SQ obviates the need to explicitly specify the SQ beyond a constant. 
 
-# Examples
-Many examples are provided along with the package documentation and on Github to showcase different syntaxes. 
+## Large designs
+Creating large designs can be beneficial, however, if you have many attributes and levels, the size of the full factorial can be too large to hold in memory leading to an error of the type: "Error: vector memory exhausted (limit reached)". There are two possible solutions to fix this:
+
+1. You can supply a candidate set that is of a sufficient size
+2. You can use the `rsc` algorithm instead, which will obviate the need to have the full factorial present. 
+
+## Supplying a candidate set
+You can supply a candidate set to use with the modified federov and random design algorithms. There are 2 important things with respect to the candidate set that `spdesign` will check for:
+
+1. That the names are compliant with the package. This means that the names of the variables in the supplied candidate set must follow a specific naming convention. The name consists of two parts: i) the name of the utility function, which are the names given to each utility function element in the list of utility functions, and ii) the name of the attribute. These are combined using an underscore giving the following format: <UTILITY FUNC>_<ATTR>. For example, if you have the following set of utility functions:
+
+```
+V = list(
+  alt1 = "b_x1_dummy[c(0.2, 0.5)] * x1[c(1, 2, 3)]",
+  alt2 = "b_x1_dummy * x1"
+)
+```
+
+Then the column names of the candidate set would be: `alt1_x1` and `alt2_x1`. 
+
+2. That all attribute levels specified in the utility functions are in the candidate set. A mismatch here will result in an error.
+3. That there are not more (unneccesasry) columns in the candidate set that are not used by the utility expression. This is caught by an error message. 
+
+The candidate set is passed in as a `data.frame` using the `candidate_set` argument to the function `generate_design`. 

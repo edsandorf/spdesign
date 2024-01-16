@@ -1,0 +1,19 @@
+rows <- 20
+model <- "mnl"
+efficiency_criteria <- "d-error"
+algorithm <- "rsc"
+draws <- "pseudo-random"
+R <- 100
+dudx <- "x3"
+candidate_set <- NULL
+exclusions <- NULL
+control <- list(
+  cores = 1,
+  max_iter = 10000,
+  max_relabel = 10000,
+  max_no_improve = 100000,
+  efficiency_threshold = 0.1,
+  sample_with_replacement = FALSE
+)
+return_all <- FALSE
+significance <- 1.96

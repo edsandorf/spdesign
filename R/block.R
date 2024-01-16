@@ -56,7 +56,7 @@ block <- function(x, blocks, target = 0.0005, max_iter = 1000000) {
   block <- rep(seq_len(blocks), nrow(design) / blocks)
 
   blocked_design[["blocks_value"]] <- 1
-  blocked_design[["design"]] <- cbind(design, block)
+  blocked_design[["design"]] <- dplyr::bind_cols(design, block = block)
   blocked_design[["blocks_correlation"]] <- stats::cor(design, block)
   blocked_design[["blocks_iter"]] <- 1
 
@@ -82,8 +82,8 @@ block <- function(x, blocks, target = 0.0005, max_iter = 1000000) {
 
     if (current < blocked_design[["blocks_value"]]) {
       blocked_design[["blocks_value"]] <- current
-      blocked_design[["design"]] <- cbind(design, block)
-      blocked_design[["blocks_correlation"]] <- correlation
+      blocked_design[["design"]] <- dplyr::bind_cols(design, block = block)
+      blocked_design[["blocks_correlation"]] <- tibble::as_tibble(t(correlation))
       blocked_design[["blocks_iter"]] <- iter
 
     }

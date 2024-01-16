@@ -148,7 +148,7 @@ random_design_candidate <- function(utility,
     fits <- fits_lvl_occurrences(utility, design_candidate, rows)
 
     if (show_warning && difftime(Sys.time(), time_start, units = "secs") > 60) {
-      cli_alert_info("No design candidate has been found that can achieve attribute level balance or that satisfies the constraints. You may want to let go of attribute level balance, reduce the number of constraints or increase the size of your design.")
+      cli_alert_info("No design candidate has been found. This could be because you have place too tight constraints on the design or that all design candidates result in a singular Fisher matrix. A singular Fisher matrix can happen if you have perfect multicollinearity in your utility functions.")
       show_warning <- FALSE
     }
   }

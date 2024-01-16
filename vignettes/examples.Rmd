@@ -1,0 +1,64 @@
+---
+title: "Examples"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+bibliography: references.bib
+link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{Examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# An MNL design 
+```{r eval = FALSE, file='examples/mnl-design.R'}
+```
+
+# An MNL design with interactions
+```{r eval = FALSE, file='examples/mnl-design-with-interactions.R'}
+```
+
+# An MNL design with multiway interactions
+```{r eval = FALSE, file='examples/mnl-design-with-multiway-interactions.R'}
+```
+
+# An MNL design with dummy-coded attributes 
+```{r eval = FALSE, file='examples/mnl-design-dummy-coding.R'}
+```
+
+# An MNL design with specified level occurrences
+```{r eval = FALSE, file='examples/mnl-design-random-with-specified-level-occurrence.R'}
+```
+
+# An MNL design with alternative specific attributes
+```{r eval = FALSE, file='examples/mnl-design-with-alternative-specific-attributres.R'}
+```
+
+# An MNL design with Bayesian priors
+```{r eval = FALSE, file='examples/mnl-design-bayesian-priors.R'}
+```
+
+# An MNL design with dummy-coded attributes, Bayesian priors, and restrictions on level occurrence
+```{r eval = FALSE, file='examples/mnl-design-advanced.R'}
+```
+
+# An MNL design with a supplied candidate set
+```{r eval = FALSE, file='examples/mnl-design-with-supplied-candidate-set.R'}
+```
+
+# An MNL design with specified explusions applied to the candidate set
+```{r eval = FALSE, file='examples/mnl-design-with-exclusions.R'}
+```
+
+# An MNL design optimized for c-efficiency
+```{r eval = FALSE, file='examples/mnl-c-efficiency.R'}
+```

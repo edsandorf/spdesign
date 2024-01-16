@@ -34,13 +34,14 @@ vcov.spdesign <- function(object, ...) {
 summary.spdesign <- function(object, ...) {
   print(object, ...)
   cat("\n")
-  print(object[["design"]])
+  cat("Printing the first few rows of the design \n")
+  print(utils::head(object[["design"]]))
   cat("\n")
   cat("---------------------------------------------------------------------\n")
 
   if ("blocks_correlation" %in% names(object)) {
     cat("Correlation between the blocking vector and attributes: \n \n")
-    print(round(t(object$blocks_correlation), 3))
+    print(object$blocks_correlation)
     cat("\n")
     cat("---------------------------------------------------------------------\n")
   }
@@ -100,7 +101,7 @@ print.spdesign <- function(x, ...) {
 #' @export
 coef.spdesign <- function(object, ...) {
   return(
-    object[["priors"]]
+    object[["prior_values"]]
   )
 }
 

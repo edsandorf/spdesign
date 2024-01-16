@@ -144,7 +144,8 @@ calculate_c_error <- function(design_vcov, p, dudx, return_all) {
 
   } else {
     # Local overwrite with respect to the actual position for correct subsetting
-    dudx <- which(names(p) == dudx)
+    # dudx <- which(names(p) == dudx)
+    dudx <- which(str_detect(names(p), dudx) == TRUE)
 
     c_eff <- p[-dudx]^-2 * (diag(design_vcov)[dudx] - 2 * p[dudx] * p[-dudx]^-1 * design_vcov[dudx, seq_len(nrow(design_vcov))[-dudx]] + (p[dudx] / p[-dudx])^2 * diag(design_vcov)[-dudx])
 
@@ -152,7 +153,7 @@ calculate_c_error <- function(design_vcov, p, dudx, return_all) {
     if (return_all) {
       c_eff
     } else {
-      sum(c_eff)
+      sum(c_eff, na.rm = TRUE)
     }
   }
 }
