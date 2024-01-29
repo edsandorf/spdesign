@@ -34,7 +34,7 @@ Remember to select the most recent development version (check the
 available branches).
 
 ``` r
-devtools::install_github("edsandorf/spdesign")
+remotes::install_github("edsandorf/spdesign", ref = "v0.0.4-dev")
 ```
 
 ## Example
