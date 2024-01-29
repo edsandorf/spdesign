@@ -398,7 +398,7 @@ lvl_occurrences <- function(utility, rows, level_balance) {
 
       names(z) <- y
       return(z)
-    }, min_lvl_occurrence(utility, rows), expand_attribute_levels(utility), level_balance)
+    }, min_lvl_occurrence(utility, rows), expand_attribute_levels(utility), level_balance, SIMPLIFY = FALSE)
   )
 }
 
