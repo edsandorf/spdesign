@@ -78,8 +78,13 @@ We are grateful to Petr Mariel, Jürgen Meyerhoff and Ainhoa Vega for
 providing feedback and extensive testing of the package. We also thank
 participants in the 2022 Summer School “Valuing options of adaption to
 climate change using choice experiments” at the University of Cape Town
-for valuable feedback on a beta version of the package. The package
-comes with no warranty and the authors cannot be held liable for errors
-or mistakes resulting from use. The authors acknowledge funding from the
-European Union’s Horizon 2020 research and innovation program under the
-Marie Sklodowska-Curie grant INSPiRE (Grant agreement ID: 793163).
+for valuable feedback on a beta version of the package.
+
+We would also like to acknowledge all those who have contributed with
+bug reports: Gabriele Iannaccone
+
+The package comes with no warranty and the authors cannot be held liable
+for errors or mistakes resulting from use. The authors acknowledge
+funding from the European Union’s Horizon 2020 research and innovation
+program under the Marie Sklodowska-Curie grant INSPiRE (Grant agreement
+ID: 793163).
