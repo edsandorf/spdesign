@@ -178,7 +178,7 @@ generate_design <- function(utility,
         )
       }
 
-      candidate_levels <- apply(candidate_set, 2, function(x) unique(sort(x)))
+      candidate_levels <- apply(candidate_set, 2, function(x) unique(sort(x)), simplify = FALSE)
       utility_levels <- lapply(expand_attribute_levels(utility), as.numeric)
 
       # Subset utility levels to only correspond to the ones specified
