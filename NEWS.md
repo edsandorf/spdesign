@@ -1,4 +1,5 @@
 # spdesign v0.0.4
+* Added function level_balance() that produces a list of level occurrences in the design to inspect level balance
 * Minor bug fixes
 
 # spdesign v0.0.3
