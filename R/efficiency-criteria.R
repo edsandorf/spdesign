@@ -100,8 +100,8 @@ calculate_efficiency <- function(prior_values,
 #' @export
 calculate_efficiency_criteria <- function(
   design_vcov,
-  p = NULL,
-  dudx = NULL,
+  p,
+  dudx,
   return_all = FALSE,
   significance = 1.96,
   type
