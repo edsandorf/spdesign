@@ -1,10 +1,10 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   examples: examples.html
   syntax: syntax.html
-last_built: 2024-01-16T07:06Z
+last_built: 2024-06-24T09:43Z
 urls:
   reference: https://spdesign.edsandorf.me/reference
   article: https://spdesign.edsandorf.me/articles
