@@ -178,7 +178,7 @@ generate_design <- function(utility,
         )
       }
 
-      candidate_levels <- apply(candidate_set, 2, function(x) unique(sort(x)))
+      candidate_levels <- apply(candidate_set, 2, function(x) unique(sort(x)), simplify = FALSE)
       utility_levels <- lapply(expand_attribute_levels(utility), as.numeric)
 
       # Subset utility levels to only correspond to the ones specified
@@ -192,10 +192,16 @@ generate_design <- function(utility,
         )
       }
 
-      # Expand candidate set to be square, i.e., fill in zero columns, for non-specified
+      # Expand candidate set to be square, i.e., fill in zero columns, for non-specified. This in case of
+      # Alternative specific attributes!
       expanded_names <- names(expand_attribute_levels(utility))
-      expr <- paste("cbind(candidate_set, ", paste(paste(expanded_names[!(expanded_names %in% utility_attributes)], 0, sep = " = "), collapse = ", "), ")")
-      candidate_set <- eval(parse(text = expr))
+
+      # Skip expansion if no alternative specific attributes are present
+      if (any(!(expanded_names %in% utility_attributes))) {
+        expr <- paste("cbind(candidate_set, ", paste(paste(expanded_names[!(expanded_names %in% utility_attributes)], 0, sep = " = "), collapse = ", "), ")")
+        candidate_set <- eval(parse(text = expr))
+      }
+
       candidate_set <- candidate_set[, expanded_names]
 
     }

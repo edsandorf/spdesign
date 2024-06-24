@@ -236,6 +236,7 @@ A few things to note about using the `_dummy` syntax
 1. You must specify one more level for the attribute than priors for the parameter.
 1. You cannot use `_dummy` as an extension for your attribute name. 
 1. If you are using specified levels for the status-quo or opt out alternative, make sure that this corresponds to the base level and is coded as a 0. See more details below. 
+1. If you are using alternative specific dummy-coded attributes, make sure that you differentiate the names of the priors *before* the `_dummy` extension. Placing anything between `_dummmy` and `[` will cause the code to fail.
 
 
 

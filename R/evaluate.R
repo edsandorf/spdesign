@@ -23,10 +23,16 @@ evaluate_design_candidate <- function(utility,
   # Define x_j for the analytical derivatives
   x_j <- define_x_j(utility, design_candidate)
 
+  design_candidate_with_names <- x_j
+  for (i in seq_along(design_candidate_with_names)) {
+    colnames(design_candidate_with_names[[i]]) <- paste(names(design_candidate_with_names[i]), colnames(design_candidate_with_names[[i]]), sep = "_")
+  }
+
   # Update the design environment NB! Using design_candidate because we are
   # evaluating the expression in context and don't need the interaction cols
   list2env(
-    c(as.list(as.data.frame(do.call(cbind, define_base_x_j(utility, design_candidate)))),
+    # c(as.list(as.data.frame(do.call(cbind, define_base_x_j(utility, design_candidate)))),
+    c(as.list(as.data.frame(do.call(cbind, design_candidate_with_names))),
       list(x_j = x_j)),
     envir = design_env
   )

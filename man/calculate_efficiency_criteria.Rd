@@ -6,8 +6,8 @@
 \usage{
 calculate_efficiency_criteria(
   design_vcov,
-  p = NULL,
-  dudx = NULL,
+  p,
+  dudx,
   return_all = FALSE,
   significance = 1.96,
   type

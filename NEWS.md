@@ -1,3 +1,8 @@
+# spdesign v0.0.4
+* Added function level_balance() that produces a list of level occurrences in the design to inspect level balance
+* Updates to documentation, examples, and syntax description
+* Minor bug fixes
+
 # spdesign v0.0.3
 * Fixed a bug related to optimizing for c-efficiency where it would sometimes fail to correctly identify the denominator. 
 * Fixed several bugs related to using a supplied candidate set with alternative specific constants and attributes. Checks have been updated. The code will now also add zero-columns for alternative specific constants and attributes in the utility functions where they are not present. This ensures that all matrices used when calculating the first- and second-order derivatives of the utility functions are square. 

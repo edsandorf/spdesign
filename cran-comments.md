@@ -1,5 +1,5 @@
 ##  Test environments
-* local MacOS Sonoma 14.12.1, R 4.3.2
+* local MacOS Sonoma 14.5, R 4.4.0
 * win-builder (devel and release)
 
 ## R CMD check results
