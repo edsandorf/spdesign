@@ -1,4 +1,5 @@
 # spdesign v0.0.5
+* Added a check to the modified federov algorithm to ensure that the new candidate row from the candidate set does not already exist in the design candidate.
 * Minor bug fixes
 
 # spdesign v0.0.4
