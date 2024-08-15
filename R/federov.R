@@ -85,7 +85,20 @@ federov <- function(design_object,
     # if true, then try the next candidate in the set. Using DeMorgan's rule.
     # https://stackoverflow.com/questions/32640682/check-whether-matrix-rows-equal-a-vector-in-r-vectorized
     if (any(!colSums(t(design_candidate) != unlist(candidate)))) {
-      iter_candidate_set <- iter_candidate_set + 1
+      # There is an edge case where if the last row of the candidate set is the
+      # best in a given position, then we will end up iterating beyond the last
+      # row of the candidate set. If this happens, we reset the counter and and
+      # iterate the design candidate as well.
+      if (iter_candidate_set == nrow(candidate_set)) {
+        iter_candidate_set <- 1
+        iter_design_candidate <- ifelse(iter_design_candidate == rows,
+                                        1, iter_design_candidate + 1)
+
+      } else {
+        iter_candidate_set <- iter_candidate_set + 1
+
+      }
+
       next
     }
 
