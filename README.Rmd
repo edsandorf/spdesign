@@ -36,7 +36,7 @@ install.packages("spdesign")
 A development version of the package can be installed from Github. Remember to select the most recent development version (check the available branches).
 
 ```{r install_github, eval=FALSE}
-remotes::install_github("edsandorf/spdesign", ref = "v0.0.5-dev")
+remotes::install_github("edsandorf/spdesign", ref = "v0.0.6-dev")
 ```
 
 ## Example
@@ -75,6 +75,6 @@ All software contains bugs and we would very much like to find these and root th
 ## Acknowledgements
 We are grateful to Petr Mariel, Jürgen Meyerhoff and Ainhoa Vega for providing feedback and extensive testing of the package. We also thank participants in the 2022 Summer School "Valuing options of adaption to climate change using choice experiments" at the University of Cape Town for valuable feedback on a beta version of the package. 
 
-We would also like to acknowledge all those who have contributed with bug reports: Gabriele Iannaccone, Petr Mariel, Julian Sagebiel
+We would also like to acknowledge all those who have contributed with bug reports: Gabriele Iannaccone, Petr Mariel, Julian Sagebiel, Huu-Luat Do
 
 The package comes with no warranty and the authors cannot be held liable for errors or mistakes resulting from use. The authors acknowledge funding from the European Union’s Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant INSPiRE (Grant agreement ID: 793163).

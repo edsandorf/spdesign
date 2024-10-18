@@ -34,7 +34,7 @@ Remember to select the most recent development version (check the
 available branches).
 
 ``` r
-remotes::install_github("edsandorf/spdesign", ref = "v0.0.5-dev")
+remotes::install_github("edsandorf/spdesign", ref = "v0.0.6-dev")
 ```
 
 ## Example
@@ -81,7 +81,8 @@ climate change using choice experiments” at the University of Cape Town
 for valuable feedback on a beta version of the package.
 
 We would also like to acknowledge all those who have contributed with
-bug reports: Gabriele Iannaccone, Petr Mariel, Julian Sagebiel
+bug reports: Gabriele Iannaccone, Petr Mariel, Julian Sagebiel, Huu-Luat
+Do
 
 The package comes with no warranty and the authors cannot be held liable
 for errors or mistakes resulting from use. The authors acknowledge
