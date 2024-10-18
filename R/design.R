@@ -184,13 +184,14 @@ generate_design <- function(utility,
       # Subset utility levels to only correspond to the ones specified
       utility_levels <- utility_levels[utility_attributes]
 
-      if (!identical(candidate_levels[sort(names(candidate_levels))], utility_levels[sort(names(utility_levels))])) {
-        problem <- paste(names(which(mapply(function(x, y) length(x) - length(y), candidate_levels, utility_levels) != 0)), collapse = ", ")
-
-        stop(
-          paste0("The attribute levels determined by the supplied candidate set differs from those supplied in the utility function. Please ensure that all specified levels are present in the candidate set. The error occurs because there are too few/many levels for: ", problem, " in the candidate set")
-        )
-      }
+      # Why do I have this check? It does not appear to do anything useful.
+      # if (!identical(candidate_levels[sort(names(candidate_levels))], utility_levels[sort(names(utility_levels))])) {
+      #   problem <- paste(names(which(mapply(function(x, y) length(x) - length(y), candidate_levels, utility_levels) != 0)), collapse = ", ")
+      #
+      #   stop(
+      #     paste0("The attribute levels determined by the supplied candidate set differs from those supplied in the utility function. Please ensure that all specified levels are present in the candidate set. The error occurs because there are too few/many levels for: ", problem, " in the candidate set")
+      #   )
+      # }
 
       # Expand candidate set to be square, i.e., fill in zero columns, for non-specified. This in case of
       # Alternative specific attributes!

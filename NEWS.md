@@ -1,3 +1,8 @@
+# spdesign v0.0.5
+* Removed a check for all levels existing in the supplied candidate set. This caused errors when using restrictions on attribute level occurrence and a supplied candidate set. 
+* Added a check to the modified federov algorithm to ensure that the new candidate row from the candidate set does not already exist in the design candidate.
+* Minor bug fixes
+
 # spdesign v0.0.4
 * Added function level_balance() that produces a list of level occurrences in the design to inspect level balance
 * Updates to documentation, examples, and syntax description

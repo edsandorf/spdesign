@@ -1,7 +1,7 @@
 Package: spdesign
 Type: Package
 Title: Designing Stated Preference Experiments
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: c(
   person("Erlend Dancke", "Sandorf", email = "erlend.dancke.sandorf@nmbu.no", role = c("aut", "cre")),
   person("Danny", "Campbell", email = "danny.campbell@stir.ac.uk", role = c("aut")))

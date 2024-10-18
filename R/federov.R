@@ -10,6 +10,8 @@
 #'    candidate set.
 #' 3) If no better candidate is found, try the second row of the candidate set.
 #'    Keep trying new rows of the candidate set until an improvement is found.
+#'    NOTE: The candidate row will be checked against all rows of the design
+#'    candidate to ensure that the same row is not included multiple times.
 #' 4) If a better candidate is found, then we try to swap out the next row in
 #'    the design candidate with the first row of the candidate set. Keep
 #'    repeating the previous step.
@@ -71,11 +73,73 @@ federov <- function(design_object,
   design_candidate <- random_design_candidate(utility,
                                               candidate_set,
                                               rows,
-                                              control$sample_with_replacement)
+                                              FALSE)
+                                              # control$sample_with_replacement)
+
 
   repeat {
-    # Update the design candidate.
-    design_candidate[iter_design_candidate, ] <- candidate_set[iter_candidate_set, ]
+    # Update the design candidate, but check that the new entry does not already
+    # exist in the design candidate
+    # if (design_candidate |> distinct() |> nrow() < 80) break
+
+    # Store the new candidate
+    candidate <- candidate_set[iter_candidate_set, ]
+
+    # Store the replaced candidate in case we need to put it back in
+    candidate_out <- design_candidate[iter_design_candidate, ]
+
+    # Update the design candidate
+    design_candidate[iter_design_candidate, ] <- candidate
+
+    # We are checking the duplicates by assessing whether we have fewer then
+    # nrow() rows when putting in a new candidate. This preserves the cases where
+    # variables are of different types, which did not work with the original
+    # screening for duplicates where factors were coerced to character when the
+    # matrix was transposed
+    if (design_candidate |> distinct() |> nrow() < nrow(design_candidate)) {
+      # Replace the candidate with the original candidate
+      design_candidate[iter_design_candidate, ] <- candidate_out
+
+      # There is an edge case where if the last row of the candidate set is the
+      # best in a given position, then we will end up iterating beyond the last
+      # row of the candidate set. If this happens, we reset the counter and and
+      # iterate the design candidate as well.
+      if (iter_candidate_set == nrow(candidate_set)) {
+        iter_candidate_set <- 1
+        iter_design_candidate <- ifelse(iter_design_candidate == rows,
+                                        1, iter_design_candidate + 1)
+
+      } else {
+        iter_candidate_set <- iter_candidate_set + 1
+
+      }
+
+      next
+    }
+
+    # Check if the candidate exists in the current design_candidate
+    # if true, then try the next candidate in the set. Using DeMorgan's rule.
+    # https://stackoverflow.com/questions/32640682/check-whether-matrix-rows-equal-a-vector-in-r-vectorized
+    # if (any(!colSums(t(design_candidate) != unlist(candidate)))) {
+    #   # There is an edge case where if the last row of the candidate set is the
+    #   # best in a given position, then we will end up iterating beyond the last
+    #   # row of the candidate set. If this happens, we reset the counter and and
+    #   # iterate the design candidate as well.
+    #   if (iter_candidate_set == nrow(candidate_set)) {
+    #     iter_candidate_set <- 1
+    #     iter_design_candidate <- ifelse(iter_design_candidate == rows,
+    #                                     1, iter_design_candidate + 1)
+    #
+    #   } else {
+    #     iter_candidate_set <- iter_candidate_set + 1
+    #
+    #   }
+    #
+    #   next
+    # }
+
+    # design_candidate[iter_design_candidate, ] <- candidate
+
 
     # Full attribute level balance for the federov but include ranges.
     fits <- fits_lvl_occurrences(utility, design_candidate, rows)

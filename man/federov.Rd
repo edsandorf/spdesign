@@ -64,6 +64,8 @@ restrictions.
    candidate set.
 3) If no better candidate is found, try the second row of the candidate set.
    Keep trying new rows of the candidate set until an improvement is found.
+   NOTE: The candidate row will be checked against all rows of the design
+   candidate to ensure that the same row is not included multiple times.
 4) If a better candidate is found, then we try to swap out the next row in
    the design candidate with the first row of the candidate set. Keep
    repeating the previous step.
