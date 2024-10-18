@@ -1,4 +1,5 @@
 # spdesign v0.0.5
+* Removed a check for all levels existing in the supplied candidate set. This caused errors when using restrictions on attribute level occurrence and a supplied candidate set. 
 * Added a check to the modified federov algorithm to ensure that the new candidate row from the candidate set does not already exist in the design candidate.
 * Minor bug fixes
 
