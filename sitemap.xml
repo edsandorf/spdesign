@@ -1,318 +1,108 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://spdesign.edsandorf.me/404.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/articles/examples.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/articles/syntax.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/index.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/all_priors_and_levels_specified.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/any_duplicates.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/attribute_level_balance.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/attribute_levels.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/attribute_names.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/block.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/calculate_a_error.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/calculate_c_error.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/calculate_d_error.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/calculate_efficiency.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/calculate_efficiency_criteria.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/calculate_s_error.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/clean_utility.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/coef.spdesign.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/contains_dummies.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/cor.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/cycle.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/define_base_x_j.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/define_x_j.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/derive_vcov.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/derive_vcov_mnl.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/derive_vcov_rpl.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/digitize.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/dot-onAttach.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/dummy_names.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/evaluate_design_candidate.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/exclude.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/expand_attribute_levels.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_all_names.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_attribute_names.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_distribution.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_level_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_named_values.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_param_distribution.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_param_names.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_prior_distribution.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_specified.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_unparsed_values.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/extract_values.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/federov.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/fits_lvl_occurrences.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/full_factorial.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/generate_design.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/generate_rsc_candidate.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/has_bayesian_prior.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/has_random_parameter.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/is_balanced.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/level_balance.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/lvl_occurrences.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/make_draws.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/make_mlhs.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/make_pseudo_random.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/make_scrambled_halton.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/make_scrambled_sobol.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/make_standard_halton.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/make_standard_sobol.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/min_lvl_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/nlvls.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/normal.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/occurrences.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/prepare_priors.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/print.spdesign.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/print_efficiency_criteria.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/print_initial_header.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/print_iteration_information.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/priors.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/probabilities.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/probabilities_mnl.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/radical_inverse.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/random.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/random_design_candidate.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/relabel.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/remove_all_brackets.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/remove_prior.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/remove_round_brackets.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/remove_square_brackets.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/remove_whitespace.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/rep_cols.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/rep_rows.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/rsc.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/set_default_level_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/set_default_options.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/shuffle.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/spdesign-package.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/summary.spdesign.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/swap.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/too_small.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/transform_distribution.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/transform_lognormal.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/transform_normal.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/transform_triangular.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/transform_uniform.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/update_utility.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/utility_formula.html</loc>
-  </url>
-  <url>
-    <loc>https://spdesign.edsandorf.me/reference/vcov.spdesign.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://spdesign.edsandorf.me/404.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/LICENSE-text.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/articles/examples.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/articles/index.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/articles/syntax.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/authors.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/index.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/news/index.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/all_priors_and_levels_specified.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/any_duplicates.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/attribute_level_balance.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/attribute_levels.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/attribute_names.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/block.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/calculate_a_error.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/calculate_c_error.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/calculate_d_error.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/calculate_efficiency.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/calculate_efficiency_criteria.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/calculate_s_error.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/clean_utility.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/coef.spdesign.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/contains_dummies.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/cor.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/cycle.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/define_base_x_j.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/define_x_j.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/derive_vcov.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/derive_vcov_mnl.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/derive_vcov_rpl.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/digitize.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/dot-onAttach.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/dummy_names.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/evaluate_design_candidate.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/exclude.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/expand_attribute_levels.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_all_names.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_attribute_names.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_distribution.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_level_occurrence.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_named_values.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_param_distribution.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_param_names.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_prior_distribution.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_specified.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_unparsed_values.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/extract_values.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/federov.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/fits_lvl_occurrences.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/full_factorial.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/generate_design.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/generate_rsc_candidate.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/has_bayesian_prior.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/has_random_parameter.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/index.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/is_balanced.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/level_balance.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/lvl_occurrences.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/make_draws.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/make_mlhs.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/make_pseudo_random.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/make_scrambled_halton.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/make_scrambled_sobol.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/make_standard_halton.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/make_standard_sobol.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/min_lvl_occurrence.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/nlvls.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/normal.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/occurrences.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/prepare_priors.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/print.spdesign.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/print_efficiency_criteria.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/print_initial_header.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/print_iteration_information.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/priors.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/probabilities.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/probabilities_mnl.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/radical_inverse.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/random.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/random_design_candidate.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/reexports.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/relabel.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/remove_all_brackets.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/remove_prior.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/remove_round_brackets.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/remove_square_brackets.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/remove_whitespace.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/rep_cols.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/rep_rows.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/rsc.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/set_default_level_occurrence.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/set_default_options.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/shuffle.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/spdesign-package.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/summary.spdesign.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/swap.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/too_small.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/transform_distribution.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/transform_lognormal.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/transform_normal.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/transform_triangular.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/transform_uniform.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/update_utility.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/utility_formula.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/vcov.spdesign.html</loc></url>
 </urlset>
+
