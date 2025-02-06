@@ -1,4 +1,5 @@
 # spdesign v0.0.6
+* Changed the default efficiency threshold to be arbitrarily small to avoid issues where the search process would stop at the first iteration.
 * Minor bug fixes
 
 # spdesign v0.0.5

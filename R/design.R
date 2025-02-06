@@ -60,7 +60,7 @@ generate_design <- function(utility,
                               max_iter = 10000,
                               max_relabel = 10000,
                               max_no_improve = 100000,
-                              efficiency_threshold = 0.1,
+                              efficiency_threshold = 0.000001,
                               sample_with_replacement = FALSE
                             )) {
 
@@ -105,7 +105,7 @@ generate_design <- function(utility,
     max_relabel = 10000,
     max_swap = 10000,
     max_no_improve = 100000,
-    efficiency_threshold = 0.1,
+    efficiency_threshold = 0.000001,
     sample_with_replacement = FALSE
   )
 
