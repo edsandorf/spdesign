@@ -16,6 +16,7 @@ generate_design(
   dudx = NULL,
   candidate_set = NULL,
   exclusions = NULL,
+  save_designs = FALSE,
   control = list(cores = 1, max_iter = 10000, max_relabel = 10000, max_no_improve =
     1e+05, efficiency_threshold = 1e-06, sample_with_replacement = FALSE)
 )
@@ -59,6 +60,8 @@ consider alternative specific attributes.}
 
 \item{exclusions}{A list of exclusions Often this list will be pulled
 directly from the list of options or it is a modified list of exclusions}
+
+\item{save_designs}{A boolean indicating whether to save up to 10 intermediate designs. The default value is FALSE.}
 
 \item{control}{A list of control options}
 }

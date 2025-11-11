@@ -21,6 +21,7 @@ random <- function(
   dudx,
   candidate_set,
   rows,
+  save_designs,
   control
 ) {
   # Set up the design_object environment
@@ -101,6 +102,18 @@ random <- function(
       ]]
       design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
       efficiency_current_best <- efficiency_current
+    }
+
+    # Save designs
+    if (save_designs) {
+      saveRDS(
+        design_object,
+        file = paste0(
+          "design_iter_",
+          formatC(iter, width = 6, flag = "0"),
+          ".rds"
+        )
+      )
     }
 
     # Check stopping conditions ----

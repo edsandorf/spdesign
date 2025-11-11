@@ -16,6 +16,7 @@ rsc <- function(
   dudx,
   candidate_set,
   rows,
+  save_designs,
   control
 ) {
   # Set up the design environment
@@ -140,6 +141,18 @@ rsc <- function(
 
       # Reset iter_no_improve when we have an improvement.
       iter_no_improve <- 1
+    }
+
+    # Save designs
+    if (save_designs) {
+      saveRDS(
+        design_object,
+        file = paste0(
+          "design_iter_",
+          formatC(iter, width = 6, flag = "0"),
+          ".rds"
+        )
+      )
     }
 
     # Check stopping conditions ----

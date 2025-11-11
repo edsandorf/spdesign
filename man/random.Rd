@@ -13,6 +13,7 @@ random(
   dudx,
   candidate_set,
   rows,
+  save_designs,
   control
 )
 }
@@ -46,6 +47,8 @@ string. The candidate set will be expanded to include zero columns to
 consider alternative specific attributes.}
 
 \item{rows}{An integer giving the number of rows in the final design}
+
+\item{save_designs}{A boolean indicating whether to save up to 10 intermediate designs. The default value is FALSE.}
 
 \item{control}{A list of control options}
 }

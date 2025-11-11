@@ -43,6 +43,7 @@ federov <- function(
   dudx,
   candidate_set,
   rows,
+  save_designs,
   control
 ) {
   # Reorder the rows of the candidate set to create more randomness
@@ -254,6 +255,18 @@ federov <- function(
       ]]
       design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
       efficiency_current_best <- efficiency_current
+
+      # Save designs
+      if (save_designs) {
+        saveRDS(
+          design_object,
+          file = paste0(
+            "design_iter_",
+            formatC(iter, width = 6, flag = "0"),
+            ".rds"
+          )
+        )
+      }
 
       # Reset the iterator over candidate set and add to the iterator over the
       # design candidate. If iter_design_candidate is greater than the number of

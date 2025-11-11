@@ -37,6 +37,7 @@
 #' consider alternative specific attributes.
 #' @param exclusions A list of exclusions Often this list will be pulled
 #' directly from the list of options or it is a modified list of exclusions
+#' @param save_designs A boolean indicating whether to save up to 10 intermediate designs. The default value is FALSE.
 #' @param control A list of control options
 #'
 #' @return An object of class 'spdesign'
@@ -60,6 +61,7 @@ generate_design <- function(
   dudx = NULL,
   candidate_set = NULL,
   exclusions = NULL,
+  save_designs = FALSE,
   control = list(
     cores = 1,
     max_iter = 10000,
@@ -306,6 +308,7 @@ generate_design <- function(
       dudx,
       candidate_set,
       rows,
+      save_designs,
       control
     ),
     federov = federov(
@@ -317,6 +320,7 @@ generate_design <- function(
       dudx,
       candidate_set,
       rows,
+      save_designs,
       control
     ),
     rsc = rsc(
@@ -328,6 +332,7 @@ generate_design <- function(
       dudx,
       candidate_set,
       rows,
+      save_designs,
       control
     )
   )
