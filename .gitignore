@@ -6,3 +6,4 @@ inst/doc
 docs
 test.R
 .DS_Store
+^test-function-call.R
