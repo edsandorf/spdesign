@@ -17,7 +17,7 @@ generate_design(
   candidate_set = NULL,
   exclusions = NULL,
   control = list(cores = 1, max_iter = 10000, max_relabel = 10000, max_no_improve =
-    1e+05, efficiency_threshold = 0.1, sample_with_replacement = FALSE)
+    1e+05, efficiency_threshold = 1e-06, sample_with_replacement = FALSE)
 )
 }
 \arguments{

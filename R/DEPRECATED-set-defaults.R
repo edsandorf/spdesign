@@ -82,11 +82,9 @@ set_default_level_occurrence <- function(n_lvls, rows) {
   # Check if attribute level balance can be achieved
   if ((rows %% n_lvls) == 0) {
     lvl <- rows / n_lvls
-
   } else {
     minimum <- floor(rows / n_lvls)
     lvl <- minimum:(minimum + 1)
-
   }
 
   lvls <- lapply(seq_len(n_lvls), function(n) lvl)

@@ -34,15 +34,17 @@
 #' @inheritParams generate_design
 #'
 #' @return A list of class 'spdesign'
-federov <- function(design_object,
-                    model,
-                    efficiency_criteria,
-                    utility,
-                    prior_values,
-                    dudx,
-                    candidate_set,
-                    rows,
-                    control) {
+federov <- function(
+  design_object,
+  model,
+  efficiency_criteria,
+  utility,
+  prior_values,
+  dudx,
+  candidate_set,
+  rows,
+  control
+) {
   # Reorder the rows of the candidate set to create more randomness
   candidate_set <- candidate_set[sample(seq_len(nrow(candidate_set))), ]
 
@@ -70,12 +72,13 @@ federov <- function(design_object,
 
   # Create an initial random design candidate. The design_candidate is a
   # data.frame()
-  design_candidate <- random_design_candidate(utility,
-                                              candidate_set,
-                                              rows,
-                                              FALSE)
-                                              # control$sample_with_replacement)
-
+  design_candidate <- random_design_candidate(
+    utility,
+    candidate_set,
+    rows,
+    FALSE
+  )
+  # control$sample_with_replacement)
 
   repeat {
     # Update the design candidate, but check that the new entry does not already
@@ -106,12 +109,13 @@ federov <- function(design_object,
       # iterate the design candidate as well.
       if (iter_candidate_set == nrow(candidate_set)) {
         iter_candidate_set <- 1
-        iter_design_candidate <- ifelse(iter_design_candidate == rows,
-                                        1, iter_design_candidate + 1)
-
+        iter_design_candidate <- ifelse(
+          iter_design_candidate == rows,
+          1,
+          iter_design_candidate + 1
+        )
       } else {
         iter_candidate_set <- iter_candidate_set + 1
-
       }
 
       next
@@ -140,25 +144,27 @@ federov <- function(design_object,
 
     # design_candidate[iter_design_candidate, ] <- candidate
 
-
     # Full attribute level balance for the federov but include ranges.
     fits <- fits_lvl_occurrences(utility, design_candidate, rows)
 
     # This becomes an infinite loop at some point. Why?
     while (fits == FALSE) {
-      design_candidate[iter_design_candidate, ] <- candidate_set[iter_candidate_set, ]
+      design_candidate[iter_design_candidate, ] <- candidate_set[
+        iter_candidate_set,
+      ]
       fits <- fits_lvl_occurrences(utility, design_candidate, rows)
 
       iter_candidate_set <- iter_candidate_set + 1
 
       if (iter_candidate_set == nrow(candidate_set)) {
         iter_candidate_set <- 1
-        iter_design_candidate <- ifelse(iter_design_candidate == rows,
-                                        1, iter_design_candidate + 1)
-
+        iter_design_candidate <- ifelse(
+          iter_design_candidate == rows,
+          1,
+          iter_design_candidate + 1
+        )
       } else {
         iter_candidate_set <- iter_candidate_set + 1
-
       }
 
       # Add iteration here to avoid an infinite loop
@@ -166,10 +172,12 @@ federov <- function(design_object,
 
       if (iter_break > iter_break_max) {
         # Try with a new random design candidate to check if we are truly stuck.
-        design_candidate <- random_design_candidate(utility,
-                                                    candidate_set,
-                                                    rows,
-                                                    control$sample_with_replacement)
+        design_candidate <- random_design_candidate(
+          utility,
+          candidate_set,
+          rows,
+          control$sample_with_replacement
+        )
 
         # Reset counters
         iter_candidate_set <- iter_design_candidate <- iter_break <- 1
@@ -179,7 +187,9 @@ federov <- function(design_object,
 
         # After we have tried five new candidates
         if (iter_new_candidates > 5) {
-          cli_alert_warning("We are struggeling to find a better design candidate that fits all level restrictions. You may want to stop here and try with looser restrictions. Alternatively, you can see if you get better results using the 'random' algorithm.")
+          cli_alert_warning(
+            "We are struggeling to find a better design candidate that fits all level restrictions. You may want to stop here and try with looser restrictions. Alternatively, you can see if you get better results using the 'random' algorithm."
+          )
         }
 
         break
@@ -190,7 +200,10 @@ federov <- function(design_object,
     # dummies are correctly handled
     # Define the current design candidate considering alternative specific
     # attributes and interactions
-    design_candidate_current <- do.call(cbind, define_base_x_j(utility, design_candidate))
+    design_candidate_current <- do.call(
+      cbind,
+      define_base_x_j(utility, design_candidate)
+    )
 
     # Evaluate the design candidate (wrapper function)
     efficiency_outputs <- evaluate_design_candidate(
@@ -205,15 +218,18 @@ federov <- function(design_object,
     )
 
     # Get the current efficiency measure
-    efficiency_current <- efficiency_outputs[["efficiency_measures"]][efficiency_criteria]
-    if (iter == 1) efficiency_current_best <- efficiency_current
+    efficiency_current <- efficiency_outputs[["efficiency_measures"]][
+      efficiency_criteria
+    ]
+    if (iter == 1) {
+      efficiency_current_best <- efficiency_current
+    }
 
     # If the efficiency criteria we optimize for is NA, try a new candidate
     if (is.na(efficiency_current)) {
       iter <- iter + 1
       iter_candidate_set <- iter_candidate_set + 1
       next
-
     }
 
     # Print information to console and update ----
@@ -230,7 +246,9 @@ federov <- function(design_object,
 
       # Update current best criteria
       design_object[["design"]] <- design_candidate_current
-      design_object[["efficiency_criteria"]] <- efficiency_outputs[["efficiency_measures"]]
+      design_object[["efficiency_criteria"]] <- efficiency_outputs[[
+        "efficiency_measures"
+      ]]
       design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
       efficiency_current_best <- efficiency_current
 
@@ -238,21 +256,24 @@ federov <- function(design_object,
       # design candidate. If iter_design_candidate is greater than the number of
       # rows in the design, then reset to 1.
       iter_candidate_set <- 1
-      iter_design_candidate <- ifelse(iter_design_candidate == rows,
-                                      1, iter_design_candidate + 1)
-
+      iter_design_candidate <- ifelse(
+        iter_design_candidate == rows,
+        1,
+        iter_design_candidate + 1
+      )
     } else {
       # If we have iterated through the entire candidate set for one row in the
       # design candidate, we reset the candidate set counter and increment the
       # the design candidate counter by 1
       if (iter_candidate_set == nrow(candidate_set)) {
         iter_candidate_set <- 1
-        iter_design_candidate <- ifelse(iter_design_candidate == rows,
-                                        1, iter_design_candidate + 1)
-
+        iter_design_candidate <- ifelse(
+          iter_design_candidate == rows,
+          1,
+          iter_design_candidate + 1
+        )
       } else {
         iter_candidate_set <- iter_candidate_set + 1
-
       }
     }
 
@@ -264,7 +285,10 @@ federov <- function(design_object,
       break
     }
 
-    if (efficiency_outputs[["efficiency_measures"]][efficiency_criteria]  < control$efficiency_threshold) {
+    if (
+      efficiency_outputs[["efficiency_measures"]][efficiency_criteria] <
+        control$efficiency_threshold
+    ) {
       cat(rule(width = 76), "\n")
       cli_alert_info("Efficiency criteria is less than threshhold.")
 
@@ -273,7 +297,6 @@ federov <- function(design_object,
 
     # Add to the iteration
     iter <- iter + 1
-
   }
 
   # Return the design candidate

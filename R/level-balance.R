@@ -17,11 +17,11 @@ level_balance <- function(design, block = FALSE) {
     blocked <- split(x, x$block)
     names(blocked) <- paste("block", unique(x$block), sep = "_")
     # Dropping the last column because it is the blocking column by default.
-    unlist(lapply(blocked, function(y) lapply(y[, -ncol(y)], table)), recursive = FALSE)
-
+    unlist(
+      lapply(blocked, function(y) lapply(y[, -ncol(y)], table)),
+      recursive = FALSE
+    )
   } else {
     lapply(x, table)
-
   }
-
 }

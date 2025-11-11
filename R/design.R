@@ -42,28 +42,33 @@
 #' @return An object of class 'spdesign'
 #'
 #' @export
-generate_design <- function(utility,
-                            rows,
-                            model = "mnl",
-                            efficiency_criteria = c("a-error", "c-error",
-                                                    "d-error", "s-error"),
-                            algorithm = c("federov", "rsc", "random"),
-                            draws = c("pseudo-random", "mlhs", "standard-halton",
-                                      "scrambled-halton", "standard-sobol",
-                                      "scrambled-sobol"),
-                            R = 100,
-                            dudx = NULL,
-                            candidate_set = NULL,
-                            exclusions = NULL,
-                            control = list(
-                              cores = 1,
-                              max_iter = 10000,
-                              max_relabel = 10000,
-                              max_no_improve = 100000,
-                              efficiency_threshold = 0.000001,
-                              sample_with_replacement = FALSE
-                            )) {
-
+generate_design <- function(
+  utility,
+  rows,
+  model = "mnl",
+  efficiency_criteria = c("a-error", "c-error", "d-error", "s-error"),
+  algorithm = c("federov", "rsc", "random"),
+  draws = c(
+    "pseudo-random",
+    "mlhs",
+    "standard-halton",
+    "scrambled-halton",
+    "standard-sobol",
+    "scrambled-sobol"
+  ),
+  R = 100,
+  dudx = NULL,
+  candidate_set = NULL,
+  exclusions = NULL,
+  control = list(
+    cores = 1,
+    max_iter = 10000,
+    max_relabel = 10000,
+    max_no_improve = 100000,
+    efficiency_threshold = 0.000001,
+    sample_with_replacement = FALSE
+  )
+) {
   # Match and check model arguments ----
   cli_h2("Checking function arguments")
 
@@ -129,13 +134,19 @@ generate_design <- function(utility,
 
   # Consider a core-check if relevant at a later point.
   if (control$cores > 1) {
-    warning("Multicore is not implemented yet. Design will be optimized using a single core.")
+    warning(
+      "Multicore is not implemented yet. Design will be optimized using a single core."
+    )
     control$cores <- 1
   }
 
   ## Candidate set ----
   # We are only creating the candidate set if we are using a random or modified federov algorithm
-  if (!is.null(candidate_set) & algorithm == "rsc") stop("To use your supplied candidate set you must use either the 'random' or 'federov' algorithms.")
+  if (!is.null(candidate_set) & algorithm == "rsc") {
+    stop(
+      "To use your supplied candidate set you must use either the 'random' or 'federov' algorithms."
+    )
+  }
 
   if (algorithm %in% c("random", "federov")) {
     cli_h2("Checking the candidate set and applying exclusions")
@@ -143,22 +154,33 @@ generate_design <- function(utility,
     # If no candidate set is supplied generate full factorial if not run simple
     # checks
     if (is.null(candidate_set)) {
-      cli_alert_info("No candidate set supplied. The design will use the full factorial subject to supplied constraints.")
+      cli_alert_info(
+        "No candidate set supplied. The design will use the full factorial subject to supplied constraints."
+      )
 
       candidate_set <- full_factorial(expand_attribute_levels(utility))
 
       cli_alert_success("Full factorial created")
-
     } else {
       stopifnot((is.matrix(candidate_set) || is.data.frame(candidate_set)))
 
-      candidate_names_idx <- names(candidate_set) %in% names(expand_attribute_levels(utility))
+      candidate_names_idx <- names(candidate_set) %in%
+        names(expand_attribute_levels(utility))
 
       if (!all(candidate_names_idx)) {
-        problem <- paste(names(candidate_set)[!candidate_names_idx], collapse = ", ")
+        problem <- paste(
+          names(candidate_set)[!candidate_names_idx],
+          collapse = ", "
+        )
 
         stop(
-          paste0("There are more attributes specified in the candidate set than are present in the utility functions. ", problem, " are not specified in the utility function. This could also be caused by a mismatch in the names. The names should be of the form <utility list element name>_<attribute name>. For example, in your case, they should correspond to: '" , paste(names(expand_attribute_levels(utility)), collapse = ", "), "' The candidate set must be supplied in 'wide' format.")
+          paste0(
+            "There are more attributes specified in the candidate set than are present in the utility functions. ",
+            problem,
+            " are not specified in the utility function. This could also be caused by a mismatch in the names. The names should be of the form <utility list element name>_<attribute name>. For example, in your case, they should correspond to: '",
+            paste(names(expand_attribute_levels(utility)), collapse = ", "),
+            "' The candidate set must be supplied in 'wide' format."
+          )
         )
       }
 
@@ -167,18 +189,31 @@ generate_design <- function(utility,
       utility_attributes <- vector(mode = "list", length = length(utility))
       for (i in seq_along(utility)) {
         idx <- str_detect(utility[[i]], regex)
-        utility_attributes[[i]] <- paste(names(utility[i]), attribute_names(utility)[idx], sep = "_")
+        utility_attributes[[i]] <- paste(
+          names(utility[i]),
+          attribute_names(utility)[idx],
+          sep = "_"
+        )
       }
 
       utility_attributes <- do.call(c, utility_attributes)
 
       if (!all(utility_attributes %in% names(candidate_set))) {
         stop(
-          paste0("Not all attributes specified in the utility functions are specified in the candidate set. This could be caused by a mismatch in the names. The names should be of the form <utility list element name>_<attribute name>. For example, in your case, they should correspond to: '" , paste(utility_attributes, collapse = ", "), "' The candidate set must be supplied in 'wide' format.")
+          paste0(
+            "Not all attributes specified in the utility functions are specified in the candidate set. This could be caused by a mismatch in the names. The names should be of the form <utility list element name>_<attribute name>. For example, in your case, they should correspond to: '",
+            paste(utility_attributes, collapse = ", "),
+            "' The candidate set must be supplied in 'wide' format."
+          )
         )
       }
 
-      candidate_levels <- apply(candidate_set, 2, function(x) unique(sort(x)), simplify = FALSE)
+      candidate_levels <- apply(
+        candidate_set,
+        2,
+        function(x) unique(sort(x)),
+        simplify = FALSE
+      )
       utility_levels <- lapply(expand_attribute_levels(utility), as.numeric)
 
       # Subset utility levels to only correspond to the ones specified
@@ -199,12 +234,22 @@ generate_design <- function(utility,
 
       # Skip expansion if no alternative specific attributes are present
       if (any(!(expanded_names %in% utility_attributes))) {
-        expr <- paste("cbind(candidate_set, ", paste(paste(expanded_names[!(expanded_names %in% utility_attributes)], 0, sep = " = "), collapse = ", "), ")")
+        expr <- paste(
+          "cbind(candidate_set, ",
+          paste(
+            paste(
+              expanded_names[!(expanded_names %in% utility_attributes)],
+              0,
+              sep = " = "
+            ),
+            collapse = ", "
+          ),
+          ")"
+        )
         candidate_set <- eval(parse(text = expr))
       }
 
       candidate_set <- candidate_set[, expanded_names]
-
     }
 
     # Apply the exclusions to the candidate set
@@ -224,7 +269,11 @@ generate_design <- function(utility,
   # Prepare the list of priors ----
   cli_h2("Preparing the list of priors")
 
-  design_object[["prior_values"]] <- prior_values <- prepare_priors(utility, draws, R)
+  design_object[["prior_values"]] <- prior_values <- prepare_priors(
+    utility,
+    draws,
+    R
+  )
 
   cli_alert_success("Priors prepared successfully")
 
@@ -239,7 +288,6 @@ generate_design <- function(utility,
     )
 
     cli_alert_success("Multicore estimation prepared successfully")
-
   }
 
   # Evaluate designs ----
@@ -248,33 +296,39 @@ generate_design <- function(utility,
   # Optmization function!!!!!!!
   design_object <- switch(
     algorithm,
-    random = random(design_object,
-                    model,
-                    efficiency_criteria,
-                    utility,
-                    prior_values,
-                    dudx,
-                    candidate_set,
-                    rows,
-                    control),
-    federov = federov(design_object,
-                      model,
-                      efficiency_criteria,
-                      utility,
-                      prior_values,
-                      dudx,
-                      candidate_set,
-                      rows,
-                      control),
-    rsc = rsc(design_object,
-              model,
-              efficiency_criteria,
-              utility,
-              prior_values,
-              dudx,
-              candidate_set,
-              rows,
-              control)
+    random = random(
+      design_object,
+      model,
+      efficiency_criteria,
+      utility,
+      prior_values,
+      dudx,
+      candidate_set,
+      rows,
+      control
+    ),
+    federov = federov(
+      design_object,
+      model,
+      efficiency_criteria,
+      utility,
+      prior_values,
+      dudx,
+      candidate_set,
+      rows,
+      control
+    ),
+    rsc = rsc(
+      design_object,
+      model,
+      efficiency_criteria,
+      utility,
+      prior_values,
+      dudx,
+      candidate_set,
+      rows,
+      control
+    )
   )
 
   design_object[["time"]][["time_end"]] <- Sys.time()
@@ -285,7 +339,11 @@ generate_design <- function(utility,
   # Print final closing messages
   cat("\n\n")
   cli_h1("Cleaning up design environment")
-  cat("Time spent searching for designs: ", Sys.time() - design_object$time$time_start, "\n")
+  cat(
+    "Time spent searching for designs: ",
+    Sys.time() - design_object$time$time_start,
+    "\n"
+  )
 
   return(
     design_object

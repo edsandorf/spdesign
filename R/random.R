@@ -12,16 +12,17 @@
 #' @inheritParams generate_design
 #'
 #' @return A list of class 'spdesign'
-random <- function(design_object,
-                   model,
-                   efficiency_criteria,
-                   utility,
-                   prior_values,
-                   dudx,
-                   candidate_set,
-                   rows,
-                   control) {
-
+random <- function(
+  design_object,
+  model,
+  efficiency_criteria,
+  utility,
+  prior_values,
+  dudx,
+  candidate_set,
+  rows,
+  control
+) {
   # Set up the design_object environment
   design_env <- new.env()
 
@@ -41,14 +42,19 @@ random <- function(design_object,
 
   repeat {
     # Create a random design_object candidate
-    design_candidate <- random_design_candidate(utility,
-                                                candidate_set,
-                                                rows,
-                                                control$sample_with_replacement)
+    design_candidate <- random_design_candidate(
+      utility,
+      candidate_set,
+      rows,
+      control$sample_with_replacement
+    )
 
     # Define the current design_object candidate considering alternative specific
     # attributes and interactions
-    design_candidate_current <- do.call(cbind, define_base_x_j(utility, design_candidate))
+    design_candidate_current <- do.call(
+      cbind,
+      define_base_x_j(utility, design_candidate)
+    )
 
     # Evaluate the design_object candidate (wrapper function)
     efficiency_outputs <- evaluate_design_candidate(
@@ -63,14 +69,17 @@ random <- function(design_object,
     )
 
     # Get the current efficiency measure
-    efficiency_current <- efficiency_outputs[["efficiency_measures"]][efficiency_criteria]
-    if (iter == 1) efficiency_current_best <- efficiency_current
+    efficiency_current <- efficiency_outputs[["efficiency_measures"]][
+      efficiency_criteria
+    ]
+    if (iter == 1) {
+      efficiency_current_best <- efficiency_current
+    }
 
     # If the efficiency criteria we optimize for is NA, try a new candidate
     if (is.na(efficiency_current)) {
       iter <- iter + 1
       next
-
     }
 
     # Print information to console and update ----
@@ -87,10 +96,11 @@ random <- function(design_object,
 
       # Update current best criteria
       design_object[["design"]] <- design_candidate_current
-      design_object[["efficiency_criteria"]] <- efficiency_outputs[["efficiency_measures"]]
+      design_object[["efficiency_criteria"]] <- efficiency_outputs[[
+        "efficiency_measures"
+      ]]
       design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
       efficiency_current_best <- efficiency_current
-
     }
 
     # Check stopping conditions ----
@@ -101,7 +111,10 @@ random <- function(design_object,
       break
     }
 
-    if (efficiency_outputs[["efficiency_measures"]][efficiency_criteria] < control$efficiency_threshold) {
+    if (
+      efficiency_outputs[["efficiency_measures"]][efficiency_criteria] <
+        control$efficiency_threshold
+    ) {
       cat(rule(width = 76), "\n")
       cli_alert_info("Efficiency criteria is less than threshhold.")
 
@@ -110,14 +123,12 @@ random <- function(design_object,
 
     # Add to the iteration
     iter <- iter + 1
-
   }
 
   # Return the design_object candidate
   return(
     design_object
   )
-
 }
 
 #' Create a random design_object candidate
@@ -127,11 +138,12 @@ random <- function(design_object,
 #' @param sample_with_replacement A boolean equal to TRUE if we sample from the
 #' candidate set with replacement. The default is FALSE
 #' @inheritParams generate_design
-random_design_candidate <- function(utility,
-                                    candidate_set,
-                                    rows,
-                                    sample_with_replacement) {
-
+random_design_candidate <- function(
+  utility,
+  candidate_set,
+  rows,
+  sample_with_replacement
+) {
   fits <- FALSE
   show_warning <- TRUE
   time_start <- Sys.time()
@@ -148,7 +160,9 @@ random_design_candidate <- function(utility,
     fits <- fits_lvl_occurrences(utility, design_candidate, rows)
 
     if (show_warning && difftime(Sys.time(), time_start, units = "secs") > 60) {
-      cli_alert_info("No design candidate has been found. This could be because you have place too tight constraints on the design or that all design candidates result in a singular Fisher matrix. A singular Fisher matrix can happen if you have perfect multicollinearity in your utility functions.")
+      cli_alert_info(
+        "No design candidate has been found. This could be because you have place too tight constraints on the design or that all design candidates result in a singular Fisher matrix. A singular Fisher matrix can happen if you have perfect multicollinearity in your utility functions."
+      )
       show_warning <- FALSE
     }
   }
@@ -156,5 +170,4 @@ random_design_candidate <- function(utility,
   return(
     design_candidate
   )
-
 }

@@ -43,7 +43,9 @@ summary.spdesign <- function(object, ...) {
     cat("Correlation between the blocking vector and attributes: \n \n")
     print(object$blocks_correlation)
     cat("\n")
-    cat("---------------------------------------------------------------------\n")
+    cat(
+      "---------------------------------------------------------------------\n"
+    )
   }
 }
 
@@ -63,7 +65,12 @@ summary.spdesign <- function(object, ...) {
 #' @export
 cor <- function(x, ...) {
   return(
-    stats::cor(x[["design"]], y = NULL, use = "everything", method = c("pearson", "kendall", "spearman"))
+    stats::cor(
+      x[["design"]],
+      y = NULL,
+      use = "everything",
+      method = c("pearson", "kendall", "spearman")
+    )
   )
 }
 
@@ -104,8 +111,3 @@ coef.spdesign <- function(object, ...) {
     object[["prior_values"]]
   )
 }
-
-
-
-
-

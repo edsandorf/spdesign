@@ -38,7 +38,9 @@ probabilities_mnl <- function(x) {
   pr_j <- lapply(x$prior_values, function(p) {
     list2env(as.list(p), envir = db_env)
 
-    obs_utility <- lapply(update_utility(x$utility), function(v) eval(parse(text = v), envir = db_env))
+    obs_utility <- lapply(update_utility(x$utility), function(v) {
+      eval(parse(text = v), envir = db_env)
+    })
     exp_utility <- lapply(obs_utility, exp)
     sum_utility <- Reduce("+", exp_utility)
     pr_j <- lapply(exp_utility, function(v) {

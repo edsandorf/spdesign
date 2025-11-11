@@ -11,40 +11,49 @@
 #' @return A named vector with efficiency criteria of the current design
 #' candidate. If Bayesian prior_values are used, then it returns the average
 #' error.
-evaluate_design_candidate <- function(utility,
-                                      design_candidate,
-                                      prior_values,
-                                      design_env,
-                                      model,
-                                      dudx,
-                                      return_all,
-                                      significance) {
-
+evaluate_design_candidate <- function(
+  utility,
+  design_candidate,
+  prior_values,
+  design_env,
+  model,
+  dudx,
+  return_all,
+  significance
+) {
   # Define x_j for the analytical derivatives
   x_j <- define_x_j(utility, design_candidate)
 
   design_candidate_with_names <- x_j
   for (i in seq_along(design_candidate_with_names)) {
-    colnames(design_candidate_with_names[[i]]) <- paste(names(design_candidate_with_names[i]), colnames(design_candidate_with_names[[i]]), sep = "_")
+    colnames(design_candidate_with_names[[i]]) <- paste(
+      names(design_candidate_with_names[i]),
+      colnames(design_candidate_with_names[[i]]),
+      sep = "_"
+    )
   }
 
   # Update the design environment NB! Using design_candidate because we are
   # evaluating the expression in context and don't need the interaction cols
   list2env(
     # c(as.list(as.data.frame(do.call(cbind, define_base_x_j(utility, design_candidate)))),
-    c(as.list(as.data.frame(do.call(cbind, design_candidate_with_names))),
-      list(x_j = x_j)),
+    c(
+      as.list(as.data.frame(do.call(cbind, design_candidate_with_names))),
+      list(x_j = x_j)
+    ),
     envir = design_env
   )
 
   # Over prior_values to consider bayesian!!!
-  efficiency_outputs <- lapply(prior_values,
-                               calculate_efficiency,
-                               design_env,
-                               model,
-                               dudx,
-                               return_all,
-                               significance)
+  efficiency_outputs <- lapply(
+    prior_values,
+    calculate_efficiency,
+    design_env,
+    model,
+    dudx,
+    return_all,
+    significance
+  )
 
   # Get the average efficiency criteria (can be extended to allow for medians)
   efficiency_measures <- matrixStats::colMeans2(
@@ -56,9 +65,15 @@ evaluate_design_candidate <- function(utility,
 
   # Averaging over the variance-covariance matrices to consider Bayesian
   dims <- c(rep(length(prior_values[[1]]), 2), length(efficiency_outputs))
-  design_vcov <- array(unlist(lapply(efficiency_outputs, function(x) return(x[[2L]]))), dims)
+  design_vcov <- array(
+    unlist(lapply(efficiency_outputs, function(x) return(x[[2L]]))),
+    dims
+  )
   design_vcov <- rowMeans(design_vcov, na.rm = TRUE, dims = 2)
-  dimnames(design_vcov) <- list(names(prior_values[[1]]), names(prior_values[[1]]))
+  dimnames(design_vcov) <- list(
+    names(prior_values[[1]]),
+    names(prior_values[[1]])
+  )
 
   return(
     list(

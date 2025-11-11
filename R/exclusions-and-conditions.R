@@ -23,7 +23,7 @@ exclude <- function(candidate_set, exclusions) {
     }
 
     # Implicit return
-    paste0("candidate_set[!(",  restriction, "), , drop = FALSE]")
+    paste0("candidate_set[!(", restriction, "), , drop = FALSE]")
   })
 
   # Apply the exclusions
