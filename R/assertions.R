@@ -240,3 +240,19 @@ fits_lvl_occurrences <- function(utility, x, rows) {
     all(test)
   )
 }
+
+#' Test whether level occurrences are specified in the utility functions
+#'
+#' @inheritParams generate_design
+#'
+#' @return A boolean equal to TRUE if level occurrences are specified
+#' and FALSE otherwise
+#'
+level_occurrences_specified <- function(utility) {
+  specified_values <- extract_specified(utility, simplify = TRUE)
+  idx <- str_detect(specified_values, "(?<=\\])\\(.*?\\)")
+
+  return(
+    any(idx)
+  )
+}

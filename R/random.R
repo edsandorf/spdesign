@@ -144,6 +144,7 @@ random_design_candidate <- function(
   rows,
   sample_with_replacement
 ) {
+  # Set overall variables
   fits <- FALSE
   show_warning <- TRUE
   time_start <- Sys.time()
@@ -157,7 +158,13 @@ random_design_candidate <- function(
 
     design_candidate <- candidate_set[idx_rows, ]
 
-    fits <- fits_lvl_occurrences(utility, design_candidate, rows)
+    # To avoid running the level occurrence check if we have a supplied candidate set without occurrence constraints, we check whether they
+    # are indeed specified.
+    if (level_occurrences_specified(utility)) {
+      fits <- fits_lvl_occurrences(utility, design_candidate, rows)
+    } else {
+      fits <- TRUE
+    }
 
     if (show_warning && difftime(Sys.time(), time_start, units = "secs") > 60) {
       cli_alert_info(

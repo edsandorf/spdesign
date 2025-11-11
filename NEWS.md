@@ -1,4 +1,5 @@
 # spdesign v0.0.6
+* If you have not specified attribute level occurrence restrictions, all level occurence checks will be skipped. This ensures that you can supply a candidate set without specifying all levels in the utility functions. However, if you do specify level occurrence restrictions, then you must ensure that all levels used in the candidate set is also listed in the utility functions, otherwise you will get a subscript out of bounds error. This may or may not be changed later depending on feedback. Should not be a breaking change.
 * Changed the default efficiency threshold to be arbitrarily small to avoid issues where the search process would stop at the first iteration.
 * Code linting and formatting updates
 * Minor bug fixes

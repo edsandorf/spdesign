@@ -104,3 +104,33 @@ test_that("Correctly identifies whether dummy codingsi  present", {
     )
   )
 })
+
+
+test_that("Correctly determines when occurrences are specified", {
+  expect_true(
+    level_occurrences_specified(
+      list(
+        alt1 = "b_x1[0.1] * x1[1:6](0:10) + b_x2_dummy[c(0, 0)] * x2[1:3]",
+        alt2 = "b_x1          * x1      + b_x2_dummy          * x2"
+      )
+    )
+  )
+
+  expect_true(
+    level_occurrences_specified(
+      list(
+        alt1 = "b_x1[0.1] * x1[1:6](4:14) + b_x2[c(0, 0)] * x2[1:3](9:11)",
+        alt2 = "b_x1          * x1                   + b_x2      * x2"
+      )
+    )
+  )
+
+  expect_false(
+    level_occurrences_specified(
+      list(
+        alt1 = "b_x1[0.1] * x1[1:6] + b_x2[c(0, 0)] * x2[1:3]",
+        alt2 = "b_x1          * x1      + b_x2          * x2"
+      )
+    )
+  )
+})

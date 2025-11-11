@@ -208,6 +208,7 @@ generate_design <- function(
         )
       }
 
+      # WHY DO I NEED TO CHECK THE ATTRIBUTE LEVELS WHEN I HAVE A SUPPLIED CANDIDATE SET?
       candidate_levels <- apply(
         candidate_set,
         2,
