@@ -48,7 +48,13 @@ prepare_priors <- function(utility, draws, R) {
       prior_values[!names_bayesian_priors]
     )
 
-    non_bayesian_priors <- rep_rows(non_bayesian_priors, nrow(bayesian_priors))
+    # Recycle non-Bayesian priors if needed
+    if (!is.null(non_bayesian_priors)) {
+      non_bayesian_priors <- rep_rows(
+        non_bayesian_priors,
+        nrow(bayesian_priors)
+      )
+    }
 
     # Combine into the matrix of priors
     prior_values <- cbind(bayesian_priors, non_bayesian_priors)[, names(

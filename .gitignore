@@ -7,3 +7,4 @@ docs
 test.R
 .DS_Store
 ^test-function-call.R
+README.html

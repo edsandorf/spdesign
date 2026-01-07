@@ -82,7 +82,7 @@ for valuable feedback on a beta version of the package.
 
 We would also like to acknowledge all those who have contributed with
 bug reports: Gabriele Iannaccone, Petr Mariel, Julian Sagebiel, Huu-Luat
-Do
+Do, Eduardo Barbosa
 
 The package comes with no warranty and the authors cannot be held liable
 for errors or mistakes resulting from use. The authors acknowledge
