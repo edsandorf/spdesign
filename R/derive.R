@@ -22,6 +22,9 @@ derive_vcov <- function(design_env, model) {
       )
     },
     error = function(e) {
+      cli::cli_alert_danger(
+        "The Fisher information matrix is singular. Returning NA for the variance-covariance matrix."
+      )
       return(NA)
     }
   )
