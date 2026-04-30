@@ -11,7 +11,7 @@ attribute_levels <- function(x) {
 
   # Create the index and filter
   idx <- !(names(named_values) %in%
-    grep("b_", names(named_values), value = TRUE))
+    grep("\\bb_", names(named_values), value = TRUE))
 
   return(
     named_values[idx]
@@ -263,7 +263,8 @@ priors <- function(x) {
   named_values <- extract_named_values(x)
 
   # Create the index and filter
-  idx <- names(named_values) %in% grep("b_", names(named_values), value = TRUE)
+  idx <- names(named_values) %in%
+    grep("\\bb_", names(named_values), value = TRUE)
 
   return(
     named_values[idx]
