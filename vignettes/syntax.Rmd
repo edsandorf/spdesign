@@ -4,7 +4,7 @@ output:
   rmarkdown::html_vignette:
     toc: true
 bibliography: references.bib
-link-citations: yes
+link-citations: true
 vignette: >
   %\VignetteIndexEntry{Syntax}
   %\VignetteEngine{knitr::rmarkdown}
@@ -284,7 +284,11 @@ V = list(
 
 Then the column names of the candidate set would be: `alt1_x1` and `alt2_x1`. 
 
-2. That all attribute levels specified in the utility functions are in the candidate set. A mismatch here will result in an error.
+2. That all attribute levels specified in the utility functions are in the candidate set. A mismatch here will result in an error. NB! As of version 0.0.6 this check will be ignored IF you do not specify attribute level occurrences. This allows the user to supply a candidate set with hundreds of potential levels. However, you must still supply at least one level for each attribute in the utility function. This level IS ignored, but needed to avoid breaking existing code. If you encounter any problems here, feel free to reach out to the package maintainer.
+
 3. That there are not more (unneccesasry) columns in the candidate set that are not used by the utility expression. This is caught by an error message. 
 
 The candidate set is passed in as a `data.frame` using the `candidate_set` argument to the function `generate_design`. 
+
+# Saving intermediate designs
+There is an opporunity to save intermediate designs. To do so, set the option `save_designs` in the generate design function to `TRUE`. This functionality is still in beta and not fully developed. So setting this option to `TRUE` will save every single improved and valid design. The number of designs can quickly get very, very high, so it is not recommended to use this option unless you absolutely need to keep intermediate designs. This will be fixed and improved in a new version.

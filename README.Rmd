@@ -36,7 +36,7 @@ install.packages("spdesign")
 A development version of the package can be installed from Github. Remember to select the most recent development version (check the available branches).
 
 ```{r install_github, eval=FALSE}
-remotes::install_github("edsandorf/spdesign", ref = "v0.0.6-dev")
+remotes::install_github("edsandorf/spdesign", ref = "v0.0.7-dev")
 ```
 
 ## Example

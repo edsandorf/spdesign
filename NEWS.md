@@ -1,8 +1,9 @@
 # spdesign v0.0.6
+* Updated package dependency to R 4.1.0 because it relies on the |> operator. 
 * Fixed a bug that would cause parsing of the utility functions to fail if an attribute contained "b_" at some point in the string. "b_" was the target for a regex looking for priors. The regex is updated to only consider "b_" at the beginning of a word.
 * Fixed a bug that would cause the generate_design() function to fail if all priors were specified as Bayesian. The bug was caused by a check returning a NULL object that would then be expanded to match the number of draws. 
 * Added the option save_designs to the generate_design function. When set to TRUE, all intermediate designs generated during the search process will be saved as .rds files in the current working directory. The default value is FALSE. 
-* If you have not specified attribute level occurrence restrictions, all level occurence checks will be skipped. This ensures that you can supply a candidate set without specifying all levels in the utility functions. However, if you do specify level occurrence restrictions, then you must ensure that all levels used in the candidate set is also listed in the utility functions, otherwise you will get a subscript out of bounds error. This may or may not be changed later depending on feedback. Should not be a breaking change.
+* If you have not specified attribute level occurrence restrictions, all level occurence checks will be skipped. This ensures that you can supply a candidate set without specifying all levels in the utility functions. However, if you do specify level occurrence restrictions, then you must ensure that all levels used in the candidate set is also listed in the utility functions, otherwise you will get a subscript out of bounds error. This may or may not be changed later depending on feedback. Should not be a breaking change. Syntax documentation is updated to reflect this change.
 * Changed the default efficiency threshold to be arbitrarily small to avoid issues where the search process would stop at the first iteration.
 * Code linting and formatting updates
 * Minor bug fixes
