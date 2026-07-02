@@ -98,7 +98,6 @@ extract_unparsed_values <- function(string) {
   names(values) <- remove_all_brackets(string_elements)
 
   if (contains_dummies(string)) {
-
     # This is the expression that handles the prior distributions
     expr <- "-?(\\d+\\.?\\d*|(normal|uniform|lognormal|triangular)_p\\(.*?\\))"
 
@@ -108,7 +107,10 @@ extract_unparsed_values <- function(string) {
       # Get the corresponding attribute by remove "b_" and "_dummy"
       # grep(str_extract(names(values[i]), "(?<=b_).*(?=_dummy)")
 
-      names(expanded) <- paste0(str_extract(dummy, "^.*(?=_dummy$)"), seq_along(expanded) + 1)
+      names(expanded) <- paste0(
+        str_extract(dummy, "^.*(?=_dummy$)"),
+        seq_along(expanded) + 1
+      )
 
       # Order doesn´t matter, so we can do
       values <- c(values[names(values) != dummy], expanded)
@@ -132,7 +134,6 @@ extract_unparsed_values <- function(string) {
 #' named and can contain a single prior, a list with a mean and sd, or a vector
 #' with attribute levels
 extract_named_values <- function(string) {
-
   values <- extract_unparsed_values(string)
 
   values <- lapply(values, function(x) {

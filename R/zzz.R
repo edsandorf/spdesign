@@ -9,15 +9,19 @@
 .onAttach <- function(libname, pkgname) {
   installed_version <- utils::packageDescription("spdesign", fields = "Version")
 
-  description <- tryCatch({
-    readLines(
-      "https://raw.githubusercontent.com/edsandorf/spdesign/master/DESCRIPTION"
-    )
-  }, warning = function(w) {
-    return("NA")
-  }, error = function(e) {
-    return("NA")
-  })
+  description <- tryCatch(
+    {
+      readLines(
+        "https://raw.githubusercontent.com/edsandorf/spdesign/master/DESCRIPTION"
+      )
+    },
+    warning = function(w) {
+      return("NA")
+    },
+    error = function(e) {
+      return("NA")
+    }
+  )
 
   if (length(description) == 1) {
     remote_version <- description
@@ -39,7 +43,10 @@
         paste0(
           col_green(
             str_pad(
-              "You are currently using version: ", pad_width, "right", " "
+              "You are currently using version: ",
+              pad_width,
+              "right",
+              " "
             )
           ),
           col_white(installed_version)
@@ -61,7 +68,8 @@
               "Package website with documentation and examples: ",
               pad_width,
               "right",
-              " ")
+              " "
+            )
           ),
           col_white("https://spdesign.edsandorf.me")
         ),
@@ -71,7 +79,8 @@
               "To cite the package: ",
               pad_width,
               "right",
-              " ")
+              " "
+            )
           ),
           col_white("utils::citation('spdesign')")
         )

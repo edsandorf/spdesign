@@ -39,10 +39,8 @@ is_balanced <- function(string, open, close) {
 
   if (opened != closed) {
     return(FALSE)
-
   } else {
     return(TRUE)
-
   }
 }
 
@@ -84,7 +82,10 @@ has_random_parameter <- function(string) {
 #' coded attributes and `FALSE` otherwise
 contains_dummies <- function(string) {
   return(
-    any(str_detect(unlist(str_split(string, "(\\+|\\-|\\*|\\/)")), "b_.*_dummy"))
+    any(str_detect(
+      unlist(str_split(string, "(\\+|\\-|\\*|\\/)")),
+      "b_.*_dummy"
+    ))
   )
 }
 
@@ -114,10 +115,8 @@ all_priors_and_levels_specified <- function(x) {
     )
 
     return(FALSE)
-
   } else {
     return(TRUE)
-
   }
 }
 
@@ -147,10 +146,8 @@ any_duplicates <- function(x) {
     )
 
     return(TRUE)
-
   } else {
     return(FALSE)
-
   }
 }
 
@@ -171,10 +168,8 @@ too_small <- function(x, rows) {
     )
 
     return(TRUE)
-
   } else {
     return(FALSE)
-
   }
 }
 
@@ -186,7 +181,12 @@ too_small <- function(x, rows) {
 #' and `FALSE` otherwise
 attribute_level_balance <- function(x, rows) {
   # Test using modulus mathematics
-  if (any(do.call(c, lapply(attribute_levels(x), function(k) rows %% length(k))) != 0)) {
+  if (
+    any(
+      do.call(c, lapply(attribute_levels(x), function(k) rows %% length(k))) !=
+        0
+    )
+  ) {
     cli_alert_warning(
       "The number of levels specified for one or more attributes are not a
       multiple of the number of rows in the design. Attribute level
@@ -194,10 +194,8 @@ attribute_level_balance <- function(x, rows) {
     )
 
     return(FALSE)
-
   } else {
     return(TRUE)
-
   }
 }
 
@@ -209,7 +207,6 @@ attribute_level_balance <- function(x, rows) {
 #'
 #' @return A boolean equal to TRUE if attribute level balanced
 fits_lvl_occurrences <- function(utility, x, rows) {
-
   ranges <- occurrences(utility, rows)
 
   # Define a base table/vector with 0 occurrences to avoid errors if a single
@@ -241,5 +238,21 @@ fits_lvl_occurrences <- function(utility, x, rows) {
 
   return(
     all(test)
+  )
+}
+
+#' Test whether level occurrences are specified in the utility functions
+#'
+#' @inheritParams generate_design
+#'
+#' @return A boolean equal to TRUE if level occurrences are specified
+#' and FALSE otherwise
+#'
+level_occurrences_specified <- function(utility) {
+  specified_values <- extract_specified(utility, simplify = TRUE)
+  idx <- str_detect(specified_values, "(?<=\\])\\(.*?\\)")
+
+  return(
+    any(idx)
   )
 }

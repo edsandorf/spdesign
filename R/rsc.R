@@ -7,16 +7,18 @@
 #'
 #' @inheritParams federov
 #'
-rsc <- function(design_object,
-                model,
-                efficiency_criteria,
-                utility,
-                prior_values,
-                dudx,
-                candidate_set,
-                rows,
-                control) {
-
+rsc <- function(
+  design_object,
+  model,
+  efficiency_criteria,
+  utility,
+  prior_values,
+  dudx,
+  candidate_set,
+  rows,
+  save_designs,
+  control
+) {
   # Set up the design environment
   design_env <- new.env()
 
@@ -54,7 +56,11 @@ rsc <- function(design_object,
       iter_no_improve <- 1
 
       if (iter > 1) {
-        cli_alert_info(paste0("We've tried ", control$max_no_improve, " candidates without improvement. Trying new base design candidate."))
+        cli_alert_info(paste0(
+          "We've tried ",
+          control$max_no_improve,
+          " candidates without improvement. Trying new base design candidate."
+        ))
       }
     }
 
@@ -74,7 +80,10 @@ rsc <- function(design_object,
 
     # Define the current design candidate considering alternative specific
     # attributes and interactions
-    design_candidate_current <- do.call(cbind, define_base_x_j(utility, design_candidate))
+    design_candidate_current <- do.call(
+      cbind,
+      define_base_x_j(utility, design_candidate)
+    )
 
     # Evaluate the design candidate (wrapper function)
     efficiency_outputs <- evaluate_design_candidate(
@@ -89,19 +98,24 @@ rsc <- function(design_object,
     )
 
     # Get the current efficiency measure
-    efficiency_current <- efficiency_outputs[["efficiency_measures"]][efficiency_criteria]
-    if (iter == 1 || is.na(efficiency_current_best)) efficiency_current_best <- efficiency_current
+    efficiency_current <- efficiency_outputs[["efficiency_measures"]][
+      efficiency_criteria
+    ]
+    if (iter == 1 || is.na(efficiency_current_best)) {
+      efficiency_current_best <- efficiency_current
+    }
 
     # If the efficiency criteria we optimize for is NA, try a new candidate
     if (is.na(efficiency_current)) {
       iter <- iter + 1
       iter_na <- iter_na + 1
       next
-
     }
 
     if (iter_na > 1000) {
-      cli_alert_info("You have tried 1000 design candidates all of which have produced a computationally singular Hessian matrix. Check yor design for identification problems.")
+      cli_alert_info(
+        "You have tried 1000 design candidates all of which have produced a computationally singular Hessian matrix. Check yor design for identification problems."
+      )
       iter_na <- 0
     }
 
@@ -119,13 +133,26 @@ rsc <- function(design_object,
 
       # Update current best criteria
       design_object[["design"]] <- design_candidate_current
-      design_object[["efficiency_criteria"]] <- efficiency_outputs[["efficiency_measures"]]
+      design_object[["efficiency_criteria"]] <- efficiency_outputs[[
+        "efficiency_measures"
+      ]]
       design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
       efficiency_current_best <- efficiency_current
 
       # Reset iter_no_improve when we have an improvement.
       iter_no_improve <- 1
+    }
 
+    # Save designs
+    if (save_designs) {
+      saveRDS(
+        design_object,
+        file = paste0(
+          "design_iter_",
+          formatC(iter, width = 6, flag = "0"),
+          ".rds"
+        )
+      )
     }
 
     # Check stopping conditions ----
@@ -136,7 +163,10 @@ rsc <- function(design_object,
       break
     }
 
-    if (efficiency_outputs[["efficiency_measures"]][efficiency_criteria]  < control$efficiency_threshold) {
+    if (
+      efficiency_outputs[["efficiency_measures"]][efficiency_criteria] <
+        control$efficiency_threshold
+    ) {
       cat(rule(width = 76), "\n")
       cli_alert_info("Efficiency criteria is less than threshhold.")
 
@@ -148,7 +178,6 @@ rsc <- function(design_object,
 
     # Add to the no improvement iterator. It's reset upon improvement
     iter_no_improve <- iter_no_improve + 1
-
   }
 
   # Return the design candidate
@@ -235,9 +264,7 @@ swap <- function(x) {
 #' 2nd ed., Cambridge University Press
 #'
 #' @return A cycled design candidate
-cycle <- function(x) {
-
-}
+cycle <- function(x) {}
 
 
 #' Generates a candidate for the RSC algorithm
@@ -254,23 +281,28 @@ cycle <- function(x) {
 generate_rsc_candidate <- function(utility, rows) {
   # Level occurrences will now systematically add to minimum occurrences such
   # that occurrences sum to 1
-  level_occurrences <- lapply(lvl_occurrences(utility, rows, TRUE), function(x) {
-    diff <- rows - sum(x)
-    add <- rep(0, length(x))
-    pos <- 1
+  level_occurrences <- lapply(
+    lvl_occurrences(utility, rows, TRUE),
+    function(x) {
+      diff <- rows - sum(x)
+      add <- rep(0, length(x))
+      pos <- 1
 
-    while (diff > 0) {
-      if (pos == (length(x) + 1)) pos <- 1
+      while (diff > 0) {
+        if (pos == (length(x) + 1)) {
+          pos <- 1
+        }
 
-      add[pos] <- add[pos] + 1
-      pos <- pos + 1
-      diff <- diff - 1
+        add[pos] <- add[pos] + 1
+        pos <- pos + 1
+        diff <- diff - 1
+      }
+
+      return(
+        x + add
+      )
     }
-
-    return(
-      x + add
-    )
-  })
+  )
 
   lvls <- lapply(level_occurrences, function(x) {
     return(
@@ -281,6 +313,4 @@ generate_rsc_candidate <- function(utility, rows) {
   return(
     as.data.frame(do.call(cbind, lvls))
   )
-
-
 }

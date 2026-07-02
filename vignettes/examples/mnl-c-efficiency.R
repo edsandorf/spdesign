@@ -14,16 +14,19 @@ utility <- list(
 )
 
 # Generate designs ----
-design <- generate_design(utility, rows = 20,
-                          dudx = "b_x3",
-                          model = "mnl",
-                          efficiency_criteria = "c-error",
-                          algorithm = "rsc",
-                          draws = "scrambled-sobol",
-                          control = list(
-                            max_iter = 21000,
-                            max_no_improve = 5000
-                          ))
+design <- generate_design(
+  utility,
+  rows = 20,
+  dudx = "b_x3",
+  model = "mnl",
+  efficiency_criteria = "c-error",
+  algorithm = "rsc",
+  draws = "scrambled-sobol",
+  control = list(
+    max_iter = 21000,
+    max_no_improve = 5000
+  )
+)
 
 # Add a blocking variable to the design with 4 blocks.
 design <- block(design, 4)

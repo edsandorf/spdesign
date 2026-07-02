@@ -14,12 +14,14 @@
 #'
 #' @return A list with a named vector of efficiency criteria and the
 #' variance-covariance matrix
-calculate_efficiency <- function(prior_values,
-                                 design_env,
-                                 model,
-                                 dudx,
-                                 return_all = FALSE,
-                                 significance = 1.96) {
+calculate_efficiency <- function(
+  prior_values,
+  design_env,
+  model,
+  dudx,
+  return_all = FALSE,
+  significance = 1.96
+) {
   # Define the string of possible efficiency criteria
   efficiency_criteria_string <- c("a-error", "c-error", "d-error", "s-error")
 
@@ -45,12 +47,14 @@ calculate_efficiency <- function(prior_values,
 
   efficiency_criteria <- lapply(efficiency_criteria_string, function(x) {
     return(
-      calculate_efficiency_criteria(design_vcov,
-                                    prior_values,
-                                    dudx,
-                                    return_all,
-                                    significance,
-                                    type = x)
+      calculate_efficiency_criteria(
+        design_vcov,
+        prior_values,
+        dudx,
+        return_all,
+        significance,
+        type = x
+      )
     )
   })
 
@@ -141,13 +145,18 @@ calculate_c_error <- function(design_vcov, p, dudx, return_all) {
   # Undefined if the denominator is not specified
   if (is.null(dudx)) {
     NA
-
   } else {
     # Local overwrite with respect to the actual position for correct subsetting
     # dudx <- which(names(p) == dudx)
     dudx <- which(str_detect(names(p), dudx) == TRUE)
 
-    c_eff <- p[-dudx]^-2 * (diag(design_vcov)[dudx] - 2 * p[dudx] * p[-dudx]^-1 * design_vcov[dudx, seq_len(nrow(design_vcov))[-dudx]] + (p[dudx] / p[-dudx])^2 * diag(design_vcov)[-dudx])
+    c_eff <- p[-dudx]^-2 *
+      (diag(design_vcov)[dudx] -
+        2 *
+          p[dudx] *
+          p[-dudx]^-1 *
+          design_vcov[dudx, seq_len(nrow(design_vcov))[-dudx]] +
+        (p[dudx] / p[-dudx])^2 * diag(design_vcov)[-dudx])
 
     # Check if all are to be returned
     if (return_all) {
@@ -167,7 +176,7 @@ calculate_c_error <- function(design_vcov, p, dudx, return_all) {
 #'
 #' @return A single number
 calculate_d_error <- function(design_vcov) {
-  det(design_vcov) ^ (1 / nrow(design_vcov))
+  det(design_vcov)^(1 / nrow(design_vcov))
 }
 
 #' S-error
@@ -189,6 +198,4 @@ calculate_s_error <- function(design_vcov, p, return_all, significance) {
   } else {
     max(s_eff)
   }
-
 }
-

@@ -4,17 +4,17 @@
 #' @inheritParams federov
 #'
 #' @return A list of priors
-prepare_priors <- function(utility,
-                           draws,
-                           R) {
-
+prepare_priors <- function(utility, draws, R) {
   bayesian_prior <- has_bayesian_prior(utility)
   prior_values <- priors(utility)
 
   if (bayesian_prior) {
     # This is somewhat more cumbersome, but it can handle the dummy coding
     unparsed <- extract_unparsed_values(utility)
-    prior_dists <- str_extract(unparsed, "(normal|uniform|lognormal|triangular)")
+    prior_dists <- str_extract(
+      unparsed,
+      "(normal|uniform|lognormal|triangular)"
+    )
     names(prior_dists) <- names(unparsed)
     prior_dists <- prior_dists[!is.na(prior_dists)]
 
@@ -48,14 +48,23 @@ prepare_priors <- function(utility,
       prior_values[!names_bayesian_priors]
     )
 
-    non_bayesian_priors <- rep_rows(non_bayesian_priors, nrow(bayesian_priors))
+    # Recycle non-Bayesian priors if needed
+    if (!is.null(non_bayesian_priors)) {
+      non_bayesian_priors <- rep_rows(
+        non_bayesian_priors,
+        nrow(bayesian_priors)
+      )
+    }
 
     # Combine into the matrix of priors
-    prior_values <- cbind(bayesian_priors, non_bayesian_priors)[, names(prior_values)]
+    prior_values <- cbind(bayesian_priors, non_bayesian_priors)[, names(
+      prior_values
+    )]
 
     # Priors as a list to allow direct use of lapply()
-    prior_values <- lapply(seq_len(nrow(prior_values)), function(i) prior_values[i, ])
-
+    prior_values <- lapply(seq_len(nrow(prior_values)), function(i) {
+      prior_values[i, ]
+    })
   } else {
     # if (opts$cores > 1) {
     #   opts$cores <- 1

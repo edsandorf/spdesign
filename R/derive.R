@@ -12,18 +12,22 @@
 #' @return The variance covariance matrix. If the Fisher information matrix is
 #' singular, then return NULL
 derive_vcov <- function(design_env, model) {
-
   # Calculate the variance-covariance matrix
-  design_vcov <- tryCatch({
-    switch(
-      model,
-      mnl = eval(body(derive_vcov_mnl), envir = design_env),
-      rpl = derive_vcov_rpl()
-    )
-  },
-  error = function(e) {
-    return(NA)
-  })
+  design_vcov <- tryCatch(
+    {
+      switch(
+        model,
+        mnl = eval(body(derive_vcov_mnl), envir = design_env),
+        rpl = derive_vcov_rpl()
+      )
+    },
+    error = function(e) {
+      cli::cli_alert_danger(
+        "The Fisher information matrix is singular. Returning NA for the variance-covariance matrix."
+      )
+      return(NA)
+    }
+  )
 
   return(
     design_vcov

@@ -16,7 +16,10 @@ define_base_x_j <- function(utility, design_candidate) {
 
   # Subset to exclude base dummylevel
   x_j <- lapply(x_j, function(x) {
-    x[, colnames(x) %in% extract_attribute_names(update_utility(utility)), drop = FALSE]
+    x[,
+      colnames(x) %in% extract_attribute_names(update_utility(utility)),
+      drop = FALSE
+    ]
   })
 
   return(x_j)
@@ -54,13 +57,15 @@ define_x_j <- function(utility, design_candidate) {
 
   # Create new matrices to ensure 0 columns for alternative specific attributes
   x_j_unique_colnames <- unique(do.call(c, lapply(x_j, colnames)))
-  model_matrix <- matrix(0,
-                         nrow = nrow(design_candidate),
-                         ncol = length(x_j_unique_colnames),
-                         dimnames = list(
-                           NULL,
-                           x_j_unique_colnames
-                         ))
+  model_matrix <- matrix(
+    0,
+    nrow = nrow(design_candidate),
+    ncol = length(x_j_unique_colnames),
+    dimnames = list(
+      NULL,
+      x_j_unique_colnames
+    )
+  )
 
   # Replace the x_j which ensures that each list element (matrix) is of equal
   # size and handles interactions and alternative specific attributes
@@ -76,5 +81,3 @@ define_x_j <- function(utility, design_candidate) {
     x_j
   )
 }
-
-

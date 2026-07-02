@@ -6,7 +6,9 @@
 \alias{spdesign-package}
 \title{spdesign: Designing Stated Preference Experiments}
 \description{
-Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. This is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods. For an overview of stated choice experimental design theory, see e.g., Rose, J. M. & Bliemer, M. C. J. (2014) in Hess S. & Daly. A. \doi{10.4337/9781781003152}. The package website can be accessed at \url{https://spdesign.edsandorf.me}. We acknowledge funding from the European Union’s Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant INSPiRE (Grant agreement ID: 793163).
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
+
+Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. This is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods. For an overview of stated choice experimental design theory, see e.g., Rose, J. M. & Bliemer, M. C. J. (2014) in Hess S. & Daly. A. \doi{10.4337/9781781003152}. The package website can be accessed at \url{https://spdesign.edsandorf.me}. We acknowledge funding from the European Union’s Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant INSPiRE (Grant agreement ID: 793163). The package features in Mariel et al. (2025) Environmental Valuation with Discrete Choice Experiments in R., DOI: \url{https://doi.org/10.1007/978-3-031-89338-4}.
 }
 \seealso{
 Useful links:
@@ -21,6 +23,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Erlend Dancke Sandorf \email{erlend.dancke.sandorf@nmbu.no}
   \item Danny Campbell \email{danny.campbell@stir.ac.uk}
 }
 

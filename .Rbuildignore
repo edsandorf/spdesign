@@ -13,3 +13,4 @@
 ^.DS_Store$
 ^README\.Rmd$
 ^test-function-call.R
+^README.html

@@ -108,8 +108,7 @@ digitize <- function(n_dim, primes, count, digit) {
     }
     m <- m + 1L
   }
-  return(list(count = count,
-              digit = digit))
+  return(list(count = count, digit = digit))
 }
 
 #' Compute the radical inverse
@@ -165,7 +164,22 @@ make_scrambled_halton <- function(n_ind, n_draws, n_dim) {
   max_digit <- 50
 
   primes <- c(
-    2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    19,
+    23,
+    29,
+    31,
+    37,
+    41,
+    43,
+    47,
+    53
   )[1L:n_dim]
   h <- matrix(0, (n_ind * n_draws), n_dim)
 

@@ -10,7 +10,8 @@ attribute_levels <- function(x) {
   named_values <- extract_named_values(x)
 
   # Create the index and filter
-  idx <- !(names(named_values) %in% grep("b_", names(named_values), value = TRUE))
+  idx <- !(names(named_values) %in%
+    grep("\\bb_", names(named_values), value = TRUE))
 
   return(
     named_values[idx]
@@ -45,15 +46,23 @@ expand_attribute_levels <- function(x) {
 
   expanded_attributes <- lapply(seq_along(x), function(j) {
     # Create a full length list with 0-elements
-    named_attributes_all <- lapply(seq_along(named_attributes), function(y) return(0))
+    named_attributes_all <- lapply(seq_along(named_attributes), function(y) {
+      return(0)
+    })
     names(named_attributes_all) <- names(named_attributes)
 
     # Replace the attribute levels present in the alternative
     attribute_names_j <- extract_attribute_names(x[[j]])
-    named_attributes_all[attribute_names_j] <- named_attributes[attribute_names_j]
+    named_attributes_all[attribute_names_j] <- named_attributes[
+      attribute_names_j
+    ]
 
     # Add alternative to the attribute names
-    names(named_attributes_all) <- paste(names(x[j]), names(named_attributes), sep = "_")
+    names(named_attributes_all) <- paste(
+      names(x[j]),
+      names(named_attributes),
+      sep = "_"
+    )
 
     return(
       named_attributes_all
@@ -97,9 +106,11 @@ clean_utility <- function(x) {
 
     attribute_names <- extract_attribute_names(v_j)
     for (i in seq_along(attribute_names)) {
-      v_j <- str_replace_all(v_j,
-                             paste0("\\b", attribute_names[[i]]),
-                             paste(names(v[j]), attribute_names[i], sep = "_"))
+      v_j <- str_replace_all(
+        v_j,
+        paste0("\\b", attribute_names[[i]]),
+        paste(names(v[j]), attribute_names[i], sep = "_")
+      )
     }
 
     return(v_j)
@@ -136,10 +147,16 @@ update_utility <- function(x) {
   v <- as.list(as.list(str_replace_all(remove_all_brackets(x), "\\s+", " ")))
 
   # Extract the utility components and subset them to
-  utility_components <- unlist(str_split(paste(unlist(x), collapse = " + "), "\\+"))
+  utility_components <- unlist(str_split(
+    paste(unlist(x), collapse = " + "),
+    "\\+"
+  ))
   expr_spec <- "[^\\s\\+\\-\\*\\/]*?\\[.*?\\](\\(.*?\\))?"
   expr_dumm <- "_dummy\\["
-  utility_components <- utility_components[str_detect(utility_components, expr_spec) & str_detect(utility_components, expr_dumm)]
+  utility_components <- utility_components[
+    str_detect(utility_components, expr_spec) &
+      str_detect(utility_components, expr_dumm)
+  ]
 
   # Expand the utility components
   for (u in utility_components) {
@@ -149,7 +166,14 @@ update_utility <- function(x) {
 
     v_pattern <- str_trim(str_replace_all(remove_all_brackets(u), "\\s+", " "))
     v_pattern <- str_replace(v_pattern, "\\*", "\\\\*")
-    v_replacement <- paste(paste(paste0(prior, 2:(length(lvls) + 1)), paste0(attr, lvls), sep = " * "), collapse = " + ")
+    v_replacement <- paste(
+      paste(
+        paste0(prior, 2:(length(lvls) + 1)),
+        paste0(attr, lvls),
+        sep = " * "
+      ),
+      collapse = " + "
+    )
 
     v <- str_replace_all(v, v_pattern, v_replacement)
   }
@@ -160,7 +184,6 @@ update_utility <- function(x) {
   return(
     clean_utility(v)
   )
-
 }
 
 #' Create formulas from the utility functions
@@ -216,7 +239,6 @@ dummy_names <- function(x) {
 
   pos <- str_detect(elements, "_dummy\\s")
 
-
   return(
     remove_whitespace(str_extract(elements[pos], "(?<=(\\*|\\+)).*\\b"))
   )
@@ -241,7 +263,8 @@ priors <- function(x) {
   named_values <- extract_named_values(x)
 
   # Create the index and filter
-  idx <- names(named_values) %in% grep("b_", names(named_values), value = TRUE)
+  idx <- names(named_values) %in%
+    grep("\\bb_", names(named_values), value = TRUE)
 
   return(
     named_values[idx]
@@ -310,12 +333,17 @@ occurrences <- function(x, rows) {
       # DANGER HERE: We are only using the first match. This will mean that
       # different levels for the same attribute in different alternatives won't
       # work.
-      lvls <- rep(lvls, length(attribute_lvls[[grep(paste0("\\b.*?", names(occurrences)[[i]]), names(attribute_lvls))[[1]]]]))
+      lvls <- rep(
+        lvls,
+        length(attribute_lvls[[grep(
+          paste0("\\b.*?", names(occurrences)[[i]]),
+          names(attribute_lvls)
+        )[[1]]]])
+      )
     }
 
     names(lvls) <- paste0("lvl", seq_along(lvls))
     occurrences[[i]] <- lvls
-
   }
 
   # Expand to the wide format
@@ -323,10 +351,13 @@ occurrences <- function(x, rows) {
     occurrences_j <- lapply(seq_along(x), function(j) {
       if (str_detect(x[[j]], names(occurrences[i]))) {
         occurrences_tmp <- occurrences[i]
-        names(occurrences_tmp) <- paste(names(x[j]), names(occurrences[i]), sep = "_")
+        names(occurrences_tmp) <- paste(
+          names(x[j]),
+          names(occurrences[i]),
+          sep = "_"
+        )
 
         return(occurrences_tmp)
-
       }
     })
 
@@ -343,7 +374,6 @@ occurrences <- function(x, rows) {
   return(
     level_occurrences
   )
-
 }
 
 #' Find minimum level occurrences
@@ -386,19 +416,23 @@ nlvls <- function(x) {
 #' element the number of times the minimum number of times the level occurs.
 lvl_occurrences <- function(utility, rows, level_balance) {
   return(
-    mapply(function(x, y, level_balance) {
-      # Check if we are enforcing level balance.
-      if (level_balance) {
-        z <- rep(x, length(y))
+    mapply(
+      function(x, y, level_balance) {
+        # Check if we are enforcing level balance.
+        if (level_balance) {
+          z <- rep(x, length(y))
+        } else {
+          z <- rep(1, length(y))
+        }
 
-      } else {
-        z <- rep(1, length(y))
-
-      }
-
-      names(z) <- y
-      return(z)
-    }, min_lvl_occurrence(utility, rows), expand_attribute_levels(utility), level_balance, SIMPLIFY = FALSE)
+        names(z) <- y
+        return(z)
+      },
+      min_lvl_occurrence(utility, rows),
+      expand_attribute_levels(utility),
+      level_balance,
+      SIMPLIFY = FALSE
+    )
   )
 }
 

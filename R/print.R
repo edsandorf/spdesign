@@ -43,7 +43,6 @@ print_iteration_information <- function(
     padding = 10,
     efficiency_criteria
   )
-
 }
 
 #' Prints the initial header for the table of results
@@ -55,7 +54,11 @@ print_iteration_information <- function(
 #' @inheritParams print_iteration_information
 #'
 #' @return Noting
-print_initial_header <- function(efficiency_criteria, padding = 10, width = 80) {
+print_initial_header <- function(
+  efficiency_criteria,
+  padding = 10,
+  width = 80
+) {
   cat("\n")
   cat(rule(width = width), "\n")
   cat(

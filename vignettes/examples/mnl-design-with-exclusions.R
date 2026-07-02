@@ -11,10 +11,15 @@ utility <- list(
 )
 
 # Generate designs ----
-design <- generate_design(utility, rows = 20,
-                          model = "mnl", efficiency_criteria = "d-error",
-                          algorithm = "federov", draws = "scrambled-sobol",
-                          exclusions = list(
-                            "alt1_x1 == 2 & alt1_x2 == 0 & alt1_x3 == 0",
-                            "alt2_x2 == 1 & alt2_x3 == 1"
-                          ))
+design <- generate_design(
+  utility,
+  rows = 20,
+  model = "mnl",
+  efficiency_criteria = "d-error",
+  algorithm = "federov",
+  draws = "scrambled-sobol",
+  exclusions = list(
+    "alt1_x1 == 2 & alt1_x2 == 0 & alt1_x3 == 0",
+    "alt2_x2 == 1 & alt2_x3 == 1"
+  )
+)
