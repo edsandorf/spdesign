@@ -36,7 +36,7 @@ install.packages("spdesign")
 A development version of the package can be installed from Github. Remember to select the most recent development version (check the available branches).
 
 ```{r install_github, eval=FALSE}
-remotes::install_github("edsandorf/spdesign", ref = "v0.0.7-dev")
+remotes::install_github("edsandorf/spdesign", ref = "v0.0.8-dev")
 ```
 
 ## Example
@@ -55,16 +55,18 @@ utility <- list(
 )
 
 # Generate designs ----
-design <- generate_design(utility,
-                          rows = 20,
-                          model = "mnl", 
-                          efficiency_criteria = "d-error",
-                          algorithm = "rsc")
+design <- generate_design(
+  utility,
+  rows = 20,
+  model = "mnl", 
+  efficiency_criteria = "d-error",
+  algorithm = "rsc"
+  control = list(
+    max_iter = 10 #NB! This MUST be changed when running real designs
+  )
+)
 
-# Add a blocking variable to the design with 4 blocks.
-design <- block(design, 2)
-
-
+# Get a summary of the design
 summary(design)
 
 ```

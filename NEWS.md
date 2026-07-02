@@ -1,3 +1,6 @@
+# spdesign v0.0.7
+* Minor bug fixes and improvements
+
 # spdesign v0.0.6
 * Updated package dependency to R 4.1.0 because it relies on the |> operator. 
 * Fixed a bug that would cause parsing of the utility functions to fail if an attribute contained "b_" at some point in the string. "b_" was the target for a regex looking for priors. The regex is updated to only consider "b_" at the beginning of a word.

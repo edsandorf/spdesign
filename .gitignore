@@ -6,5 +6,5 @@ inst/doc
 docs
 test.R
 .DS_Store
-^test-function-call.R
+test-function-call.R
 README.html
