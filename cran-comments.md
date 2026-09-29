@@ -1,5 +1,5 @@
 ##  Test environments
-* local MacOS Tahoe 26.5.2, R 4.6.1
+* local MacOS Golden Gate 27.0, R 4.6.1
 * win-builder (devel and release)
 
 ## R CMD check results
