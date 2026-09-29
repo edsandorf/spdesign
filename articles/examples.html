@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7</span>
       </span>
     </div>
 
@@ -141,10 +141,15 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate designs ----</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>, rows <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>, efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
-<span>                          algorithm <span class="op">=</span> <span class="st">"federov"</span>, draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
-<span>                          dudx <span class="op">=</span> <span class="st">"b_x3"</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="st">"federov"</span>,</span>
+<span>  draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
+<span>  dudx <span class="op">=</span> <span class="st">"b_x3"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -165,10 +170,15 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate designs ----</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>, rows <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>, efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
-<span>                          algorithm <span class="op">=</span> <span class="st">"rsc"</span>, draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
-<span>                          dudx <span class="op">=</span> <span class="st">"b_x3"</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="st">"rsc"</span>,</span>
+<span>  draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
+<span>  dudx <span class="op">=</span> <span class="st">"b_x3"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -190,9 +200,14 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate designs ----</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>, rows <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>, efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
-<span>                          algorithm <span class="op">=</span> <span class="st">"rsc"</span>, draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="st">"rsc"</span>,</span>
+<span>  draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Add a blocking variable to the design with 2 blocks.</span></span>
 <span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/block.html">block</a></span><span class="op">(</span><span class="va">design</span>, <span class="fl">2</span><span class="op">)</span></span>
@@ -218,9 +233,14 @@
 <span></span>
 <span></span>
 <span><span class="co"># Generate designs ----</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>, rows <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>, efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
-<span>                          algorithm <span class="op">=</span> <span class="st">"federov"</span>, draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="st">"federov"</span>,</span>
+<span>  draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/block.html">block</a></span><span class="op">(</span><span class="va">design</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span></span>
@@ -238,19 +258,24 @@
 <span></span>
 <span><span class="co"># Define the list of utility functions ----</span></span>
 <span><span class="va">utility</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  car   <span class="op">=</span> <span class="st">"                          b_travel_time[-0.1] * travel_time_car[c(10, 15, 20, 25)]   + b_travel_cost[-0.2] * travel_cost_car[c(25, 50, 75, 100)]  + b_comfort_dummy[c(0.1, 0.2)] * comfort[c(1, 2, 3)]"</span>,</span>
-<span>  bus   <span class="op">=</span> <span class="st">"b_bus[-0.1]  * bus[1]   + b_travel_time       * travel_time_bus[c(20, 25, 30, 35)]   + b_travel_cost       * travel_cost_bus[c(10, 15, 20, 25)]   + b_comfort_dummy              * comfort"</span>,</span>
+<span>  car <span class="op">=</span> <span class="st">"                          b_travel_time[-0.1] * travel_time_car[c(10, 15, 20, 25)]   + b_travel_cost[-0.2] * travel_cost_car[c(25, 50, 75, 100)]  + b_comfort_dummy[c(0.1, 0.2)] * comfort[c(1, 2, 3)]"</span>,</span>
+<span>  bus <span class="op">=</span> <span class="st">"b_bus[-0.1]  * bus[1]   + b_travel_time       * travel_time_bus[c(20, 25, 30, 35)]   + b_travel_cost       * travel_cost_bus[c(10, 15, 20, 25)]   + b_comfort_dummy              * comfort"</span>,</span>
 <span>  train <span class="op">=</span> <span class="st">"b_train[0.1] * train[1] + b_travel_time       * travel_time_train[c(15, 20, 25, 30)] + b_travel_cost       * travel_cost_train[c(20, 30, 40, 50)] + b_comfort_dummy              * comfort"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate designs ----</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>, rows <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>, efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
-<span>                          algorithm <span class="op">=</span> <span class="st">"rsc"</span>, draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
-<span>                          control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>                            max_iter <span class="op">=</span> <span class="fl">21000</span>,</span>
-<span>                            efficiency_threshold <span class="op">=</span> <span class="fl">0.01</span></span>
-<span>                          <span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="st">"rsc"</span>,</span>
+<span>  draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    max_iter <span class="op">=</span> <span class="fl">21000</span>,</span>
+<span>    efficiency_threshold <span class="op">=</span> <span class="fl">0.01</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Add a blocking variable to the design with 4 blocks.</span></span>
 <span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/block.html">block</a></span><span class="op">(</span><span class="va">design</span>, <span class="fl">4</span><span class="op">)</span></span>
@@ -276,12 +301,17 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate designs ----</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>, rows <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>, efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
-<span>                          algorithm <span class="op">=</span> <span class="st">"rsc"</span>, draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
-<span>                          control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>                            max_iter <span class="op">=</span> <span class="fl">10000</span></span>
-<span>                          <span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="st">"rsc"</span>,</span>
+<span>  draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    max_iter <span class="op">=</span> <span class="fl">10000</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -308,12 +338,17 @@ restrictions on level occurrence<a class="anchor" aria-label="anchor" href="#an-
 <span></span>
 <span></span>
 <span><span class="co"># Generate designs ----</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>, rows <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>, efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
-<span>                          algorithm <span class="op">=</span> <span class="st">"random"</span>, draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
-<span>                          control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>                            max_iter <span class="op">=</span> <span class="fl">10000</span></span>
-<span>                          <span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="st">"random"</span>,</span>
+<span>  draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    max_iter <span class="op">=</span> <span class="fl">10000</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -342,19 +377,30 @@ restrictions on level occurrence<a class="anchor" aria-label="anchor" href="#an-
 <span>    alt1_x3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>    alt2_x1 <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>,</span>
 <span>    alt2_x2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>    alt2_x3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.25</span><span class="op">)</span>,</span>
+<span>    alt2_x3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span>,</span>
 <span>    alt3_sq <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">candidate_set</span> <span class="op">&lt;-</span> <span class="va">candidate_set</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="va">candidate_set</span><span class="op">$</span><span class="va">alt1_x1</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">&amp;</span> <span class="va">candidate_set</span><span class="op">$</span><span class="va">alt1_x2</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">candidate_set</span><span class="op">$</span><span class="va">alt1_x3</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span>, <span class="op">]</span></span>
-<span><span class="va">candidate_set</span> <span class="op">&lt;-</span> <span class="va">candidate_set</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="va">candidate_set</span><span class="op">$</span><span class="va">alt2_x2</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">candidate_set</span><span class="op">$</span><span class="va">alt2_x3</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="va">candidate_set</span> <span class="op">&lt;-</span> <span class="va">candidate_set</span><span class="op">[</span></span>
+<span>  <span class="op">!</span><span class="op">(</span><span class="va">candidate_set</span><span class="op">$</span><span class="va">alt1_x1</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">&amp;</span></span>
+<span>    <span class="va">candidate_set</span><span class="op">$</span><span class="va">alt1_x2</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span></span>
+<span>    <span class="va">candidate_set</span><span class="op">$</span><span class="va">alt1_x3</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span>,</span>
+<span><span class="op">]</span></span>
+<span><span class="va">candidate_set</span> <span class="op">&lt;-</span> <span class="va">candidate_set</span><span class="op">[</span></span>
+<span>  <span class="op">!</span><span class="op">(</span><span class="va">candidate_set</span><span class="op">$</span><span class="va">alt2_x2</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">candidate_set</span><span class="op">$</span><span class="va">alt2_x3</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Generate designs ----</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>, rows <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>, efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
-<span>                          algorithm <span class="op">=</span> <span class="st">"federov"</span>, draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
-<span>                          candidate_set <span class="op">=</span> <span class="va">candidate_set</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="st">"federov"</span>,</span>
+<span>  draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
+<span>  candidate_set <span class="op">=</span> <span class="va">candidate_set</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></code></pre></div>
@@ -377,13 +423,18 @@ set<a class="anchor" aria-label="anchor" href="#an-mnl-design-with-specified-exp
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate designs ----</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>, rows <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>, efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
-<span>                          algorithm <span class="op">=</span> <span class="st">"federov"</span>, draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
-<span>                          exclusions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>                            <span class="st">"alt1_x1 == 2 &amp; alt1_x2 == 0 &amp; alt1_x3 == 0"</span>,</span>
-<span>                            <span class="st">"alt2_x2 == 1 &amp; alt2_x3 == 1"</span></span>
-<span>                          <span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="st">"d-error"</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="st">"federov"</span>,</span>
+<span>  draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
+<span>  exclusions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    <span class="st">"alt1_x1 == 2 &amp; alt1_x2 == 0 &amp; alt1_x3 == 0"</span>,</span>
+<span>    <span class="st">"alt2_x2 == 1 &amp; alt2_x3 == 1"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="an-mnl-design-optimized-for-c-efficiency">An MNL design optimized for c-efficiency<a class="anchor" aria-label="anchor" href="#an-mnl-design-optimized-for-c-efficiency"></a>
@@ -405,16 +456,19 @@ set<a class="anchor" aria-label="anchor" href="#an-mnl-design-with-specified-exp
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate designs ----</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span><span class="va">utility</span>, rows <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                          dudx <span class="op">=</span> <span class="st">"b_x3"</span>,</span>
-<span>                          model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
-<span>                          efficiency_criteria <span class="op">=</span> <span class="st">"c-error"</span>,</span>
-<span>                          algorithm <span class="op">=</span> <span class="st">"rsc"</span>,</span>
-<span>                          draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
-<span>                          control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>                            max_iter <span class="op">=</span> <span class="fl">21000</span>,</span>
-<span>                            max_no_improve <span class="op">=</span> <span class="fl">5000</span></span>
-<span>                          <span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_design.html">generate_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">utility</span>,</span>
+<span>  rows <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  dudx <span class="op">=</span> <span class="st">"b_x3"</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"mnl"</span>,</span>
+<span>  efficiency_criteria <span class="op">=</span> <span class="st">"c-error"</span>,</span>
+<span>  algorithm <span class="op">=</span> <span class="st">"rsc"</span>,</span>
+<span>  draws <span class="op">=</span> <span class="st">"scrambled-sobol"</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    max_iter <span class="op">=</span> <span class="fl">21000</span>,</span>
+<span>    max_no_improve <span class="op">=</span> <span class="fl">5000</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Add a blocking variable to the design with 4 blocks.</span></span>
 <span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/block.html">block</a></span><span class="op">(</span><span class="va">design</span>, <span class="fl">4</span><span class="op">)</span></span>
@@ -439,7 +493,7 @@ set<a class="anchor" aria-label="anchor" href="#an-mnl-design-with-specified-exp
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>

@@ -47,7 +47,6 @@
 <url><loc>https://spdesign.edsandorf.me/reference/extract_unparsed_values.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/extract_values.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/federov.html</loc></url>
-<url><loc>https://spdesign.edsandorf.me/reference/fits_lvl_occurrences.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/full_factorial.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/generate_design.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/generate_rsc_candidate.html</loc></url>
@@ -56,7 +55,9 @@
 <url><loc>https://spdesign.edsandorf.me/reference/index.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/is_balanced.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/level_balance.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/level_occurrences_specified.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/lvl_occurrences.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/lvl_violation.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/make_draws.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/make_mlhs.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/make_pseudo_random.html</loc></url>
@@ -101,6 +102,7 @@
 <url><loc>https://spdesign.edsandorf.me/reference/transform_normal.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/transform_triangular.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/transform_uniform.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/unlisted_levels.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/update_utility.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/utility_formula.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/vcov.spdesign.html</loc></url>

@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7</span>
       </span>
     </div>
 
@@ -504,16 +504,35 @@ following set of utility functions:</attr></utility>
 <p>Then the column names of the candidate set would be:
 <code>alt1_x1</code> and <code>alt2_x1</code>.</p>
 <ol start="2" style="list-style-type: decimal">
-<li>That all attribute levels specified in the utility functions are in
-the candidate set. A mismatch here will result in an error.</li>
-<li>That there are not more (unneccesasry) columns in the candidate set
-that are not used by the utility expression. This is caught by an error
-message.</li>
+<li><p>That all attribute levels specified in the utility functions are
+in the candidate set. A mismatch here will result in an error. NB! As of
+version 0.0.6 this check will be ignored IF you do not specify attribute
+level occurrences. This allows the user to supply a candidate set with
+hundreds of potential levels. However, you must still supply at least
+one level for each attribute in the utility function. This level IS
+ignored, but needed to avoid breaking existing code. If you encounter
+any problems here, feel free to reach out to the package
+maintainer.</p></li>
+<li><p>That there are not more (unneccesasry) columns in the candidate
+set that are not used by the utility expression. This is caught by an
+error message.</p></li>
 </ol>
 <p>The candidate set is passed in as a <code>data.frame</code> using the
 <code>candidate_set</code> argument to the function
 <code>generate_design</code>.</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="saving-intermediate-designs">Saving intermediate designs<a class="anchor" aria-label="anchor" href="#saving-intermediate-designs"></a>
+</h2>
+<p>There is an opporunity to save intermediate designs. To do so, set
+the option <code>save_designs</code> in the generate design function to
+<code>TRUE</code>. This functionality is still in beta and not fully
+developed. So setting this option to <code>TRUE</code> will save every
+single improved and valid design. The number of designs can quickly get
+very, very high, so it is not recommended to use this option unless you
+absolutely need to keep intermediate designs. This will be fixed and
+improved in a new version.</p>
 </div>
   </div>
 
@@ -532,7 +551,7 @@ message.</li>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>
