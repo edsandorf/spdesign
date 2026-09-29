@@ -21,6 +21,12 @@ experiments are expensive and the code is closed source. `spdesign` is a
 free software package with an easy to use interface to make flexible
 stated preference experimental designs using state-of-the-art methods.
 
+The package was introduced in Mariel, P., Campbell, D., Sandorf, E. D.,
+Meyerhoff, J., Vega-Bayo, A. & Blevins, R., 2025, *Environmental
+Valuation with Discrete Choice Experiments in R: A Guide on Design,
+Implementation, and Data Analysis*, Springer Nature, doi:
+<https://doi.org/10.1007/978-3-031-89338-4>
+
 ## Installation
 
 The package can be installed from CRAN.
@@ -30,14 +36,15 @@ install.packages("spdesign")
 ```
 
 A development version of the package can be installed from Github.
-Remember to select the most recent development version (check the
-available branches).
+Tagged releases correspond to CRAN versions of the package. Installing
+from CRAN, you get the latest official release. Installing from Github
+gives you the development version.
 
 ``` r
-remotes::install_github("edsandorf/spdesign", ref = "v0.0.6-dev")
+remotes::install_github("edsandorf/spdesign")
 ```
 
-## Example
+## Example of a simple design
 
 This is a basic example which shows you how to solve a common problem:
 
@@ -53,16 +60,18 @@ utility <- list(
 )
 
 # Generate designs ----
-design <- generate_design(utility,
-                          rows = 20,
-                          model = "mnl", 
-                          efficiency_criteria = "d-error",
-                          algorithm = "rsc")
+design <- generate_design(
+  utility,
+  rows = 20,
+  model = "mnl", 
+  efficiency_criteria = "d-error",
+  algorithm = "federov",
+  control = list(
+    max_iter = 10 #NB! This MUST be changed when running real designs
+  )
+)
 
-# Add a blocking variable to the design with 4 blocks.
-design <- block(design, 2)
-
-
+# Get a summary of the design
 summary(design)
 ```
 
@@ -75,14 +84,15 @@ out so that we can try and improve the software.
 ## Acknowledgements
 
 We are grateful to Petr Mariel, Jürgen Meyerhoff and Ainhoa Vega for
-providing feedback and extensive testing of the package. We also thank
-participants in the 2022 Summer School “Valuing options of adaption to
-climate change using choice experiments” at the University of Cape Town
-for valuable feedback on a beta version of the package.
+providing feedback and extensive testing of an early version of the
+package. We also thank participants in the 2022 Summer School “Valuing
+options of adaption to climate change using choice experiments” at the
+University of Cape Town for valuable feedback on a beta version of the
+package.
 
 We would also like to acknowledge all those who have contributed with
 bug reports: Gabriele Iannaccone, Petr Mariel, Julian Sagebiel, Huu-Luat
-Do, Eduardo Barbosa
+Do, Eduardo Barbosa, Binod Prasad Sapkota, Klaus Moeltner
 
 The package comes with no warranty and the authors cannot be held liable
 for errors or mistakes resulting from use. The authors acknowledge
