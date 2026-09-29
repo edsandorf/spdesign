@@ -40,7 +40,10 @@
 #' @param save_designs A boolean indicating whether to save up to 10 intermediate designs. The default value is FALSE.
 #' @param control A list of control options
 #'
-#' @return An object of class 'spdesign'
+#' @return An object of class 'spdesign'. For the 'federov' algorithm, the list
+#' element 'runs' holds the best design of each run of the search and its
+#' efficiency criteria. The best design across all runs is the one returned as
+#' the design.
 #'
 #' @export
 generate_design <- function(
@@ -81,13 +84,6 @@ generate_design <- function(
   design_object[["utility"]] <- utility
   design_object[["time"]] <- list(
     time_start = Sys.time()
-  )
-
-  # Make sure that the best design candidate is always return if the loop is
-  # stopped prematurely Can on.exit have a function?
-  on.exit(
-    return(design_object),
-    add = TRUE
   )
 
   ## Match arguments ----
@@ -210,27 +206,6 @@ generate_design <- function(
         )
       }
 
-      # WHY DO I NEED TO CHECK THE ATTRIBUTE LEVELS WHEN I HAVE A SUPPLIED CANDIDATE SET?
-      candidate_levels <- apply(
-        candidate_set,
-        2,
-        function(x) unique(sort(x)),
-        simplify = FALSE
-      )
-      utility_levels <- lapply(expand_attribute_levels(utility), as.numeric)
-
-      # Subset utility levels to only correspond to the ones specified
-      utility_levels <- utility_levels[utility_attributes]
-
-      # Why do I have this check? It does not appear to do anything useful.
-      # if (!identical(candidate_levels[sort(names(candidate_levels))], utility_levels[sort(names(utility_levels))])) {
-      #   problem <- paste(names(which(mapply(function(x, y) length(x) - length(y), candidate_levels, utility_levels) != 0)), collapse = ", ")
-      #
-      #   stop(
-      #     paste0("The attribute levels determined by the supplied candidate set differs from those supplied in the utility function. Please ensure that all specified levels are present in the candidate set. The error occurs because there are too few/many levels for: ", problem, " in the candidate set")
-      #   )
-      # }
-
       # Expand candidate set to be square, i.e., fill in zero columns, for non-specified. This in case of
       # Alternative specific attributes!
       expanded_names <- names(expand_attribute_levels(utility))
@@ -253,6 +228,21 @@ generate_design <- function(
       }
 
       candidate_set <- candidate_set[, expanded_names]
+
+      # Levels not listed in the utility functions are allowed, except for
+      # attributes with level occurrences specified
+      if (level_occurrences_specified(utility)) {
+        problem <- unlisted_levels(utility, candidate_set, rows)
+
+        if (length(problem) > 0) {
+          stop(
+            "Level occurrences are specified for ",
+            paste(problem, collapse = ", "),
+            ", but the candidate set contains levels for these attributes ",
+            "that are not listed in the utility functions."
+          )
+        }
+      }
     }
 
     # Apply the exclusions to the candidate set
@@ -336,6 +326,16 @@ generate_design <- function(
       control
     )
   )
+
+  if (is.null(design_object[["design"]])) {
+    stop(
+      "No design with a non-singular Fisher information matrix was found in ",
+      control$max_iter,
+      " iterations. If exclusions or level occurrences are tight, increasing ",
+      "'max_iter' may help. Otherwise, check the utility functions for ",
+      "perfect multicollinearity."
+    )
+  }
 
   design_object[["time"]][["time_end"]] <- Sys.time()
 
