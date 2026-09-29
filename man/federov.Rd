@@ -58,24 +58,44 @@ A list of class 'spdesign'
 \description{
 The modified Federov algorithm implemented here starts with a random design
 candidate and systematically swaps out rows of the design candidate to
-iteratively find better designs. The algorithm has the following steps and
-restrictions.
+iteratively find better designs. It is a first-improvement variant: a swap
+is kept as soon as it improves the design, instead of searching the entire
+candidate set for the best swap. A swap that does not improve the design is
+discarded. The algorithm has the following steps and restrictions.
 }
 \details{
-1) Create a random initial design and evaluate it.
+1) Create a random initial design and evaluate it. If level occurrences are
+   specified, the initial design satisfies them.
 2) Swap the first row of the design candidate with the first row of the
    candidate set.
-3) If no better candidate is found, try the second row of the candidate set.
+3) If no better candidate is found, try the next row of the candidate set.
    Keep trying new rows of the candidate set until an improvement is found.
-   NOTE: The candidate row will be checked against all rows of the design
-   candidate to ensure that the same row is not included multiple times.
+   NOTE: A swap is skipped without being evaluated if it would include the
+   same row multiple times or violate the level occurrences.
 4) If a better candidate is found, then we try to swap out the next row in
-   the design candidate with the first row of the candidate set. Keep
-   repeating the previous step.
-5) When all rows of the design candidate has been swapped once, reset the
-   counter and work through the design candidate and candidate set again.
-6) The algorithm terminates after a pre-determined number of iterations or
-   when a pre-determined efficiency threshold has been found.
+   the design candidate, continuing with the next row of the candidate set.
+   If no row of the candidate set improves the current row of the design
+   candidate, move on to the next row.
+5) When the end of the design candidate or the candidate set is reached,
+   continue from the first row. This way every row of the candidate set is
+   tried equally often.
+6) If a full pass over all rows of the design candidate and the candidate
+   set finds no improvement, the design candidate is a local optimum. Store
+   it and restart from step 1 with a new random design candidate.
+7) The algorithm terminates after a pre-determined number of iterations or
+   when a pre-determined efficiency threshold has been found. Pressing Esc
+   (or Ctrl + C) stops the search and returns the best design found so far.
+
+The best design found across all runs is returned as the design. The best
+design of each run, including the one that is still running when the search
+stops, is stored in the list element 'runs' together with its efficiency
+criteria.
+
+For very large candidate sets, the maximum number of iterations decides how
+deep into the candidate set the search goes. Every swap moves one row further
+through the candidate set, but only evaluated swaps count towards the maximum
+number of iterations. A search that stops after fewer iterations than there
+are rows in the candidate set may not have tried all of them.
 
 NOTE: I have not yet implemented a duplicate check! That is, I do not check
       whether the "same" choice rows are included but with the order of
