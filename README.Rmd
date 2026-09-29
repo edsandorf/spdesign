@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 Contemporary software commonly used to design stated preference experiments are expensive and the code is closed source. `spdesign` is a free software package with an easy to use interface to make flexible stated preference experimental designs using state-of-the-art methods. 
 
-The package was introduced in Mariel, P., Campbell, D., Sandorf, E. D., Meyerhoff, J., Vega-Bayo, A. & Blevins, R., 2025, Environmental Valuation with Discrete Choice Experiments in R: A Guide on Design, Implementation, and Data Analysis, Springer Nature, doi: https://doi.org/10.1007/978-3-031-89338-4 
+The package was introduced in Mariel, P., Campbell, D., Sandorf, E. D., Meyerhoff, J., Vega-Bayo, A. & Blevins, R., 2025, *Environmental Valuation with Discrete Choice Experiments in R: A Guide on Design, Implementation, and Data Analysis*, Springer Nature, doi: https://doi.org/10.1007/978-3-031-89338-4 
 
 ## Installation
 
