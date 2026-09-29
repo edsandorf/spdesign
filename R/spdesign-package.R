@@ -6,6 +6,5 @@
 #' @import stringr
 #' @importFrom stats runif qnorm as.formula model.matrix
 #' @importFrom utils modifyList
-#' @importFrom dplyr distinct
 ## usethis namespace: end
 NULL
