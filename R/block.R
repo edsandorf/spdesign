@@ -60,47 +60,47 @@ block <- function(x, blocks, target = 0.0005, max_iter = 1000000) {
   blocked_design[["blocks_correlation"]] <- stats::cor(design, block)
   blocked_design[["blocks_iter"]] <- 1
 
-  # Return the blocked design object when the function exits prematurely.
-  on.exit(
-    {
-      return(blocked_design)
-    },
-    add = TRUE
-  )
-
   iter <- 1
 
-  repeat {
-    # Stop if more than max_iter iterations
-    if (iter >= max_iter) {
-      break
+  # Return the best blocking found so far if the search is interrupted
+  tryCatch(
+    repeat {
+      # Stop if more than max_iter iterations
+      if (iter >= max_iter) {
+        break
+      }
+
+      # Calculate the correlation between the attributes and a random permutation
+      # of the blocking variable.
+      block <- sample(block)
+
+      # Suppress warnings when trying to calculate the correlation with respect to
+      # a constant.
+      correlation <- suppressWarnings(stats::cor(design, block))
+      current <- mean(correlation^2, na.rm = TRUE)
+
+      if (current < blocked_design[["blocks_value"]]) {
+        blocked_design[["blocks_value"]] <- current
+        blocked_design[["design"]] <- dplyr::bind_cols(design, block = block)
+        blocked_design[["blocks_correlation"]] <- tibble::as_tibble(t(
+          correlation
+        ))
+        blocked_design[["blocks_iter"]] <- iter
+      }
+
+      # Stopping criteria
+      if (blocked_design[["blocks_value"]] <= target) {
+        break
+      }
+
+      iter <- iter + 1
+    },
+    interrupt = function(e) {
+      cli_alert_info(
+        "Blocking interrupted. Returning the best blocking found so far."
+      )
     }
-
-    # Calculate the correlation between the attributes and a random permutation
-    # of the blocking variable.
-    block <- sample(block)
-
-    # Suppress warnings when trying to calculate the correlation with respect to
-    # a constant.
-    correlation <- suppressWarnings(stats::cor(design, block))
-    current <- mean(correlation^2, na.rm = TRUE)
-
-    if (current < blocked_design[["blocks_value"]]) {
-      blocked_design[["blocks_value"]] <- current
-      blocked_design[["design"]] <- dplyr::bind_cols(design, block = block)
-      blocked_design[["blocks_correlation"]] <- tibble::as_tibble(t(
-        correlation
-      ))
-      blocked_design[["blocks_iter"]] <- iter
-    }
-
-    # Stopping criteria
-    if (blocked_design[["blocks_value"]] <= target) {
-      break
-    }
-
-    iter <- iter + 1
-  }
+  )
 
   return(blocked_design)
 }

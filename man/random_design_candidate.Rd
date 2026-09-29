@@ -4,7 +4,13 @@
 \alias{random_design_candidate}
 \title{Create a random design_object candidate}
 \usage{
-random_design_candidate(utility, candidate_set, rows, sample_with_replacement)
+random_design_candidate(
+  utility,
+  candidate_set,
+  rows,
+  sample_with_replacement,
+  print_counter = FALSE
+)
 }
 \arguments{
 \item{utility}{A named list of utility functions. See the examples and the
@@ -22,7 +28,15 @@ consider alternative specific attributes.}
 
 \item{sample_with_replacement}{A boolean equal to TRUE if we sample from the
 candidate set with replacement. The default is FALSE}
+
+\item{print_counter}{A boolean equal to TRUE if we print the number of
+attempts to find a design candidate every 1000th attempt. The default is
+FALSE}
 }
 \description{
-Sample from the candidate set to create a random design_object.
+Sample from the candidate set to create a random design_object. If level
+occurrences are specified, single rows are swapped with random rows from the
+candidate set until the design_object candidate satisfies them. A swap is
+kept if it does not move the design_object candidate further away from the
+level occurrences.
 }

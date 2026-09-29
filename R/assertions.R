@@ -199,45 +199,71 @@ attribute_level_balance <- function(x, rows) {
   }
 }
 
-#' Test whether a design candidate fits the constraints imposed by the level
-#' occurrences
+#' Measure how far a design candidate is from the level occurrence constraints
 #'
+#' For each attribute level, count how often it occurs in the design candidate
+#' and find the distance to the nearest allowed number of occurrences. Levels
+#' that do not occur in the design candidate are counted as zero occurrences.
+#'
+#' @param x A design candidate with one column per attribute
+#' @param ranges Level occurrences as returned by \code{\link{occurrences}}.
+#' Pass these in when calling repeatedly to avoid parsing the utility functions
+#' each time
+#' @param lvls Attribute levels as returned by
+#' \code{\link{expand_attribute_levels}}
 #' @inheritParams occurrences
 #' @inheritParams generate_design
 #'
-#' @return A boolean equal to TRUE if attribute level balanced
-fits_lvl_occurrences <- function(utility, x, rows) {
-  ranges <- occurrences(utility, rows)
+#' @return The total distance summed over all attribute levels. A value of 0
+#' means that the design candidate satisfies all level occurrence constraints.
+lvl_violation <- function(
+  utility,
+  x,
+  rows,
+  ranges = occurrences(utility, rows),
+  lvls = expand_attribute_levels(utility)
+) {
+  violation <- vapply(seq_along(ranges), function(i) {
+    counts <- table(factor(x[, i, drop = TRUE], levels = lvls[[i]]))
 
-  # Define a base table/vector with 0 occurrences to avoid errors if a single
-  # level is dropped when sampling/iterating through the candidate set.
-  base_tbl <- lapply(expand_attribute_levels(utility), function(x) {
-    vec <- rep(0, length(x))
-    names(vec) <- x
-
-    return(vec)
-  })
-
-  test <- rep(FALSE, length(ranges))
-
-  for (i in seq_along(ranges)) {
-    # I might need to expand this to explicitly include zero occurrences (A simple replace would do.)
-    tbl_occs <- table(x[, i])
-    tbl <- base_tbl[[i]][names(tbl_occs)] <- tbl_occs
-
-    occs <- ranges[[i]]
-
-    local_test <- rep(FALSE, length(tbl))
-
-    for (j in seq_along(tbl)) {
-      local_test[j] <- tbl[j] %in% occs[[j]]
-    }
-
-    test[i] <- all(local_test)
-  }
+    sum(
+      mapply(function(n, allowed) min(abs(n - allowed)), counts, ranges[[i]])
+    )
+  }, numeric(1))
 
   return(
-    all(test)
+    sum(violation)
+  )
+}
+
+#' Find attributes with level occurrences and levels that are not listed
+#'
+#' A supplied candidate set may contain attribute levels that are not listed in
+#' the utility functions. This is only a problem for attributes with level
+#' occurrences specified, because occurrences can only be counted for listed
+#' levels.
+#'
+#' @param candidate_set A candidate set in wide format
+#' @inheritParams lvl_violation
+#'
+#' @return A character vector with the names of the attributes with level
+#' occurrences specified, where the candidate set contains levels that are not
+#' listed in the utility functions. Empty if there are none.
+unlisted_levels <- function(utility, candidate_set, rows) {
+  ranges <- occurrences(utility, rows)
+  lvls <- expand_attribute_levels(utility)
+  unrestricted <- c(0, seq_len(rows))
+
+  restricted <- vapply(ranges, function(r) {
+    !all(vapply(r, setequal, logical(1), unrestricted))
+  }, logical(1))
+
+  unlisted <- vapply(names(ranges)[restricted], function(a) {
+    any(!candidate_set[, a, drop = TRUE] %in% lvls[[a]])
+  }, logical(1))
+
+  return(
+    names(which(unlisted))
   )
 }
 

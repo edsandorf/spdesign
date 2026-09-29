@@ -134,3 +134,74 @@ test_that("Correctly determines when occurrences are specified", {
     )
   )
 })
+
+test_that("Correctly measures the distance from the level occurrences", {
+  utility <- list(
+    alt1 = "b_x1[0.1] * x1[c(1, 2, 3)](1:2, 2, 1:2) + b_x2[0.4] * x2[c(0, 1)](2)",
+    alt2 = "b_x1      * x1                          + b_x2      * x2"
+  )
+
+  rows <- 4
+
+  # All level occurrences satisfied
+  design <- data.frame(
+    alt1_x1 = c(1, 2, 2, 3),
+    alt1_x2 = c(0, 0, 1, 1),
+    alt2_x1 = c(3, 2, 1, 2),
+    alt2_x2 = c(1, 0, 1, 0)
+  )
+
+  expect_equal(lvl_violation(utility, design, rows), 0)
+  expect_equal(lvl_violation(utility, as.matrix(design), rows), 0)
+
+  # alt1_x1 has counts (3, 1, 0) against (1:2, 2, 1:2): distance 1 + 1 + 1
+  # alt1_x2 has counts (3, 1) against (2, 2): distance 1 + 1
+  design$alt1_x1 <- c(1, 1, 1, 2)
+  design$alt1_x2 <- c(0, 0, 0, 1)
+
+  expect_equal(lvl_violation(utility, design, rows), 5)
+
+  # Passing pre-computed occurrences and levels gives the same result
+  expect_equal(
+    lvl_violation(
+      utility,
+      design,
+      rows,
+      occurrences(utility, rows),
+      expand_attribute_levels(utility)
+    ),
+    5
+  )
+
+  # A level missing from the design counts as zero occurrences
+  design$alt1_x1 <- c(1, 1, 2, 2)
+  design$alt1_x2 <- c(0, 0, 1, 1)
+
+  expect_equal(lvl_violation(utility, design, rows), 1)
+})
+
+test_that("Finds unlisted levels only for attributes with level occurrences", {
+  utility <- list(
+    alt1 = "b_x1[0.1] * x1[c(1, 2, 3)](1:2, 2, 1:2) + b_x2[0.4] * x2[c(0, 1)]",
+    alt2 = "b_x1      * x1                          + b_x2      * x2"
+  )
+
+  rows <- 4
+
+  candidate_set <- data.frame(
+    alt1_x1 = c(1, 2, 3, 2),
+    alt1_x2 = c(0, 1, 0, 1),
+    alt2_x1 = c(3, 2, 1, 1),
+    alt2_x2 = c(1, 0, 1, 0)
+  )
+
+  expect_length(unlisted_levels(utility, candidate_set, rows), 0)
+
+  # An unlisted level for an attribute without level occurrences is allowed
+  candidate_set$alt1_x2 <- c(0, 1, 2, 5)
+  expect_length(unlisted_levels(utility, candidate_set, rows), 0)
+
+  # An unlisted level for an attribute with level occurrences is flagged
+  candidate_set$alt2_x1 <- c(3, 2, 1, 4)
+  expect_equal(unlisted_levels(utility, candidate_set, rows), "alt2_x1")
+})

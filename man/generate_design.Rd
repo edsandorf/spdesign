@@ -66,7 +66,10 @@ directly from the list of options or it is a modified list of exclusions}
 \item{control}{A list of control options}
 }
 \value{
-An object of class 'spdesign'
+An object of class 'spdesign'. For the 'federov' algorithm, the list
+element 'runs' holds the best design of each run of the search and its
+efficiency criteria. The best design across all runs is the one returned as
+the design.
 }
 \description{
 The function generates efficient experimental designs. The function takes
