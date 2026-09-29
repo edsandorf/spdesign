@@ -27,158 +27,160 @@ rsc <- function(
     envir = design_env
   )
 
-  # Make sure that design_object is returned on exit
-  on.exit(
-    return(design_object),
-    add = TRUE
-  )
-
   # Set iteration defaults
   iter <- 1
-  iter_na <- 1
+  iter_na <- 0
   iter_no_improve <- 1
   alg <- "relabel"
-  efficiency_current_best <- NA
+  efficiency_current_best <- Inf
 
-  repeat {
-    # Create an initial design candidate OR a new candidate when a sufficient
-    # number of attempts have been made without any improvement.
-    if (iter == 1 || iter_no_improve > control$max_no_improve) {
-      # Create a level balanced design candidate or near level balanced candidate
-      design_candidate <- generate_rsc_candidate(utility, rows)
+  # Return the best design found so far if the search is interrupted
+  tryCatch(
+    repeat {
+      # Create an initial design candidate OR a new candidate when a sufficient
+      # number of attempts have been made without any improvement.
+      if (iter == 1 || iter_no_improve > control$max_no_improve) {
+        # Create a level balanced design candidate or near level balanced candidate
+        design_candidate <- generate_rsc_candidate(utility, rows)
 
-      # Transform the candiate set such that attributes that are dummy coded
-      # are turned into factors. This ensures that we can use the model.matrix()
-      for (i in which(names(design_candidate) %in% dummy_names(utility))) {
-        design_candidate[, i] <- as.factor(design_candidate[, i])
+        # Transform the candiate set such that attributes that are dummy coded
+        # are turned into factors. This ensures that we can use the model.matrix()
+        for (i in which(names(design_candidate) %in% dummy_names(utility))) {
+          design_candidate[, i] <- as.factor(design_candidate[, i])
+        }
+
+        iter_no_improve <- 1
+
+        if (iter > 1) {
+          cli_alert_info(paste0(
+            "We've tried ",
+            control$max_no_improve,
+            " candidates without improvement. Trying new base design candidate."
+          ))
+        }
       }
 
-      iter_no_improve <- 1
-
-      if (iter > 1) {
-        cli_alert_info(paste0(
-          "We've tried ",
-          control$max_no_improve,
-          " candidates without improvement. Trying new base design candidate."
-        ))
+      # Swith algorithm every max_relabel iterations
+      if (iter %% control$max_relabel == 0) {
+        alg <- ifelse(alg == "relabel", "swap", "relabel")
       }
-    }
 
-    # Swith algorithm every max_relabel iterations
-    if (iter %% control$max_relabel == 0) {
-      alg <- ifelse(alg == "relabel", "swap", "relabel")
-    }
-
-    # Get the design candidate
-    for (i in seq_len(ncol(design_candidate))) {
-      design_candidate[, i] <- switch(
-        alg,
-        relabel = relabel(design_candidate[, i]),
-        swap = swap(design_candidate[, i])
-      )
-    }
-
-    # Define the current design candidate considering alternative specific
-    # attributes and interactions
-    design_candidate_current <- do.call(
-      cbind,
-      define_base_x_j(utility, design_candidate)
-    )
-
-    # Evaluate the design candidate (wrapper function)
-    efficiency_outputs <- evaluate_design_candidate(
-      utility,
-      design_candidate,
-      prior_values,
-      design_env,
-      model,
-      dudx,
-      return_all = FALSE,
-      significance = 1.96
-    )
-
-    # Get the current efficiency measure
-    efficiency_current <- efficiency_outputs[["efficiency_measures"]][
-      efficiency_criteria
-    ]
-    if (iter == 1 || is.na(efficiency_current_best)) {
-      efficiency_current_best <- efficiency_current
-    }
-
-    # If the efficiency criteria we optimize for is NA, try a new candidate
-    if (is.na(efficiency_current)) {
-      iter <- iter + 1
-      iter_na <- iter_na + 1
-      next
-    }
-
-    if (iter_na > 1000) {
-      cli_alert_info(
-        "You have tried 1000 design candidates all of which have produced a computationally singular Hessian matrix. Check yor design for identification problems."
-      )
-      iter_na <- 0
-    }
-
-    # Print information to console and update ----
-    if (efficiency_current <= efficiency_current_best || iter == 1) {
-      print_iteration_information(
-        iter,
-        values = efficiency_outputs[["efficiency_measures"]],
-        criteria = c("a-error", "c-error", "d-error", "s-error"),
-        digits = 4,
-        padding = 10,
-        width = 80,
-        efficiency_criteria
-      )
-
-      # Update current best criteria
-      design_object[["design"]] <- design_candidate_current
-      design_object[["efficiency_criteria"]] <- efficiency_outputs[[
-        "efficiency_measures"
-      ]]
-      design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
-      efficiency_current_best <- efficiency_current
-
-      # Reset iter_no_improve when we have an improvement.
-      iter_no_improve <- 1
-    }
-
-    # Save designs
-    if (save_designs) {
-      saveRDS(
-        design_object,
-        file = paste0(
-          "design_iter_",
-          formatC(iter, width = 6, flag = "0"),
-          ".rds"
+      # Get the design candidate
+      for (i in seq_len(ncol(design_candidate))) {
+        design_candidate[, i] <- switch(
+          alg,
+          relabel = relabel(design_candidate[, i]),
+          swap = swap(design_candidate[, i])
         )
+      }
+
+      # Define the current design candidate considering alternative specific
+      # attributes and interactions
+      design_candidate_current <- do.call(
+        cbind,
+        define_base_x_j(utility, design_candidate)
+      )
+
+      # Evaluate the design candidate (wrapper function)
+      efficiency_outputs <- evaluate_design_candidate(
+        utility,
+        design_candidate,
+        prior_values,
+        design_env,
+        model,
+        dudx,
+        return_all = FALSE,
+        significance = 1.96
+      )
+
+      # Get the current efficiency measure
+      efficiency_current <- efficiency_outputs[["efficiency_measures"]][
+        efficiency_criteria
+      ]
+
+      # Count consecutive design candidates where the efficiency criteria is NA
+      if (is.na(efficiency_current)) {
+        iter_na <- iter_na + 1
+      } else {
+        iter_na <- 0
+      }
+
+      if (iter_na >= 1000) {
+        cli_alert_info(
+          "You have tried 1000 design candidates all of which have produced a computationally singular Hessian matrix. Check yor design for identification problems."
+        )
+        iter_na <- 0
+      }
+
+      # Accept the design candidate if it is at least as good as the best
+      # design. A design where the efficiency criteria is NA is never accepted.
+      if (
+        !is.na(efficiency_current) &&
+          efficiency_current <= efficiency_current_best
+      ) {
+        # Print information to console and update ----
+        print_iteration_information(
+          iter,
+          values = efficiency_outputs[["efficiency_measures"]],
+          criteria = c("a-error", "c-error", "d-error", "s-error"),
+          digits = 4,
+          padding = 10,
+          width = 80,
+          efficiency_criteria
+        )
+
+        # Update current best criteria
+        design_object[["design"]] <- design_candidate_current
+        design_object[["efficiency_criteria"]] <- efficiency_outputs[[
+          "efficiency_measures"
+        ]]
+        design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
+        efficiency_current_best <- efficiency_current
+
+        # Reset iter_no_improve when we have an improvement.
+        iter_no_improve <- 1
+      }
+
+      # Save designs
+      if (save_designs) {
+        saveRDS(
+          design_object,
+          file = paste0(
+            "design_iter_",
+            formatC(iter, width = 6, flag = "0"),
+            ".rds"
+          )
+        )
+      }
+
+      # Check stopping conditions ----
+      if (iter > control$max_iter) {
+        cat(rule(width = 76), "\n")
+        cli_alert_info("Maximum number of iterations reached.")
+
+        break
+      }
+
+      if (efficiency_current_best < control$efficiency_threshold) {
+        cat(rule(width = 76), "\n")
+        cli_alert_info("Efficiency criteria is less than threshhold.")
+
+        break
+      }
+
+      # Add to the iteration
+      iter <- iter + 1
+
+      # Add to the no improvement iterator. It's reset upon improvement
+      iter_no_improve <- iter_no_improve + 1
+    },
+    interrupt = function(e) {
+      cat(rule(width = 76), "\n")
+      cli_alert_info(
+        "Search interrupted. Returning the best design found so far."
       )
     }
-
-    # Check stopping conditions ----
-    if (iter > control$max_iter) {
-      cat(rule(width = 76), "\n")
-      cli_alert_info("Maximum number of iterations reached.")
-
-      break
-    }
-
-    if (
-      efficiency_outputs[["efficiency_measures"]][efficiency_criteria] <
-        control$efficiency_threshold
-    ) {
-      cat(rule(width = 76), "\n")
-      cli_alert_info("Efficiency criteria is less than threshhold.")
-
-      break
-    }
-
-    # Add to the iteration
-    iter <- iter + 1
-
-    # Add to the no improvement iterator. It's reset upon improvement
-    iter_no_improve <- iter_no_improve + 1
-  }
+  )
 
   # Return the design candidate
   return(
