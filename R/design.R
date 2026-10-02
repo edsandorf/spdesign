@@ -101,6 +101,28 @@ generate_design <- function(
   stopifnot(!any_duplicates(utility))
   stopifnot(!too_small(utility, rows))
 
+  problem <- str_subset(attribute_names(utility), "_dummy$")
+
+  if (length(problem) > 0) {
+    stop(
+      "Attribute names cannot end in '_dummy'. To dummy-code an attribute, ",
+      "add '_dummy' to its parameter instead, e.g. ",
+      "'b_x1_dummy[c(0.1, 0.2)] * x1[c(1, 2, 3)]'. Please rename: ",
+      paste(problem, collapse = ", ")
+    )
+  }
+
+  problem <- invalid_dummy_coding(utility)
+
+  if (length(problem) > 0) {
+    stop(
+      "Dummy-coded attributes must have the levels 1, 2, ..., K, where 1 is ",
+      "the base level, and K - 1 priors. Please check the levels and priors ",
+      "of: ",
+      paste(problem, collapse = ", ")
+    )
+  }
+
   # Set the default for control and replace the specified values in control
   default_control <- list(
     cores = 1,

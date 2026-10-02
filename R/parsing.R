@@ -152,7 +152,8 @@ update_utility <- function(x) {
     "\\+"
   ))
   expr_spec <- "[^\\s\\+\\-\\*\\/]*?\\[.*?\\](\\(.*?\\))?"
-  expr_dumm <- "_dummy\\["
+  # A component is dummy-coded if its parameter is, as in contains_dummies()
+  expr_dumm <- "\\bb_\\w*_dummy\\["
   utility_components <- utility_components[
     str_detect(utility_components, expr_spec) &
       str_detect(utility_components, expr_dumm)

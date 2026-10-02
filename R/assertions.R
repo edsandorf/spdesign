@@ -282,3 +282,37 @@ level_occurrences_specified <- function(utility) {
     any(idx)
   )
 }
+
+#' Find dummy-coded attributes that are not correctly specified
+#'
+#' Dummy-coded attributes must have the levels 1, 2, ..., K, where 1 is the
+#' base level, and exactly K - 1 priors, one for each level except the base
+#' level. Only the number of levels matters for the design, and using
+#' 1, 2, ..., K ensures that the expanded dummy-coded attributes and priors are
+#' named and ordered consistently.
+#'
+#' @inheritParams attribute_levels
+#'
+#' @return A character vector with the names of dummy-coded attributes that are
+#' not correctly specified. Empty if there are none.
+invalid_dummy_coding <- function(x) {
+  # A component is dummy-coded if its parameter is, as in contains_dummies()
+  components <- unlist(str_split(unlist(x), "\\+"))
+  components <- components[str_detect(components, "\\bb_\\w*_dummy\\[")]
+
+  invalid <- vapply(
+    components,
+    function(component) {
+      lvls <- unlist(attribute_levels(component))
+
+      !identical(as.numeric(lvls), as.numeric(seq_along(lvls))) ||
+        length(priors(component)) != length(lvls) - 1
+    },
+    logical(1),
+    USE.NAMES = FALSE
+  )
+
+  return(
+    unique(extract_attribute_names(components[invalid], TRUE))
+  )
+}
