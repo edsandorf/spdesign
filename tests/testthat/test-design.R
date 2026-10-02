@@ -135,3 +135,65 @@ test_that("Argument errors are not swallowed", {
     )
   )
 })
+
+test_that("Designs with interactions give a complete variance-covariance matrix", {
+  # Interaction terms used to be dropped from the Fisher information matrix,
+  # which gave the warning 'longer object length is not a multiple of shorter
+  # object length'
+  utility <- list(
+    alt1 = "b_x1[0.1] * x1[1:5] + b_x2[0.4] * x2[c(0, 1)] + b_x12[-0.1] * I(x1 * x2)",
+    alt2 = "b_x1      * x1      + b_x2      * x2"
+  )
+
+  set.seed(1234)
+
+  expect_warning(
+    design <- quiet_design(
+      utility,
+      rows = 10,
+      algorithm = "federov",
+      control = list(max_iter = 20)
+    ),
+    NA
+  )
+
+  expect_equal(rownames(design$vcov), names(priors(utility)))
+  expect_true(isSymmetric(unname(design$vcov)))
+  expect_false("I(alt1_x1*alt1_x2)" %in% names(design$design))
+})
+
+test_that("Dummy-coded attributes with levels other than 1, 2, ..., K are an error", {
+  utility <- list(
+    alt1 = "b_x1_dummy[c(0.1, 0.2)] * x1[c(0, 1, 2)] + b_x2[0.4] * x2[c(0, 1)]",
+    alt2 = "b_x1_dummy                * x1                + b_x2      * x2"
+  )
+
+  expect_error(
+    quiet_design(utility, rows = 6, algorithm = "rsc"),
+    "Please check the levels and priors of: x1"
+  )
+})
+
+test_that("Attribute names ending in _dummy are an error", {
+  # The _dummy extension belongs on the parameter, not the attribute
+  utility <- list(
+    alt1 = "b_x1[c(0.1, 0.2)] * x1_dummy[c(1, 2, 3)] + b_x2[0.4] * x2[c(0, 1)]",
+    alt2 = "b_x1                * x1_dummy                + b_x2      * x2"
+  )
+
+  expect_error(
+    quiet_design(utility, rows = 6, algorithm = "rsc"),
+    "Attribute names cannot end in '_dummy'"
+  )
+
+  # Also when the parameter is dummy-coded
+  utility <- list(
+    alt1 = "b_x1_dummy[c(0.1, 0.2)] * x1_dummy[c(1, 2, 3)] + b_x2[0.4] * x2[c(0, 1)]",
+    alt2 = "b_x1_dummy                * x1_dummy                + b_x2      * x2"
+  )
+
+  expect_error(
+    quiet_design(utility, rows = 6, algorithm = "rsc"),
+    "Please rename: x1_dummy"
+  )
+})

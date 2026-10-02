@@ -20,6 +20,25 @@ test_that("Attribute names are extracted correctly", {
   expect_true(all(extract_attribute_names("b_x1[0.1] * x_1 + b_x2[seq(0, 1, 0.1)] * x_2[1]", TRUE) == c("x_1", "x_2")))
 })
 
+test_that("Names in interaction and power terms are extracted correctly", {
+  # Interactions with and without spaces around the operator
+  expect_equal(extract_all_names("b_x12[0.1] * I(x1 * x2)", TRUE), c("b_x12", "x1", "x2"))
+  expect_equal(extract_all_names("b_x12[0.1] * I(x1*x2)", TRUE), c("b_x12", "x1", "x2"))
+  expect_equal(extract_attribute_names("b_x12[0.1] * I(x1*x2)", TRUE), c("x1", "x2"))
+
+  # Numbers are not names
+  expect_equal(extract_all_names("b_x1sq[0.1] * I(x1^2)", TRUE), c("b_x1sq", "x1"))
+  expect_equal(extract_all_names("b_x1sq[0.1] * I(x1 ^ 2)", TRUE), c("b_x1sq", "x1"))
+
+  # Names can start with a capital I
+  expect_equal(extract_attribute_names("b_inc[0.1] * Income[1:3]", TRUE), "Income")
+
+  # Level occurrences, priors and b_ inside an attribute name
+  expect_equal(extract_all_names("b_x1_dummy[c(0.1, 0.2)] * x1[c(1, 2, 3)](4:14, 4:14, 4:14)", TRUE), c("b_x1_dummy", "x1"))
+  expect_equal(extract_all_names("b_x1[normal_p(0, 1)] * x1[1:3]", TRUE), c("b_x1", "x1"))
+  expect_equal(extract_attribute_names("b_trips[0.1] * nb_trips[1:3]", TRUE), "nb_trips")
+})
+
 test_that("Value arguments are extracted correctly", {
   expect_equal(extract_values("b_x[1]", TRUE), "1")
   expect_equal(extract_values("b_x[1*0.2]", TRUE), "1*0.2")

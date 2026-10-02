@@ -1,83 +1,100 @@
-#' Define base x_j
+#' Define x_j
 #'
-#' Defines the base of the x_j list using the parsed utility expression,
-#' design_candidate and the base model matrix
+#' Defines x_j, the list of attribute matrices with one matrix per alternative.
+#' Each matrix has one column per term in the utility function of that
+#' alternative: attributes, expanded dummy-coded attributes and, if requested,
+#' interaction terms. The columns are named after the terms and keep the order
+#' of \code{\link{model.matrix}}.
 #'
 #' @inheritParams federov
 #' @param design_candidate The current design candidate under consideration
+#' @param terms A list of terms and their parameters returned by
+#' \code{\link{pair_param_terms}}. The default pairs the terms of the updated
+#' utility functions.
+#' @param interactions If TRUE, include interaction terms. The default is TRUE.
 #'
-#' @return A base list x_j with model matrices the lenght of J
-define_base_x_j <- function(utility, design_candidate) {
-  x_j <- lapply(utility_formula(utility), function(x) {
-    return(
-      model.matrix(x, design_candidate)
-    )
-  })
+#' @return A list of model matrices, one per alternative
+define_x_j <- function(
+  utility,
+  design_candidate,
+  terms = pair_param_terms(update_utility(utility)),
+  interactions = TRUE
+) {
+  x_j <- mapply(
+    function(formula, t) {
+      x <- model.matrix(formula, design_candidate)
+      colnames(x) <- remove_whitespace(colnames(x))
 
-  # Subset to exclude base dummylevel
-  x_j <- lapply(x_j, function(x) {
-    x[,
-      colnames(x) %in% extract_attribute_names(update_utility(utility)),
-      drop = FALSE
-    ]
-  })
+      unmatched <- setdiff(names(t), colnames(x))
 
-  return(x_j)
-}
+      if (length(unmatched) > 0) {
+        stop(
+          "Could not match the following terms in the utility functions: ",
+          paste(unmatched, collapse = ", "),
+          ". Check that each prior is written before its attribute, e.g. ",
+          "'b_x1[0.1] * x1[1:3]'."
+        )
+      }
 
-#' Define x_j
-#'
-#' Define x_j to use for the analytic derivatives of the variance-covariance
-#' matrix. x_j is derived based on the provided utility functions and design
-#' candidate using base model.matrix to automatically handle alternative
-#' specific attributes and interaction terms
-#'
-#' We can extract the attribute names for each utility function to allow us
-#' to place the correct restrictions on the design candidate. Specifically, we
-#' restrict all levels of unavailable attributes to zero for alternatives where
-#' they do not feature. This is to ensure that we do not give weight when
-#' deriving the variance-covariance matrix using \code{\link{derive_vcov}}.
-#' Furthermore, the Xs are "sorted" using the order of the candidate set, which
-#' ensures that when we calculate the sum of the probabilities times X, the
-#' correct columns are added together. See \code{\link{derive_vcov}}.
-#'
-#' @inheritParams define_base_x_j
-#'
-#' @return The list x_j
-define_x_j <- function(utility, design_candidate) {
-  # Determine x_j (by using model.matrix we automatically handle interactions)
-  x_j <- define_base_x_j(utility, design_candidate)
-
-  # We need to remove the alternative designation from x_j given long-format
-  # model setup
-  x_j <- lapply(x_j, function(x) {
-    colnames(x) <- str_replace_all(colnames(x), "^.*?_", "")
-    return(x)
-  })
-
-  # Create new matrices to ensure 0 columns for alternative specific attributes
-  x_j_unique_colnames <- unique(do.call(c, lapply(x_j, colnames)))
-  model_matrix <- matrix(
-    0,
-    nrow = nrow(design_candidate),
-    ncol = length(x_j_unique_colnames),
-    dimnames = list(
-      NULL,
-      x_j_unique_colnames
-    )
+      x[, colnames(x) %in% names(t), drop = FALSE]
+    },
+    utility_formula(utility),
+    terms,
+    SIMPLIFY = FALSE
   )
 
-  # Replace the x_j which ensures that each list element (matrix) is of equal
-  # size and handles interactions and alternative specific attributes
-  x_j <- lapply(x_j, function(x) {
-    model_matrix[, colnames(x)] <- x
-    return(
-      model_matrix
-    )
-  })
+  if (!interactions) {
+    x_j <- lapply(x_j, function(x) {
+      x[, !str_detect(colnames(x), "^I\\("), drop = FALSE]
+    })
+  }
 
-  # Return x_j
   return(
     x_j
+  )
+}
+
+#' Align x_j with the priors
+#'
+#' Renames the columns of x_j from terms to parameters, so that a generic
+#' parameter is a single column even if its attribute has a different name in
+#' each alternative. Parameters that do not enter the utility function of an
+#' alternative are zero for that alternative. The columns are ordered as the
+#' priors, which ensures that the variance-covariance matrix derived by
+#' \code{\link{derive_vcov}} matches the priors.
+#'
+#' @param x_j A list of model matrices returned by \code{\link{define_x_j}}
+#' @param terms A list of terms and their parameters returned by
+#' \code{\link{pair_param_terms}}
+#' @param names_priors The names of the priors
+#'
+#' @return The list x_j with one column per prior in the order of the priors
+align_x_j <- function(x_j, terms, names_priors) {
+  unmatched <- setdiff(unlist(terms), names_priors)
+
+  if (length(unmatched) > 0) {
+    stop(
+      "The following parameters do not have a prior: ",
+      paste(unmatched, collapse = ", ")
+    )
+  }
+
+  model_matrix <- matrix(
+    0,
+    nrow = nrow(x_j[[1]]),
+    ncol = length(names_priors),
+    dimnames = list(NULL, names_priors)
+  )
+
+  return(
+    mapply(
+      function(x, t) {
+        model_matrix[, t[colnames(x)]] <- x
+        return(model_matrix)
+      },
+      x_j,
+      terms,
+      SIMPLIFY = FALSE
+    )
   )
 }

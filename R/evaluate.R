@@ -21,25 +21,17 @@ evaluate_design_candidate <- function(
   return_all,
   significance
 ) {
-  # Define x_j for the analytical derivatives
-  x_j <- define_x_j(utility, design_candidate)
+  # Pair the terms of the utility functions with their parameters. The updated
+  # utility functions are stored in the design environment.
+  terms <- pair_param_terms(design_env[["utility_string"]])
+  x_j <- define_x_j(utility, design_candidate, terms)
 
-  design_candidate_with_names <- x_j
-  for (i in seq_along(design_candidate_with_names)) {
-    colnames(design_candidate_with_names[[i]]) <- paste(
-      names(design_candidate_with_names[i]),
-      colnames(design_candidate_with_names[[i]]),
-      sep = "_"
-    )
-  }
-
-  # Update the design environment NB! Using design_candidate because we are
-  # evaluating the expression in context and don't need the interaction cols
+  # Update the design environment with the attributes and x_j aligned with the
+  # priors for the analytical derivatives
   list2env(
-    # c(as.list(as.data.frame(do.call(cbind, define_base_x_j(utility, design_candidate)))),
     c(
-      as.list(as.data.frame(do.call(cbind, design_candidate_with_names))),
-      list(x_j = x_j)
+      as.list(as.data.frame(do.call(cbind, x_j))),
+      list(x_j = align_x_j(x_j, terms, names(prior_values[[1]])))
     ),
     envir = design_env
   )

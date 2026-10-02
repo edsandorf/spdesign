@@ -226,16 +226,17 @@ V = list(
 )
 ```
 
-Here we have specified 2 priors and 3 levels. The dummy coding expands the attribute levels by transforming the attribute into a factor and expanding it using a formula and the model.matrix. The first level is chosen as the baseline and dropped. Similarly, the priors are expanded into separate priors for each level. This also works with Bayesian priors. 
+Here we have specified 2 priors and 3 levels. The dummy coding expands the attribute levels by transforming the attribute into a factor and expanding it using a formula and the model.matrix. The first level is chosen as the baseline and dropped. Similarly, the priors are expanded into separate priors for each level. This also works with Bayesian priors.
 
-It is recommended to use 1, 2, 3, 4 for the levels of a dummy-coded attribute. Note that the levels don't matter, but this naming convention secures that there is a correspondence between the names for the priors and attributes. 
+The levels of a dummy-coded attribute *must* be 1, 2, ..., K, where 1 is the base level. Only the number of levels matters for the design, and this convention ensures that the names of the expanded priors and attributes correspond, e.g. `b_x12` and `x12` for level 2. If your levels have a meaning, e.g. 1500, 750 and 500 wind mills, code them as 1, 2 and 3 and keep track of the mapping yourself. `generate_design()` returns an error if a dummy-coded attribute has other levels, or does not have exactly one prior fewer than levels.
 
 A few things to note about using the `_dummy` syntax
 
-1. The priors and levels must be specified simultaneously. 
+1. The priors and levels must be specified simultaneously.
 1. You must specify one more level for the attribute than priors for the parameter.
-1. You cannot use `_dummy` as an extension for your attribute name. 
-1. If you are using specified levels for the status-quo or opt out alternative, make sure that this corresponds to the base level and is coded as a 0. See more details below. 
+1. The levels must be 1, 2, ..., K, where 1 is the base level.
+1. You cannot use `_dummy` as an extension for your attribute name. The extension belongs on the parameter, e.g. `b_x1_dummy[c(0.2, 0.5)] * x1[c(1, 2, 3)]`, and `generate_design()` returns an error if an attribute name ends in `_dummy`.
+1. If you are using specified levels for the status-quo or opt out alternative, make sure that this corresponds to the base level, i.e. level 1. See more details below.
 1. If you are using alternative specific dummy-coded attributes, make sure that you differentiate the names of the priors *before* the `_dummy` extension. Placing anything between `_dummmy` and `[` will cause the code to fail.
 
 

@@ -32,7 +32,7 @@ test_that("Normal interaction priors are extracted", {
 
 test_that("Normal dummy priors are extracted", {
   utility <- list(
-    alt1 = "b_x1_dummy[c(0.1, 0.2)] * x_1[c(1, 3, 5)] + b_x2[0.4] * x_2[c(0, 1)] + b_x3[-0.2] * x_3[seq(0, 1, 0.25)]",
+    alt1 = "b_x1_dummy[c(0.1, 0.2)] * x_1[c(1, 2, 3)] + b_x2[0.4] * x_2[c(0, 1)] + b_x3[-0.2] * x_3[seq(0, 1, 0.25)]",
     alt2 = "b_x1_dummy      * x_1      + b_x2      * x_2          + b_x3          * x_3"
   )
 
@@ -46,7 +46,7 @@ test_that("Normal dummy priors are extracted", {
 
 test_that("Normal dummy priors are extracted", {
   utility <- list(
-    alt1 = "b_x1_dummy[c(-0.1, 0.2)] * x_1[c(1, 3, 5)] + b_x2[0.4] * x_2[c(0, 1)] + b_x3[-0.2] * x_3[seq(0, 1, 0.25)]",
+    alt1 = "b_x1_dummy[c(-0.1, 0.2)] * x_1[c(1, 2, 3)] + b_x2[0.4] * x_2[c(0, 1)] + b_x3[-0.2] * x_3[seq(0, 1, 0.25)]",
     alt2 = "b_x1_dummy      * x_1      + b_x2      * x_2          + b_x3          * x_3"
   )
 
@@ -59,7 +59,7 @@ test_that("Normal dummy priors are extracted", {
 
 test_that("Normal dummy priors are extracted", {
   utility <- list(
-    alt1 = "b_x1_dummy[c(-0.1, 0.2)] * x_1[c(1, 3, 5)] + b_x2_dummy[c(0.3, 0.4)] * x_2[c(0, 1, 2)] + b_x3[-0.2] * x_3[seq(0, 1, 0.25)]",
+    alt1 = "b_x1_dummy[c(-0.1, 0.2)] * x_1[c(1, 2, 3)] + b_x2_dummy[c(0.3, 0.4)] * x_2[c(1, 2, 3)] + b_x3[-0.2] * x_3[seq(0, 1, 0.25)]",
     alt2 = "b_x1_dummy      * x_1      + b_x2      * x_2          + b_x3          * x_3"
   )
 
@@ -72,7 +72,7 @@ test_that("Normal dummy priors are extracted", {
 
 test_that("Normal dummy priors are extracted", {
   utility <- list(
-    alt1 = "b_x1_dummy[c(-0.1, --0.2)] * x_1[c(1, 3, 5)] + b_x2[0.4] * x_2[c(0, 1)] + b_x3[-0.2] * x_3[seq(0, 1, 0.25)]",
+    alt1 = "b_x1_dummy[c(-0.1, --0.2)] * x_1[c(1, 2, 3)] + b_x2[0.4] * x_2[c(0, 1)] + b_x3[-0.2] * x_3[seq(0, 1, 0.25)]",
     alt2 = "b_x1_dummy      * x_1      + b_x2      * x_2          + b_x3          * x_3"
   )
 
@@ -101,7 +101,7 @@ test_that("Normal bayesian priors are extracted", {
 
 test_that("Normal bayesian dummy priors are extracted", {
   utility <- list(
-    alt1 = "b_x1[0.1] * x_1[2:5] + b_x2_dummy[c(uniform_p(-1, 1), uniform_p(-1, 1))] * x_2[c(0, 1)] + b_x3[normal_p(0, 1)] * x_3[seq(0, 1, 0.25)]",
+    alt1 = "b_x1[0.1] * x_1[2:5] + b_x2_dummy[c(uniform_p(-1, 1), uniform_p(-1, 1))] * x_2[c(1, 2, 3)] + b_x3[normal_p(0, 1)] * x_3[seq(0, 1, 0.25)]",
     alt2 = "b_x1      * x_1      + b_x2_dummy      * x_2          + b_x3          * x_3"
   )
 

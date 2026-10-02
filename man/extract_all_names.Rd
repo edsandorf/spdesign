@@ -22,6 +22,7 @@ ensure that if a word is used inside a square bracket, e.g. seq, it is not
 extracted.
 }
 \details{
-Note that we are not matching spaces nor the interaction operator I(). This
-is to avoid I being identified as its own (unspecified) attribute.
+A name is a word that starts with a letter and is not followed by an opening
+round bracket. This avoids extracting numbers, e.g. the 2 in I(x1^2), and
+functions such as the interaction operator I() as attributes.
 }
