@@ -9,8 +9,9 @@ exclude(candidate_set, exclusions)
 \arguments{
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
-candidate set is provided, then the full factorial subject to specified
-exclusions will be used. This is passed in as an object and not a character
+candidate set is provided, then it is built from the utility functions
+subject to specified exclusions with \code{\link{build_candidate_set}}.
+This is passed in as an object and not a character
 string. The candidate set will be expanded to include zero columns to
 consider alternative specific attributes.}
 
@@ -21,7 +22,6 @@ directly from the list of options or it is a modified list of exclusions}
 A restricted candidate set
 }
 \description{
-The function takes the list of exclusions and transforms them into an
-expression that is then parsed and evaluated to apply the exclusions
-to the supplied candidate set using standard subsetting routines.
+Each exclusion is evaluated with the columns of the candidate set as
+variables, and the rows where it is TRUE are removed.
 }
