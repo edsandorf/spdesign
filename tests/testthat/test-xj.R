@@ -3,7 +3,7 @@ context("Test the definition and alignment of x_j")
 # Draw a design candidate from the full factorial. Dummy-coded attributes are
 # turned into factors before sampling, as in generate_design()
 draw_design_candidate <- function(utility, rows = 12) {
-  candidate_set <- full_factorial(expand_attribute_levels(utility))
+  candidate_set <- expand.grid(expand_attribute_levels(utility), KEEP.OUT.ATTRS = FALSE)
 
   for (i in which(names(candidate_set) %in% dummy_names(utility))) {
     candidate_set[, i] <- as.factor(candidate_set[, i])

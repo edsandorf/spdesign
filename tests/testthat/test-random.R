@@ -7,7 +7,7 @@ test_that("Random design candidates satisfy the level occurrences", {
   )
 
   rows <- 20
-  candidate_set <- full_factorial(expand_attribute_levels(utility))
+  candidate_set <- expand.grid(expand_attribute_levels(utility), KEEP.OUT.ATTRS = FALSE)
 
   set.seed(1234)
 

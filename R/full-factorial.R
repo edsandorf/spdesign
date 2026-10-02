@@ -1,43 +1,37 @@
 #' Generate the full factorial
 #'
-#' The function is a wrapper around \code{\link{expand.grid}} and
-#' generates the full factorial given the supplied attributes. The attributes
-#' can either be specified directly by the user or extracted from the list
-#' of utility functions using.
+#' This function is deprecated and will be removed in a future version. Use
+#' \code{\link{build_candidate_set}} to build a candidate set from the utility
+#' functions, or \code{\link{expand.grid}} to create the full factorial of a
+#' list of attributes with levels that are different from those in the utility
+#' functions.
 #'
-#' The full factorial is often used as the starting point to generate a
-#' candidate set. Note that the full factorial will include unrealistic and
-#' completely dominated alternatives. It is therefore advised to use a subset
-#' of the full factorial as a candidate set. The user can call
-#' \code{full_factorial} and create a subset that is passed to
-#' \code{\link{generate_design}} using the `candidate_set` parameter, or supply
-#' a set of restrictions through the `restrictions` argument.
+#' The function is a wrapper around \code{\link{expand.grid}} and generates the
+#' full factorial given the supplied attributes.
 #'
 #' @param attrs A named list of attributes and their levels
 #'
-#' @return A matrix containing the full factorial
+#' @return A data frame containing the full factorial
 #'
 #' @examples
-#' opts <- list(
-#'   level_balance = FALSE,
-#'   tasks = 10
-#' )
 #' attrs <- list(
 #'   a1 = 1:5,
 #'   a2 = c(0, 1)
 #' )
 #'
-#' full_factorial(attrs)
-#'
-#' V <- list(
-#'   alt1 = "b_a1[0.1] * a1[1:5] + b_a2[-2] * a2[c(0, 1)]",
-#'   alt2 = "b_a1      * a1      + b_a2     * a2"
-#' )
-#'
-#' attrs <- expand_attribute_levels(V)
-#' full_factorial(attrs)
+#' # Instead of full_factorial(attrs)
+#' expand.grid(attrs)
 #'
 #' @export
 full_factorial <- function(attrs) {
+  .Deprecated(
+    "build_candidate_set",
+    msg = paste(
+      "full_factorial() is deprecated. Use build_candidate_set() to build a",
+      "candidate set from the utility functions, or expand.grid() for a list",
+      "of attributes."
+    )
+  )
+
   expand.grid(attrs)
 }
