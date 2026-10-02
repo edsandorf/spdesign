@@ -47,3 +47,16 @@ rep_cols <- function(x, times) {
     x[, rep(seq_len(ncol(x)), each = times), drop = FALSE]
   )
 }
+
+#' Match names as whole words
+#'
+#' Creates regular expressions that match names as whole words, so that e.g.
+#' x1 does not match x10, b_x1 or alt1_x1. Names in the utility functions only
+#' contain letters, digits and underscores.
+#'
+#' @param name A character vector of names
+#'
+#' @return A character vector of regular expressions
+as_whole_word <- function(name) {
+  paste0("\\b", name, "\\b")
+}

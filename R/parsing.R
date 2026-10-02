@@ -108,7 +108,7 @@ clean_utility <- function(x) {
     for (i in seq_along(attribute_names)) {
       v_j <- str_replace_all(
         v_j,
-        paste0("\\b", attribute_names[[i]]),
+        as_whole_word(attribute_names[[i]]),
         paste(names(v[j]), attribute_names[i], sep = "_")
       )
     }
@@ -374,7 +374,7 @@ occurrences <- function(x, rows) {
   # Expand to the wide format
   occurrences <- lapply(seq_along(occurrences), function(i) {
     occurrences_j <- lapply(seq_along(x), function(j) {
-      if (str_detect(x[[j]], names(occurrences[i]))) {
+      if (str_detect(x[[j]], as_whole_word(names(occurrences[i])))) {
         occurrences_tmp <- occurrences[i]
         names(occurrences_tmp) <- paste(
           names(x[j]),

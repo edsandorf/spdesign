@@ -205,7 +205,7 @@ generate_design <- function(
       }
 
       # Extract only the specified in the utility function to check
-      regex <- paste0("\\b", attribute_names(utility))
+      regex <- as_whole_word(attribute_names(utility))
       utility_attributes <- vector(mode = "list", length = length(utility))
       for (i in seq_along(utility)) {
         idx <- str_detect(utility[[i]], regex)

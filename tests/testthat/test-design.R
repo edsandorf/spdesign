@@ -1,8 +1,10 @@
 context("Test the design search")
 
+# A small design with level occurrences. Its candidate set has 28 rows, which is
+# enough for designs that satisfy the level occurrences to exist.
 utility <- list(
-  alt1 = "b_x1[0.2] * x1[c(1, 2, 3)](2:4) + b_x2[-0.4] * x2[c(0, 1)](4)",
-  alt2 = "b_x1      * x1                  + b_x2       * x2"
+  alt1 = "b_x1[0.2] * x1[1:4](1:3) + b_x2[-0.4] * x2[c(0, 1)](3:5)",
+  alt2 = "b_x1      * x1           + b_x2       * x2"
 )
 
 rows <- 8
@@ -45,11 +47,18 @@ test_that("Federov and random designs satisfy level occurrences", {
 })
 
 test_that("Federov restarts and keeps the best design of each run", {
+  # A candidate set of 15 rows, so that the search reaches a local optimum
+  # and restarts within max_iter
+  utility <- list(
+    alt1 = "b_x1[0.2] * x1[c(1, 2, 3)] + b_x2[-0.4] * x2[c(0, 1)]",
+    alt2 = "b_x1      * x1             + b_x2       * x2"
+  )
+
   set.seed(1234)
 
   design <- quiet_design(
     utility,
-    rows,
+    rows = 6,
     algorithm = "federov",
     control = list(max_iter = 150)
   )
@@ -92,7 +101,7 @@ test_that("An error is raised when no design can identify all parameters", {
     alt2 = "b_x1      * x1             + b_x2       * x2"
   )
 
-  candidate_set <- full_factorial(expand_attribute_levels(utility))
+  candidate_set <- expand.grid(expand_attribute_levels(utility), KEEP.OUT.ATTRS = FALSE)
   candidate_set <- candidate_set[
     candidate_set$alt1_x2 == candidate_set$alt2_x2,
   ]
@@ -196,4 +205,66 @@ test_that("Attribute names ending in _dummy are an error", {
     quiet_design(utility, rows = 6, algorithm = "rsc"),
     "Please rename: x1_dummy"
   )
+})
+
+test_that("A supplied candidate set only needs the attributes of each alternative", {
+  # bus does not have x1, but x10 contains the text x1
+  utility <- list(
+    car = "b_x1[0.1] * x1[1:3] + b_cost[-0.2] * cost[c(5, 10)]",
+    bus = "b_bus[0.1] * bus[1] + b_x10[0.2] * x10[1:2] + b_cost * cost"
+  )
+
+  candidate_set <- expand.grid(
+    car_x1 = 1:3, car_cost = c(5, 10),
+    bus_bus = 1, bus_x10 = 1:2, bus_cost = c(5, 10),
+    KEEP.OUT.ATTRS = FALSE
+  )
+
+  set.seed(1234)
+
+  expect_error(
+    quiet_design(
+      utility,
+      rows = 6,
+      algorithm = "random",
+      candidate_set = candidate_set,
+      control = list(max_iter = 10)
+    ),
+    NA
+  )
+})
+
+test_that("Level occurrences that cannot be satisfied give an error", {
+  # Each level of x2 must occur 5 times, but there are only 8 rows
+  utility <- list(
+    alt1 = "b_x1[0.2] * x1[1:4] + b_x2[-0.4] * x2[c(0, 1)](5)",
+    alt2 = "b_x1      * x1      + b_x2       * x2"
+  )
+
+  set.seed(1234)
+
+  expect_error(
+    random_design_candidate(
+      utility,
+      build_candidate_set(utility),
+      rows = 8,
+      sample_with_replacement = FALSE,
+      max_attempts = 200
+    ),
+    "No design candidate that satisfies the level occurrences"
+  )
+})
+
+test_that("Designs can be generated with reversed pairs", {
+  set.seed(1234)
+
+  design <- quiet_design(
+    utility,
+    rows,
+    algorithm = "random",
+    control = list(max_iter = 20, allow_reversed_pairs = TRUE)
+  )
+
+  expect_equal(nrow(design$design), rows)
+  expect_equal(lvl_violation(utility, design$design, rows), 0)
 })
