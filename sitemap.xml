@@ -7,6 +7,7 @@
 <url><loc>https://spdesign.edsandorf.me/authors.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/index.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/news/index.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/align_x_j.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/all_priors_and_levels_specified.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/any_duplicates.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/attribute_level_balance.html</loc></url>
@@ -24,7 +25,6 @@
 <url><loc>https://spdesign.edsandorf.me/reference/contains_dummies.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/cor.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/cycle.html</loc></url>
-<url><loc>https://spdesign.edsandorf.me/reference/define_base_x_j.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/define_x_j.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/derive_vcov.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/derive_vcov_mnl.html</loc></url>
@@ -53,6 +53,7 @@
 <url><loc>https://spdesign.edsandorf.me/reference/has_bayesian_prior.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/has_random_parameter.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/index.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/invalid_dummy_coding.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/is_balanced.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/level_balance.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/level_occurrences_specified.html</loc></url>
@@ -69,6 +70,7 @@
 <url><loc>https://spdesign.edsandorf.me/reference/nlvls.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/normal.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/occurrences.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/pair_param_terms.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/prepare_priors.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/print.spdesign.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/print_efficiency_criteria.html</loc></url>

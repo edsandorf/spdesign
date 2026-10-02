@@ -400,20 +400,29 @@ and expanding it using a formula and the model.matrix. The first level
 is chosen as the baseline and dropped. Similarly, the priors are
 expanded into separate priors for each level. This also works with
 Bayesian priors.</p>
-<p>It is recommended to use 1, 2, 3, 4 for the levels of a dummy-coded
-attribute. Note that the levels don’t matter, but this naming convention
-secures that there is a correspondence between the names for the priors
-and attributes.</p>
+<p>The levels of a dummy-coded attribute <em>must</em> be 1, 2, …, K,
+where 1 is the base level. Only the number of levels matters for the
+design, and this convention ensures that the names of the expanded
+priors and attributes correspond, e.g. <code>b_x12</code> and
+<code>x12</code> for level 2. If your levels have a meaning, e.g. 1500,
+750 and 500 wind mills, code them as 1, 2 and 3 and keep track of the
+mapping yourself. <code><a href="../reference/generate_design.html">generate_design()</a></code> returns an error if a
+dummy-coded attribute has other levels, or does not have exactly one
+prior fewer than levels.</p>
 <p>A few things to note about using the <code>_dummy</code> syntax</p>
 <ol style="list-style-type: decimal">
 <li>The priors and levels must be specified simultaneously.</li>
 <li>You must specify one more level for the attribute than priors for
 the parameter.</li>
+<li>The levels must be 1, 2, …, K, where 1 is the base level.</li>
 <li>You cannot use <code>_dummy</code> as an extension for your
-attribute name.</li>
+attribute name. The extension belongs on the parameter,
+e.g. <code>b_x1_dummy[c(0.2, 0.5)] * x1[c(1, 2, 3)]</code>, and
+<code><a href="../reference/generate_design.html">generate_design()</a></code> returns an error if an attribute name
+ends in <code>_dummy</code>.</li>
 <li>If you are using specified levels for the status-quo or opt out
-alternative, make sure that this corresponds to the base level and is
-coded as a 0. See more details below.</li>
+alternative, make sure that this corresponds to the base level,
+i.e. level 1. See more details below.</li>
 <li>If you are using alternative specific dummy-coded attributes, make
 sure that you differentiate the names of the priors <em>before</em> the
 <code>_dummy</code> extension. Placing anything between
