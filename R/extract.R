@@ -6,15 +6,19 @@
 #' ensure that if a word is used inside a square bracket, e.g. seq, it is not
 #' extracted.
 #'
-#' Note that we are not matching spaces nor the interaction operator I(). This
-#' is to avoid I being identified as its own (unspecified) attribute.
+#' A name is a word that starts with a letter and is not followed by an opening
+#' round bracket. This avoids extracting numbers, e.g. the 2 in I(x1^2), and
+#' functions such as the interaction operator I() as attributes.
 #'
 #' @param string A character string
 #' @param simplify If TRUE return as a vector. Default is FALSE.
 #'
 #' @return A list or vector with all names
 extract_all_names <- function(string, simplify = FALSE) {
-  s <- str_extract_all(remove_all_brackets(string), "\\b[^(\\s|I\\()]\\w*\\b")
+  s <- str_extract_all(
+    remove_all_brackets(string),
+    "\\b[[:alpha:]]\\w*\\b(?!\\()"
+  )
   s <- lapply(s, unique)
 
   if (simplify) {
