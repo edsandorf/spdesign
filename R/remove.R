@@ -48,11 +48,3 @@ remove_square_brackets <- function(string) {
 remove_round_brackets <- function(string) {
   str_replace_all(string, "(?<!I)\\(.*?\\)", "")
 }
-
-#' Removes the parameter from the utility string
-#'
-#' @param prior A string with the parameter name
-#' @param string A string to remove param from
-remove_prior <- function(prior, string) {
-  str_replace_all(string, paste0("\\b", prior, "(\\s)*?(\\*|\\/|\\+|\\-)"), "")
-}
