@@ -135,3 +135,29 @@ test_that("Argument errors are not swallowed", {
     )
   )
 })
+
+test_that("Designs with interactions give a complete variance-covariance matrix", {
+  # Interaction terms used to be dropped from the Fisher information matrix,
+  # which gave the warning 'longer object length is not a multiple of shorter
+  # object length'
+  utility <- list(
+    alt1 = "b_x1[0.1] * x1[1:5] + b_x2[0.4] * x2[c(0, 1)] + b_x12[-0.1] * I(x1 * x2)",
+    alt2 = "b_x1      * x1      + b_x2      * x2"
+  )
+
+  set.seed(1234)
+
+  expect_warning(
+    design <- quiet_design(
+      utility,
+      rows = 10,
+      algorithm = "federov",
+      control = list(max_iter = 20)
+    ),
+    NA
+  )
+
+  expect_equal(rownames(design$vcov), names(priors(utility)))
+  expect_true(isSymmetric(unname(design$vcov)))
+  expect_false("I(alt1_x1*alt1_x2)" %in% names(design$design))
+})

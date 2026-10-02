@@ -51,7 +51,7 @@ random <- function(
       # attributes and interactions
       design_candidate_current <- do.call(
         cbind,
-        define_base_x_j(utility, design_candidate)
+        define_x_j(utility, design_candidate, interactions = FALSE)
       )
 
       # Evaluate the design_object candidate (wrapper function)

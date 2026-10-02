@@ -220,6 +220,30 @@ utility_formula <- function(x) {
   )
 }
 
+#' Pair the terms of the utility functions with their parameters
+#'
+#' Splits each updated utility function into its additive terms and pairs each
+#' term with its parameter, e.g. "b_x1x2 * I(alt1_x1 * alt1_x2)". The function
+#' is used on the output of \code{\link{update_utility}}, where dummy-coded
+#' attributes are already expanded.
+#'
+#' @param x A list of updated utility functions returned by
+#' \code{\link{update_utility}}
+#'
+#' @return A list with one named character vector per utility function. The
+#' values are the parameter names and the names are the terms, both without
+#' whitespace.
+pair_param_terms <- function(x) {
+  lapply(x, function(v) {
+    components <- str_split_fixed(str_split(v, "\\+")[[1]], "\\*", 2)
+
+    stats::setNames(
+      remove_whitespace(components[, 1]),
+      remove_whitespace(components[, 2])
+    )
+  })
+}
+
 
 #' Find the position of the dummy coded attributes
 #'

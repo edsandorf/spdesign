@@ -4,7 +4,12 @@
 \alias{define_x_j}
 \title{Define x_j}
 \usage{
-define_x_j(utility, design_candidate)
+define_x_j(
+  utility,
+  design_candidate,
+  terms = pair_param_terms(update_utility(utility)),
+  interactions = TRUE
+)
 }
 \arguments{
 \item{utility}{A named list of utility functions. See the examples and the
@@ -12,23 +17,20 @@ vignette for examples of how to define these correctly for different types
 of experimental designs.}
 
 \item{design_candidate}{The current design candidate under consideration}
+
+\item{terms}{A list of terms and their parameters returned by
+\code{\link{pair_param_terms}}. The default pairs the terms of the updated
+utility functions.}
+
+\item{interactions}{If TRUE, include interaction terms. The default is TRUE.}
 }
 \value{
-The list x_j
+A list of model matrices, one per alternative
 }
 \description{
-Define x_j to use for the analytic derivatives of the variance-covariance
-matrix. x_j is derived based on the provided utility functions and design
-candidate using base model.matrix to automatically handle alternative
-specific attributes and interaction terms
-}
-\details{
-We can extract the attribute names for each utility function to allow us
-to place the correct restrictions on the design candidate. Specifically, we
-restrict all levels of unavailable attributes to zero for alternatives where
-they do not feature. This is to ensure that we do not give weight when
-deriving the variance-covariance matrix using \code{\link{derive_vcov}}.
-Furthermore, the Xs are "sorted" using the order of the candidate set, which
-ensures that when we calculate the sum of the probabilities times X, the
-correct columns are added together. See \code{\link{derive_vcov}}.
+Defines x_j, the list of attribute matrices with one matrix per alternative.
+Each matrix has one column per term in the utility function of that
+alternative: attributes, expanded dummy-coded attributes and, if requested,
+interaction terms. The columns are named after the terms and keep the order
+of \code{\link{model.matrix}}.
 }
