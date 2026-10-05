@@ -1,0 +1,9 @@
+linux
+windows
+macos-arm64
+ubuntu-next
+atlas
+mkl
+nold
+nosuggests
+vnu

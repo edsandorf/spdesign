@@ -1,0 +1,29 @@
+# Runs the CRAN-like R-hub checks on the default branch every week, to catch
+# problems with R-devel or updated dependencies before CRAN does. The platforms
+# are listed in tools/rhub-platforms.txt, which tools/cran-prep.R also uses.
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+  workflow_dispatch:
+
+name: R-hub weekly
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Start the R-hub checks on the default branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run rhub.yaml \
+            --repo "$GITHUB_REPOSITORY" \
+            --ref "${{ github.event.repository.default_branch }}" \
+            -f config="$(paste -sd, tools/rhub-platforms.txt)" \
+            -f name="Weekly CRAN-like checks"
