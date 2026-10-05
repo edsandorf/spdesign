@@ -9,7 +9,8 @@ random_design_candidate(
   candidate_set,
   rows,
   sample_with_replacement,
-  print_counter = FALSE
+  print_counter = FALSE,
+  max_attempts = 1e+05
 )
 }
 \arguments{
@@ -19,8 +20,9 @@ of experimental designs.}
 
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
-candidate set is provided, then the full factorial subject to specified
-exclusions will be used. This is passed in as an object and not a character
+candidate set is provided, then it is built from the utility functions
+subject to specified exclusions with \code{\link{build_candidate_set}}.
+This is passed in as an object and not a character
 string. The candidate set will be expanded to include zero columns to
 consider alternative specific attributes.}
 
@@ -32,6 +34,9 @@ candidate set with replacement. The default is FALSE}
 \item{print_counter}{A boolean equal to TRUE if we print the number of
 attempts to find a design candidate every 1000th attempt. The default is
 FALSE}
+
+\item{max_attempts}{The maximum number of swaps to try before stopping with
+an error. The default is 100000.}
 }
 \description{
 Sample from the candidate set to create a random design_object. If level

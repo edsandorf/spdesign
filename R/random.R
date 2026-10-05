@@ -154,13 +154,16 @@ random <- function(
 #' @param print_counter A boolean equal to TRUE if we print the number of
 #' attempts to find a design candidate every 1000th attempt. The default is
 #' FALSE
+#' @param max_attempts The maximum number of swaps to try before stopping with
+#' an error. The default is 100000.
 #' @inheritParams generate_design
 random_design_candidate <- function(
   utility,
   candidate_set,
   rows,
   sample_with_replacement,
-  print_counter = FALSE
+  print_counter = FALSE,
+  max_attempts = 100000
 ) {
   # Set overall variables
   show_warning <- TRUE
@@ -182,9 +185,19 @@ random_design_candidate <- function(
   # Swap single rows, keeping swaps that do not move the design candidate
   # further away from the level occurrences
   while (violation > 0) {
+    if (counter > max_attempts) {
+      stop(
+        "No design candidate that satisfies the level occurrences was found ",
+        "in ", max_attempts, " attempts. The level occurrences may be too ",
+        "tight for the candidate set. For a candidate set with few rows, ",
+        "setting allow_reversed_pairs = TRUE in the control list of ",
+        "generate_design() gives the search more candidates."
+      )
+    }
+
     if (show_warning && difftime(Sys.time(), time_start, units = "secs") > 60) {
       cli_alert_info(
-        "No design candidate has been found. This could be because you have place too tight constraints on the design or that all design candidates result in a singular Fisher matrix. A singular Fisher matrix can happen if you have perfect multicollinearity in your utility functions."
+        "Still searching for a design candidate that satisfies the level occurrences. The level occurrences may be too tight for the candidate set."
       )
       show_warning <- FALSE
     }

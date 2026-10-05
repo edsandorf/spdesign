@@ -132,3 +132,31 @@ test_that("Only attributes with a dummy-coded parameter are expanded", {
          alt2 = "b_x1 * alt2_x1_dummy + b_x2 * alt2_x2")
   )
 })
+
+test_that("Formulas contain the terms of the utility functions", {
+  formulas <- function(utility) {
+    vapply(utility_formula(utility), function(f) paste(deparse(f), collapse = ""), "")
+  }
+
+  # Main effects, dummy coding, a status quo and Bayesian priors
+  expect_equal(
+    formulas(list(
+      sq = "b_sq[normal_p(0.2, 0.1)] * sq[1]",
+      alt1 = "b_x1_dummy[c(uniform_p(-1, 1), 0.2)] * x1[c(1, 2, 3)] + b_x2[normal_p(0.4, 0.1)] * x2[c(0, 1)]",
+      alt2 = "b_x1_dummy * x1 + b_x2 * x2"
+    )),
+    c(sq = "~0 + sq_sq", alt1 = "~0 + alt1_x1 + alt1_x2", alt2 = "~0 + alt2_x1 + alt2_x2")
+  )
+
+  # Interactions with and without spaces and a squared term
+  expect_equal(
+    formulas(list(
+      alt1 = "b_x1[0.1] * x1[1:3] + b_x2[0.2] * x2[c(0, 1)] + b_x12[0.1] * I(x1 * x2) + b_x1sq[0.1] * I(x1^2)",
+      alt2 = "b_x1 * x1 + b_x2 * x2 + b_x12 * I(x1*x2)"
+    )),
+    c(
+      alt1 = "~0 + alt1_x1 + alt1_x2 + I(alt1_x1 * alt1_x2) + I(alt1_x1^2)",
+      alt2 = "~0 + alt2_x1 + alt2_x2 + I(alt2_x1 * alt2_x2)"
+    )
+  )
+})

@@ -11,8 +11,9 @@ utility <- list(
   alt3 = "b_sq[0]   * sq[1]"
 )
 
-# Use the full factorial as the candidate set
-candidate_set <- full_factorial(
+# Use the full factorial of attribute levels, which can differ from those in
+# the utility functions, as the candidate set
+candidate_set <- expand.grid(
   list(
     alt1_x1 = 2:5,
     alt1_x2 = c(0, 1),

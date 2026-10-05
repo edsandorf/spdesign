@@ -41,8 +41,9 @@ denominator. Must be specified when optimizing for 'c-error'}
 
 \item{candidate_set}{A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
-candidate set is provided, then the full factorial subject to specified
-exclusions will be used. This is passed in as an object and not a character
+candidate set is provided, then it is built from the utility functions
+subject to specified exclusions with \code{\link{build_candidate_set}}.
+This is passed in as an object and not a character
 string. The candidate set will be expanded to include zero columns to
 consider alternative specific attributes.}
 
@@ -50,7 +51,9 @@ consider alternative specific attributes.}
 
 \item{save_designs}{A boolean indicating whether to save up to 10 intermediate designs. The default value is FALSE.}
 
-\item{control}{A list of control options}
+\item{control}{A list of control options. Set `allow_reversed_pairs = TRUE`
+to include the profiles of exchangeable alternatives in every order when the
+candidate set is built. See \code{\link{build_candidate_set}}.}
 }
 \value{
 A list of class 'spdesign'

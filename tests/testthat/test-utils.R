@@ -21,3 +21,12 @@ test_that("Repeat columns correctly repeats the columns of a matrix", {
     )
   )
 })
+
+test_that("Names are matched as whole words", {
+  expect_true(stringr::str_detect("b_x1 * x1", as_whole_word("x1")))
+  expect_true(stringr::str_detect("I(x1*x2)", as_whole_word("x1")))
+  expect_false(stringr::str_detect("b_x10 * x10", as_whole_word("x1")))
+  expect_false(stringr::str_detect("alt1_x1", as_whole_word("x1")))
+  expect_false(stringr::str_detect("b_sq[0.2] * sq[1]", as_whole_word("b")))
+  expect_false(stringr::str_detect("b_p[normal_p(0, 1)] * q", as_whole_word("p")))
+})

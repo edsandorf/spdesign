@@ -62,3 +62,21 @@ test_that(
     )
   }
 )
+
+test_that("C-efficiency only uses the parameter named in dudx", {
+  # b_x1 is the start of b_x12, e.g. for a dummy-coded attribute
+  expect_equal(
+    calculate_efficiency_criteria(
+      design_vcov = x,
+      p = c("b_x1" = 0.2, "b_x12" = -0.1),
+      dudx = "b_x1",
+      type = "c-error"
+    ),
+    calculate_efficiency_criteria(
+      design_vcov = x,
+      p = c("b_x1" = 0.2, "b_x2" = -0.1),
+      dudx = "b_x1",
+      type = "c-error"
+    )
+  )
+})

@@ -31,14 +31,17 @@
 #' denominator. Must be specified when optimizing for 'c-error'
 #' @param candidate_set A matrix or data frame in the "wide" format containing
 #' all permitted combinations of attributes. The default is NULL. If no
-#' candidate set is provided, then the full factorial subject to specified
-#' exclusions will be used. This is passed in as an object and not a character
+#' candidate set is provided, then it is built from the utility functions
+#' subject to specified exclusions with \code{\link{build_candidate_set}}.
+#' This is passed in as an object and not a character
 #' string. The candidate set will be expanded to include zero columns to
 #' consider alternative specific attributes.
 #' @param exclusions A list of exclusions Often this list will be pulled
 #' directly from the list of options or it is a modified list of exclusions
 #' @param save_designs A boolean indicating whether to save up to 10 intermediate designs. The default value is FALSE.
-#' @param control A list of control options
+#' @param control A list of control options. Set `allow_reversed_pairs = TRUE`
+#' to include the profiles of exchangeable alternatives in every order when the
+#' candidate set is built. See \code{\link{build_candidate_set}}.
 #'
 #' @return An object of class 'spdesign'. For the 'federov' algorithm, the list
 #' element 'runs' holds the best design of each run of the search and its
@@ -71,7 +74,8 @@ generate_design <- function(
     max_relabel = 10000,
     max_no_improve = 100000,
     efficiency_threshold = 0.000001,
-    sample_with_replacement = FALSE
+    sample_with_replacement = FALSE,
+    allow_reversed_pairs = FALSE
   )
 ) {
   # Match and check model arguments ----
@@ -131,7 +135,8 @@ generate_design <- function(
     max_swap = 10000,
     max_no_improve = 100000,
     efficiency_threshold = 0.000001,
-    sample_with_replacement = FALSE
+    sample_with_replacement = FALSE,
+    allow_reversed_pairs = FALSE
   )
 
   control <- modifyList(default_control, control)
@@ -171,16 +176,20 @@ generate_design <- function(
   if (algorithm %in% c("random", "federov")) {
     cli_h2("Checking the candidate set and applying exclusions")
 
-    # If no candidate set is supplied generate full factorial if not run simple
-    # checks
+    # If no candidate set is supplied, build it with the exclusions applied.
+    # Otherwise, check the supplied candidate set and apply the exclusions.
     if (is.null(candidate_set)) {
       cli_alert_info(
-        "No candidate set supplied. The design will use the full factorial subject to supplied constraints."
+        "No candidate set supplied. The candidate set is built from the utility functions subject to supplied constraints."
       )
 
-      candidate_set <- full_factorial(expand_attribute_levels(utility))
+      candidate_set <- build_candidate_set(
+        utility,
+        exclusions,
+        control$allow_reversed_pairs
+      )
 
-      cli_alert_success("Full factorial created")
+      cli_alert_success("Candidate set created")
     } else {
       stopifnot((is.matrix(candidate_set) || is.data.frame(candidate_set)))
 
@@ -205,7 +214,7 @@ generate_design <- function(
       }
 
       # Extract only the specified in the utility function to check
-      regex <- paste0("\\b", attribute_names(utility))
+      regex <- as_whole_word(attribute_names(utility))
       utility_attributes <- vector(mode = "list", length = length(utility))
       for (i in seq_along(utility)) {
         idx <- str_detect(utility[[i]], regex)
@@ -265,10 +274,9 @@ generate_design <- function(
           )
         }
       }
-    }
 
-    # Apply the exclusions to the candidate set
-    candidate_set <- exclude(candidate_set, exclusions)
+      candidate_set <- exclude(candidate_set, exclusions)
+    }
 
     # Transform the candiate set such that attributes that are dummy coded
     # are turned into factors. This ensures that we can use the model.matrix()

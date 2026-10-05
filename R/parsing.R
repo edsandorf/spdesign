@@ -108,7 +108,7 @@ clean_utility <- function(x) {
     for (i in seq_along(attribute_names)) {
       v_j <- str_replace_all(
         v_j,
-        paste0("\\b", attribute_names[[i]]),
+        as_whole_word(attribute_names[[i]]),
         paste(names(v[j]), attribute_names[i], sep = "_")
       )
     }
@@ -190,10 +190,11 @@ update_utility <- function(x) {
 #' Create formulas from the utility functions
 #'
 #' Create formulas from the utility functions such that we can create correct
-#' model matrices.
+#' model matrices. The formula of each utility function contains its terms,
+#' i.e. the utility function without the parameters.
 #'
-#' Note that this function should be used on a cleaned utility expression and
-#' **not** an updated utility expression. This is because we are converting
+#' Note that the formulas are created from the cleaned utility expression and
+#' **not** the updated utility expression. This is because we are converting
 #' dummy coded attributes to factors prior to calling \code{\link{model.matrix}}.
 #' This ensures that dummy coded attributes are correctly returned with the
 #' model matrix.
@@ -204,19 +205,9 @@ update_utility <- function(x) {
 #'
 #' @export
 utility_formula <- function(x) {
-  names_priors <- unique(extract_param_names(x, TRUE))
-
-  # Remove the prior from the cleaned utility expression
   return(
-    lapply(clean_utility(x), function(v) {
-      # Using a loop to iteratively overwrite v
-      for (p in names_priors) {
-        v <- remove_prior(p, v)
-      }
-
-      return(
-        as.formula(paste0("~ 0 + ", v))
-      )
+    lapply(pair_param_terms(clean_utility(x)), function(terms) {
+      as.formula(paste("~ 0 +", paste(names(terms), collapse = " + ")))
     })
   )
 }
@@ -236,7 +227,21 @@ utility_formula <- function(x) {
 #' whitespace.
 pair_param_terms <- function(x) {
   lapply(x, function(v) {
-    components <- str_split_fixed(str_split(v, "\\+")[[1]], "\\*", 2)
+    terms <- str_split(v, "\\+")[[1]]
+    components <- str_split_fixed(terms, "\\*", 2)
+
+    # Each term must be a parameter followed by '*' and its attribute
+    invalid <- !str_detect(components[, 1], "^\\s*b_\\w+\\s*$") |
+      remove_whitespace(components[, 2]) == ""
+
+    if (any(invalid)) {
+      stop(
+        "Could not match the following terms in the utility functions: ",
+        paste(str_trim(terms[invalid]), collapse = ", "),
+        ". Check that each prior is written before its attribute, e.g. ",
+        "'b_x1[0.1] * x1[1:3]'."
+      )
+    }
 
     stats::setNames(
       remove_whitespace(components[, 1]),
@@ -353,18 +358,9 @@ occurrences <- function(x, rows) {
     occurrence <- extract_level_occurrence(specified_values[idx][[i]])
     lvls <- eval(parse(text = paste0("list", occurrence)))
 
-    # Check if it only occurs once and repeat equal to the number of levels
+    # A single range applies to every level of the attribute
     if (length(lvls) == 1) {
-      # DANGER HERE: We are only using the first match. This will mean that
-      # different levels for the same attribute in different alternatives won't
-      # work.
-      lvls <- rep(
-        lvls,
-        length(attribute_lvls[[grep(
-          paste0("\\b.*?", names(occurrences)[[i]]),
-          names(attribute_lvls)
-        )[[1]]]])
-      )
+      lvls <- rep(lvls, length(attribute_levels(x)[[names(occurrences)[[i]]]]))
     }
 
     names(lvls) <- paste0("lvl", seq_along(lvls))
@@ -374,7 +370,7 @@ occurrences <- function(x, rows) {
   # Expand to the wide format
   occurrences <- lapply(seq_along(occurrences), function(i) {
     occurrences_j <- lapply(seq_along(x), function(j) {
-      if (str_detect(x[[j]], names(occurrences[i]))) {
+      if (str_detect(x[[j]], as_whole_word(names(occurrences[i])))) {
         occurrences_tmp <- occurrences[i]
         names(occurrences_tmp) <- paste(
           names(x[j]),
