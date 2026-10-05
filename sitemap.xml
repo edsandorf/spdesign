@@ -10,10 +10,12 @@
 <url><loc>https://spdesign.edsandorf.me/reference/align_x_j.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/all_priors_and_levels_specified.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/any_duplicates.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/as_whole_word.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/attribute_level_balance.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/attribute_levels.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/attribute_names.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/block.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/build_candidate_set.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/calculate_a_error.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/calculate_c_error.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/calculate_d_error.html</loc></url>
@@ -22,9 +24,11 @@
 <url><loc>https://spdesign.edsandorf.me/reference/calculate_s_error.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/clean_utility.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/coef.spdesign.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/combine_profiles.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/contains_dummies.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/cor.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/cycle.html</loc></url>
+<url><loc>https://spdesign.edsandorf.me/reference/define_profiles.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/define_x_j.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/derive_vcov.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/derive_vcov_mnl.html</loc></url>
@@ -85,7 +89,6 @@
 <url><loc>https://spdesign.edsandorf.me/reference/reexports.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/relabel.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/remove_all_brackets.html</loc></url>
-<url><loc>https://spdesign.edsandorf.me/reference/remove_prior.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/remove_round_brackets.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/remove_square_brackets.html</loc></url>
 <url><loc>https://spdesign.edsandorf.me/reference/remove_whitespace.html</loc></url>

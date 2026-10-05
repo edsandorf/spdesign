@@ -84,7 +84,8 @@ designs assuming that people are maximizing utility.</p>
 <span>  exclusions <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  save_designs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cores <span class="op">=</span> <span class="fl">1</span>, max_iter <span class="op">=</span> <span class="fl">10000</span>, max_relabel <span class="op">=</span> <span class="fl">10000</span>, max_no_improve <span class="op">=</span></span>
-<span>    <span class="fl">1e+05</span>, efficiency_threshold <span class="op">=</span> <span class="fl">1e-06</span>, sample_with_replacement <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    <span class="fl">1e+05</span>, efficiency_threshold <span class="op">=</span> <span class="fl">1e-06</span>, sample_with_replacement <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    allow_reversed_pairs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -140,8 +141,9 @@ denominator. Must be specified when optimizing for 'c-error'</p></dd>
 <dt id="arg-candidate-set">candidate_set<a class="anchor" aria-label="anchor" href="#arg-candidate-set"></a></dt>
 <dd><p>A matrix or data frame in the "wide" format containing
 all permitted combinations of attributes. The default is NULL. If no
-candidate set is provided, then the full factorial subject to specified
-exclusions will be used. This is passed in as an object and not a character
+candidate set is provided, then it is built from the utility functions
+subject to specified exclusions with <code><a href="build_candidate_set.html">build_candidate_set</a></code>.
+This is passed in as an object and not a character
 string. The candidate set will be expanded to include zero columns to
 consider alternative specific attributes.</p></dd>
 
@@ -156,7 +158,9 @@ directly from the list of options or it is a modified list of exclusions</p></dd
 
 
 <dt id="arg-control">control<a class="anchor" aria-label="anchor" href="#arg-control"></a></dt>
-<dd><p>A list of control options</p></dd>
+<dd><p>A list of control options. Set `allow_reversed_pairs = TRUE`
+to include the profiles of exchangeable alternatives in every order when the
+candidate set is built. See <code><a href="build_candidate_set.html">build_candidate_set</a></code>.</p></dd>
 
 </dl></div>
     <div id="value">

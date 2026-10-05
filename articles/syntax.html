@@ -276,14 +276,14 @@ exclusions in your design when using the <code>rsc</code> algorithm. For
 details: <code><a href="../reference/rsc.html">?rsc</a></code></p>
 <p>The <code>federov</code> and <code>random</code> algorithms will
 systematically or randomly select potential design candidates from the
-candidate set. The candidate set can be either supplied or assumed to be
-the full factorial. These algorithms completely lets go of attribute
-level balance and you do run the risk of some attribute levels not
-showing up in the final design. We show syntax below to include level
-occurrence restrictions below. You can easily include restrictions in
-your design using these to algorithms by excluding attribute level
-combinations from the candidate set. That way, they will never be part
-of the design.</p>
+candidate set. The candidate set can be either supplied or built from
+the utility functions (see ‘Building the candidate set’ below). These
+algorithms completely lets go of attribute level balance and you do run
+the risk of some attribute levels not showing up in the final design. We
+show syntax below to include level occurrence restrictions below. You
+can easily include restrictions in your design using these to algorithms
+by excluding attribute level combinations from the candidate set. That
+way, they will never be part of the design.</p>
 <p>Note that in general, both restrictions and attribute level balance
 may lead to less efficient designs and that if your restrictions are too
 tight and you are trying to force attribute level balance, no designs
@@ -436,7 +436,7 @@ fail.</li>
 <p>When using the <code>federov</code> or <code>random</code>
 algorithms, we can pass along a list of exclusions to
 <code>generate_design</code>. The exclusions will exclude the specified
-combinations from the full factorial prior to generating design
+combinations from the candidate set prior to generating design
 candidates. The exclusions take the form of an unamed list of strings.
 You must ensure that the names of the list corresponds to the names of
 the expanded attribute levels (see
@@ -446,6 +446,39 @@ the expanded attribute levels (see
 <span>  <span class="st">"alt1_x1 == 2 &amp; alt1_x2 == 0 &amp; alt1_x3 == 0"</span>,</span>
 <span>  <span class="st">"alt2_x2 == 1 &amp; alt2_x3 == 1"</span></span>
 <span><span class="op">)</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="building-the-candidate-set">Building the candidate set<a class="anchor" aria-label="anchor" href="#building-the-candidate-set"></a>
+</h3>
+<p>If you do not supply a candidate set, <code><a href="../reference/generate_design.html">generate_design()</a></code>
+builds it one alternative at a time with
+<code><a href="../reference/build_candidate_set.html">build_candidate_set()</a></code> instead of from the full factorial of
+all alternatives. This uses far less memory, which matters for designs
+with many attributes, levels and alternatives.</p>
+<p>The profiles of each alternative are built first, and exclusions that
+only refer to a single alternative are applied to them straight away.
+Alternatives with identical utility functions and profiles, e.g. two
+unlabelled alternatives, are exchangeable. A choice task that only
+differs from another in the order of exchangeable alternatives is the
+same choice task, and by default each set of different profiles is only
+included once. The order of the exchangeable alternatives is randomised
+in each row so that no alternative systematically gets the same
+profiles. Labelled alternatives are combined as in the full
+factorial.</p>
+<p>Because the order of exchangeable alternatives is random, exclusions
+across exchangeable alternatives must be specified in both directions.
+For example, to exclude choice tasks where one alternative dominates the
+other:</p>
+<pre><code><span><span class="va">exclusions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"alt1_x1 &lt;= alt2_x1 &amp; alt1_x2 &gt;= alt2_x2"</span>,</span>
+<span>  <span class="st">"alt2_x1 &lt;= alt1_x1 &amp; alt2_x2 &gt;= alt1_x2"</span></span>
+<span><span class="op">)</span></span></code></pre>
+<p>If you want the profiles of exchangeable alternatives in every order,
+set <code>allow_reversed_pairs = TRUE</code> in the <code>control</code>
+list of <code><a href="../reference/generate_design.html">generate_design()</a></code>. This gives a much larger
+candidate set, and a warning is given if it has more than a million
+rows. You can also call <code><a href="../reference/build_candidate_set.html">build_candidate_set()</a></code> directly,
+inspect the result and supply it as the candidate set.</p>
 </div>
 <div class="section level3">
 <h3 id="specifying-constants-and-levels-of-the-sq-alternative">Specifying constants and levels of the SQ alternative<a class="anchor" aria-label="anchor" href="#specifying-constants-and-levels-of-the-sq-alternative"></a>
@@ -488,6 +521,10 @@ this:</p>
 <li>You can use the <code>rsc</code> algorithm instead, which will
 obviate the need to have the full factorial present.</li>
 </ol>
+<p>Note that the candidate set built by <code><a href="../reference/generate_design.html">generate_design()</a></code>
+is already much smaller than the full factorial when the design has
+exchangeable alternatives, and that exclusions that refer to a single
+alternative reduce its size further.</p>
 </div>
 <div class="section level3">
 <h3 id="supplying-a-candidate-set">Supplying a candidate set<a class="anchor" aria-label="anchor" href="#supplying-a-candidate-set"></a>
