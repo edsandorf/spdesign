@@ -1,6 +1,7 @@
 ##  Test environments
 * local MacOS Golden Gate 27.0, R 4.6.1
 * win-builder (devel and release)
+* rhub-platforms: linux, windows, macos-arm64, ubuntu-next, atlas, mkl, nold, nosuggests, vnu
 
 ## R CMD check results
 There were no ERRORs or WARNINGs
