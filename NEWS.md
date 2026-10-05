@@ -4,7 +4,7 @@
 * Fixed a bug where an exclusion on an attribute whose name starts with the name of another attribute, e.g. alt1_x10 and alt1_x1, was applied wrongly and could exclude every row of the candidate set.
 * full_factorial() is deprecated. Use build_candidate_set() to build a candidate set from the utility functions, or expand.grid() for a list of attributes.
 * Fixed a bug where level occurrences were applied to alternatives without the attribute when its name appeared inside another name, e.g. x1 inside x10 or b inside b_sq. The level occurrences could then never be satisfied and the search ran forever.
-* Fixed a bug where a single range of level occurrences, e.g. x1[1:3](2:6), could be applied to the number of levels of another attribute whose name starts with the same name, e.g. x10.
+* Fixed a bug where a single range of level occurrences, e.g. `x1[1:3](2:6)`, could be applied to the number of levels of another attribute whose name starts with the same name, e.g. x10.
 * Fixed a bug where a supplied candidate set was checked for attributes that an alternative does not have when its name appeared inside another name, e.g. x1 inside x10.
 * Fixed a bug where the C-error used more than one parameter in the denominator when another parameter name starts with the name given in dudx, e.g. b_x1 and b_x12.
 * The search for a design candidate that satisfies the level occurrences now stops with an informative error after 100,000 attempts instead of running forever.
