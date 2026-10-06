@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7.9000</span>
       </span>
     </div>
 
@@ -57,9 +57,12 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/edsandorf/spdesign/blob/v0.0.7/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/edsandorf/spdesign/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="development version" id="spdesign-development-version">spdesign (development version)<a class="anchor" aria-label="anchor" href="#spdesign-development-version"></a></h2>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.7" id="spdesign-v007">spdesign v0.0.7<a class="anchor" aria-label="anchor" href="#spdesign-v007"></a></h2>
 <ul><li>New function build_candidate_set() builds the candidate set one alternative at a time instead of from the full factorial of all alternatives. Exclusions that refer to a single alternative are applied to its profiles before the alternatives are combined, and choice tasks that only differ in the order of exchangeable alternatives, e.g. two unlabelled alternatives, are only included once. This uses far less memory for large designs. generate_design() now uses it when no candidate set is supplied. Designs with exchangeable alternatives generated with a given seed will differ from earlier versions.</li>
