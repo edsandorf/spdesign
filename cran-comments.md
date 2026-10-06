@@ -1,14 +1,14 @@
-##  Test environments
-* local MacOS Golden Gate 27.0, R 4.6.1
-* win-builder (devel and release)
+## Test environments
+* local macOS 27.0.1, R 4.6.1
+* win-builder: R-devel (2026-10-05 r90641) and R-release (4.6.1)
+* R-hub: linux, windows and macos-arm64 (R-devel), ubuntu-next (R 4.6.1 patched), atlas, mkl, nold, nosuggests and vnu
+* GitHub Actions: macOS (release), Windows (release) and Ubuntu (devel, release and oldrel-1)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs
+There were no ERRORs, WARNINGs or NOTEs.
 
-There was 1 NOTE:
-  Sklodowska and INSPiRE in description are names and not spelling mistakes.
-  Mariel et al are not misspelled, but parts of a reference. 
-  There is one call to saveRDS(). This is to allow users to save intermediate designs when generating them. This requires users to actively set the argument save_designs = TRUE in the generate_design() function. The default is FALSE to avoid modifying package users computers and environments without explicit consent.
+## Additional comments
+There is one call to saveRDS(). It allows users to save intermediate designs while they are generated. Users must actively set the argument save_designs = TRUE in generate_design(). The default is FALSE, so that nothing is written to the user's computer without explicit consent.
 
 ## Downstream dependencies
-There are currently no downstream dependencies for this package
+There are currently no downstream dependencies for this package.
