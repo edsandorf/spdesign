@@ -1,6 +1,8 @@
 # spdesign (development version)
 * The 'rsc' algorithm now relabels or swaps a single column of the current design candidate in each iteration, working through the columns in turn, and discards changes that are not accepted. Previously, every column was changed in each iteration and the changes were kept even when the design was rejected, so the search drifted away from the best design. This finds substantially more efficient designs. Designs generated with a given seed will differ from earlier versions.
 * The 'rsc' algorithm now only accepts a design candidate that improves the best design, as the 'federov' and 'random' algorithms do. Previously, a design candidate that was as good as the best design was also accepted. This printed a line for each such candidate and restarted the count of iterations without improvement, so a new base design was never tried.
+* The 'rsc' algorithm now restarts from a new base design candidate after max_no_improve iterations without improvement, and each restart searches from its own starting point. Previously, a new base design candidate could only be accepted if it beat the best design found so far, so the search could not move after a restart. The best design across all runs is returned as the design, and the best design of each run is stored in the new list element 'runs', as for the 'federov' algorithm.
+* The default for max_no_improve in the control list of generate_design() is now 1000 instead of 100000. The 'rsc' search usually reaches a local optimum within a few hundred iterations, and with the old default it never restarted.
 * Swapping in the 'rsc' algorithm now always swaps two rows with different levels, so that no iterations are spent on changes that leave the design as it is.
 
 # spdesign v0.0.7

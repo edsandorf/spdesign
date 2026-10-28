@@ -43,7 +43,8 @@
 #' to include the profiles of exchangeable alternatives in every order when the
 #' candidate set is built. See \code{\link{build_candidate_set}}.
 #'
-#' @return An object of class 'spdesign'. For the 'federov' algorithm, the list
+#' @return An object of class 'spdesign'. For the 'federov' and 'rsc'
+#' algorithms, the list
 #' element 'runs' holds the best design of each run of the search and its
 #' efficiency criteria. The best design across all runs is the one returned as
 #' the design.
@@ -72,7 +73,7 @@ generate_design <- function(
     cores = 1,
     max_iter = 10000,
     max_relabel = 10000,
-    max_no_improve = 100000,
+    max_no_improve = 1000,
     efficiency_threshold = 0.000001,
     sample_with_replacement = FALSE,
     allow_reversed_pairs = FALSE
@@ -133,7 +134,7 @@ generate_design <- function(
     max_iter = 10000,
     max_relabel = 10000,
     max_swap = 10000,
-    max_no_improve = 100000,
+    max_no_improve = 1000,
     efficiency_threshold = 0.000001,
     sample_with_replacement = FALSE,
     allow_reversed_pairs = FALSE

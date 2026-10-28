@@ -7,8 +7,15 @@
 #'
 #' Each iteration relabels or swaps the levels of a single column of the
 #' current design candidate, working through the columns with more than one
-#' level in turn. The change is kept if it improves the best design found so far
-#' and discarded otherwise.
+#' level in turn. The change is kept if it improves the current design
+#' candidate and discarded otherwise.
+#'
+#' If there is no improvement in `max_no_improve` iterations, the design
+#' candidate is a local optimum. The search then restarts from a new base
+#' design candidate. The best design found across all runs is returned as the
+#' design. The best design of each run, including the one that is still running
+#' when the search stops, is stored in the list element 'runs' together with
+#' its efficiency criteria.
 #'
 #' @inheritParams federov
 #'
@@ -37,14 +44,33 @@ rsc <- function(
   iter_na <- 0
   iter_no_improve <- 1
   alg <- "relabel"
-  efficiency_current_best <- Inf
+  efficiency_current_best <- Inf # best design found so far
+  efficiency_design <- Inf # current design candidate
+  run_best <- NULL
 
   # Return the best design found so far if the search is interrupted
   tryCatch(
     repeat {
       # Create an initial design candidate OR a new candidate when a sufficient
-      # number of attempts have been made without any improvement.
+      # number of attempts have been made without any improvement. The best
+      # design of each run is stored, and the new run starts from scratch.
       if (iter == 1 || iter_no_improve > control$max_no_improve) {
+        if (!is.null(run_best)) {
+          design_object[["runs"]] <- c(design_object[["runs"]], list(run_best))
+        }
+
+        # Only report the first restart to avoid flooding the console
+        if (length(design_object[["runs"]]) == 1 && iter > 1) {
+          cli_alert_info(paste0(
+            "No improvement in ",
+            control$max_no_improve,
+            " iterations. Restarting from a new base design candidate. Further restarts are not reported."
+          ))
+        }
+
+        efficiency_design <- Inf
+        run_best <- NULL
+
         # Create a level balanced design candidate or near level balanced candidate
         design_candidate <- generate_rsc_candidate(utility, rows)
 
@@ -63,14 +89,6 @@ rsc <- function(
         idx_column <- 0
 
         iter_no_improve <- 1
-
-        if (iter > 1) {
-          cli_alert_info(paste0(
-            "We've tried ",
-            control$max_no_improve,
-            " candidates without improvement. Trying new base design candidate."
-          ))
-        }
       }
 
       # Swith algorithm every max_relabel iterations
@@ -128,35 +146,43 @@ rsc <- function(
         iter_na <- 0
       }
 
-      # Accept the design candidate if it improves the best design. A design
-      # where the efficiency criteria is NA is never accepted.
+      # Accept the design candidate if it improves the current design
+      # candidate. A design where the efficiency criteria is NA is never
+      # accepted.
       if (
         !is.na(efficiency_current) &&
-          efficiency_current < efficiency_current_best
+          efficiency_current < efficiency_design
       ) {
         design_candidate <- trial
-
-        # Print information to console and update ----
-        print_iteration_information(
-          iter,
-          values = efficiency_outputs[["efficiency_measures"]],
-          criteria = c("a-error", "c-error", "d-error", "s-error"),
-          digits = 4,
-          padding = 10,
-          width = 80,
-          efficiency_criteria
+        efficiency_design <- efficiency_current
+        run_best <- list(
+          design = tibble::as_tibble(design_candidate_current),
+          efficiency_criteria = efficiency_outputs[["efficiency_measures"]]
         )
-
-        # Update current best criteria
-        design_object[["design"]] <- design_candidate_current
-        design_object[["efficiency_criteria"]] <- efficiency_outputs[[
-          "efficiency_measures"
-        ]]
-        design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
-        efficiency_current_best <- efficiency_current
 
         # Reset iter_no_improve when we have an improvement.
         iter_no_improve <- 1
+
+        # Update the best design found so far across all runs
+        if (efficiency_current < efficiency_current_best) {
+          # Print information to console and update ----
+          print_iteration_information(
+            iter,
+            values = efficiency_outputs[["efficiency_measures"]],
+            criteria = c("a-error", "c-error", "d-error", "s-error"),
+            digits = 4,
+            padding = 10,
+            width = 80,
+            efficiency_criteria
+          )
+
+          design_object[["design"]] <- design_candidate_current
+          design_object[["efficiency_criteria"]] <- efficiency_outputs[[
+            "efficiency_measures"
+          ]]
+          design_object[["vcov"]] <- efficiency_outputs[["vcov"]]
+          efficiency_current_best <- efficiency_current
+        }
       }
 
       # Save designs
@@ -198,6 +224,15 @@ rsc <- function(
         "Search interrupted. Returning the best design found so far."
       )
     }
+  )
+
+  # Store the best design of the last run
+  if (!is.null(run_best)) {
+    design_object[["runs"]] <- c(design_object[["runs"]], list(run_best))
+  }
+
+  cli_alert_info(
+    "Completed {length(design_object[['runs']])} run{?s} of the search."
   )
 
   # Return the design candidate
