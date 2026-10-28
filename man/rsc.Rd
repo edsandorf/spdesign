@@ -61,3 +61,9 @@ Depending on the setting the function calls a combination of
 to create new design candidates. The code is intentionally written modular
 to allow for all special cases of the algorithm.
 }
+\details{
+Each iteration relabels or swaps the levels of a single column of the
+current design candidate, working through the columns with more than one
+level in turn. The change is kept if the design is at least as good as the
+best design found so far and discarded otherwise.
+}

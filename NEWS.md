@@ -1,4 +1,6 @@
 # spdesign (development version)
+* The 'rsc' algorithm now relabels or swaps a single column of the current design candidate in each iteration, working through the columns in turn, and discards changes that are not accepted. Previously, every column was changed in each iteration and the changes were kept even when the design was rejected, so the search drifted away from the best design. This finds substantially more efficient designs. Designs generated with a given seed will differ from earlier versions.
+* Swapping in the 'rsc' algorithm now always swaps two rows with different levels, so that no iterations are spent on changes that leave the design as it is.
 
 # spdesign v0.0.7
 * New function build_candidate_set() builds the candidate set one alternative at a time instead of from the full factorial of all alternatives. Exclusions that refer to a single alternative are applied to its profiles before the alternatives are combined, and choice tasks that only differ in the order of exchangeable alternatives, e.g. two unlabelled alternatives, are only included once. This uses far less memory for large designs. generate_design() now uses it when no candidate set is supplied. Designs with exchangeable alternatives generated with a given seed will differ from earlier versions.

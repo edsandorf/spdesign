@@ -5,6 +5,11 @@
 #' to create new design candidates. The code is intentionally written modular
 #' to allow for all special cases of the algorithm.
 #'
+#' Each iteration relabels or swaps the levels of a single column of the
+#' current design candidate, working through the columns with more than one
+#' level in turn. The change is kept if the design is at least as good as the
+#' best design found so far and discarded otherwise.
+#'
 #' @inheritParams federov
 #'
 rsc <- function(
@@ -49,6 +54,14 @@ rsc <- function(
           design_candidate[, i] <- as.factor(design_candidate[, i])
         }
 
+        # Only columns with more than one level can be relabeled or swapped
+        varying <- which(vapply(
+          design_candidate,
+          function(x) length(unique(x)) > 1,
+          logical(1)
+        ))
+        idx_column <- 0
+
         iter_no_improve <- 1
 
         if (iter > 1) {
@@ -65,26 +78,29 @@ rsc <- function(
         alg <- ifelse(alg == "relabel", "swap", "relabel")
       }
 
-      # Get the design candidate
-      for (i in seq_len(ncol(design_candidate))) {
-        design_candidate[, i] <- switch(
-          alg,
-          relabel = relabel(design_candidate[, i]),
-          swap = swap(design_candidate[, i])
-        )
-      }
+      # Try a relabel or swap on a copy of the design candidate, so that a
+      # rejected change never needs undoing. Work through the columns in turn.
+      idx_column <- idx_column %% length(varying) + 1
+      i <- varying[idx_column]
+
+      trial <- design_candidate
+      trial[, i] <- switch(
+        alg,
+        relabel = relabel(trial[, i]),
+        swap = swap(trial[, i])
+      )
 
       # Define the current design candidate considering alternative specific
       # attributes and interactions
       design_candidate_current <- do.call(
         cbind,
-        define_x_j(utility, design_candidate, interactions = FALSE)
+        define_x_j(utility, trial, interactions = FALSE)
       )
 
       # Evaluate the design candidate (wrapper function)
       efficiency_outputs <- evaluate_design_candidate(
         utility,
-        design_candidate,
+        trial,
         prior_values,
         design_env,
         model,
@@ -118,6 +134,8 @@ rsc <- function(
         !is.na(efficiency_current) &&
           efficiency_current <= efficiency_current_best
       ) {
+        design_candidate <- trial
+
         # Print information to console and update ----
         print_iteration_information(
           iter,
@@ -228,8 +246,9 @@ relabel <- function(x) {
 #' example, if the attributes in the first and fourth choice situation (row)
 #' are swapped, then (1, 2, 1, 3, 2, 3) becomes( 3, 2, 1, 1, 2, 3).
 #'
-#' The algorithm randomly samples 2 row positions that are swapped and
-#' the swaps are independent across attributes and alternatives
+#' The algorithm randomly samples 2 row positions with different levels that
+#' are swapped, so that every swap changes the design candidate. A column with
+#' a single level is returned unchanged.
 #'
 #' @inheritParams relabel
 #'
@@ -237,13 +256,16 @@ relabel <- function(x) {
 #' Hensher, D. A., Rose, J. M. & Greene, W., 2005, Applied Choice Analysis,
 #' 2nd ed., Cambridge University Press
 swap <- function(x) {
-  pos <- sample(seq_len(length(x)), 2, replace = FALSE)
+  first <- sample(length(x), 1)
+  candidates <- which(x != x[first])
 
-  pos_one_lvl <- x[[pos[[1]]]]
-  pos_two_lvl <- x[[pos[[2]]]]
+  # A constant column cannot change
+  if (length(candidates) == 0) {
+    return(x)
+  }
 
-  x[[pos[[1]]]] <- pos_two_lvl
-  x[[pos[[2]]]] <- pos_one_lvl
+  second <- candidates[sample(length(candidates), 1)]
+  x[c(first, second)] <- x[c(second, first)]
 
   return(x)
 }

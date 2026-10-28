@@ -15,8 +15,9 @@ example, if the attributes in the first and fourth choice situation (row)
 are swapped, then (1, 2, 1, 3, 2, 3) becomes( 3, 2, 1, 1, 2, 3).
 }
 \details{
-The algorithm randomly samples 2 row positions that are swapped and
-the swaps are independent across attributes and alternatives
+The algorithm randomly samples 2 row positions with different levels that
+are swapped, so that every swap changes the design candidate. A column with
+a single level is returned unchanged.
 }
 \references{
 Hensher, D. A., Rose, J. M. & Greene, W., 2005, Applied Choice Analysis,
