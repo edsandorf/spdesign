@@ -41,6 +41,7 @@ rsc <- function(
 
   # Set iteration defaults
   iter <- 1
+  iter_alg <- 1
   iter_na <- 0
   iter_no_improve <- 1
   alg <- "relabel"
@@ -91,9 +92,11 @@ rsc <- function(
         iter_no_improve <- 1
       }
 
-      # Swith algorithm every max_relabel iterations
-      if (iter %% control$max_relabel == 0) {
-        alg <- ifelse(alg == "relabel", "swap", "relabel")
+      # Switch between relabeling and swapping after max_relabel and max_swap
+      # iterations respectively
+      if (iter_alg > control[[paste0("max_", alg)]]) {
+        alg <- if (alg == "relabel") "swap" else "relabel"
+        iter_alg <- 1
       }
 
       # Try a relabel or swap on a copy of the design candidate, so that a
@@ -214,6 +217,7 @@ rsc <- function(
 
       # Add to the iteration
       iter <- iter + 1
+      iter_alg <- iter_alg + 1
 
       # Add to the no improvement iterator. It's reset upon improvement
       iter_no_improve <- iter_no_improve + 1

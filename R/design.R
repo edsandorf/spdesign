@@ -72,7 +72,8 @@ generate_design <- function(
   control = list(
     cores = 1,
     max_iter = 10000,
-    max_relabel = 10000,
+    max_relabel = 500,
+    max_swap = 500,
     max_no_improve = 1000,
     efficiency_threshold = 0.000001,
     sample_with_replacement = FALSE,
@@ -132,8 +133,8 @@ generate_design <- function(
   default_control <- list(
     cores = 1,
     max_iter = 10000,
-    max_relabel = 10000,
-    max_swap = 10000,
+    max_relabel = 500,
+    max_swap = 500,
     max_no_improve = 1000,
     efficiency_threshold = 0.000001,
     sample_with_replacement = FALSE,
