@@ -15,8 +15,7 @@ test_that("Random design candidates satisfy the level occurrences", {
     design_candidate <- random_design_candidate(
       utility,
       candidate_set,
-      rows,
-      sample_with_replacement = FALSE
+      rows
     )
 
     expect_equal(nrow(design_candidate), rows)

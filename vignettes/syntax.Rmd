@@ -134,12 +134,11 @@ The list `control` contains options that can be passed along to the function to 
     max_swap = 500,
     max_no_improve = 1000,
     efficiency_threshold = 0.000001,
-    sample_with_replacement = FALSE,
     allow_reversed_pairs = FALSE
   )
 ```
 
-`max_relabel`, `max_swap` and `max_no_improve` are only used by the `rsc` algorithm, `sample_with_replacement` only by the `random` algorithm, and `allow_reversed_pairs` only by the `random` and `federov` algorithms.
+`max_relabel`, `max_swap` and `max_no_improve` are only used by the `rsc` algorithm, and `allow_reversed_pairs` only by the `random` and `federov` algorithms.
 
 ### Algorithms and attribute level balance
 No default algorithm for generating a design is implemented because they have different properties with respect to how easy it is to achieve attribute level balance (see more details below) and how easy it is to include restrictions/exclusions in the design (see more details below). Three algorithms are implemented: `rsc`, `federov`, and `random`. 

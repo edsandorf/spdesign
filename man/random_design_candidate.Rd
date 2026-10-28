@@ -8,7 +8,6 @@ random_design_candidate(
   utility,
   candidate_set,
   rows,
-  sample_with_replacement,
   print_counter = FALSE,
   max_attempts = 1e+05
 )
@@ -27,9 +26,6 @@ string. The candidate set will be expanded to include zero columns to
 consider alternative specific attributes.}
 
 \item{rows}{An integer giving the number of rows in the final design}
-
-\item{sample_with_replacement}{A boolean equal to TRUE if we sample from the
-candidate set with replacement. The default is FALSE}
 
 \item{print_counter}{A boolean equal to TRUE if we print the number of
 attempts to find a design candidate every 1000th attempt. The default is

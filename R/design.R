@@ -76,7 +76,6 @@ generate_design <- function(
     max_swap = 500,
     max_no_improve = 1000,
     efficiency_threshold = 0.000001,
-    sample_with_replacement = FALSE,
     allow_reversed_pairs = FALSE
   )
 ) {
@@ -137,9 +136,17 @@ generate_design <- function(
     max_swap = 500,
     max_no_improve = 1000,
     efficiency_threshold = 0.000001,
-    sample_with_replacement = FALSE,
     allow_reversed_pairs = FALSE
   )
+
+  if (!is.null(control$sample_with_replacement)) {
+    warning(
+      "The control option 'sample_with_replacement' is deprecated and ",
+      "ignored. Design candidates are always drawn without replacement, so ",
+      "the same choice task never occurs more than once in a design.",
+      call. = FALSE
+    )
+  }
 
   control <- modifyList(default_control, control)
 
@@ -298,6 +305,25 @@ generate_design <- function(
     # candidate_set <- as.matrix(candidate_set)
 
     cli_alert_success("All exclusions successfully applied")
+  }
+
+  # A design cannot have more rows than there are possible choice tasks. The
+  # rsc algorithm builds its design from the full factorial of the attribute
+  # levels, without a candidate set.
+  n_choice_tasks <- if (algorithm == "rsc") {
+    prod(lengths(expand_attribute_levels(utility)))
+  } else {
+    nrow(candidate_set)
+  }
+
+  if (rows > n_choice_tasks) {
+    stop(
+      "The design has ", rows, " rows, but there are only ", n_choice_tasks,
+      " possible choice tasks",
+      if (algorithm != "rsc") " in the candidate set after exclusions",
+      ". Reduce the number of rows, or allow more combinations of attribute ",
+      "levels."
+    )
   }
 
   # Prepare the list of priors ----

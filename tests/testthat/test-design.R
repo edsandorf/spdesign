@@ -248,7 +248,6 @@ test_that("Level occurrences that cannot be satisfied give an error", {
       utility,
       build_candidate_set(utility),
       rows = 8,
-      sample_with_replacement = FALSE,
       max_attempts = 200
     ),
     "No design candidate that satisfies the level occurrences"
@@ -290,5 +289,40 @@ test_that("Exclusions and level occurrences are an error with the rsc algorithm"
   expect_error(
     quiet_design(utility, rows = 6, algorithm = "rsc"),
     "can only be used with the 'random' or 'federov' algorithms"
+  )
+})
+
+test_that("A design cannot have more rows than possible choice tasks", {
+  utility <- list(
+    alt1 = "b_x1[0.2] * x1[1:2] + b_x2[-0.4] * x2[c(0, 1)]",
+    alt2 = "b_x1      * x1      + b_x2       * x2"
+  )
+
+  # 4 profiles give choose(4, 2) = 6 different choice tasks
+  for (algorithm in c("federov", "random")) {
+    expect_error(
+      quiet_design(utility, rows = 8, algorithm = algorithm),
+      "only 6 possible choice tasks in the candidate set"
+    )
+  }
+
+  # The full factorial of the attribute levels has 2^4 = 16 choice tasks
+  expect_error(
+    quiet_design(utility, rows = 20, algorithm = "rsc"),
+    "only 16 possible choice tasks"
+  )
+})
+
+test_that("sample_with_replacement is deprecated", {
+  set.seed(1234)
+
+  expect_warning(
+    quiet_design(
+      utility,
+      rows,
+      algorithm = "random",
+      control = list(max_iter = 5, sample_with_replacement = TRUE)
+    ),
+    "deprecated"
   )
 })

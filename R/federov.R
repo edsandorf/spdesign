@@ -93,10 +93,8 @@ federov <- function(
   design_candidate <- random_design_candidate(
     utility,
     candidate_set,
-    rows,
-    FALSE
+    rows
   )
-  # control$sample_with_replacement)
 
   # Level occurrences are fixed during the search, so parse them once
   has_occurrences <- level_occurrences_specified(utility)
@@ -127,8 +125,7 @@ federov <- function(
         design_candidate <- random_design_candidate(
           utility,
           candidate_set,
-          rows,
-          FALSE
+          rows
         )
         efficiency_design <- Inf
         iter_no_improve <- 0

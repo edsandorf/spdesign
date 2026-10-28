@@ -18,8 +18,7 @@ generate_design(
   exclusions = NULL,
   save_designs = FALSE,
   control = list(cores = 1, max_iter = 10000, max_relabel = 500, max_swap = 500,
-    max_no_improve = 1000, efficiency_threshold = 1e-06, sample_with_replacement = FALSE,
-    allow_reversed_pairs = FALSE)
+    max_no_improve = 1000, efficiency_threshold = 1e-06, allow_reversed_pairs = FALSE)
 )
 }
 \arguments{

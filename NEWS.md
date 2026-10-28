@@ -1,4 +1,6 @@
 # spdesign (development version)
+* The control option sample_with_replacement is deprecated and ignored with a warning. Design candidates are always drawn without replacement, so the same choice task never occurs more than once in a design.
+* generate_design() now gives an informative error when the design has more rows than there are possible choice tasks: in the candidate set after exclusions for the 'random' and 'federov' algorithms, or in the full factorial of the attribute levels for the 'rsc' algorithm.
 * The control option max_swap is now used by the 'rsc' algorithm. It relabels for max_relabel iterations and then swaps for max_swap iterations. Previously, it switched between relabeling and swapping every max_relabel iterations and ignored max_swap.
 * The defaults for max_relabel and max_swap in the control list of generate_design() are now 500 instead of 10000. With the old defaults, the 'rsc' algorithm never swapped within the default 10000 iterations. Alternating between relabeling and swapping finds considerably more efficient designs.
 * generate_design() now gives an error when exclusions or level occurrences are used with the 'rsc' algorithm. They were silently ignored before, because the 'rsc' algorithm does not use a candidate set.
