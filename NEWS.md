@@ -1,5 +1,6 @@
 # spdesign (development version)
 * The 'rsc' algorithm now relabels or swaps a single column of the current design candidate in each iteration, working through the columns in turn, and discards changes that are not accepted. Previously, every column was changed in each iteration and the changes were kept even when the design was rejected, so the search drifted away from the best design. This finds substantially more efficient designs. Designs generated with a given seed will differ from earlier versions.
+* The 'rsc' algorithm now only accepts a design candidate that improves the best design, as the 'federov' and 'random' algorithms do. Previously, a design candidate that was as good as the best design was also accepted. This printed a line for each such candidate and restarted the count of iterations without improvement, so a new base design was never tried.
 * Swapping in the 'rsc' algorithm now always swaps two rows with different levels, so that no iterations are spent on changes that leave the design as it is.
 
 # spdesign v0.0.7

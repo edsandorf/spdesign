@@ -7,8 +7,8 @@
 #'
 #' Each iteration relabels or swaps the levels of a single column of the
 #' current design candidate, working through the columns with more than one
-#' level in turn. The change is kept if the design is at least as good as the
-#' best design found so far and discarded otherwise.
+#' level in turn. The change is kept if it improves the best design found so far
+#' and discarded otherwise.
 #'
 #' @inheritParams federov
 #'
@@ -128,11 +128,11 @@ rsc <- function(
         iter_na <- 0
       }
 
-      # Accept the design candidate if it is at least as good as the best
-      # design. A design where the efficiency criteria is NA is never accepted.
+      # Accept the design candidate if it improves the best design. A design
+      # where the efficiency criteria is NA is never accepted.
       if (
         !is.na(efficiency_current) &&
-          efficiency_current <= efficiency_current_best
+          efficiency_current < efficiency_current_best
       ) {
         design_candidate <- trial
 
