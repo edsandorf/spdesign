@@ -268,3 +268,27 @@ test_that("Designs can be generated with reversed pairs", {
   expect_equal(nrow(design$design), rows)
   expect_equal(lvl_violation(utility, design$design, rows), 0)
 })
+
+test_that("Exclusions and level occurrences are an error with the rsc algorithm", {
+  utility <- list(
+    alt1 = "b_x1[0.2] * x1[c(1, 2, 3)] + b_x2[-0.4] * x2[c(0, 1)]",
+    alt2 = "b_x1      * x1             + b_x2       * x2"
+  )
+
+  expect_error(
+    quiet_design(
+      utility,
+      rows = 6,
+      algorithm = "rsc",
+      exclusions = list("alt1_x1 == 1 & alt1_x2 == 0")
+    ),
+    "can only be used with the 'random' or 'federov' algorithms"
+  )
+
+  utility$alt1 <- "b_x1[0.2] * x1[c(1, 2, 3)](1:3) + b_x2[-0.4] * x2[c(0, 1)]"
+
+  expect_error(
+    quiet_design(utility, rows = 6, algorithm = "rsc"),
+    "can only be used with the 'random' or 'federov' algorithms"
+  )
+})

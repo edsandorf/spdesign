@@ -174,6 +174,15 @@ generate_design <- function(
     )
   }
 
+  if (
+    algorithm == "rsc" &&
+      (length(exclusions) > 0 || level_occurrences_specified(utility))
+  ) {
+    stop(
+      "Exclusions and level occurrences can only be used with the 'random' or 'federov' algorithms."
+    )
+  }
+
   if (algorithm %in% c("random", "federov")) {
     cli_h2("Checking the candidate set and applying exclusions")
 
