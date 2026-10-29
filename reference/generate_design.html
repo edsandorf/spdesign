@@ -19,7 +19,7 @@ designs assuming that people are maximizing utility."><meta property="og:image" 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7.9001</span>
       </span>
     </div>
 
@@ -83,9 +83,8 @@ designs assuming that people are maximizing utility.</p>
 <span>  candidate_set <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  exclusions <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  save_designs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cores <span class="op">=</span> <span class="fl">1</span>, max_iter <span class="op">=</span> <span class="fl">10000</span>, max_relabel <span class="op">=</span> <span class="fl">10000</span>, max_no_improve <span class="op">=</span></span>
-<span>    <span class="fl">1e+05</span>, efficiency_threshold <span class="op">=</span> <span class="fl">1e-06</span>, sample_with_replacement <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    allow_reversed_pairs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cores <span class="op">=</span> <span class="fl">1</span>, max_iter <span class="op">=</span> <span class="fl">10000</span>, max_relabel <span class="op">=</span> <span class="fl">500</span>, max_swap <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>    max_no_improve <span class="op">=</span> <span class="fl">1000</span>, efficiency_threshold <span class="op">=</span> <span class="fl">1e-06</span>, allow_reversed_pairs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -165,7 +164,8 @@ candidate set is built. See <code><a href="build_candidate_set.html">build_candi
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of class 'spdesign'. For the 'federov' algorithm, the list
+    <p>An object of class 'spdesign'. For the 'federov' and 'rsc'
+algorithms, the list
 element 'runs' holds the best design of each run of the search and its
 efficiency criteria. The best design across all runs is the one returned as
 the design.</p>

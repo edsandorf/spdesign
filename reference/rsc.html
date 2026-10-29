@@ -20,7 +20,7 @@ to allow for all special cases of the algorithm."><meta property="og:image" cont
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7.9001</span>
       </span>
     </div>
 
@@ -147,6 +147,19 @@ to include the profiles of exchangeable alternatives in every order when the
 candidate set is built. See <code><a href="build_candidate_set.html">build_candidate_set</a></code>.</p></dd>
 
 </dl></div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>Each iteration relabels or swaps the levels of a single column of the
+current design candidate, working through the columns with more than one
+level in turn. The change is kept if it improves the current design
+candidate and discarded otherwise.</p>
+<p>If there is no improvement in `max_no_improve` iterations, the design
+candidate is a local optimum. The search then restarts from a new base
+design candidate. The best design found across all runs is returned as the
+design. The best design of each run, including the one that is still running
+when the search stops, is stored in the list element 'runs' together with
+its efficiency criteria.</p>
+    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

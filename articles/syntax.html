@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdesign</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7.9001</span>
       </span>
     </div>
 
@@ -249,11 +249,16 @@ options are:</p>
 <pre><code><span>  <span class="va">default_control</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    cores <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    max_iter <span class="op">=</span> <span class="fl">10000</span>,</span>
-<span>    max_relabel <span class="op">=</span> <span class="fl">10000</span>,</span>
-<span>    max_swap <span class="op">=</span> <span class="fl">10000</span>,</span>
-<span>    efficiency_threshold <span class="op">=</span> <span class="fl">0.1</span>,</span>
-<span>    sample_with_replacement <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>    max_relabel <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>    max_swap <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>    max_no_improve <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>    efficiency_threshold <span class="op">=</span> <span class="fl">0.000001</span>,</span>
+<span>    allow_reversed_pairs <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre>
+<p><code>max_relabel</code>, <code>max_swap</code> and
+<code>max_no_improve</code> are only used by the <code>rsc</code>
+algorithm, and <code>allow_reversed_pairs</code> only by the
+<code>random</code> and <code>federov</code> algorithms.</p>
 <div class="section level4">
 <h4 id="algorithms-and-attribute-level-balance">Algorithms and attribute level balance<a class="anchor" aria-label="anchor" href="#algorithms-and-attribute-level-balance"></a>
 </h4>
@@ -268,12 +273,15 @@ based on the provided attributes, levels and number of rows. This design
 candidate is attribute level balanced by default (if the number of
 attribute levels for all attributes are a multiple of the number of
 rows) or near attribute level balanced. It will not deviate from this.
-It finds new candidates by relabling or swapping attribute levels. The
-default is to cycle between relabling and swapping each 10000
-candidates. The cycling part of the algorithm is not included because it
-is rarely used in practice. You cannot include restrictions or
-exclusions in your design when using the <code>rsc</code> algorithm. For
-details: <code><a href="../reference/rsc.html">?rsc</a></code></p>
+It finds new candidates by relabeling or swapping the attribute levels
+of one column at a time. It relabels for <code>max_relabel</code>
+iterations and then swaps for <code>max_swap</code> iterations, and so
+on. If there is no improvement in <code>max_no_improve</code>
+iterations, it restarts from a new design candidate. The cycling part of
+the algorithm is not included because it is rarely used in practice. You
+cannot include restrictions or exclusions in your design when using the
+<code>rsc</code> algorithm, and <code><a href="../reference/generate_design.html">generate_design()</a></code> returns
+an error if you try. For details: <code><a href="../reference/rsc.html">?rsc</a></code></p>
 <p>The <code>federov</code> and <code>random</code> algorithms will
 systematically or randomly select potential design candidates from the
 candidate set. The candidate set can be either supplied or built from
