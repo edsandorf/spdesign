@@ -61,3 +61,16 @@ Depending on the setting the function calls a combination of
 to create new design candidates. The code is intentionally written modular
 to allow for all special cases of the algorithm.
 }
+\details{
+Each iteration relabels or swaps the levels of a single column of the
+current design candidate, working through the columns with more than one
+level in turn. The change is kept if it improves the current design
+candidate and discarded otherwise.
+
+If there is no improvement in `max_no_improve` iterations, the design
+candidate is a local optimum. The search then restarts from a new base
+design candidate. The best design found across all runs is returned as the
+design. The best design of each run, including the one that is still running
+when the search stops, is stored in the list element 'runs' together with
+its efficiency criteria.
+}

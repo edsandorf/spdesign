@@ -90,13 +90,11 @@ federov <- function(
 
   # Create an initial random design candidate. The design_candidate is a
   # data.frame()
-  design_candidate <- random_design_candidate(
+  design_candidate <- draw_design_candidate(
     utility,
     candidate_set,
-    rows,
-    FALSE
+    rows
   )
-  # control$sample_with_replacement)
 
   # Level occurrences are fixed during the search, so parse them once
   has_occurrences <- level_occurrences_specified(utility)
@@ -124,11 +122,10 @@ federov <- function(
           )
         }
 
-        design_candidate <- random_design_candidate(
+        design_candidate <- draw_design_candidate(
           utility,
           candidate_set,
-          rows,
-          FALSE
+          rows
         )
         efficiency_design <- Inf
         iter_no_improve <- 0
@@ -260,7 +257,7 @@ federov <- function(
 
       if (efficiency_current_best < control$efficiency_threshold) {
         cat(rule(width = 76), "\n")
-        cli_alert_info("Efficiency criteria is less than threshhold.")
+        cli_alert_info("Efficiency criteria is less than threshold.")
 
         break
       }

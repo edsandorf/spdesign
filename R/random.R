@@ -40,11 +40,10 @@ random <- function(
   tryCatch(
     repeat {
       # Create a random design_object candidate
-      design_candidate <- random_design_candidate(
+      design_candidate <- draw_design_candidate(
         utility,
         candidate_set,
-        rows,
-        control$sample_with_replacement
+        rows
       )
 
       # Define the current design_object candidate considering alternative specific
@@ -119,7 +118,7 @@ random <- function(
 
       if (efficiency_current_best < control$efficiency_threshold) {
         cat(rule(width = 76), "\n")
-        cli_alert_info("Efficiency criteria is less than threshhold.")
+        cli_alert_info("Efficiency criteria is less than threshold.")
 
         break
       }
@@ -141,7 +140,7 @@ random <- function(
   )
 }
 
-#' Create a random design_object candidate
+#' Draw a design candidate from the candidate set
 #'
 #' Sample from the candidate set to create a random design_object. If level
 #' occurrences are specified, single rows are swapped with random rows from the
@@ -149,19 +148,16 @@ random <- function(
 #' kept if it does not move the design_object candidate further away from the
 #' level occurrences.
 #'
-#' @param sample_with_replacement A boolean equal to TRUE if we sample from the
-#' candidate set with replacement. The default is FALSE
 #' @param print_counter A boolean equal to TRUE if we print the number of
 #' attempts to find a design candidate every 1000th attempt. The default is
 #' FALSE
 #' @param max_attempts The maximum number of swaps to try before stopping with
 #' an error. The default is 100000.
 #' @inheritParams generate_design
-random_design_candidate <- function(
+draw_design_candidate <- function(
   utility,
   candidate_set,
   rows,
-  sample_with_replacement,
   print_counter = FALSE,
   max_attempts = 100000
 ) {
@@ -170,7 +166,7 @@ random_design_candidate <- function(
   time_start <- Sys.time()
   counter <- 1
 
-  idx <- sample(nrow(candidate_set), rows, replace = sample_with_replacement)
+  idx <- sample(nrow(candidate_set), rows)
 
   if (!level_occurrences_specified(utility)) {
     return(candidate_set[idx, ])
@@ -209,7 +205,7 @@ random_design_candidate <- function(
     counter <- counter + 1
 
     new_row <- sample(nrow(candidate_set), 1)
-    if (!sample_with_replacement && new_row %in% idx) next
+    if (new_row %in% idx) next
 
     new_idx <- replace(idx, sample(rows, 1), new_row)
     new_violation <- lvl_violation(

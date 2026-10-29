@@ -43,7 +43,8 @@
 #' to include the profiles of exchangeable alternatives in every order when the
 #' candidate set is built. See \code{\link{build_candidate_set}}.
 #'
-#' @return An object of class 'spdesign'. For the 'federov' algorithm, the list
+#' @return An object of class 'spdesign'. For the 'federov' and 'rsc'
+#' algorithms, the list
 #' element 'runs' holds the best design of each run of the search and its
 #' efficiency criteria. The best design across all runs is the one returned as
 #' the design.
@@ -71,10 +72,10 @@ generate_design <- function(
   control = list(
     cores = 1,
     max_iter = 10000,
-    max_relabel = 10000,
-    max_no_improve = 100000,
+    max_relabel = 500,
+    max_swap = 500,
+    max_no_improve = 1000,
     efficiency_threshold = 0.000001,
-    sample_with_replacement = FALSE,
     allow_reversed_pairs = FALSE
   )
 ) {
@@ -131,13 +132,21 @@ generate_design <- function(
   default_control <- list(
     cores = 1,
     max_iter = 10000,
-    max_relabel = 10000,
-    max_swap = 10000,
-    max_no_improve = 100000,
+    max_relabel = 500,
+    max_swap = 500,
+    max_no_improve = 1000,
     efficiency_threshold = 0.000001,
-    sample_with_replacement = FALSE,
     allow_reversed_pairs = FALSE
   )
+
+  if (!is.null(control$sample_with_replacement)) {
+    warning(
+      "The control option 'sample_with_replacement' is deprecated and ",
+      "ignored. Design candidates are always drawn without replacement, so ",
+      "the same choice task never occurs more than once in a design.",
+      call. = FALSE
+    )
+  }
 
   control <- modifyList(default_control, control)
 
@@ -170,6 +179,15 @@ generate_design <- function(
   if (!is.null(candidate_set) & algorithm == "rsc") {
     stop(
       "To use your supplied candidate set you must use either the 'random' or 'federov' algorithms."
+    )
+  }
+
+  if (
+    algorithm == "rsc" &&
+      (length(exclusions) > 0 || level_occurrences_specified(utility))
+  ) {
+    stop(
+      "Exclusions and level occurrences can only be used with the 'random' or 'federov' algorithms."
     )
   }
 
@@ -278,7 +296,7 @@ generate_design <- function(
       candidate_set <- exclude(candidate_set, exclusions)
     }
 
-    # Transform the candiate set such that attributes that are dummy coded
+    # Transform the candidate set such that attributes that are dummy coded
     # are turned into factors. This ensures that we can use the model.matrix()
     for (i in which(names(candidate_set) %in% dummy_names(utility))) {
       candidate_set[, i] <- as.factor(candidate_set[, i])
@@ -287,6 +305,25 @@ generate_design <- function(
     # candidate_set <- as.matrix(candidate_set)
 
     cli_alert_success("All exclusions successfully applied")
+  }
+
+  # A design cannot have more rows than there are possible choice tasks. The
+  # rsc algorithm builds its design from the full factorial of the attribute
+  # levels, without a candidate set.
+  n_choice_tasks <- if (algorithm == "rsc") {
+    prod(lengths(expand_attribute_levels(utility)))
+  } else {
+    nrow(candidate_set)
+  }
+
+  if (rows > n_choice_tasks) {
+    stop(
+      "The design has ", rows, " rows, but there are only ", n_choice_tasks,
+      " possible choice tasks",
+      if (algorithm != "rsc") " in the candidate set after exclusions",
+      ". Reduce the number of rows, or allow more combinations of attribute ",
+      "levels."
+    )
   }
 
   # Prepare the list of priors ----

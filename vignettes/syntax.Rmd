@@ -130,17 +130,20 @@ The list `control` contains options that can be passed along to the function to 
   default_control <- list(
     cores = 1,
     max_iter = 10000,
-    max_relabel = 10000,
-    max_swap = 10000,
-    efficiency_threshold = 0.1,
-    sample_with_replacement = FALSE
+    max_relabel = 500,
+    max_swap = 500,
+    max_no_improve = 1000,
+    efficiency_threshold = 0.000001,
+    allow_reversed_pairs = FALSE
   )
 ```
+
+`max_relabel`, `max_swap` and `max_no_improve` are only used by the `rsc` algorithm, and `allow_reversed_pairs` only by the `random` and `federov` algorithms.
 
 ### Algorithms and attribute level balance
 No default algorithm for generating a design is implemented because they have different properties with respect to how easy it is to achieve attribute level balance (see more details below) and how easy it is to include restrictions/exclusions in the design (see more details below). Three algorithms are implemented: `rsc`, `federov`, and `random`. 
 
-The `rsc` algorithm creates an initial design candidate based on the provided attributes, levels and number of rows. This design candidate is attribute level balanced by default (if the number of attribute levels for all attributes are a multiple of the number of rows) or near attribute level balanced. It will not deviate from this. It finds new candidates by relabling or swapping attribute levels. The default is to cycle between relabling and swapping each 10000 candidates. The cycling part of the algorithm is not included because it is rarely used in practice. You cannot include restrictions or exclusions in your design when using the `rsc` algorithm. For details: `?rsc`
+The `rsc` algorithm creates an initial design candidate based on the provided attributes, levels and number of rows. This design candidate is attribute level balanced by default (if the number of attribute levels for all attributes are a multiple of the number of rows) or near attribute level balanced. It will not deviate from this. It finds new candidates by relabeling or swapping the attribute levels of one column at a time. It relabels for `max_relabel` iterations and then swaps for `max_swap` iterations, and so on. If there is no improvement in `max_no_improve` iterations, it restarts from a new design candidate. The cycling part of the algorithm is not included because it is rarely used in practice. You cannot include restrictions or exclusions in your design when using the `rsc` algorithm, and `generate_design()` returns an error if you try. For details: `?rsc`
 
 The `federov` and `random` algorithms will systematically or randomly select potential design candidates from the candidate set. The candidate set can be either supplied or built from the utility functions (see 'Building the candidate set' below). These algorithms completely lets go of attribute level balance and you do run the risk of some attribute levels not showing up in the final design. We show syntax below to include level occurrence restrictions below. You can easily include restrictions in your design using these to algorithms by excluding attribute level combinations from the candidate set. That way, they will never be part of the design. 
 

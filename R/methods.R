@@ -51,26 +51,31 @@ summary.spdesign <- function(object, ...) {
 
 #' Correlation
 #'
-#' Calculate the correlation of the design. The function gets the design from
-#' the design object before passing it to \code{\link{cor}} from stats.
-#' This is a wrapper around \code{\link{cor}}.
+#' This function is deprecated and will be removed in a future version. Use
+#' \code{cor(design$design)} to calculate the correlation of a design.
 #'
-#'  Note that when your design includes constants, the function will print a
-#'  warning because the standard deviation of a constant is 0.
+#' For an object of class 'spdesign', the function calculates the correlation
+#' of the design. For any other object, it calls \code{\link[stats]{cor}}, so
+#' that it does not mask the function from stats.
 #'
-#' @inheritParams print.spdesign
+#' @param x An object of class 'spdesign', or any input to
+#' \code{\link[stats]{cor}}
+#' @param ... Additional arguments passed to \code{\link[stats]{cor}}
 #'
 #' @return A matrix with correlations
 #'
 #' @export
 cor <- function(x, ...) {
+  if (!inherits(x, "spdesign")) {
+    return(stats::cor(x, ...))
+  }
+
+  .Deprecated(
+    msg = "cor() for an 'spdesign' object is deprecated. Use cor(design$design) instead."
+  )
+
   return(
-    stats::cor(
-      x[["design"]],
-      y = NULL,
-      use = "everything",
-      method = c("pearson", "kendall", "spearman")
-    )
+    stats::cor(x[["design"]], ...)
   )
 }
 

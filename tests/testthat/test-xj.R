@@ -1,8 +1,8 @@
 context("Test the definition and alignment of x_j")
 
-# Draw a design candidate from the full factorial. Dummy-coded attributes are
+# Sample a design candidate from the full factorial. Dummy-coded attributes are
 # turned into factors before sampling, as in generate_design()
-draw_design_candidate <- function(utility, rows = 12) {
+sample_design_candidate <- function(utility, rows = 12) {
   candidate_set <- expand.grid(expand_attribute_levels(utility), KEEP.OUT.ATTRS = FALSE)
 
   for (i in which(names(candidate_set) %in% dummy_names(utility))) {
@@ -36,7 +36,7 @@ test_that("Terms are paired with their parameters", {
 })
 
 test_that("x_j has one column per term and can drop interactions", {
-  design_candidate <- draw_design_candidate(utility_interactions)
+  design_candidate <- sample_design_candidate(utility_interactions)
   x_j <- define_x_j(utility_interactions, design_candidate)
 
   expect_equal(colnames(x_j$alt1), c("alt1_x1", "alt1_x2", "I(alt1_x1*alt1_x2)"))
@@ -57,7 +57,7 @@ test_that("Squared terms, unspaced interactions and names starting with I work",
     alt2 = "b_x1      * x1      + b_Inc      * Income"
   )
 
-  x_j <- define_x_j(utility, draw_design_candidate(utility))
+  x_j <- define_x_j(utility, sample_design_candidate(utility))
 
   expect_equal(
     colnames(x_j$alt1),
@@ -73,7 +73,7 @@ test_that("Aligned x_j has one column per prior in the order of the priors", {
     bus = "b_bus[0.1] * bus[1] + b_time * time_bus[c(20, 30)] + b_cost * cost_bus[c(2, 4)]"
   )
 
-  design_candidate <- draw_design_candidate(utility, rows = 8)
+  design_candidate <- sample_design_candidate(utility, rows = 8)
   terms <- pair_param_terms(update_utility(utility))
   x_j <- align_x_j(define_x_j(utility, design_candidate, terms), terms, names(priors(utility)))
 
@@ -90,7 +90,7 @@ test_that("Dummy-coded columns are matched to the right prior", {
     alt2 = "b_x1_dummy                * x1                + b_x2      * x2"
   )
 
-  design_candidate <- draw_design_candidate(utility)
+  design_candidate <- sample_design_candidate(utility)
   terms <- pair_param_terms(update_utility(utility))
   x_j <- align_x_j(define_x_j(utility, design_candidate, terms), terms, names(priors(utility)))
 
@@ -115,12 +115,12 @@ test_that("Unmatched terms and parameters without a prior are errors", {
   )
 
   expect_error(
-    define_x_j(utility, draw_design_candidate(utility)),
+    define_x_j(utility, sample_design_candidate(utility)),
     "Could not match"
   )
 
   terms <- pair_param_terms(update_utility(utility_interactions))
-  x_j <- define_x_j(utility_interactions, draw_design_candidate(utility_interactions), terms)
+  x_j <- define_x_j(utility_interactions, sample_design_candidate(utility_interactions), terms)
 
   expect_error(align_x_j(x_j, terms, c("b_x1", "b_x2")), "do not have a prior")
 })

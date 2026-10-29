@@ -17,9 +17,8 @@ generate_design(
   candidate_set = NULL,
   exclusions = NULL,
   save_designs = FALSE,
-  control = list(cores = 1, max_iter = 10000, max_relabel = 10000, max_no_improve =
-    1e+05, efficiency_threshold = 1e-06, sample_with_replacement = FALSE,
-    allow_reversed_pairs = FALSE)
+  control = list(cores = 1, max_iter = 10000, max_relabel = 500, max_swap = 500,
+    max_no_improve = 1000, efficiency_threshold = 1e-06, allow_reversed_pairs = FALSE)
 )
 }
 \arguments{
@@ -70,7 +69,8 @@ to include the profiles of exchangeable alternatives in every order when the
 candidate set is built. See \code{\link{build_candidate_set}}.}
 }
 \value{
-An object of class 'spdesign'. For the 'federov' algorithm, the list
+An object of class 'spdesign'. For the 'federov' and 'rsc'
+algorithms, the list
 element 'runs' holds the best design of each run of the search and its
 efficiency criteria. The best design across all runs is the one returned as
 the design.
