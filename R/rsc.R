@@ -75,7 +75,7 @@ rsc <- function(
         # Create a level balanced design candidate or near level balanced candidate
         design_candidate <- build_balanced_design_candidate(utility, rows)
 
-        # Transform the candiate set such that attributes that are dummy coded
+        # Transform the design candidate such that attributes that are dummy coded
         # are turned into factors. This ensures that we can use the model.matrix()
         for (i in which(names(design_candidate) %in% dummy_names(utility))) {
           design_candidate[, i] <- as.factor(design_candidate[, i])
@@ -149,7 +149,7 @@ rsc <- function(
 
       if (iter_na >= 1000) {
         cli_alert_info(
-          "You have tried 1000 design candidates all of which have produced a computationally singular Hessian matrix. Check yor design for identification problems."
+          "You have tried 1000 design candidates all of which have produced a singular Fisher information matrix. Check your design for identification problems."
         )
         iter_na <- 0
       }
@@ -217,7 +217,7 @@ rsc <- function(
 
       if (efficiency_current_best < control$efficiency_threshold) {
         cat(rule(width = 76), "\n")
-        cli_alert_info("Efficiency criteria is less than threshhold.")
+        cli_alert_info("Efficiency criteria is less than threshold.")
 
         break
       }

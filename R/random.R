@@ -118,7 +118,7 @@ random <- function(
 
       if (efficiency_current_best < control$efficiency_threshold) {
         cat(rule(width = 76), "\n")
-        cli_alert_info("Efficiency criteria is less than threshhold.")
+        cli_alert_info("Efficiency criteria is less than threshold.")
 
         break
       }
