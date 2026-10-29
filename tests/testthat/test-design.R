@@ -244,7 +244,7 @@ test_that("Level occurrences that cannot be satisfied give an error", {
   set.seed(1234)
 
   expect_error(
-    random_design_candidate(
+    draw_design_candidate(
       utility,
       build_candidate_set(utility),
       rows = 8,

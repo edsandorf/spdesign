@@ -73,7 +73,7 @@ rsc <- function(
         run_best <- NULL
 
         # Create a level balanced design candidate or near level balanced candidate
-        design_candidate <- generate_rsc_candidate(utility, rows)
+        design_candidate <- build_balanced_design_candidate(utility, rows)
 
         # Transform the candiate set such that attributes that are dummy coded
         # are turned into factors. This ensures that we can use the model.matrix()
@@ -330,7 +330,7 @@ swap <- function(x) {
 cycle <- function(x) {}
 
 
-#' Generates a candidate for the RSC algorithm
+#' Build a level balanced design candidate
 #'
 #' Creates a design candidate by assuming attribute level balance. Will work
 #' out the minimum level of times an attribute must occur for level balance. If
@@ -341,7 +341,7 @@ cycle <- function(x) {}
 #'
 #' @return A data.frame with rows equal to the number of choice tasks and columns
 #' equal to the number of attributes in the 'wide' format
-generate_rsc_candidate <- function(utility, rows) {
+build_balanced_design_candidate <- function(utility, rows) {
   # Level occurrences will now systematically add to minimum occurrences such
   # that occurrences sum to 1
   level_occurrences <- lapply(

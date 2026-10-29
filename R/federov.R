@@ -90,7 +90,7 @@ federov <- function(
 
   # Create an initial random design candidate. The design_candidate is a
   # data.frame()
-  design_candidate <- random_design_candidate(
+  design_candidate <- draw_design_candidate(
     utility,
     candidate_set,
     rows
@@ -122,7 +122,7 @@ federov <- function(
           )
         }
 
-        design_candidate <- random_design_candidate(
+        design_candidate <- draw_design_candidate(
           utility,
           candidate_set,
           rows

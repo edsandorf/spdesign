@@ -12,7 +12,7 @@ test_that("Random design candidates satisfy the level occurrences", {
   set.seed(1234)
 
   for (i in seq_len(5)) {
-    design_candidate <- random_design_candidate(
+    design_candidate <- draw_design_candidate(
       utility,
       candidate_set,
       rows

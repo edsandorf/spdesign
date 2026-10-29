@@ -40,7 +40,7 @@ random <- function(
   tryCatch(
     repeat {
       # Create a random design_object candidate
-      design_candidate <- random_design_candidate(
+      design_candidate <- draw_design_candidate(
         utility,
         candidate_set,
         rows
@@ -140,7 +140,7 @@ random <- function(
   )
 }
 
-#' Create a random design_object candidate
+#' Draw a design candidate from the candidate set
 #'
 #' Sample from the candidate set to create a random design_object. If level
 #' occurrences are specified, single rows are swapped with random rows from the
@@ -154,7 +154,7 @@ random <- function(
 #' @param max_attempts The maximum number of swaps to try before stopping with
 #' an error. The default is 100000.
 #' @inheritParams generate_design
-random_design_candidate <- function(
+draw_design_candidate <- function(
   utility,
   candidate_set,
   rows,
