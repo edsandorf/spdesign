@@ -1,4 +1,5 @@
 # spdesign (development version)
+* cor() for an 'spdesign' object is deprecated. Use cor(design$design) instead. cor() no longer masks stats::cor(): for any other input, it now calls stats::cor(). Previously, cor() on a matrix failed after loading spdesign.
 * The control option sample_with_replacement is deprecated and ignored with a warning. Design candidates are always drawn without replacement, so the same choice task never occurs more than once in a design.
 * generate_design() now gives an informative error when the design has more rows than there are possible choice tasks: in the candidate set after exclusions for the 'random' and 'federov' algorithms, or in the full factorial of the attribute levels for the 'rsc' algorithm.
 * The control option max_swap is now used by the 'rsc' algorithm. It relabels for max_relabel iterations and then swaps for max_swap iterations. Previously, it switched between relabeling and swapping every max_relabel iterations and ignored max_swap.

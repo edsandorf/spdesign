@@ -7,19 +7,20 @@
 cor(x, ...)
 }
 \arguments{
-\item{x}{A model object of class 'spdesign'}
+\item{x}{An object of class 'spdesign', or any input to
+\code{\link[stats]{cor}}}
 
-\item{...}{Additional parameters passed to the function}
+\item{...}{Additional arguments passed to \code{\link[stats]{cor}}}
 }
 \value{
 A matrix with correlations
 }
 \description{
-Calculate the correlation of the design. The function gets the design from
-the design object before passing it to \code{\link{cor}} from stats.
-This is a wrapper around \code{\link{cor}}.
+This function is deprecated and will be removed in a future version. Use
+\code{cor(design$design)} to calculate the correlation of a design.
 }
 \details{
-Note that when your design includes constants, the function will print a
- warning because the standard deviation of a constant is 0.
+For an object of class 'spdesign', the function calculates the correlation
+of the design. For any other object, it calls \code{\link[stats]{cor}}, so
+that it does not mask the function from stats.
 }
