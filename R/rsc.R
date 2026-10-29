@@ -88,6 +88,7 @@ rsc <- function(
           logical(1)
         ))
         idx_column <- 0
+        new_start <- TRUE
 
         iter_no_improve <- 1
       }
@@ -101,15 +102,19 @@ rsc <- function(
 
       # Try a relabel or swap on a copy of the design candidate, so that a
       # rejected change never needs undoing. Work through the columns in turn.
-      idx_column <- idx_column %% length(varying) + 1
-      i <- varying[idx_column]
-
+      # The first iteration of each run evaluates its base design unchanged.
       trial <- design_candidate
-      trial[, i] <- switch(
-        alg,
-        relabel = relabel(trial[, i]),
-        swap = swap(trial[, i])
-      )
+
+      if (!new_start) {
+        idx_column <- idx_column %% length(varying) + 1
+        i <- varying[idx_column]
+
+        trial[, i] <- switch(
+          alg,
+          relabel = relabel(trial[, i]),
+          swap = swap(trial[, i])
+        )
+      }
 
       # Define the current design candidate considering alternative specific
       # attributes and interactions
@@ -187,6 +192,8 @@ rsc <- function(
           efficiency_current_best <- efficiency_current
         }
       }
+
+      new_start <- FALSE
 
       # Save designs
       if (save_designs) {
