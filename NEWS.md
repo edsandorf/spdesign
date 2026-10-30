@@ -1,3 +1,5 @@
+# spdesign (development version)
+
 # spdesign 0.0.8
 * `cor()` for an 'spdesign' object is deprecated. Use `cor(design$design)` instead. `cor()` no longer masks `stats::cor()`: for any other input, it now calls `stats::cor()`. Previously, `cor()` on a matrix failed after loading spdesign.
 * The control option `sample_with_replacement` is deprecated and ignored with a warning. Design candidates are always drawn without replacement, so the same choice task never occurs more than once in a design.
