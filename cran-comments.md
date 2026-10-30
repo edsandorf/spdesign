@@ -1,6 +1,6 @@
 ## Test environments
-* local macOS 27.0.1, R 4.6.1
-* win-builder: R-devel (2026-10-05 r90641) and R-release (4.6.1)
+* local macOS 27.2, R 4.6.2
+* win-builder: R-devel (2026-10-28 r90783) and R-release (4.6.2)
 * R-hub: linux, windows and macos-arm64 (R-devel), ubuntu-next (R 4.6.1 patched), atlas, mkl, nold, nosuggests and vnu
 * GitHub Actions: macOS (release), Windows (release) and Ubuntu (devel, release and oldrel-1)
 
