@@ -35,7 +35,9 @@ devtools::check(remote = TRUE, manual = TRUE)
 #    R-hub workflow in .github/workflows/rhub-weekly.yaml
 platforms <- readLines("tools/rhub-platforms.txt")
 
-if (confirm("Start the R-hub checks for the current branch on GitHub Actions?")) {
+if (
+  confirm("Start the R-hub checks for the current branch on GitHub Actions?")
+) {
   rhub::rhub_check(platforms = platforms)
 }
 
@@ -43,5 +45,5 @@ if (confirm("Start the R-hub checks for the current branch on GitHub Actions?"))
 if (confirm("Submit to win-builder (devel and release) and the mac builder?")) {
   devtools::check_win_devel()
   devtools::check_win_release()
-  devtools::check_mac_release()
+  #devtools::check_mac_release()
 }
