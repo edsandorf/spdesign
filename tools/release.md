@@ -28,9 +28,14 @@ go straight to `master`.
 
 ## Prepare for release
 
-### 1. `git pull`
+### 1. Pull the latest changes
 
-Switch to `master` and pull the latest changes.
+Switch to `master` and pull the latest changes:
+
+```sh
+git switch master
+git pull
+```
 
 *spdesign:* then create the release branch, which contains the R-hub workflow
 that `rhub::rhub_check()` needs:
@@ -39,7 +44,7 @@ that `rhub::rhub_check()` needs:
 usethis::pr_init("release-0.0.8")
 ```
 
-### 2. Check current CRAN check results
+### 2. Check the current CRAN check results
 
 <https://cran.r-project.org/web/checks/check_results_spdesign.html>
 
@@ -54,7 +59,11 @@ number.
 Put code in backticks. Text such as `x1[1:3](2:6)` is otherwise read as a
 Markdown link, and CRAN reports it as an invalid URL.
 
-### 4. `usethis::use_github_links()`
+### 4. Set the GitHub links
+
+```r
+usethis::use_github_links()
+```
 
 Sets the `URL` and `BugReports` fields in `DESCRIPTION` to the GitHub
 repository. Keep the package website in `URL`.
@@ -69,42 +78,77 @@ usethis::pr_push()
 This opens the page for creating the pull request in your browser. Click
 *Create pull request*.
 
-### 5 to 8. The checks
+### 5 to 8. Run the checks
+
+Steps 5 to 8, together with the *spdesign* checks, are run in order by:
 
 ```r
 source("tools/cran-prep.R")
 ```
 
-The script runs steps 5 to 8 in order, together with the *spdesign* checks:
+The commands it runs are listed below, so you can also run them one at a time.
 
-#### 5. `urlchecker::url_check()`
+#### 5. Check the URLs
+
+```r
+urlchecker::url_check()
+```
 
 URLs in the package. The badges in `README.md` are not part of the package,
 because `README.md` is in `.Rbuildignore`.
 
-#### 6. `devtools::build_readme()`
+#### 6. Render the README
+
+```r
+devtools::build_readme()
+```
 
 Renders `README.Rmd` to `README.md`. Commit `README.md` if it changed.
 
-*spdesign:* `devtools::spell_check()` checks the spelling. Add correctly
-spelled words to `inst/WORDLIST` with `spelling::update_wordlist()`.
+*spdesign:* check the spelling:
 
-#### 7. `devtools::check(remote = TRUE, manual = TRUE)`
+```r
+devtools::spell_check()
+```
+
+Add correctly spelled words to `inst/WORDLIST` with:
+
+```r
+spelling::update_wordlist()
+```
+
+#### 7. Check the package locally
+
+```r
+devtools::check(remote = TRUE, manual = TRUE)
+```
 
 A local check with CRAN's remote checks and the PDF manual. The version is
 still the development version, e.g. `0.0.7.9000`, so CRAN's incoming check
 reports a NOTE that the version contains large components. This NOTE is
 expected and disappears after step 11.
 
-*spdesign:* after you confirm, R-hub checks the branch on GitHub on the
-platforms in `tools/rhub-platforms.txt`. The results appear on the Actions tab.
+*spdesign:* check the branch on GitHub with R-hub, on the platforms in
+`tools/rhub-platforms.txt`. The results appear on the Actions tab.
 
-#### 8. `devtools::check_win_devel()`
+```r
+rhub::rhub_check(platforms = readLines("tools/rhub-platforms.txt"))
+```
 
-CRAN's win-builder on R-devel, after you confirm. The results arrive by email
-to the maintainer.
+#### 8. Check the package on win-builder
 
-*spdesign:* the script also runs `devtools::check_win_release()` on R-release.
+```r
+devtools::check_win_devel()
+```
+
+CRAN's win-builder on R-devel. The results arrive by email to the maintainer.
+
+*spdesign:* also check on R-release:
+
+```r
+devtools::check_win_release()
+```
+
 The mac builder (`devtools::check_mac_release()`) is not used, because macOS is
 covered by the local check, R-hub and the pull request, and the service is
 often unavailable.
@@ -117,24 +161,39 @@ Fix anything that comes up on the branch, and push again. The pull request
 checks run again on every push, but R-hub and win-builder do not. Run those
 again if you change files that are part of the package.
 
-### 9. Update `cran-comments.md`
+### 9. Update the comments to CRAN
 
-The test environments and the results of steps 7 and 8.
+Update `cran-comments.md` with the test environments and the results of steps
+7 and 8.
 
-### 10. `git push`
+### 10. Push the release branch
 
-Push the release branch.
+```sh
+git push
+```
 
 ## Submit to CRAN
 
-### 11. `usethis::use_version('patch')`
+### 11. Set the version
 
-Use `'minor'` or `'major'` for a larger release. This sets `Version` in
-`DESCRIPTION`, replaces the `# spdesign (development version)` heading in
-`NEWS.md` with `# spdesign 0.0.8`, and commits both. Push the branch again.
-Run it only once per release: running it again increases the version again.
+```r
+usethis::use_version("patch") # or "minor" or "major"
+```
 
-### 12. `devtools::submit_cran()`
+This sets `Version` in `DESCRIPTION`, replaces the
+`# spdesign (development version)` heading in `NEWS.md` with
+`# spdesign 0.0.8`, and commits both. Run it only once per release: running it
+again increases the version again. Then push the branch:
+
+```sh
+git push
+```
+
+### 12. Submit the package
+
+```r
+devtools::submit_cran()
+```
 
 `submit_cran()` creates a `CRAN-SUBMISSION` file with the submitted commit,
 which step 15 uses. **Do not commit this file.** `use_github_release()` deletes
@@ -142,16 +201,21 @@ it after the release without committing the deletion, which would otherwise
 leave an uncommitted change on `master`. The file is listed in
 `.Rbuildignore`, so it is not included in the package.
 
-### 13. Approve email
+### 13. Approve the submission
 
 Confirm the submission through the link that CRAN emails to the maintainer.
 
 ## Wait for CRAN...
 
 If CRAN asks for changes, make them on the release branch, push, and
-resubmit with `devtools::submit_cran()`, which updates `CRAN-SUBMISSION`. Add
-a short *Resubmission* section at the top of `cran-comments.md` that lists
-what you changed.
+resubmit:
+
+```r
+devtools::submit_cran()
+```
+
+This updates `CRAN-SUBMISSION`. Add a short *Resubmission* section at the top
+of `cran-comments.md` that lists what you changed.
 
 ### 14. Accepted :tada:
 
@@ -165,13 +229,21 @@ on GitHub:
 usethis::pr_finish()
 ```
 
-### 15. `usethis::use_github_release()`
+### 15. Create the GitHub release
+
+```r
+usethis::use_github_release()
+```
 
 Pushes `master`, creates the `v0.0.8` tag on the submitted commit and the
 GitHub release with the release notes from `NEWS.md`, and deletes
 `CRAN-SUBMISSION`.
 
-### 16. `usethis::use_dev_version(push = TRUE)`
+### 16. Start the development version
+
+```r
+usethis::use_dev_version(push = TRUE)
+```
 
 Sets the version to `0.0.8.9000`, adds a `# spdesign (development version)`
 heading to `NEWS.md`, and commits and pushes both to `master`.
