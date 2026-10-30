@@ -1,7 +1,7 @@
 Package: spdesign
 Type: Package
 Title: Designing Stated Preference Experiments
-Version: 0.0.7.9001
+Version: 0.0.8
 Authors@R: c(
   person("Erlend Dancke", "Sandorf", email = "erlend.dancke.sandorf@nmbu.no", role = c("aut", "cre")),
   person("Danny", "Campbell", email = "danny.campbell@stir.ac.uk", role = c("aut")))
@@ -25,3 +25,4 @@ Suggests:
   testthat
 VignetteBuilder: knitr, rmarkdown
 Config/roxygen2/version: 8.0.0
+BugReports: https://github.com/edsandorf/spdesign/issues
